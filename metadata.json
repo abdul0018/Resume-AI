@@ -1,0 +1,6 @@
+{
+  "name": "ResumeAI UZ",
+  "description": "Uzbek AI Resume & Job Assistant Bot - helping job seekers create CVs, improve resumes, find jobs, and prepare for interviews using Gemini AI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
