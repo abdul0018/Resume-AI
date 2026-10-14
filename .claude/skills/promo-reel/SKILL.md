@@ -38,7 +38,7 @@ Source: `Izohda “LINK” deb yozib qoldiring. Sayt havolasini yuboramiz.mp4`. 
    - the assets: a hero cut-out PNG with a transparent background, 2-6 photos or clips, a site screenshot for the mockup, an optional screen recording, an optional voiceover and music.
 
    Write Uzbek in Latin script with the proper apostrophes (o‘, g‘, bo‘lsangiz). Write the script in the user's language.
-2. **Assets.** If there are no assets, either generate images with an available image tool (the hero needs a background-removed cut-out; Higgsfield `remove_background` works), or run `scripts/placeholders.sh` to get stand-ins and say so.
+2. **Assets.** If the user wants to generate the scenes themselves, give them per-scene prompts from `asset-prompts.md`, fitted to their script: a photo prompt for photo scenes, and a start-frame plus motion prompt for video scenes. Then wait for their files. If there are no assets, either generate images with an available image tool (the hero needs a background-removed cut-out; Higgsfield `remove_background` works), or run `scripts/placeholders.sh` to get stand-ins and say so.
    **Reusing an existing reel's footage** (when the user owns it):
    - Find clean frames by tiling candidates with ffmpeg. Text is often baked in from the first frame of a shot, so check every one.
    - Erase small baked-in bits with `delogo`.
