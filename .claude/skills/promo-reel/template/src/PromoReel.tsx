@@ -5,7 +5,7 @@ import {BrowserMockup, C, CharReveal, CtaKeyword, FONT, GridBoard, HERO_BG, High
 export type Tag = {label: string; x: number; y: number; at: number};
 
 export type Beat =
-  | {type: 'hero'; dur: number; image: string; tags: Tag[]; title: string; subtitle: string; titleAt: number}
+  | {type: 'hero'; dur: number; image: string; fit?: 'cutout' | 'cover'; tags: Tag[]; title: string; subtitle: string; titleAt: number}
   | {type: 'caption'; dur: number; media: string; label: string; statement?: string; statementAt?: number; dim?: number[]; slide?: number[]; flash?: boolean}
   | {type: 'punch'; dur: number; media: string; word: string; sub?: string}
   | {type: 'broll'; dur: number; media: string; origin?: string; startFrom?: number}
@@ -21,7 +21,7 @@ const shadow = '0 4px 24px rgba(0,0,0,.35)';
  * then pull back to the wide shot just before the title builds.
  * Pans aim at the tag's x position (50 = centre).
  */
-const heroCamera = (frame: number, tags: Tag[], titleAt: number, s: (sec: number) => number) => {
+const heroCamera = (frame: number, tags: Tag[], titleAt: number, s: (sec: number) => number, keepInFrame = false) => {
   const zoom = 1.35;
   const keys: {t: number; scale: number; x: number}[] = [{t: 0, scale: 1, x: 0}];
   tags.forEach((g) => keys.push({t: s(g.at) + 8, scale: zoom, x: (50 - g.x) * zoom}));
@@ -29,10 +29,11 @@ const heroCamera = (frame: number, tags: Tag[], titleAt: number, s: (sec: number
   keys.push({t: back, scale: zoom, x: keys[keys.length - 1].x}, {t: back + 6, scale: 1, x: 0});
   const ease = {...clamp, easing: Easing.inOut(Easing.cubic)};
   const ts = keys.map((k) => k.t);
-  return {
-    scale: interpolate(frame, ts, keys.map((k) => k.scale), ease),
-    x: interpolate(frame, ts, keys.map((k) => k.x), ease),
-  };
+  const scale = interpolate(frame, ts, keys.map((k) => k.scale), ease);
+  const x = interpolate(frame, ts, keys.map((k) => k.x), ease);
+  // A full-frame image must never pan past its own edge.
+  const maxX = ((scale - 1) / 2) * 100;
+  return {scale, x: keepInFrame ? Math.max(-maxX, Math.min(maxX, x)) : x};
 };
 
 const BeatView: React.FC<{b: Beat}> = ({b}) => {
@@ -44,11 +45,13 @@ const BeatView: React.FC<{b: Beat}> = ({b}) => {
   switch (b.type) {
     case 'hero': {
       const t = s(b.titleAt);
-      const cam = heroCamera(frame, b.tags, t, s);
+      const cam = heroCamera(frame, b.tags, t, s, b.fit === 'cover');
       return (
         <AbsoluteFill style={{background: HERO_BG}}>
           <AbsoluteFill style={{transform: `translateX(${cam.x}%) scale(${cam.scale})`, transformOrigin: '50% 30%'}}>
-            <Img src={src(b.image)} style={{position: 'absolute', bottom: '3%', left: '50%', transform: 'translateX(-50%)', height: '72%'}} />
+            {b.fit === 'cover'
+              ? <Img src={src(b.image)} style={{position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover'}} />
+              : <Img src={src(b.image)} style={{position: 'absolute', bottom: '3%', left: '50%', transform: 'translateX(-50%)', height: '72%'}} />}
             {b.tags.map((g, i) => <YearTag key={i} label={g.label} x={g.x} y={g.y} at={s(g.at)} />)}
           </AbsoluteFill>
           <div style={{position: 'absolute', top: '9%', width: '100%', color: C.white}}>
@@ -73,12 +76,14 @@ const BeatView: React.FC<{b: Beat}> = ({b}) => {
       );
     case 'punch': {
       const p = interpolate(frame, [0, 8], [0, 1], {...clamp, easing: Easing.out(Easing.back(1.6))});
+      // Heavy caps run about 0.7em per letter: shrink long words to keep about 50px side margins.
+      const size = Math.min(170, Math.floor(980 / (b.word.length * 0.7)));
       return (
         <AbsoluteFill>
           <Media src={b.media} dur={dur} />
           <div style={{position: 'absolute', top: '11%', width: '100%', textAlign: 'center'}}>
-            <div style={{color: C.orange, fontSize: 170, fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1, transform: `scale(${interpolate(p, [0, 1], [1.4, 1])})`, filter: `blur(${interpolate(frame, [0, 6], [12, 0], clamp)}px)`, opacity: interpolate(frame, [0, 4], [0, 1], clamp)}}>{b.word}</div>
-            {b.sub && <WordReveal text={b.sub} delay={12} style={{marginTop: -18, color: 'rgba(255,255,255,.85)', fontSize: 56, fontWeight: 600, textShadow: shadow}} />}
+            <div style={{color: C.orange, fontSize: size, fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1, transform: `scale(${interpolate(p, [0, 1], [1.4, 1])})`, filter: `blur(${interpolate(frame, [0, 6], [12, 0], clamp)}px)`, opacity: interpolate(frame, [0, 4], [0, 1], clamp)}}>{b.word}</div>
+            {b.sub && <WordReveal text={b.sub} delay={12} style={{marginTop: -18, color: C.white, fontSize: 56, fontWeight: 600, textShadow: '0 2px 6px rgba(0,0,0,.45), 0 4px 24px rgba(0,0,0,.45)'}} />}
           </div>
         </AbsoluteFill>
       );

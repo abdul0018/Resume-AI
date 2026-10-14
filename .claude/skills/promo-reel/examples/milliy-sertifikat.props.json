@@ -1,0 +1,15 @@
+{
+  "voiceover": "voiceover.m4a",
+  "beats": [
+    {"type": "hero", "dur": 4.9, "image": "hero.png", "fit": "cover", "titleAt": 3.1, "title": "BU VIDEO", "subtitle": "sizlar uchun",
+      "tags": [{"label": "2009", "x": 50, "y": 25.5, "at": 0.2}, {"label": "2010", "x": 26, "y": 30, "at": 1.2}, {"label": "2011", "x": 76, "y": 33.5, "at": 1.9}]},
+    {"type": "caption", "dur": 2.2, "media": "paper.png", "label": "endi milliy sertifikat testlari", "statement": "Qog‘ozda emas", "statementAt": 1.1, "slide": [1]},
+    {"type": "punch", "dur": 1.37, "media": "wide.mp4", "word": "KOMPYUTER", "sub": "formatida olinadi"},
+    {"type": "broll", "dur": 1.83, "media": "laptop.mp4"},
+    {"type": "broll", "dur": 1.65, "media": "closeup.mp4", "origin": "50% 30%"},
+    {"type": "broll", "dur": 1.25, "media": "teacher.mp4"},
+    {"type": "board", "dur": 4.57, "headline": "Kelayotgan oylarda", "sub": "imtihonga kiradigan bo‘lsangiz", "subAt": 0.7, "mockup": "site.png", "mockupAt": 2.4},
+    {"type": "broll", "dur": 7.75, "media": "demo.mp4"},
+    {"type": "cta", "dur": 4.27, "line1": "Sayt havolasini", "line2": "olmoqchi bo‘lsangiz", "keyword": "LINK", "line2At": 0.45, "keywordAt": 1.9}
+  ]
+}

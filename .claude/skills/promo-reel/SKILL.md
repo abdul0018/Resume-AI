@@ -39,6 +39,13 @@ Source: `Izohda “LINK” deb yozib qoldiring. Sayt havolasini yuboramiz.mp4`. 
 
    Write Uzbek in Latin script with the proper apostrophes (o‘, g‘, bo‘lsangiz). Write the script in the user's language.
 2. **Assets.** If there are no assets, either generate images with an available image tool (the hero needs a background-removed cut-out; Higgsfield `remove_background` works), or run `scripts/placeholders.sh` to get stand-ins and say so.
+   **Reusing an existing reel's footage** (when the user owns it):
+   - Find clean frames by tiling candidates with ffmpeg. Text is often baked in from the first frame of a shot, so check every one.
+   - Erase small baked-in bits with `delogo`.
+   - Cut shots out as clips with `-ss/-to`, scaled to 1080x1920. Stretch a clip that is too short with `setpts=1.5*PTS,minterpolate=fps=30:mi_mode=blend`.
+   - Crop around baked-in text when the clean part is big enough.
+   - For a full-frame hero still, set the hero `fit: "cover"`.
+   - Extract the soundtrack with `-vn` and use it as `voiceover`. If you do, keep the reference beat timings.
 3. **Plan the beats.** Show a timing table like the one above, fitted to their script, before building.
 4. **Scaffold the project:**
    ```bash
@@ -80,7 +87,7 @@ template/
 
 | type | fields |
 |---|---|
-| `hero` | `image`, `tags[{label,x,y,at}]`, `title`, `subtitle`, `titleAt` |
+| `hero` | `image`, `fit?` (`cutout` default: transparent PNG in the lower 72%; `cover`: a full-frame 9:16 image that already has its background), `tags[{label,x,y,at}]`, `title`, `subtitle`, `titleAt` |
 | `caption` | `media`, `label`, `statement?`, `statementAt?`, `dim?[]` (word indexes shown at half opacity), `slide?[]` (word indexes that slide in from the lower right), `flash?` (default true) |
 | `punch` | `media`, `word`, `sub?` |
 | `broll` | `media` (image or .mp4/.mov/.webm), `origin?`, `startFrom?` (frames) |
