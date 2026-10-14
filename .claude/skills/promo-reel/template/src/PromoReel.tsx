@@ -1,6 +1,6 @@
 import React from 'react';
 import {AbsoluteFill, Audio, Easing, Img, Series, interpolate, useCurrentFrame, useVideoConfig} from 'remotion';
-import {BrowserMockup, C, CharReveal, CtaKeyword, FONT, GridBoard, HERO_BG, HighlightCaption, LightLeak, Media, Sparks, WordReveal, YearTag, clamp, src} from './kit';
+import {BrowserMockup, C, CharReveal, CtaKeyword, FONT, GridBoard, HERO_BG, HighlightCaption, LightLeak, Media, RedPulse, Shake, Sparks, TimerPill, WordReveal, YearTag, clamp, src} from './kit';
 
 export type Tag = {label: string; x: number; y: number; at: number};
 
@@ -9,6 +9,9 @@ export type Beat =
   | {type: 'caption'; dur: number; media: string; label: string; statement?: string; statementAt?: number; dim?: number[]; slide?: number[]; flash?: boolean}
   | {type: 'punch'; dur: number; media: string; word: string; sub?: string}
   | {type: 'broll'; dur: number; media: string; origin?: string; startFrom?: number}
+  | {type: 'tension'; dur: number; media: string; origin?: string; zoomTo?: number; startFrom?: number;
+      line?: string; lineAt?: number; small?: string; punch?: string; punchAt?: number; textPos?: 'top' | 'bottom';
+      timer?: {from: number; to?: number; at?: number}; shake?: boolean; pulse?: boolean}
   | {type: 'board'; dur: number; headline: string; sub: string; subAt?: number; mockup?: string; mockupAt?: number}
   | {type: 'cta'; dur: number; line1: string; line2: string; keyword: string; line2At?: number; keywordAt?: number};
 
@@ -85,6 +88,37 @@ const BeatView: React.FC<{b: Beat}> = ({b}) => {
             <div style={{color: C.orange, fontSize: size, fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1, transform: `scale(${interpolate(p, [0, 1], [1.4, 1])})`, filter: `blur(${interpolate(frame, [0, 6], [12, 0], clamp)}px)`, opacity: interpolate(frame, [0, 4], [0, 1], clamp)}}>{b.word}</div>
             {b.sub && <WordReveal text={b.sub} delay={12} style={{marginTop: -18, color: C.white, fontSize: 56, fontWeight: 600, textShadow: '0 2px 6px rgba(0,0,0,.45), 0 4px 24px rgba(0,0,0,.45)'}} />}
           </div>
+        </AbsoluteFill>
+      );
+    }
+    case 'tension': {
+      // The worried beat: optional line, exam timer, punch-in + shake, red heartbeat edge, slammed punch words.
+      const bottom = b.textPos === 'bottom';
+      const zoom = interpolate(frame, [0, dur], [1, b.zoomTo ?? 1.08], {...clamp, easing: Easing.in(Easing.quad)});
+      const pAt = s(b.punchAt ?? 0.5);
+      const media = (
+        <AbsoluteFill style={{transform: `scale(${zoom})`, transformOrigin: b.origin ?? '50% 40%'}}>
+          <Media src={b.media} dur={dur} zoomTo={1} startFrom={b.startFrom} />
+        </AbsoluteFill>
+      );
+      const text = (
+        <>
+          {b.line && <WordReveal text={b.line} delay={s(b.lineAt ?? 0.15)} stagger={6} style={{color: C.white, fontSize: 76, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.05, textShadow: shadow, padding: '0 6%'}} />}
+          {b.small && <WordReveal text={b.small} delay={pAt - 6} style={{color: C.white, fontSize: 58, fontWeight: 600, fontStyle: 'italic', textShadow: shadow}} />}
+          {b.punch && <WordReveal text={b.punch} delay={pAt} stagger={7} style={{color: C.orange, fontSize: Math.min(160, Math.floor(960 / (Math.max(...b.punch.split(' ').map((w) => w.length)) * 0.72))), fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 0.95, flexDirection: 'column', alignItems: 'center', textShadow: '0 6px 30px rgba(0,0,0,.35)'}} />}
+        </>
+      );
+      return (
+        <AbsoluteFill style={{overflow: 'hidden', background: '#000'}}>
+          {b.shake ? <Shake dur={dur}>{media}</Shake> : media}
+          {bottom && <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,.7) 100%)'}} />}
+          {b.pulse && <RedPulse at={pAt - 4} />}
+          {b.timer && (
+            <div style={{position: 'absolute', top: bottom ? '4.5%' : '28%', width: '100%', display: 'flex', justifyContent: 'center'}}>
+              <TimerPill from={b.timer.from} to={b.timer.to} at={s(b.timer.at ?? 0)} end={dur - 4} />
+            </div>
+          )}
+          <div style={{position: 'absolute', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, ...(bottom ? {top: '67%'} : {top: '9%'})}}>{text}</div>
         </AbsoluteFill>
       );
     }

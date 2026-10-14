@@ -158,3 +158,43 @@ export const CtaKeyword: React.FC<{text: string; at: number; fontSize?: number}>
     </div>
   );
 };
+
+/** Exam timer pill: counts `from` -> `to` seconds between frames `at` and `end`, accelerating. Turns red near zero. */
+export const TimerPill: React.FC<{from: number; to?: number; at: number; end: number; fontSize?: number}> = ({from, to = 0, at, end, fontSize = 64}) => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  if (frame < at) return null;
+  const t = interpolate(frame, [at, end], [0, 1], {...clamp, easing: Easing.in(Easing.quad)});
+  const left = Math.max(0, Math.round(from + (to - from) * t));
+  const urgent = left <= Math.max(10, from * 0.2) && to < from;
+  const pop = spring({frame: frame - at, fps, config: {damping: 12, stiffness: 200}});
+  const beat = urgent ? 1 + 0.06 * Math.abs(Math.sin(((frame - at) / fps) * Math.PI * 4)) : 1;
+  const mm = String(Math.floor(left / 60)).padStart(2, '0');
+  const ss = String(left % 60).padStart(2, '0');
+  return (
+    <div style={{display: 'inline-flex', alignItems: 'center', gap: '0.35em', background: urgent ? '#E53935' : C.white, color: urgent ? C.white : C.ink, fontWeight: 800, fontSize, fontVariantNumeric: 'tabular-nums', padding: '0.12em 0.5em', borderRadius: 999, boxShadow: '0 10px 30px rgba(0,0,0,.25)', transform: `scale(${pop * beat})`}}>
+      <svg width="0.8em" height="0.8em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round"><circle cx="12" cy="13" r="8" /><path d="M12 9v4l2.5 2.5M9 2h6" /></svg>
+      {mm}:{ss}
+    </div>
+  );
+};
+
+/** Pulsing red edge vignette (heartbeat). */
+export const RedPulse: React.FC<{at?: number; bpm?: number; strength?: number}> = ({at = 0, bpm = 120, strength = 0.55}) => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  if (frame < at) return null;
+  const ramp = interpolate(frame - at, [0, 10], [0, 1], clamp);
+  const phase = (((frame - at) / fps) * bpm) / 60;
+  const beat = Math.pow(Math.abs(Math.sin(phase * Math.PI)), 6);
+  const a = strength * ramp * (0.45 + 0.55 * beat);
+  return <AbsoluteFill style={{pointerEvents: 'none', background: `radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 45%, rgba(200,20,20,${a}) 100%)`}} />;
+};
+
+/** Deterministic handheld shake that grows over the beat. Wrap content in it. */
+export const Shake: React.FC<{dur: number; amount?: number; children: React.ReactNode}> = ({dur, amount = 10, children}) => {
+  const frame = useCurrentFrame();
+  const k = amount * interpolate(frame, [0, dur], [0.3, 1], clamp);
+  const n = (seed: string) => (random(`${seed}${Math.floor(frame / 2)}`) - 0.5) * 2;
+  return <AbsoluteFill style={{transform: `translate(${n('x') * k}px, ${n('y') * k}px) rotate(${n('r') * k * 0.04}deg) scale(1.03)`}}>{children}</AbsoluteFill>;
+};

@@ -1,14 +1,107 @@
 {
-  "voiceover": "voiceover.m4a",
-  "beats": [
-    {"type": "hero", "dur": 4.9, "image": "u-hero.png", "fit": "cover", "titleAt": 3.1, "titleTop": 4.5, "title": "BU VIDEO", "subtitle": "sizlar uchun",
-      "tags": [{"label": "2009", "x": 50, "y": 20.5, "at": 0.2}, {"label": "2010", "x": 25, "y": 24.8, "at": 1.2}, {"label": "2011", "x": 81, "y": 27.6, "at": 1.9}]},
-    {"type": "caption", "dur": 2.2, "media": "u-paper.jpg", "label": "endi milliy sertifikat testlari", "statement": "Qog‘ozda emas", "statementAt": 1.1, "slide": [1]},
-    {"type": "punch", "dur": 1.37, "media": "u-computer.jpg", "word": "KOMPYUTER", "sub": "formatida olinadi"},
-    {"type": "broll", "dur": 2.0, "media": "u-nervous-a.mp4"},
-    {"type": "broll", "dur": 2.73, "media": "u-nervous-b.mp4", "origin": "50% 30%"},
-    {"type": "board", "dur": 4.57, "headline": "Kelayotgan oylarda", "sub": "imtihonga kiradigan bo‘lsangiz", "subAt": 0.7, "mockup": "u-site.png", "mockupAt": 2.4},
-    {"type": "broll", "dur": 7.75, "media": "u-demo.mp4", "startFrom": 60},
-    {"type": "cta", "dur": 4.27, "line1": "Sayt havolasini", "line2": "olmoqchi bo‘lsangiz", "keyword": "LINK", "line2At": 0.45, "keywordAt": 1.9}
-  ]
+ "voiceover": "voiceover.m4a",
+ "beats": [
+  {
+   "type": "hero",
+   "dur": 4.9,
+   "image": "u-hero.png",
+   "fit": "cover",
+   "titleAt": 3.1,
+   "titleTop": 4.5,
+   "title": "BU VIDEO",
+   "subtitle": "sizlar uchun",
+   "tags": [
+    {
+     "label": "2009",
+     "x": 50,
+     "y": 21,
+     "at": 0.2
+    },
+    {
+     "label": "2010",
+     "x": 24.7,
+     "y": 25,
+     "at": 1.2
+    },
+    {
+     "label": "2011",
+     "x": 81,
+     "y": 28.8,
+     "at": 1.9
+    }
+   ]
+  },
+  {
+   "type": "caption",
+   "dur": 2.2,
+   "media": "u-paper.jpg",
+   "label": "endi milliy sertifikat testlari",
+   "statement": "Qog‘ozda emas",
+   "statementAt": 1.1,
+   "slide": [
+    1
+   ]
+  },
+  {
+   "type": "punch",
+   "dur": 1.37,
+   "media": "u-computer.jpg",
+   "word": "KOMPYUTER",
+   "sub": "formatida olinadi"
+  },
+  {
+   "type": "tension",
+   "dur": 2.0,
+   "media": "u-nervous-a.mp4",
+   "line": "Kompyuterda test ishlab ko‘rmagan bo‘lsangiz",
+   "lineAt": 0.1,
+   "timer": {
+    "from": 300,
+    "to": 298,
+    "at": 1.0
+   }
+  },
+  {
+   "type": "tension",
+   "dur": 2.73,
+   "media": "u-nervous-b.mp4",
+   "origin": "65% 22%",
+   "zoomTo": 1.18,
+   "shake": true,
+   "pulse": true,
+   "textPos": "bottom",
+   "small": "imtihonda",
+   "punch": "VAQTINGIZ KETADI",
+   "punchAt": 0.35,
+   "timer": {
+    "from": 298,
+    "to": 0,
+    "at": 0
+   }
+  },
+  {
+   "type": "board",
+   "dur": 4.57,
+   "headline": "Kelayotgan oylarda",
+   "sub": "imtihonga kiradigan bo‘lsangiz",
+   "subAt": 0.7,
+   "mockup": "u-site.png",
+   "mockupAt": 2.4
+  },
+  {
+   "type": "broll",
+   "dur": 7.75,
+   "media": "u-demo.mp4",
+   "startFrom": 60
+  },
+  {
+   "type": "cta",
+   "dur": 4.27,
+   "line1": "Sayt havolasini",
+   "line2": "olmoqchi bo‘lsangiz",
+   "keyword": "LINK",
+   "line2At": 0.45,
+   "keywordAt": 1.9
+  }
+ ]
 }

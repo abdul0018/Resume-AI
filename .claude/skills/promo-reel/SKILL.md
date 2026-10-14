@@ -90,6 +90,7 @@ template/
 | `hero` | `image`, `fit?` (`cutout` default: transparent PNG in the lower 72%; `cover`: a full-frame 9:16 image that already has its background), `tags[{label,x,y,at}]`, `title`, `subtitle`, `titleAt`, `titleTop?` (title block top in %, default 9; lower it when heads sit high so the tags don't hit the subtitle) |
 | `caption` | `media`, `label`, `statement?`, `statementAt?`, `dim?[]` (word indexes shown at half opacity), `slide?[]` (word indexes that slide in from the lower right), `flash?` (default true) |
 | `punch` | `media`, `word`, `sub?` |
+| `tension` | the worried beat: `media`, `origin?`, `zoomTo?` (punch-in, eases in), `line?` + `lineAt?`, `small?` + `punch?` + `punchAt?` (big orange stacked words), `textPos?` (`top` / `bottom`: bottom adds a dark fade; use it when a face fills the top half), `timer?{from,to?,at?}` (exam clock in seconds, accelerating, red near zero; chain two beats e.g. 300→298, then 298→0), `shake?`, `pulse?` (red heartbeat edge) |
 | `broll` | `media` (image or .mp4/.mov/.webm), `origin?`, `startFrom?` (frames) |
 | `board` | `headline`, `sub`, `subAt?`, `mockup?`, `mockupAt?` |
 | `cta` | `line1`, `line2`, `keyword`, `line2At?`, `keywordAt?` |
