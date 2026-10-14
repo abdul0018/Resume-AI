@@ -87,7 +87,7 @@ template/
 
 | type | fields |
 |---|---|
-| `hero` | `image`, `fit?` (`cutout` default: transparent PNG in the lower 72%; `cover`: a full-frame 9:16 image that already has its background), `tags[{label,x,y,at}]`, `title`, `subtitle`, `titleAt` |
+| `hero` | `image`, `fit?` (`cutout` default: transparent PNG in the lower 72%; `cover`: a full-frame 9:16 image that already has its background), `tags[{label,x,y,at}]`, `title`, `subtitle`, `titleAt`, `titleTop?` (title block top in %, default 9; lower it when heads sit high so the tags don't hit the subtitle) |
 | `caption` | `media`, `label`, `statement?`, `statementAt?`, `dim?[]` (word indexes shown at half opacity), `slide?[]` (word indexes that slide in from the lower right), `flash?` (default true) |
 | `punch` | `media`, `word`, `sub?` |
 | `broll` | `media` (image or .mp4/.mov/.webm), `origin?`, `startFrom?` (frames) |

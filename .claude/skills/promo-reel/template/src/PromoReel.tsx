@@ -5,7 +5,7 @@ import {BrowserMockup, C, CharReveal, CtaKeyword, FONT, GridBoard, HERO_BG, High
 export type Tag = {label: string; x: number; y: number; at: number};
 
 export type Beat =
-  | {type: 'hero'; dur: number; image: string; fit?: 'cutout' | 'cover'; tags: Tag[]; title: string; subtitle: string; titleAt: number}
+  | {type: 'hero'; dur: number; image: string; fit?: 'cutout' | 'cover'; tags: Tag[]; title: string; subtitle: string; titleAt: number; titleTop?: number}
   | {type: 'caption'; dur: number; media: string; label: string; statement?: string; statementAt?: number; dim?: number[]; slide?: number[]; flash?: boolean}
   | {type: 'punch'; dur: number; media: string; word: string; sub?: string}
   | {type: 'broll'; dur: number; media: string; origin?: string; startFrom?: number}
@@ -54,7 +54,7 @@ const BeatView: React.FC<{b: Beat}> = ({b}) => {
               : <Img src={src(b.image)} style={{position: 'absolute', bottom: '3%', left: '50%', transform: 'translateX(-50%)', height: '72%'}} />}
             {b.tags.map((g, i) => <YearTag key={i} label={g.label} x={g.x} y={g.y} at={s(g.at)} />)}
           </AbsoluteFill>
-          <div style={{position: 'absolute', top: '9%', width: '100%', color: C.white}}>
+          <div style={{position: 'absolute', top: `${b.titleTop ?? 9}%`, width: '100%', color: C.white}}>
             <WordReveal text={b.title} delay={t} stagger={6} style={{fontSize: 140, fontWeight: 900, letterSpacing: '-0.035em'}} />
             <WordReveal text={b.subtitle} delay={t + 12} stagger={5} style={{fontSize: 60, fontWeight: 500, fontStyle: 'italic', marginTop: -6}} />
           </div>
@@ -77,7 +77,7 @@ const BeatView: React.FC<{b: Beat}> = ({b}) => {
     case 'punch': {
       const p = interpolate(frame, [0, 8], [0, 1], {...clamp, easing: Easing.out(Easing.back(1.6))});
       // Heavy caps run about 0.7em per letter: shrink long words to keep about 50px side margins.
-      const size = Math.min(170, Math.floor(980 / (b.word.length * 0.7)));
+      const size = Math.min(170, Math.floor(960 / (b.word.length * 0.72)));
       return (
         <AbsoluteFill>
           <Media src={b.media} dur={dur} />
