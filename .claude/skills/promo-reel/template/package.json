@@ -1,0 +1,22 @@
+{
+  "name": "promo-reel",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "studio": "remotion studio",
+    "still": "remotion still PromoReel",
+    "render": "remotion render PromoReel out/promo.mp4 --props=props.json --codec=h264 --crf=18",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.532",
+    "@fontsource-variable/inter-tight": "5.2.5",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.532"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.12",
+    "typescript": "5.6.3"
+  }
+}
