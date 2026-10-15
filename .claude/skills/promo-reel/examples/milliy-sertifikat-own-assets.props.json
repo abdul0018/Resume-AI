@@ -29,7 +29,11 @@
      "y": 28.8,
      "at": 1.9
     }
-   ]
+   ],
+   "hook": {
+    "badge": "DIQQAT",
+    "text": "2009–2011-yilda tug‘ilganlar"
+   }
   },
   {
    "type": "caption",
@@ -40,6 +44,9 @@
    "statementAt": 1.1,
    "slide": [
     1
+   ],
+   "strike": [
+    0
    ]
   },
   {
@@ -92,7 +99,32 @@
    "type": "broll",
    "dur": 7.75,
    "media": "u-demo.mp4",
-   "startFrom": 60
+   "startFrom": 60,
+   "steps": [
+    {
+     "at": 0.15,
+     "text": "Fanni tanlaysiz"
+    },
+    {
+     "at": 2.4,
+     "text": "Vaqt bilan mock ishlaysiz"
+    },
+    {
+     "at": 5.0,
+     "text": "Darajangizni ko‘rasiz"
+    }
+   ],
+   "chips": {
+    "at": 5.5,
+    "items": [
+     "A+",
+     "A",
+     "B+",
+     "B",
+     "C+",
+     "C"
+    ]
+   }
   },
   {
    "type": "cta",
@@ -101,7 +133,11 @@
    "line2": "olmoqchi bo‘lsangiz",
    "keyword": "LINK",
    "line2At": 0.45,
-   "keywordAt": 1.9
+   "keywordAt": 1.9,
+   "comment": true
   }
- ]
+ ],
+ "progress": true,
+ "sfx": true,
+ "sfxVolume": 0.55
 }

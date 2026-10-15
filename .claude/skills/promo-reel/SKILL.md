@@ -87,17 +87,26 @@ template/
 
 | type | fields |
 |---|---|
-| `hero` | `image`, `fit?` (`cutout` default: transparent PNG in the lower 72%; `cover`: a full-frame 9:16 image that already has its background), `tags[{label,x,y,at}]`, `title`, `subtitle`, `titleAt`, `titleTop?` (title block top in %, default 9; lower it when heads sit high so the tags don't hit the subtitle) |
-| `caption` | `media`, `label`, `statement?`, `statementAt?`, `dim?[]` (word indexes shown at half opacity), `slide?[]` (word indexes that slide in from the lower right), `flash?` (default true) |
+| `hero` | `hook?{badge?,text}` (red DIQQAT-style badge + hook line visible from frame 0, plus a zoom snap; fades out when the title builds), `image`, `fit?` (`cutout` default: transparent PNG in the lower 72%; `cover`: a full-frame 9:16 image that already has its background), `tags[{label,x,y,at}]`, `title`, `subtitle`, `titleAt`, `titleTop?` (title block top in %, default 9; lower it when heads sit high so the tags don't hit the subtitle) |
+| `caption` | `media`, `label`, `statement?`, `statementAt?`, `dim?[]` (word indexes shown at half opacity), `slide?[]` (word indexes that slide in from the lower right), `strike?[]` (word indexes struck through in red after the statement lands, with a scratch sound), `flash?` (default true) |
 | `punch` | `media`, `word`, `sub?` |
 | `tension` | the worried beat: `media`, `origin?`, `zoomTo?` (punch-in, eases in), `line?` + `lineAt?`, `small?` + `punch?` + `punchAt?` (big orange stacked words), `textPos?` (`top` / `bottom`: bottom adds a dark fade; use it when a face fills the top half), `timer?{from,to?,at?}` (exam clock in seconds, accelerating, red near zero; chain two beats e.g. 300→298, then 298→0), `shake?`, `pulse?` (red heartbeat edge) |
-| `broll` | `media` (image or .mp4/.mov/.webm), `origin?`, `startFrom?` (frames) |
+| `broll` | `media` (image or .mp4/.mov/.webm), `origin?`, `startFrom?` (frames), `steps?[{at,text}]` (numbered step pills, for demos), `chips?{at,items[]}` (grade/result chips popping in) |
 | `board` | `headline`, `sub`, `subAt?`, `mockup?`, `mockupAt?` |
-| `cta` | `line1`, `line2`, `keyword`, `line2At?`, `keywordAt?` |
+| `cta` | `line1`, `line2`, `keyword`, `line2At?`, `keywordAt?`, `comment?` (comment box that types the keyword and taps send, with a bouncing arrow) |
 
-Top-level props: `beats`, `voiceover?`, `music?`, `musicVolume?` (default 0.25). Audio files go in `public/`.
+Top-level props: `beats`, `voiceover?`, `music?`, `musicVolume?` (default 0.25), `progress?` (orange progress bar on top), `sfx?` + `sfxVolume?` (default 0.6): sound effects placed automatically (whoosh into every cut, pops on text and tags, impacts on punch words, timer ticks, a riser + ding on the keyword, key clicks on the comment). Run `./scripts/sfx.sh` once to synthesize them into `public/sfx/`. Audio files go in `public/`.
 
-## 4. Adapting it
+## 4. Making it hooky / viral (default for new reels)
+
+- **The first frame must carry text and motion.** It is the cover and the scroll-stopper. Use `hook` with a callout of the audience ("2009–2011-yilda tug‘ilganlar") and a red badge (DIQQAT). Never start on a flash or an empty frame.
+- Turn on `sfx: true` and `progress: true`.
+- **Give every 2–3 s a new visual event.** No beat may run longer than about 3 s without text or a cut. Caption long demos with numbered `steps` that match the voiceover, and end with result `chips`.
+- **Turn the pain point into a `tension` beat** with a timer, a red pulse and punch words.
+- **Make the CTA demonstrate the action:** use `comment: true`, so the box types the keyword.
+- Check that the mixed audio has its max under -1 dB (`ffmpeg -af volumedetect`).
+
+## 5. Adapting it
 
 - **Beat order is flexible.** Keep the hero first, the CTA last, and at least one grid board in the middle. Keep the total at 20-40 s.
 - **Tags.** `x` and `y` are the pointer tip in % of the frame, at the wide shot. The hero camera pans to each tag's `x` as it pops. Check them on a still at the end of the hero beat (all tags visible) and adjust.

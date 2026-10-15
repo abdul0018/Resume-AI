@@ -33,7 +33,7 @@ export const Media: React.FC<{src: string; dur: number; zoomTo?: number; origin?
 };
 
 /** Signature move: words drop in one by one with fade + blur + slight scale. */
-export const WordReveal: React.FC<{text: string; delay?: number; stagger?: number; style?: React.CSSProperties; dim?: number[]; slide?: number[]; align?: 'center' | 'flex-start'}> = ({text, delay = 0, stagger = 5, style, dim = [], slide = [], align = 'center'}) => {
+export const WordReveal: React.FC<{text: string; delay?: number; stagger?: number; style?: React.CSSProperties; dim?: number[]; slide?: number[]; strike?: number[]; strikeAt?: number; align?: 'center' | 'flex-start'}> = ({text, delay = 0, stagger = 5, style, dim = [], slide = [], strike = [], strikeAt = 0, align = 'center'}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   return (
@@ -49,7 +49,13 @@ export const WordReveal: React.FC<{text: string; delay?: number; stagger?: numbe
         const dy = interpolate(p, [0, 1], [fromSide ? 0.5 : -0.45, 0]);
         const sc = interpolate(p, [0, 1], [0.88, 1]);
         return (
-          <span key={i} style={{display: 'inline-block', opacity: op, filter: `blur(${blur}px)`, transform: `translate(${dx}em, ${dy}em) scale(${sc})`}}>{w}</span>
+          <span key={i} style={{display: 'inline-block', position: 'relative', opacity: op, filter: `blur(${blur}px)`, transform: `translate(${dx}em, ${dy}em) scale(${sc})`}}>
+            {w}
+            {strike.includes(i) && (
+              // Red marker line drawn left -> right across the word.
+              <span style={{position: 'absolute', left: '-4%', right: '-4%', top: '52%', height: '0.12em', background: '#E53935', borderRadius: '0.06em', transformOrigin: '0 50%', transform: `rotate(-4deg) scaleX(${interpolate(frame - strikeAt, [0, 6], [0, 1], {...clamp, easing: Easing.out(Easing.cubic)})})`, boxShadow: '0 2px 8px rgba(0,0,0,.25)'}} />
+            )}
+          </span>
         );
       })}
     </div>
@@ -197,4 +203,122 @@ export const Shake: React.FC<{dur: number; amount?: number; children: React.Reac
   const k = amount * interpolate(frame, [0, dur], [0.3, 1], clamp);
   const n = (seed: string) => (random(`${seed}${Math.floor(frame / 2)}`) - 0.5) * 2;
   return <AbsoluteFill style={{transform: `translate(${n('x') * k}px, ${n('y') * k}px) rotate(${n('r') * k * 0.04}deg) scale(1.03)`}}>{children}</AbsoluteFill>;
+};
+
+
+/** Thin progress bar along the top edge: keeps viewers watching to the end. */
+export const ProgressBar: React.FC = () => {
+  const frame = useCurrentFrame();
+  const {durationInFrames} = useVideoConfig();
+  return (
+    <div style={{position: 'absolute', top: 0, left: 0, right: 0, height: 10, background: 'rgba(255,255,255,.28)'}}>
+      <div style={{height: '100%', width: `${((frame + 1) / durationInFrames) * 100}%`, background: C.orange, boxShadow: '0 0 12px rgba(255,107,18,.8)'}} />
+    </div>
+  );
+};
+
+/** White flash + scale snap for frame-0 hooks and punch impacts. Returns a scale multiplier and renders the flash. */
+export const impactScale = (frame: number, at = 0, from = 1.18) =>
+  interpolate(frame - at, [0, 9], [from, 1], {...clamp, easing: Easing.out(Easing.cubic)});
+export const ImpactFlash: React.FC<{at?: number; strength?: number}> = ({at = 0, strength = 0.85}) => {
+  const f = useCurrentFrame() - at;
+  if (f < 0 || f > 7) return null;
+  return <AbsoluteFill style={{pointerEvents: 'none', background: '#fff', opacity: interpolate(f, [0, 7], [strength, 0], clamp)}} />;
+};
+/** Short decaying shake after an impact (px offsets). */
+export const impactShake = (frame: number, at = 0, amount = 18) => {
+  const f = frame - at;
+  if (f < 0 || f > 10) return {x: 0, y: 0};
+  const k = amount * (1 - f / 10);
+  return {x: (random(`ix${f}`) - 0.5) * 2 * k, y: (random(`iy${f}`) - 0.5) * 2 * k};
+};
+
+/** Red "warning" badge + hook line shown from frame 0, faded out at `outAt`. */
+export const HookBanner: React.FC<{badge?: string; text: string; outAt: number}> = ({badge, text, outAt}) => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const out = interpolate(frame, [outAt - 6, outAt], [1, 0], clamp);
+  if (out <= 0) return null;
+  const pop = spring({frame, fps, config: {damping: 9, stiffness: 260}});
+  const wobble = Math.sin(frame / 3) * interpolate(frame, [0, 30], [4, 0], clamp);
+  return (
+    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, opacity: out}}>
+      {badge && (
+        <div style={{display: 'inline-flex', alignItems: 'center', gap: '0.3em', background: '#E53935', color: C.white, fontWeight: 900, fontSize: 50, letterSpacing: '0.04em', padding: '0.1em 0.55em', borderRadius: 14, boxShadow: '0 10px 30px rgba(0,0,0,.25)', transform: `scale(${interpolate(pop, [0, 1], [0.7, 1])}) rotate(${wobble}deg)`}}>
+          <svg width="0.9em" height="0.9em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinejoin="round" strokeLinecap="round"><path d="M12 3 2 21h20L12 3z" /><path d="M12 10v5M12 18v.01" /></svg>
+          {badge}
+        </div>
+      )}
+      <WordReveal text={text} delay={-12} stagger={2} style={{color: C.white, fontSize: 62, fontWeight: 800, letterSpacing: '-0.02em', textShadow: '0 4px 20px rgba(0,0,0,.3)'}} />
+    </div>
+  );
+};
+
+/** Numbered step pill (demo captions). The latest step whose `at` has passed is shown. */
+export const StepPill: React.FC<{n: string; text: string; at: number}> = ({n, text, at}) => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const p = spring({frame: frame - at, fps, config: {damping: 12, stiffness: 220}});
+  return (
+    <div style={{display: 'inline-flex', alignItems: 'center', gap: 18, background: C.white, color: C.ink, borderRadius: 999, padding: '10px 34px 10px 10px', boxShadow: '0 14px 40px rgba(0,0,0,.28)', transform: `scale(${interpolate(p, [0, 1], [0.6, 1])}) translateY(${interpolate(p, [0, 1], [-30, 0])}px)`, opacity: interpolate(frame - at, [0, 4], [0, 1], clamp)}}>
+      <div style={{width: 76, height: 76, borderRadius: 38, background: C.orange, color: C.white, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: 46}}>{n}</div>
+      <div style={{fontWeight: 800, fontSize: 52, letterSpacing: '-0.02em'}}>{text}</div>
+    </div>
+  );
+};
+
+/** Row of grade chips that pop in one by one; the first is highlighted. */
+export const GradeChips: React.FC<{items: string[]; at: number}> = ({items, at}) => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  return (
+    <div style={{display: 'flex', gap: 14, justifyContent: 'center'}}>
+      {items.map((g, i) => {
+        const f = frame - at - i * 4;
+        if (f < 0) return null;
+        const p = spring({frame: f, fps, config: {damping: 10, stiffness: 240}});
+        const first = i === 0;
+        return (
+          <div key={g} style={{minWidth: 112, textAlign: 'center', fontWeight: 900, fontSize: 54, padding: '8px 18px', borderRadius: 20, background: first ? C.orange : C.white, color: first ? C.white : C.ink, boxShadow: '0 10px 30px rgba(0,0,0,.25)', transform: `scale(${p})`}}>{g}</div>
+        );
+      })}
+    </div>
+  );
+};
+
+/** Generic comment field that types `text`, then taps send. Starts at `at`; `perChar` frames per letter. */
+export const CommentBox: React.FC<{text: string; at: number; perChar?: number; placeholder?: string}> = ({text, at, perChar = 4, placeholder = 'Izoh qoldiring...'}) => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const f = frame - at;
+  const shown = Math.max(0, Math.min(text.length, Math.floor(f / perChar) + 1));
+  const typed = f < 0 ? '' : text.slice(0, shown);
+  const doneAt = at + text.length * perChar + 4;
+  const press = frame >= doneAt ? spring({frame: frame - doneAt, fps, config: {damping: 8, stiffness: 300}}) : 0;
+  const enter = spring({frame: frame - (at - 14), fps, config: {damping: 14, stiffness: 180}});
+  const caret = Math.floor(frame / 8) % 2 === 0 && frame < doneAt;
+  return (
+    <div style={{width: 860, display: 'flex', alignItems: 'center', gap: 22, background: C.white, borderRadius: 999, padding: '16px 18px 16px 18px', boxShadow: '0 20px 50px rgba(0,0,0,.14)', border: '2px solid rgba(0,0,0,.06)', transform: `translateY(${interpolate(enter, [0, 1], [80, 0])}px)`, opacity: interpolate(enter, [0, 1], [0, 1])}}>
+      <div style={{width: 76, height: 76, borderRadius: 38, background: `linear-gradient(135deg, ${C.orange}, #D9400B)`, flexShrink: 0}} />
+      <div style={{flex: 1, fontSize: 48, fontWeight: typed ? 800 : 500, color: typed ? C.ink : 'rgba(0,0,0,.35)', letterSpacing: typed ? '0.02em' : '-0.01em'}}>
+        {typed || placeholder}
+        {caret && <span style={{display: 'inline-block', width: 4, height: '1em', background: C.orange, marginLeft: 4, verticalAlign: '-0.12em'}} />}
+      </div>
+      <div style={{width: 84, height: 84, borderRadius: 42, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: frame >= doneAt ? C.orange : 'rgba(0,0,0,.08)', transform: `scale(${1 - 0.18 * Math.sin(Math.min(1, press) * Math.PI)})`}}>
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke={frame >= doneAt ? C.white : 'rgba(0,0,0,.4)'} strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </div>
+    </div>
+  );
+};
+
+/** Bouncing down arrow (points at the comment box). */
+export const BounceArrow: React.FC<{at: number}> = ({at}) => {
+  const frame = useCurrentFrame();
+  if (frame < at) return null;
+  const y = Math.abs(Math.sin(((frame - at) / 30) * Math.PI * 2.2)) * -22;
+  return (
+    <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke={C.orange} strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{transform: `translateY(${y}px)`, opacity: interpolate(frame - at, [0, 6], [0, 1], clamp)}}>
+      <path d="M12 4v15M6 13l6 6 6-6" />
+    </svg>
+  );
 };
