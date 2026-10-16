@@ -19,4 +19,6 @@ mk ding.wav -f lavfi -i "aevalsrc='(0.5*sin(2*PI*1318*t)+0.3*sin(2*PI*2637*t)+0.
 mk key.wav -f lavfi -i "aevalsrc='0.55*(random(0)*2-1)*exp(-t*350)+0.3*sin(2*PI*1800*t)*exp(-t*300)':d=0.04" -af "highpass=f=1200"
 # scratch: quick marker swipe (strikethrough)
 mk scratch.wav -f lavfi -i "anoisesrc=d=0.22:c=white:a=0.6" -af "bandpass=f=2500:width_type=h:w=1800,afade=t=in:d=0.08,afade=t=out:st=0.12:d=0.1,volume=1.5"
+# scribble: ballpoint on paper, rhythmic strokes (checklist style; trimmed per written word)
+mk scribble.wav -f lavfi -i "anoisesrc=d=3:c=pink:a=0.8" -af "highpass=f=1800,lowpass=f=7000,volume='0.25+0.75*pow(abs(sin(2*PI*5.5*t+sin(2*PI*1.3*t))),1.5)':eval=frame,volume=1.6"
 echo "sfx ready in public/sfx/"

@@ -1,0 +1,34 @@
+{
+ "title": "IELTS 8.0+ uchun\nkunlik reja",
+ "rows": [
+  {
+   "label": "Speaking",
+   "answer": "15 daqiqa",
+   "icon": "mic",
+   "color": "#8B6CF0"
+  },
+  {
+   "label": "Writing",
+   "answer": "1 ta essay",
+   "icon": "pen",
+   "color": "#3D7BF5"
+  },
+  {
+   "label": "Reading",
+   "answer": "1 ta passage",
+   "icon": "book",
+   "color": "#2FAE66"
+  },
+  {
+   "label": "Listening",
+   "answer": "1 ta section",
+   "icon": "headphones",
+   "color": "#FF8A2B"
+  }
+ ],
+ "footer": {
+  "lead": "Hammasi bitta saytda:",
+  "brand": "goprep.gg"
+ },
+ "sfx": true
+}

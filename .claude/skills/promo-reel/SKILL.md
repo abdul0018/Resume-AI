@@ -1,6 +1,6 @@
 ---
 name: promo-reel
-description: Make a 30-second vertical (9:16) promo reel in Remotion, in the style of the "Izohda LINK deb yozib qoldiring" reference reel. The style uses an orange hero shot with year-tag pills, kinetic word-by-word text, full-bleed photo beats with a "KOMPUTER"-style punch word, an off-white grid board with a browser mockup, a screen-recording demo, and a comment-bait "LINK" ending. Use when the user asks for "this type of video", "the LINK video", a promo or Instagram/TikTok reel, or a Remotion video for a product or site.
+description: Make vertical (9:16) promo reels in Remotion. Style A (`PromoReel`) is a 30-second reel in the style of the "Izohda LINK deb yozib qoldiring" reference reel. Style B (`ChecklistReel`) is a 10-second "handwritten checklist" reel: a paper sheet with a serif title and a list of 3D pill icons, where a red pen writes each answer and then the brand. Use Style B for "best time to… / daily plan / list"-type reels. The style uses an orange hero shot with year-tag pills, kinetic word-by-word text, full-bleed photo beats with a "KOMPUTER"-style punch word, an off-white grid board with a browser mockup, a screen-recording demo, and a comment-bait "LINK" ending. Use when the user asks for "this type of video", "the LINK video", a promo or Instagram/TikTok reel, or a Remotion video for a product or site.
 ---
 
 # Promo reel (orange hero / grid board / "LINK" CTA)
@@ -114,3 +114,29 @@ Top-level props: `beats`, `voiceover?`, `music?`, `musicVolume?` (default 0.25),
 - **Voiceover timing.** Fit the beat durations to the VO. If the VO runs long, stretch the b-roll and demo beats, not the text beats.
 - **Brand colour.** Change `C.orange` and `HERO_BG` in `kit.tsx` together.
 - **Output.** Render 1080x1920 at 30 fps with CRF 18. That suits Instagram Reels and TikTok.
+
+## 6. Style B: handwritten checklist (`ChecklistReel`)
+
+Reference: the "Best Time to Take Vitamins" reel. It is a single continuous shot of about 10 s with no cuts:
+- an off-white paper background with a large serif title (DM Serif Display);
+- 4–5 rows, each a glossy 3D capsule icon plus a navy label;
+- a red pen that writes each row's answer in handwriting (Caveat), revealed left to right under the pen tip.
+
+**Hook:** frame 0 shows the full list with empty answers, which creates a curiosity gap. The pen glides in from the lower right.
+
+`Checklist.tsx` builds it. Props:
+- `title` ("\n" splits lines);
+- `rows[{label, answer, icon, color}]`, where `icon` is mic / pen / book / headphones / check / star;
+- `footer?{lead?, brand}`: written after the rows, with the brand big and underlined, plus a ding;
+- `sfx?` (pen scribble per word);
+- `music?` + `musicVolume?`.
+
+The duration is computed from the text lengths: about 3 frames per character.
+
+Rules:
+- Keep answers short (≤ 14 characters) so they fit the answer column.
+- The footer must stay above the bottom ~20% of the frame.
+- Render with `npx remotion render ChecklistReel out/x.mp4 --props=props.json`.
+- Tell the user to add trending music in the Instagram/TikTok app. Don't reuse a third party's audio.
+
+Example: `examples/goprep-ielts-checklist.props.json`.
