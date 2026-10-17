@@ -1,0 +1,85 @@
+{
+ "head": "head.mp4",
+ "voice": "voice.wav",
+ "hook": {
+  "pill": "IELTS 8+",
+  "badge": "uchun",
+  "badgeAt": 1.1,
+  "sub": "sizda bo‘lishi kerak bo‘lgan",
+  "subAt": 1.4,
+  "last": "5 ta odat",
+  "lastAt": 2.34
+ },
+ "boardAt": 3.25,
+ "cards": [
+  {
+   "n": "01",
+   "title": "Shadowing",
+   "desc": "Ingliz tilidagi audio yoki videoni eshitib, speaker bilan bir vaqtda takrorlash orqali talaffuz va fluency’ni rivojlantirish.",
+   "color": "#7FA8F5",
+   "at": 3.28
+  },
+  {
+   "n": "02",
+   "title": "Podcast",
+   "desc": "Turli mavzulardagi suhbatlarni har kuni eshitish: Listening va so‘z boyligi o‘sadi.",
+   "color": "#C08CF2",
+   "at": 5.16
+  },
+  {
+   "n": "03",
+   "title": "Article",
+   "desc": "Ingliz tilidagi maqolalarni o‘qish: yangi fikr va iboralar, Reading tezligi oshadi.",
+   "color": "#F5B36B",
+   "at": 7.16
+  },
+  {
+   "n": "04",
+   "title": "Tahlil qilish",
+   "desc": "Testdan keyin xatolaringizni chuqur o‘rganib, sababini topish va xulosa chiqarish.",
+   "color": "#79D488",
+   "at": 9.12
+  },
+  {
+   "n": "05",
+   "title": "GoPrep",
+   "desc": "IELTS platformasi: mock testlar, materiallar, Speaking va Writing uchun AI tahlil va feedback.",
+   "color": "#F2E06B",
+   "at": 11.66
+  }
+ ],
+ "appAt": 14.42,
+ "clips": [
+  {
+   "src": "site.mp4",
+   "from": 3.0,
+   "to": 5.8
+  },
+  {
+   "src": "site.mp4",
+   "from": 6.4,
+   "to": 8.2
+  },
+  {
+   "src": "site.mp4",
+   "from": 10.0,
+   "to": 12.68
+  }
+ ],
+ "ctaAt": 21.7,
+ "cta": {
+  "title": "IELTS UCHUN",
+  "icons": [
+   "headphones",
+   "book",
+   "pen",
+   "mic"
+  ],
+  "iconsAt": 21.95,
+  "keyword": "SAYT",
+  "pillAt": 23.5,
+  "typeAt": 24.28
+ },
+ "end": 26.9,
+ "sfx": true
+}

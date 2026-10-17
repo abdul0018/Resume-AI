@@ -1,6 +1,6 @@
 ---
 name: promo-reel
-description: Make vertical (9:16) promo reels in Remotion. Style A (`PromoReel`) is a 30-second reel in the style of the "Izohda LINK deb yozib qoldiring" reference reel. Style B (`ChecklistReel`) is a 10-second "handwritten checklist" reel: a paper sheet with a serif title and a list of 3D pill icons, where a red pen writes each answer and then the brand. Use Style B for "best time to… / daily plan / list"-type reels. The style uses an orange hero shot with year-tag pills, kinetic word-by-word text, full-bleed photo beats with a "KOMPUTER"-style punch word, an off-white grid board with a browser mockup, a screen-recording demo, and a comment-bait "LINK" ending. Use when the user asks for "this type of video", "the LINK video", a promo or Instagram/TikTok reel, or a Remotion video for a product or site.
+description: Make vertical (9:16) promo reels in Remotion. Style A (`PromoReel`) is a 30-second reel in the style of the "Izohda LINK deb yozib qoldiring" reference reel. Style B (`ChecklistReel`) is a 10-second "handwritten checklist" reel: a paper sheet with a serif title and a list of 3D pill icons, where a red pen writes each answer and then the brand. Use Style B for "best time to… / daily plan / list"-type reels. Style C (`HabitsReel`) edits the user's own talking-head video into an "N habits" reel: a glowing pill hook, a pin board of numbered cards the camera flies between, product clips, and a CTA pill that types the comment keyword. Use Style C when the user sends their own recording plus a reference edit to copy. The style uses an orange hero shot with year-tag pills, kinetic word-by-word text, full-bleed photo beats with a "KOMPUTER"-style punch word, an off-white grid board with a browser mockup, a screen-recording demo, and a comment-bait "LINK" ending. Use when the user asks for "this type of video", "the LINK video", a promo or Instagram/TikTok reel, or a Remotion video for a product or site.
 ---
 
 # Promo reel (orange hero / grid board / "LINK" CTA)
@@ -140,3 +140,22 @@ Rules:
 - Tell the user to add trending music in the Instagram/TikTok app. Don't reuse a third party's audio.
 
 Example: `examples/goprep-ielts-checklist.props.json`.
+
+## 7. Style C: talking-head "N habits" edit (`HabitsReel`)
+
+Reference: "IELTS 8 uchun sizda bo'lishi kerak bo'lgan 5 ta odat". The user's own single-take talking-head video stays underneath the whole edit as one continuous voice track.
+
+| Part | Starts | What it shows |
+|---|---|---|
+| 1. Hook | 0 s | Talking head with a white pill that glows blue ("IELTS 8+"), a small corner badge ("uchun"), an italic subline typed word by word, and a bold last line ("5 TA ODAT") with a punch-in zoom. |
+| 2. Board | `boardAt` | Pushes in from the right: a grey pin board of numbered pastel cards (pin, number, title, short description). The camera flies to each card at its `at` time, when the habit is spoken. |
+| 3. Product | `appAt` | Pushes to the product `clips[{src, from, to}]`, cut on the voiceover's beats, each with a punch-in. |
+| 4. CTA | `ctaAt` | Pushes back to the face: a glowing title ("IELTS UCHUN") and blue icon tiles popping in. Then a search pill types the comment keyword at `typeAt` (when it is spoken) and taps the arrow. |
+
+Workflow:
+1. **Timings come from the speech.** Run `python3 -I .claude/skills/promo-reel/tools/transcribe.py <voice.wav> small` (needs `pip install faster-whisper`). It prints segments and writes word timestamps to `<wav>.json`. Uzbek comes out phonetically garbled, but the timestamps are good. Ask the user for the exact script and map its phrases onto the timestamps.
+2. **Normalize the voice:**
+   `ffmpeg -i head.mp4 -vn -af "highpass=f=70,loudnorm=I=-14:TP=-1.5:LRA=7" voice.wav`
+   Put the muted video in as `head`. Phone recordings often clip.
+3. Put the hook and CTA text in the top ~20%, above the face. Put the search pill at ~64%.
+4. Example: `examples/goprep-5-odat.props.json`.

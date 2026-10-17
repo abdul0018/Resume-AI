@@ -2,6 +2,7 @@ import React from 'react';
 import {Composition} from 'remotion';
 import {PromoReel, PromoProps, promoDefaults} from './PromoReel';
 import {ChecklistReel, ChecklistProps, checklistDefaults, checklistTimeline} from './Checklist';
+import {HabitsReel, HabitsProps, habitsDefaults, habitsDuration} from './Habits';
 
 const FPS = 30;
 
@@ -30,6 +31,17 @@ export const RemotionRoot: React.FC = () => (
       durationInFrames={330}
       defaultProps={checklistDefaults}
       calculateMetadata={({props}: {props: ChecklistProps}) => ({durationInFrames: checklistTimeline(props).total})}
+    />
+    {/* Style C: talking-head "N habits" edit: hook pill, pin board, product clips, search-pill CTA. */}
+    <Composition
+      id="HabitsReel"
+      component={HabitsReel}
+      width={1080}
+      height={1920}
+      fps={FPS}
+      durationInFrames={810}
+      defaultProps={habitsDefaults}
+      calculateMetadata={({props}: {props: HabitsProps}) => ({durationInFrames: habitsDuration(props)})}
     />
   </>
 );
