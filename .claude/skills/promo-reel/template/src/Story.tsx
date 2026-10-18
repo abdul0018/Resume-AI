@@ -34,7 +34,8 @@ type Built = {paths: P[]; texts?: Txt[]};
 export type El = {b: string; at: number; dur?: number; sfx?: SfxName | 'none'; [k: string]: unknown};
 type SfxName = 'chime' | 'pop' | 'impact' | 'scratch';
 export type StoryScene = {start: number; end: number; els: El[]};
-export type StoryProps = {voice: string; scenes: StoryScene[]; end: number; sfx?: boolean; music?: string; musicVolume?: number};
+export type StoryProps = {voice?: string; // omit for an SFX-only cut (the user adds their own voice later)
+  scenes: StoryScene[]; end: number; sfx?: boolean; music?: string; musicVolume?: number};
 
 /* ---------------- builders (1080x1920 space, ground at GROUND) ---------------- */
 
@@ -339,7 +340,7 @@ export const StoryReel: React.FC<StoryProps> = (p) => {
           </g>
         )}
       </svg>
-      <Audio src={src(p.voice)} />
+      {p.voice && <Audio src={src(p.voice)} />}
       {p.music && <Audio src={staticFile(p.music)} volume={p.musicVolume ?? 0.12} />}
       {p.sfx && storySfx(p.scenes).map((e, i) => (
         <Sequence key={i} from={Math.max(0, e.f)} durationInFrames={e.d} layout="none">

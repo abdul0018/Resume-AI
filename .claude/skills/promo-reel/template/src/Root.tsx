@@ -52,7 +52,7 @@ export const RemotionRoot: React.FC = () => (
       height={1920}
       fps={FPS}
       durationInFrames={1440}
-      defaultProps={{voice: 'voice.wav', scenes: [], end: 10} as StoryProps}
+      defaultProps={{scenes: [], end: 10} as StoryProps}
       calculateMetadata={({props}: {props: StoryProps}) => ({durationInFrames: storyDuration(props)})}
     />
   </>

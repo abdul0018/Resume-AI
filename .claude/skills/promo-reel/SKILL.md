@@ -182,6 +182,11 @@ Reference: the "Kelin va qaynona…" reel.
   - **Marks and text:** ground, glow, cross, arrow, burst, hearts, text, bubble.
 - Add a builder when a story needs a new object.
 
+**Without a voiceover:**
+- Omit `voice` from the props. The composition's defaults carry no voice, so nothing leaks in.
+- Keep the scene timings from the script so the user can record over them later.
+- Then lift the SFX-only mix: `ffmpeg -i in.mp4 -c:v copy -af loudnorm=I=-20:TP=-1.5 out.mp4`.
+
 **Camera and sound (automatic):**
 - **Camera:** each scene is framed like the reference. The drawing fills ≈90% of the width (figures about a third of the frame height), the ground sits at ≈67% of the height, and there is a slow 3% push-in. The ground line is re-fitted to span just the drawing.
 - **Strokes:** they keep a constant on-screen width. Never use `vector-effect: non-scaling-stroke`, because it breaks pathLength draw-on in Chrome.
