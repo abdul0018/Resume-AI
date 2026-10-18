@@ -1,0 +1,40 @@
+{
+ "brand": "goprep.gg",
+ "sfx": true,
+ "end": 47.0,
+ "scenes": [
+  {"id": "graduate", "start": 0.0, "end": 5.05},
+  {"id": "repetitor", "start": 5.05, "end": 7.55},
+  {"id": "class", "start": 7.55, "end": 11.45},
+  {"id": "certificate", "start": 11.45, "end": 15.65},
+  {"id": "study", "start": 15.65, "end": 17.9},
+  {"id": "mock", "start": 17.9, "end": 21.1},
+  {"id": "find", "start": 21.1, "end": 25.55},
+  {"id": "roadmap", "start": 25.55, "end": 30.4},
+  {"id": "savings", "start": 30.4, "end": 33.65},
+  {"id": "score", "start": 33.65, "end": 37.5},
+  {"id": "university", "start": 37.5, "end": 41.05},
+  {"id": "family", "start": 41.05, "end": 43.6},
+  {"id": "end", "start": 43.6, "end": 47.0}
+ ],
+ "cues": [
+  {"text": "Anvar maktabni bitirgach, oilasining katta umidi bilan", "start": 0.15, "end": 2.9, "keys": ["katta umidi"]},
+  {"text": "o‘qishga kirishni maqsad qildi.", "start": 2.97, "end": 4.9, "keys": ["maqsad"]},
+  {"text": "Biroq sharoiti tufayli repetitorga bora olmadi,", "start": 5.2, "end": 7.55, "keys": ["repetitorga"]},
+  {"text": "maktabda esa ingliz tilidan faqat salomlashishni o‘rgatishgan edi.", "start": 7.63, "end": 11.3, "keys": ["salomlashishni"]},
+  {"text": "DTM imtihonida maksimal ball olish uchun", "start": 11.59, "end": 13.7, "keys": ["maksimal ball"]},
+  {"text": "IELTS sertifikati kerakligini bilgach,", "start": 13.77, "end": 15.7, "keys": ["IELTS"]},
+  {"text": "mustaqil tayyorlana boshladi,", "start": 15.78, "end": 17.85, "keys": ["mustaqil"]},
+  {"text": "ammo mock testlar natijasi 5 balldan oshmadi.", "start": 18.01, "end": 21.0, "keys": ["5 balldan"]},
+  {"text": "Bir kuni u internetda goprep.gg", "start": 21.22, "end": 23.5, "keys": ["goprep.gg"]},
+  {"text": "platformasiga ko‘zi tushdi.", "start": 23.51, "end": 25.45, "keys": []},
+  {"text": "Undagi tizimli darslar va aniq yo‘l xaritasi", "start": 25.7, "end": 28.0, "keys": ["tizimli", "yo‘l xaritasi"]},
+  {"text": "juda arzon narxda taklif etilardi.", "start": 28.03, "end": 30.3, "keys": ["arzon"]},
+  {"text": "Anvar yig‘ib qo‘ygan puliga ushbu saytdan foydalanishni boshladi", "start": 30.57, "end": 33.55, "keys": ["yig‘ib qo‘ygan"]},
+  {"text": "va bor-yo‘g‘i 4 oyda IELTS’dan 7.5 ball oldi.", "start": 33.69, "end": 37.4, "keys": ["4 oyda", "7.5 ball"]},
+  {"text": "Bugun u bir nechta universitetga", "start": 37.6, "end": 39.15, "keys": ["universitetga"]},
+  {"text": "davlat granti asosida o‘qishga kirdi,", "start": 39.2, "end": 41.0, "keys": ["davlat granti"]},
+  {"text": "va oilasining ishonchini oqladi.", "start": 41.16, "end": 43.5, "keys": ["ishonchini oqladi"]},
+  {"text": "IELTS’ga tizimli tayyorgarlik — goprep.gg", "start": 44.0, "end": 46.8, "keys": ["goprep.gg"]}
+ ]
+}

@@ -4,6 +4,7 @@ import {PromoReel, PromoProps, promoDefaults} from './PromoReel';
 import {ChecklistReel, ChecklistProps, checklistDefaults, checklistTimeline} from './Checklist';
 import {HabitsReel, HabitsProps, habitsDefaults, habitsDuration} from './Habits';
 import {StoryReel, StoryProps, storyDuration} from './Story';
+import {IllustratedReel, IllustratedProps, illustratedDuration} from './Illustrated';
 
 const FPS = 30;
 
@@ -54,6 +55,17 @@ export const RemotionRoot: React.FC = () => (
       durationInFrames={1440}
       defaultProps={{scenes: [], end: 10} as StoryProps}
       calculateMetadata={({props}: {props: StoryProps}) => ({durationInFrames: storyDuration(props)})}
+    />
+    {/* Style E: illustrated story: flat vector scenes, parallax, karaoke subtitles. */}
+    <Composition
+      id="IllustratedReel"
+      component={IllustratedReel}
+      width={1080}
+      height={1920}
+      fps={FPS}
+      durationInFrames={1440}
+      defaultProps={{scenes: [], cues: [], end: 10} as IllustratedProps}
+      calculateMetadata={({props}: {props: IllustratedProps}) => ({durationInFrames: illustratedDuration(props)})}
     />
   </>
 );

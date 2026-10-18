@@ -1,6 +1,6 @@
 ---
 name: promo-reel
-description: Make vertical (9:16) promo reels in Remotion. Style A (`PromoReel`) is a 30-second reel in the style of the "Izohda LINK deb yozib qoldiring" reference reel. Style B (`ChecklistReel`) is a 10-second "handwritten checklist" reel: a paper sheet with a serif title and a list of 3D pill icons, where a red pen writes each answer and then the brand. Use Style B for "best time to… / daily plan / list"-type reels. Style C (`HabitsReel`) edits the user's own talking-head video into an "N habits" reel: a glowing pill hook, a pin board of numbered cards the camera flies between, product clips, and a CTA pill that types the comment keyword. Use Style C when the user sends their own recording plus a reference edit to copy. Style D (`StoryReel`) is a narrated story drawn as white line-art stick figures on charcoal with orange accents. It draws on stroke by stroke in time with a TTS or recorded voiceover, and ends on a title card plus a speech bubble. Use Style D when the user gives a story script. The style uses an orange hero shot with year-tag pills, kinetic word-by-word text, full-bleed photo beats with a "KOMPUTER"-style punch word, an off-white grid board with a browser mockup, a screen-recording demo, and a comment-bait "LINK" ending. Use when the user asks for "this type of video", "the LINK video", a promo or Instagram/TikTok reel, or a Remotion video for a product or site.
+description: Make vertical (9:16) promo reels in Remotion. Style A (`PromoReel`) is a 30-second reel in the style of the "Izohda LINK deb yozib qoldiring" reference reel. Style B (`ChecklistReel`) is a 10-second "handwritten checklist" reel: a paper sheet with a serif title and a list of 3D pill icons, where a red pen writes each answer and then the brand. Use Style B for "best time to… / daily plan / list"-type reels. Style C (`HabitsReel`) edits the user's own talking-head video into an "N habits" reel: a glowing pill hook, a pin board of numbered cards the camera flies between, product clips, and a CTA pill that types the comment keyword. Use Style C when the user sends their own recording plus a reference edit to copy. Style D (`StoryReel`) is a narrated story drawn as white line-art stick figures on charcoal with orange accents. It draws on stroke by stroke in time with a TTS or recorded voiceover, and ends on a title card plus a speech bubble. Use Style D when the user gives a story script. Style E (`IllustratedReel`) tells a story with flat vector illustrations (teal palette, warm light) drawn in code. It adds parallax and a slow push-in, soft dissolves, a logo on top, and karaoke subtitles in a dark lower third. Use Style E when the reference is an illustrated narrated explainer. The style uses an orange hero shot with year-tag pills, kinetic word-by-word text, full-bleed photo beats with a "KOMPUTER"-style punch word, an off-white grid board with a browser mockup, a screen-recording demo, and a comment-bait "LINK" ending. Use when the user asks for "this type of video", "the LINK video", a promo or Instagram/TikTok reel, or a Remotion video for a product or site.
 ---
 
 # Promo reel (orange hero / grid board / "LINK" CTA)
@@ -206,3 +206,30 @@ Reference: the "Kelin va qaynona…" reel.
 - Tell the user to add soft music in the app.
 
 Example: `examples/anvar-goprep-story.props.json` (+ `.tts.txt`).
+
+## 9. Style E: illustrated story (`IllustratedReel`)
+
+Reference: the bashar.uz "ilm" reel.
+- **Look:** flat vector scenes in a teal palette (#0B2324 → #3E8C84) with warm lamp light (#F2C27B) and faceless characters.
+- **Motion:** each scene has parallax layers and a slow 6% push-in. Scenes change with soft dissolves (with a little blur).
+- **Frame:** a small logo top-centre and the brand at the bottom.
+- **Subtitles:** in the dark lower third, at y≈1390, two lines, 58 px, weight 800. Words light up karaoke-style: unspoken words are dim, spoken words are white, `keys` words are gold. Only one cue shows at a time.
+
+**Scenes are code** (`SCENES` in `Illustrated.tsx`), built from primitives:
+- `Layer` (parallax), `Stars`, `City` (lit windows), `Books`, `ArchWindow`, `LampGlow`;
+- `Person` (stand / sit / desk / cheer / sad, cap, hijab, beard, older), `Desk`, `Laptop`, `Phone`, `useCount` (animated numbers).
+
+The existing scenes are: graduate, repetitor, class, certificate, study, mock, find, roadmap, savings, score, university, family, end. Write a new scene component when a story needs one.
+
+**Props:**
+- `scenes[{id, start, end}]`
+- `cues[{text, start, end, keys[]}]`
+- `end`, `brand`
+- `voice?` (omit: the user records later)
+- `sfx?`: whoosh between scenes, chime / ding on reveals, ticks on counters, keys on typing, impact on the big score.
+
+**Timings without a voice:** run `tools/tts.py` only to get natural word timings (`vo.mp3.words.json`). Build the cues from them and do not include the audio.
+
+**Image generation costs the user credits** (Higgsfield ≈0.25 credit per image). Ask before generating; code-drawn scenes are the free default.
+
+Example: `examples/anvar-goprep-illustrated.props.json`.
