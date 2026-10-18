@@ -3,6 +3,7 @@ import {Composition} from 'remotion';
 import {PromoReel, PromoProps, promoDefaults} from './PromoReel';
 import {ChecklistReel, ChecklistProps, checklistDefaults, checklistTimeline} from './Checklist';
 import {HabitsReel, HabitsProps, habitsDefaults, habitsDuration} from './Habits';
+import {StoryReel, StoryProps, storyDuration} from './Story';
 
 const FPS = 30;
 
@@ -42,6 +43,17 @@ export const RemotionRoot: React.FC = () => (
       durationInFrames={810}
       defaultProps={habitsDefaults}
       calculateMetadata={({props}: {props: HabitsProps}) => ({durationInFrames: habitsDuration(props)})}
+    />
+    {/* Style D: hand-drawn line-art story on charcoal, timed to a narrated voiceover. */}
+    <Composition
+      id="StoryReel"
+      component={StoryReel}
+      width={1080}
+      height={1920}
+      fps={FPS}
+      durationInFrames={1440}
+      defaultProps={{voice: 'voice.wav', scenes: [], end: 10} as StoryProps}
+      calculateMetadata={({props}: {props: StoryProps}) => ({durationInFrames: storyDuration(props)})}
     />
   </>
 );

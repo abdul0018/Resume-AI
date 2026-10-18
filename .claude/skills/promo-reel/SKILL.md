@@ -1,6 +1,6 @@
 ---
 name: promo-reel
-description: Make vertical (9:16) promo reels in Remotion. Style A (`PromoReel`) is a 30-second reel in the style of the "Izohda LINK deb yozib qoldiring" reference reel. Style B (`ChecklistReel`) is a 10-second "handwritten checklist" reel: a paper sheet with a serif title and a list of 3D pill icons, where a red pen writes each answer and then the brand. Use Style B for "best time to… / daily plan / list"-type reels. Style C (`HabitsReel`) edits the user's own talking-head video into an "N habits" reel: a glowing pill hook, a pin board of numbered cards the camera flies between, product clips, and a CTA pill that types the comment keyword. Use Style C when the user sends their own recording plus a reference edit to copy. The style uses an orange hero shot with year-tag pills, kinetic word-by-word text, full-bleed photo beats with a "KOMPUTER"-style punch word, an off-white grid board with a browser mockup, a screen-recording demo, and a comment-bait "LINK" ending. Use when the user asks for "this type of video", "the LINK video", a promo or Instagram/TikTok reel, or a Remotion video for a product or site.
+description: Make vertical (9:16) promo reels in Remotion. Style A (`PromoReel`) is a 30-second reel in the style of the "Izohda LINK deb yozib qoldiring" reference reel. Style B (`ChecklistReel`) is a 10-second "handwritten checklist" reel: a paper sheet with a serif title and a list of 3D pill icons, where a red pen writes each answer and then the brand. Use Style B for "best time to… / daily plan / list"-type reels. Style C (`HabitsReel`) edits the user's own talking-head video into an "N habits" reel: a glowing pill hook, a pin board of numbered cards the camera flies between, product clips, and a CTA pill that types the comment keyword. Use Style C when the user sends their own recording plus a reference edit to copy. Style D (`StoryReel`) is a narrated story drawn as white line-art stick figures on charcoal with orange accents. It draws on stroke by stroke in time with a TTS or recorded voiceover, and ends on a title card plus a speech bubble. Use Style D when the user gives a story script. The style uses an orange hero shot with year-tag pills, kinetic word-by-word text, full-bleed photo beats with a "KOMPUTER"-style punch word, an off-white grid board with a browser mockup, a screen-recording demo, and a comment-bait "LINK" ending. Use when the user asks for "this type of video", "the LINK video", a promo or Instagram/TikTok reel, or a Remotion video for a product or site.
 ---
 
 # Promo reel (orange hero / grid board / "LINK" CTA)
@@ -159,3 +159,33 @@ Workflow:
    Put the muted video in as `head`. Phone recordings often clip.
 3. Put the hook and CTA text in the top ~20%, above the face. Put the search pill at ~64%.
 4. Example: `examples/goprep-5-odat.props.json`.
+
+## 8. Style D: hand-drawn story (`StoryReel`)
+
+Reference: the "Kelin va qaynona…" reel.
+- **Look:** a charcoal background (#4B4A4F) with white line-art stick figures and objects on a ground line, and a few orange accents (glow, hearts, flag, key words).
+- **Motion:** each element draws on stroke by stroke. Each scene erases before the next one starts.
+- **Ending:** a title card and a speech bubble.
+
+**Voiceover:**
+- Use the user's own recording if they have one (then get word timings with `tools/transcribe.py`).
+- Otherwise use TTS: `python3 -I .claude/skills/promo-reel/tools/tts.py uz-UZ-SardorNeural script.txt vo.mp3 +10%` (`pip install edge-tts`; the female voice is uz-UZ-MadinaNeural). It writes per-word timings to `vo.mp3.words.json`. It already trusts the sandbox proxy CA.
+- Respell for TTS: IELTS → "ayelts", goprep.gg → "goprep nuqta ji ji", 7.5 → "yetti yarim", 4 → "to‘rt".
+- Normalize the result with loudnorm.
+
+**Scenes (props JSON):**
+- `scenes[{start, end, els[]}]`. Each element is `{b: builder, at: sec, dur?, …params}`.
+- Start a scene ~0.1 s before its clause. Set each element's `at` to the word it illustrates.
+- Builders in `Story.tsx` → `BUILDERS`:
+  - **People and places:** person (pose down/up/point/sad/type, cap, woman), university, door, board, desk, table.
+  - **Objects:** certificate, chart, laptop (screen text), bulb, cards, roadmap, tag, jar, calendar, scroll.
+  - **Marks and text:** ground, glow, cross, arrow, burst, hearts, text, bubble.
+- Add a builder when a story needs a new object.
+
+**Rules:**
+- Keep everything between y≈420 and the ground (1120).
+- Hold the end card ≥ 2 s after its last word.
+- Check one still per scene before rendering.
+- Tell the user to add soft music in the app.
+
+Example: `examples/anvar-goprep-story.props.json` (+ `.tts.txt`).
