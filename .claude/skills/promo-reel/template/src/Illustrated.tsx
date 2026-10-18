@@ -357,35 +357,74 @@ const SceneMock: React.FC<SceneProps> = ({d}) => {
   );
 };
 
+/** Scrolling a feed fast, then a sudden stop on the GoPrep post (`stopAt` s), with a punch-in and flash. */
+const FIND_STOP = 1.4;
 const SceneFind: React.FC<SceneProps> = ({d}) => {
   const f = useCurrentFrame(); const p = prog(f, d);
-  const typed = 'goprep.gg'.slice(0, Math.max(0, Math.min(9, Math.floor((f - s(1.2)) / 3))));
-  const load = interpolate(f, [s(2.4), s(3.4)], [0, 1], clamp);
+  const T = s(FIND_STOP);
+  const CARD = 250; const N = 14; // GoPrep post is card N
+  const target = N * CARD - 300;
+  // Accelerating flick, then an abrupt stop with a small spring bounce.
+  const off = f < T ? target * Math.pow(f / T, 2.2) : target + 46 * Math.sin((f - T) / 2.2) * Math.exp(-(f - T) / 4);
+  const speed = f < T ? (target * 2.2 * Math.pow(f / T, 1.2)) / T : 0;
+  const blur = Math.min(14, speed / 9);
+  const hit = f >= T;
+  const punch = hit ? 1 + 0.12 * Math.exp(-(f - T) / 10) : 1;
+  const flash = hit ? interpolate(f - T, [0, 6], [0.6, 0], clamp) : 0;
+  const seen = interpolate(f, [s(3.05), s(3.4)], [0, 1], clamp);
+  const thumbs = ['#2F6F6A', '#7A4E35', '#3F5F8E', '#8E3B32', '#5E7F5A', '#A8643E'];
   return (
     <>
       <Layer depth={0} prog={p}><rect width={1080} height={1300} fill="#0E2B33" /><Stars seed="fd" /><City y={1150} seed="fd" color="#133944" lit={0.45} h={520} /></Layer>
       <Layer depth={0.8} prog={p}>
-        <LampGlow x={540} y={700} r={520} o={0.25 + 0.25 * load} />
-        <Phone x={540} y={720} w={460} h={860}>
-          <rect x={30} y={80} width={400} height={70} rx={35} fill="#0C2C2E" />
-          <text x={70} y={128} fontFamily={FONT} fontWeight={700} fontSize={36} fill="#fff">{typed}<tspan fill={C.gold}>{Math.floor(f / 8) % 2 && f < s(2.4) ? '|' : ''}</tspan></text>
-          <g opacity={load} transform={`translate(0 ${(1 - load) * 40})`}>
-            {/* GoPrep mascot */}
-            <rect x={130} y={230} width={200} height={130} rx={60} fill="#fff" />
-            <circle cx={195} cy={290} r={16} fill="#111" /><circle cx={265} cy={290} r={16} fill="#111" /><path d="M 210 320 Q 230 336 250 320" stroke="#111" strokeWidth={8} fill="none" strokeLinecap="round" />
-            <text x={230} y={450} textAnchor="middle" fontFamily={FONT} fontWeight={900} fontSize={58} fill="#fff">GoPrep</text>
-            <text x={230} y={500} textAnchor="middle" fontFamily={FONT} fontWeight={600} fontSize={28} fill={C.glass}>IELTS’ga tizimli tayyorgarlik</text>
-            {[0, 1, 2].map((i) => <rect key={i} x={50} y={560 + i * 76} width={360} height={58} rx={16} fill="#174C4E" />)}
-          </g>
-        </Phone>
+        <LampGlow x={540} y={720} r={560} o={hit ? 0.45 : 0.15} />
+        <g transform={`translate(540 720) scale(${punch}) translate(-540 -720)`}>
+          <Phone x={540} y={720} w={460} h={860}>
+            <defs>
+              <clipPath id="feedclip"><rect x={0} y={60} width={460} height={790} rx={20} /></clipPath>
+              <filter id="mblur" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation={`0 ${blur}`} /></filter>
+            </defs>
+            <g clipPath="url(#feedclip)">
+              <g filter={blur > 0.5 ? 'url(#mblur)' : undefined} transform={`translate(0 ${-off})`}>
+                {Array.from({length: N + 3}, (_, i) => {
+                  const y = 80 + i * CARD;
+                  if (i === N) {
+                    return (
+                      <g key={i}>
+                        <rect x={22} y={y} width={416} height={CARD - 20} rx={22} fill="#fff" stroke={C.gold} strokeWidth={6 * seen} />
+                        <rect x={70} y={y + 34} width={150} height={96} rx={46} fill="#111" />
+                        <circle cx={118} cy={y + 80} r={11} fill="#fff" /><circle cx={172} cy={y + 80} r={11} fill="#fff" />
+                        <path d={`M 130 ${y + 104} Q 145 ${y + 114} 160 ${y + 104}`} stroke="#fff" strokeWidth={6} fill="none" strokeLinecap="round" />
+                        <text x={238} y={y + 80} fontFamily={FONT} fontWeight={900} fontSize={38} fill="#111">goprep<tspan fill="#E0564B">.gg</tspan></text>
+                        <text x={240} y={y + 120} fontFamily={FONT} fontWeight={600} fontSize={22} fill="#4B5B5A">IELTS’ga tizimli</text>
+                        <text x={240} y={y + 146} fontFamily={FONT} fontWeight={600} fontSize={22} fill="#4B5B5A">tayyorgarlik</text>
+                        <rect x={70} y={y + 170} width={320} height={40} rx={20} fill="#E0564B" />
+                        <text x={230} y={y + 198} textAnchor="middle" fontFamily={FONT} fontWeight={800} fontSize={22} fill="#fff">Boshlash</text>
+                      </g>
+                    );
+                  }
+                  return (
+                    <g key={i}>
+                      <rect x={22} y={y} width={416} height={CARD - 20} rx={22} fill="#174C4E" />
+                      <rect x={40} y={y + 18} width={170} height={CARD - 56} rx={14} fill={thumbs[i % thumbs.length]} />
+                      <path d={`M 112 ${y + 80} L 142 ${y + 98} L 112 ${y + 116} Z`} fill="#fff" opacity={0.85} />
+                      <rect x={230} y={y + 40} width={180} height={18} rx={9} fill="#2D6B6C" />
+                      <rect x={230} y={y + 74} width={140} height={14} rx={7} fill="#245C5D" />
+                      <rect x={230} y={y + 150} width={90} height={14} rx={7} fill="#245C5D" />
+                    </g>
+                  );
+                })}
+              </g>
+            </g>
+          </Phone>
+          {/* "caught his eye": gold rays around the post */}
+          {seen > 0 && [0, 1, 2, 3, 4, 5, 6, 7].map((i) => {
+            const a = (i / 8) * Math.PI * 2; const r = 260 + 40 * seen;
+            return <line key={i} x1={540 + Math.cos(a) * r} y1={690 + Math.sin(a) * r * 0.55} x2={540 + Math.cos(a) * (r + 46)} y2={690 + Math.sin(a) * (r + 46) * 0.55} stroke={C.gold} strokeWidth={8} strokeLinecap="round" opacity={interpolate(f, [s(3.05), s(3.3), s(4.2)], [0, 1, 0], clamp)} />;
+          })}
+        </g>
       </Layer>
-      <Layer depth={1.3} prog={p}>
-        {/* "eyes on it" sparkle */}
-        {f > s(3.1) && [0, 1, 2, 3, 4, 5].map((i) => {
-          const a = ((i / 6) * Math.PI * 2); const r = interpolate(f, [s(3.1), s(3.6)], [260, 320], clamp);
-          return <line key={i} x1={540 + Math.cos(a) * r} y1={300 + Math.sin(a) * r * 0.4} x2={540 + Math.cos(a) * (r + 40)} y2={300 + Math.sin(a) * (r + 40) * 0.4} stroke={C.gold} strokeWidth={8} strokeLinecap="round" opacity={interpolate(f, [s(3.1), s(3.9)], [1, 0], clamp)} />;
-        })}
-      </Layer>
+      {flash > 0 && <rect width={1080} height={1920} fill="#fff" opacity={flash} />}
     </>
   );
 };
@@ -565,7 +604,8 @@ export const SCENES: Record<string, React.FC<SceneProps>> = {
 
 export type Cue = {text: string; start: number; end: number; keys?: string[]};
 export type IllScene = {id: string; start: number; end: number};
-export type IllustratedProps = {scenes: IllScene[]; cues: Cue[]; end: number; brand?: string; voice?: string; sfx?: boolean};
+// `logo` / `brand` are an always-on top logo and bottom brand line; both off unless asked for.
+export type IllustratedProps = {scenes: IllScene[]; cues: Cue[]; end: number; brand?: string; logo?: boolean; voice?: string; sfx?: boolean};
 
 const Subtitle: React.FC<{cue: Cue; outAt: number}> = ({cue, outAt}) => {
   const f = useCurrentFrame();
@@ -607,7 +647,8 @@ export const IllustratedReel: React.FC<IllustratedProps> = (p) => {
     at('graduate', 1.9, 'chime', 0.35); at('repetitor', 1.2, 'pop', 0.4); at('class', 1.75, 'scribble', 0.5, 26);
     at('certificate', 2.2, 'chime', 0.4); at('certificate', 0, 'pop', 0.4);
     [0.4, 0.7, 1.0, 1.3].forEach((t) => at('mock', t, 'tick', 0.45)); at('mock', 1.6, 'impact', 0.3);
-    [1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0].forEach((t) => at('find', t, 'key', 0.6)); at('find', 2.4, 'chime', 0.45);
+    // Feed flicks speeding up, then the sudden stop on the GoPrep post.
+    [0.1, 0.55, 0.85, 1.05, 1.2].forEach((t, i) => at('find', t, 'whoosh', 0.18 + i * 0.04, 14)); at('find', FIND_STOP, 'impact', 0.5); at('find', FIND_STOP, 'pop', 0.6); at('find', 3.05, 'chime', 0.45);
     [0.4, 0.73, 1.07, 1.4].forEach((t) => at('roadmap', t, 'pop', 0.45)); at('roadmap', 2.5, 'ding', 0.35);
     [0.9, 1.17, 1.43, 1.7].forEach((t) => at('savings', t, 'pop', 0.35));
     [0.4, 0.73, 1.07].forEach((t) => at('score', t, 'tick', 0.45)); at('score', 2.5, 'impact', 0.45); at('score', 2.5, 'chime', 0.5);
@@ -635,7 +676,7 @@ export const IllustratedReel: React.FC<IllustratedProps> = (p) => {
       })}
       {/* Dark lower third for the subtitles, like the reference. */}
       <AbsoluteFill style={{background: `linear-gradient(180deg, rgba(11,35,36,0) 52%, rgba(11,35,36,.85) 66%, ${C.deep} 76%)`}} />
-      <Logo />
+      {p.logo && <Logo />}
       {(() => {
         // One cue at a time: the latest one that has started, faded out just before the next begins.
         let i = -1;

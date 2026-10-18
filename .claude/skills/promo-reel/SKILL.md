@@ -212,19 +212,21 @@ Example: `examples/anvar-goprep-story.props.json` (+ `.tts.txt`).
 Reference: the bashar.uz "ilm" reel.
 - **Look:** flat vector scenes in a teal palette (#0B2324 → #3E8C84) with warm lamp light (#F2C27B) and faceless characters.
 - **Motion:** each scene has parallax layers and a slow 6% push-in. Scenes change with soft dissolves (with a little blur).
-- **Frame:** a small logo top-centre and the brand at the bottom.
+- **Frame:** the reference has a small logo top-centre and its brand at the bottom. These are off by default (`logo: true` / `brand` turn them on). The user prefers the brand only inside the story and on the end card.
 - **Subtitles:** in the dark lower third, at y≈1390, two lines, 58 px, weight 800. Words light up karaoke-style: unspoken words are dim, spoken words are white, `keys` words are gold. Only one cue shows at a time.
 
 **Scenes are code** (`SCENES` in `Illustrated.tsx`), built from primitives:
 - `Layer` (parallax), `Stars`, `City` (lit windows), `Books`, `ArchWindow`, `LampGlow`;
 - `Person` (stand / sit / desk / cheer / sad, cap, hijab, beard, older), `Desk`, `Laptop`, `Phone`, `useCount` (animated numbers).
 
+Product reveals should be sudden: `find` flicks a feed with motion blur, accelerating, then stops dead on the product post (`FIND_STOP`) with a punch-in, white flash and impact. Don't type a URL slowly.
+
 The existing scenes are: graduate, repetitor, class, certificate, study, mock, find, roadmap, savings, score, university, family, end. Write a new scene component when a story needs one.
 
 **Props:**
 - `scenes[{id, start, end}]`
 - `cues[{text, start, end, keys[]}]`
-- `end`, `brand`
+- `end`, `brand?`, `logo?`
 - `voice?` (omit: the user records later)
 - `sfx?`: whoosh between scenes, chime / ding on reveals, ticks on counters, keys on typing, impact on the big score.
 
