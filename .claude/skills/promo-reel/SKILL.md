@@ -182,8 +182,20 @@ Reference: the "Kelin va qaynona…" reel.
   - **Marks and text:** ground, glow, cross, arrow, burst, hearts, text, bubble.
 - Add a builder when a story needs a new object.
 
+**Camera and sound (automatic):**
+- **Camera:** each scene is framed like the reference. The drawing fills ≈90% of the width (figures about a third of the frame height), the ground sits at ≈67% of the height, and there is a slow 3% push-in. The ground line is re-fitted to span just the drawing.
+- **Strokes:** they keep a constant on-screen width. Never use `vector-effect: non-scaling-stroke`, because it breaks pathLength draw-on in Chrome.
+- **Sound (`sfx: true`):**
+  - pencil scribble while each element draws;
+  - a swish on every scene change;
+  - a chime on orange accents (glow / hearts / burst / bulb / tag / flag / bubble / big orange text);
+  - a scratch on crosses;
+  - a soft impact under big orange numbers.
+  - Override per element with `sfx: 'chime' | 'pop' | 'impact' | 'scratch' | 'none'`.
+- Run `./scripts/sfx.sh` once (it makes chime.wav too).
+
 **Rules:**
-- Keep everything between y≈420 and the ground (1120).
+- Draw in the 1080×1920 drawing space with the ground at 1120. The camera rescales each scene.
 - Hold the end card ≥ 2 s after its last word.
 - Check one still per scene before rendering.
 - Tell the user to add soft music in the app.

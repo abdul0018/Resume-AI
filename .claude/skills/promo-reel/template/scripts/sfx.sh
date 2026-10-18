@@ -21,4 +21,6 @@ mk key.wav -f lavfi -i "aevalsrc='0.55*(random(0)*2-1)*exp(-t*350)+0.3*sin(2*PI*
 mk scratch.wav -f lavfi -i "anoisesrc=d=0.22:c=white:a=0.6" -af "bandpass=f=2500:width_type=h:w=1800,afade=t=in:d=0.08,afade=t=out:st=0.12:d=0.1,volume=1.5"
 # scribble: ballpoint on paper, rhythmic strokes (checklist style; trimmed per written word)
 mk scribble.wav -f lavfi -i "anoisesrc=d=3:c=pink:a=0.8" -af "highpass=f=1800,lowpass=f=7000,volume='0.25+0.75*pow(abs(sin(2*PI*5.5*t+sin(2*PI*1.3*t))),1.5)':eval=frame,volume=1.6"
+# chime: soft magic sparkle (orange accents in the story style)
+mk chime.wav -f lavfi -i "aevalsrc='0.28*sin(2*PI*1568*t)*exp(-t*5)+0.24*sin(2*PI*2093*t)*exp(-(t-0.06)*5)*gt(t,0.06)+0.2*sin(2*PI*2637*t)*exp(-(t-0.12)*5)*gt(t,0.12)+0.14*sin(2*PI*3136*t)*exp(-(t-0.18)*5)*gt(t,0.18)':d=1.2" -af "aecho=0.8:0.5:60:0.3,volume=2.6"
 echo "sfx ready in public/sfx/"

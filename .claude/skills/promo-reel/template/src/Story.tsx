@@ -2,6 +2,7 @@ import React from 'react';
 import {AbsoluteFill, Audio, Easing, Sequence, continueRender, delayRender, interpolate, staticFile, useCurrentFrame} from 'remotion';
 import '@fontsource/caveat/600.css';
 import '@fontsource/caveat/700.css';
+import {svgPathBbox} from 'svg-path-bbox';
 import {clamp, src} from './kit';
 
 /**
@@ -30,7 +31,8 @@ if (typeof document !== 'undefined') {
 type P = {d: string; c?: 'w' | 'o'; fill?: boolean; width?: number};
 type Txt = {text: string; x: number; y: number; size?: number; c?: 'w' | 'o'; anchor?: 'start' | 'middle'};
 type Built = {paths: P[]; texts?: Txt[]};
-export type El = {b: string; at: number; dur?: number; [k: string]: unknown};
+export type El = {b: string; at: number; dur?: number; sfx?: SfxName | 'none'; [k: string]: unknown};
+type SfxName = 'chime' | 'pop' | 'impact' | 'scratch';
 export type StoryScene = {start: number; end: number; els: El[]};
 export type StoryProps = {voice: string; scenes: StoryScene[]; end: number; sfx?: boolean; music?: string; musicVolume?: number};
 
@@ -91,7 +93,7 @@ const university = (x: number, w: number, flag: boolean): Built => {
 };
 
 export const BUILDERS: Record<string, (e: El) => Built> = {
-  ground: (e) => ({paths: [{d: `M ${(e.x1 as number) ?? 80} ${GROUND} C ${360} ${GROUND + 3} ${720} ${GROUND - 3} ${(e.x2 as number) ?? 1000} ${GROUND}`}]}),
+  ground: (e) => { const a = (e.x1 as number) ?? 80; const b = (e.x2 as number) ?? 1000; return {paths: [{d: `M ${a} ${GROUND} C ${a + (b - a) / 3} ${GROUND + 3} ${a + (2 * (b - a)) / 3} ${GROUND - 3} ${b} ${GROUND}`}]}; },
   person: (e) => person(e.x as number, (e.s as number) ?? 1, {pose: e.pose as Pose, cap: !!e.cap, woman: !!e.woman, face: e.face as 1 | -1}),
   university: (e) => university(e.x as number, (e.w as number) ?? 260, !!e.flag),
   glow: (e) => ({paths: [{d: `M ${(e.x as number) - 34} ${e.y} C ${(e.x as number) - 30} ${(e.y as number) - 40} ${(e.x as number) + 30} ${(e.y as number) - 40} ${(e.x as number) + 34} ${e.y}`, c: 'o'}, ...rays(e.x as number, (e.y as number) - 14, 50, 70, 5)]}),
@@ -209,7 +211,9 @@ export const BUILDERS: Record<string, (e: El) => Built> = {
 
 const col = (c?: 'w' | 'o') => (c === 'o' ? O : W);
 
-const DrawnEl: React.FC<{el: El; built: Built; frame: number; erase: number}> = ({el, built, frame, erase}) => {
+// `zoom` is the scene camera scale: strokes are divided by it so they keep a constant on-screen width
+// (vector-effect: non-scaling-stroke breaks pathLength-based draw-on in Chrome).
+const DrawnEl: React.FC<{el: El; built: Built; frame: number; erase: number; zoom: number}> = ({el, built, frame, erase, zoom}) => {
   const start = Math.round(el.at * FPS);
   const dur = Math.max(6, Math.round((el.dur ?? 0.7) * FPS));
   const n = built.paths.length + (built.texts?.length ?? 0);
@@ -222,7 +226,7 @@ const DrawnEl: React.FC<{el: El; built: Built; frame: number; erase: number}> = 
         return (
           <g key={i}>
             {p.fill && <path d={p.d} fill={col(p.c)} opacity={interpolate(k, [0.85, 1], [0, 0.95], clamp)} />}
-            <path d={p.d} fill="none" stroke={col(p.c)} strokeWidth={p.width ?? 6} strokeLinecap="round" strokeLinejoin="round" pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - k} />
+            <path d={p.d} fill="none" stroke={col(p.c)} strokeWidth={((p.width ?? 6) * 0.85) / zoom} strokeLinecap="round" strokeLinejoin="round" pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - k} />
           </g>
         );
       })}
@@ -247,32 +251,99 @@ const DrawnEl: React.FC<{el: El; built: Built; frame: number; erase: number}> = 
 
 const ERASE = 9;
 
+/** Content box of a scene in drawing space (ground excluded: it is re-fitted to the content). */
+const sceneBox = (els: El[]) => {
+  let x0 = Infinity; let y0 = Infinity; let x1 = -Infinity; let y1 = -Infinity;
+  const add = (a: number, b: number, c: number, d: number) => { x0 = Math.min(x0, a); y0 = Math.min(y0, b); x1 = Math.max(x1, c); y1 = Math.max(y1, d); };
+  els.filter((el) => el.b !== 'ground').forEach((el) => {
+    const built = BUILDERS[el.b]?.(el);
+    built?.paths.forEach((p) => { const [a, b, c, d] = svgPathBbox(p.d); add(a, b, c, d); });
+    built?.texts?.forEach((tx) => {
+      const size = tx.size ?? 90; const w = tx.text.length * size * 0.5;
+      const left = tx.anchor === 'middle' ? tx.x - w / 2 : tx.x;
+      add(left, tx.y - size * 0.8, left + w, tx.y + size * 0.2);
+    });
+  });
+  return Number.isFinite(x0) ? {x0, y0, x1, y1} : {x0: 140, y0: 600, x1: 940, y1: GROUND};
+};
+
+/**
+ * Camera per scene, like the reference: the drawing fills the frame (≈90% of the width, figures about
+ * a third of the height) with the ground line at ≈67% of the height, plus a slow 3% push-in.
+ */
+const SCREEN_GROUND = 1290;
+const sceneCamera = (els: El[], progress: number) => {
+  const box = sceneBox(els);
+  const grounded = els.some((el) => el.b === 'ground');
+  const bw = box.x1 - box.x0 + (grounded ? 140 : 80);
+  const cx = (box.x0 + box.x1) / 2;
+  let k: number; let fromY: number; let toY: number;
+  if (grounded) {
+    k = Math.min(1.9, 960 / bw, (SCREEN_GROUND - 260) / (GROUND - box.y0));
+    fromY = GROUND; toY = SCREEN_GROUND;
+  } else {
+    k = Math.min(1.9, 960 / bw, 1050 / (box.y1 - box.y0));
+    fromY = (box.y0 + box.y1) / 2; toY = 980;
+  }
+  k *= 1 + 0.03 * progress;
+  return {transform: `translate(540 ${toY}) scale(${k}) translate(${-cx} ${-fromY})`, box, k};
+};
+
+const ORANGE_ACCENT = new Set(['glow', 'hearts', 'burst', 'bulb', 'tag']);
+
+/** Sound design: pencil while drawing, swish on scene change, chime on orange accents, scratch on crosses. */
+const storySfx = (scenes: StoryScene[]) => {
+  const ev: {f: number; d: number; file: string; vol: number}[] = [];
+  const F = (s: number) => Math.round(s * FPS);
+  scenes.forEach((sc, si) => {
+    if (si > 0) ev.push({f: F(sc.start) - ERASE - 3, d: 20, file: 'whoosh', vol: 0.45});
+    sc.els.forEach((el) => {
+      const dur = Math.max(6, F(el.dur ?? 0.7));
+      if (el.sfx === 'none') return;
+      if (el.b !== 'ground') ev.push({f: F(el.at), d: dur, file: 'scribble', vol: el.b === 'text' ? 0.32 : 0.26});
+      const accentAt = F(el.at) + Math.round(dur * 0.65);
+      const big = el.b === 'text' && el.c !== 'w' && ((el.size as number) ?? 90) >= 150;
+      const kind: SfxName | undefined = el.sfx as SfxName | undefined
+        ?? (el.b === 'cross' ? 'scratch' : ORANGE_ACCENT.has(el.b) || (el.b === 'university' && el.flag) || big || el.b === 'bubble' ? 'chime' : undefined);
+      if (kind) ev.push({f: kind === 'scratch' ? F(el.at) : accentAt, d: 45, file: kind, vol: kind === 'chime' ? 0.4 : 0.6});
+      if (big) ev.push({f: accentAt - 2, d: 30, file: 'impact', vol: 0.35});
+    });
+  });
+  return ev;
+};
+
 export const StoryReel: React.FC<StoryProps> = (p) => {
   const frame = useCurrentFrame();
   const scene = p.scenes.find((sc) => frame >= Math.round(sc.start * FPS) && frame < Math.round(sc.end * FPS));
-  const endF = scene ? Math.round(scene.end * FPS) : 0;
+  const startF = scene ? Math.round(scene.start * FPS) : 0;
+  const endF = scene ? Math.round(scene.end * FPS) : 1;
   const erase = scene ? interpolate(frame, [endF - ERASE, endF], [1, 0], {...clamp, easing: Easing.in(Easing.quad)}) : 0;
+  const cam = scene ? sceneCamera(scene.els, (frame - startF) / Math.max(1, endF - startF)) : null;
   return (
     <AbsoluteFill style={{background: BG}}>
       <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{position: 'absolute', inset: 0}}>
         <defs>
-          {/* Slight wobble so strokes read as hand-drawn. */}
-          <filter id="sketch"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7" /><feDisplacementMap in="SourceGraphic" scale="4" /></filter>
+          {/* Slight wobble so strokes read as hand-drawn (applied in screen space). */}
+          <filter id="sketch"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="7" /><feDisplacementMap in="SourceGraphic" scale="4" /></filter>
         </defs>
-        {scene && (
+        {scene && cam && (
           <g filter="url(#sketch)">
-            {scene.els.map((el, i) => {
-              const builder = BUILDERS[el.b];
-              return builder ? <DrawnEl key={i} el={el} built={builder(el)} frame={frame} erase={erase} /> : null;
-            })}
+            <g transform={cam.transform}>
+              {scene.els.map((el, i) => {
+                // The ground line spans just the drawing, like the reference.
+                const e = el.b === 'ground' ? {...el, x1: cam.box.x0 - 70, x2: cam.box.x1 + 70} : el;
+                const builder = BUILDERS[e.b];
+                return builder ? <DrawnEl key={i} el={e} built={builder(e)} frame={frame} erase={erase} zoom={cam.k} /> : null;
+              })}
+            </g>
           </g>
         )}
       </svg>
       <Audio src={src(p.voice)} />
       {p.music && <Audio src={staticFile(p.music)} volume={p.musicVolume ?? 0.12} />}
-      {p.sfx && p.scenes.flatMap((sc) => sc.els).filter((el) => el.b !== 'ground').map((el, i) => (
-        <Sequence key={i} from={Math.round(el.at * FPS)} durationInFrames={Math.max(6, Math.round((el.dur ?? 0.7) * FPS))} layout="none">
-          <Audio src={staticFile('sfx/scribble.wav')} volume={0.1} />
+      {p.sfx && storySfx(p.scenes).map((e, i) => (
+        <Sequence key={i} from={Math.max(0, e.f)} durationInFrames={e.d} layout="none">
+          <Audio src={staticFile(`sfx/${e.file}.wav`)} volume={e.vol} />
         </Sequence>
       ))}
     </AbsoluteFill>
