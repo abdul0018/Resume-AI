@@ -5,6 +5,7 @@ import {ChecklistReel, ChecklistProps, checklistDefaults, checklistTimeline} fro
 import {HabitsReel, HabitsProps, habitsDefaults, habitsDuration} from './Habits';
 import {StoryReel, StoryProps, storyDuration} from './Story';
 import {IllustratedReel, IllustratedProps, illustratedDuration} from './Illustrated';
+import {FurnitureReel, FurnitureProps, furnitureDuration} from './Furniture';
 
 const FPS = 30;
 
@@ -66,6 +67,17 @@ export const RemotionRoot: React.FC = () => (
       durationInFrames={1440}
       defaultProps={{scenes: [], cues: [], end: 10} as IllustratedProps}
       calculateMetadata={({props}: {props: IllustratedProps}) => ({durationInFrames: illustratedDuration(props)})}
+    />
+    {/* Style F: product showcase edit over real footage (3D kinetic type, callouts, swatches, whips). */}
+    <Composition
+      id="FurnitureReel"
+      component={FurnitureReel}
+      width={1080}
+      height={1920}
+      fps={FPS}
+      durationInFrames={690}
+      defaultProps={{shots: [], titles: [], end: 10} as FurnitureProps}
+      calculateMetadata={({props}: {props: FurnitureProps}) => ({durationInFrames: furnitureDuration(props, FPS)})}
     />
   </>
 );

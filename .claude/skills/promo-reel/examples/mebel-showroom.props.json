@@ -1,0 +1,255 @@
+{
+ "voice": "voice.wav",
+ "music": "music.wav",
+ "musicVol": 0.16,
+ "musicVolOpen": 0.3,
+ "voiceEnd": 20.7,
+ "end": 23.0,
+ "sfx": true,
+ "punches": [
+  3.72,
+  17.36,
+  18.7
+ ],
+ "shots": [
+  {
+   "src": "c2.mp4",
+   "from": 0.0,
+   "to": 3.0,
+   "srcStart": 0.1,
+   "zoom": [
+    1.0,
+    1.12
+   ],
+   "origin": "50% 40%",
+   "trans": "cut"
+  },
+  {
+   "src": "head.mp4",
+   "from": 3.0,
+   "to": 6.0,
+   "follow": true,
+   "zoom": [
+    1.08,
+    1.16
+   ],
+   "origin": "45% 50%",
+   "trans": "zoom"
+  },
+  {
+   "src": "c1.mp4",
+   "from": 6.0,
+   "to": 11.0,
+   "srcStart": 0.0,
+   "rate": 0.8,
+   "zoom": [
+    1.0,
+    1.1
+   ],
+   "trans": "whipL"
+  },
+  {
+   "src": "head.mp4",
+   "from": 11.0,
+   "to": 14.5,
+   "follow": true,
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "origin": "40% 70%",
+   "trans": "zoom"
+  },
+  {
+   "src": "c2.mp4",
+   "from": 14.5,
+   "to": 17.0,
+   "srcStart": 2.2,
+   "zoom": [
+    1.05,
+    1.15
+   ],
+   "trans": "whipR"
+  },
+  {
+   "src": "head.mp4",
+   "from": 17.0,
+   "to": 21.1,
+   "follow": true,
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "trans": "zoom"
+  },
+  {
+   "src": "",
+   "still": "head_last.jpg",
+   "from": 21.1,
+   "to": 23.0,
+   "zoom": [
+    1.08,
+    1.12
+   ],
+   "trans": "cut"
+  }
+ ],
+ "titles": [
+  {
+   "at": -0.35,
+   "out": 2.95,
+   "kind": "small",
+   "text": "Bu mebel · bu",
+   "y": 21
+  },
+  {
+   "at": -0.35,
+   "out": 2.95,
+   "kind": "fly3d",
+   "text": "KOMPOZITSIYA",
+   "y": 26,
+   "size": 140,
+   "tilt": -16
+  },
+  {
+   "at": 2.0,
+   "out": 2.95,
+   "kind": "serif",
+   "text": "maxsus dizayn",
+   "y": 38,
+   "size": 112
+  },
+  {
+   "at": 3.72,
+   "out": 5.95,
+   "kind": "slab",
+   "text": "STULLAR",
+   "y": 57,
+   "size": 200,
+   "tilt": 8
+  },
+  {
+   "at": 5.5,
+   "out": 5.95,
+   "kind": "serif",
+   "text": "dizayni",
+   "y": 69,
+   "size": 96
+  },
+  {
+   "at": 6.25,
+   "out": 8.95,
+   "kind": "small",
+   "text": "o‘tirganingizda",
+   "y": 27
+  },
+  {
+   "at": 6.9,
+   "out": 8.95,
+   "kind": "slab",
+   "text": "BEMALOL",
+   "y": 31,
+   "size": 200,
+   "tilt": -8
+  },
+  {
+   "at": 15.02,
+   "out": 16.95,
+   "kind": "slab",
+   "text": "KOMPLEKT",
+   "y": 28,
+   "size": 190,
+   "tilt": 8
+  },
+  {
+   "at": 15.32,
+   "out": 16.95,
+   "kind": "serif",
+   "text": "maxsus",
+   "y": 40,
+   "size": 110
+  },
+  {
+   "at": 17.15,
+   "out": 19.75,
+   "kind": "slab",
+   "text": "SIZ UCHUN",
+   "y": 9,
+   "size": 180,
+   "tilt": -8
+  }
+ ],
+ "swatches": [
+  {
+   "at": 9.0,
+   "out": 10.95,
+   "y": 26,
+   "colors": [
+    "#EFE8DC",
+    "#D2C2A4",
+    "#C9A45C",
+    "#2B2A28"
+   ],
+   "words": [
+    {
+     "at": 9.22,
+     "text": "Ranglaringizga"
+    },
+    {
+     "at": 9.74,
+     "text": "Pardalaringizga"
+    }
+   ],
+   "stamp": {
+    "at": 10.16,
+    "text": "MOSLASHTIRILGAN"
+   }
+  }
+ ],
+ "callouts": [
+  {
+   "at": 11.05,
+   "out": 14.4,
+   "label": "OYOQLARI",
+   "side": "left",
+   "y": 60,
+   "track": [
+    [
+     10.6,
+     41,
+     83
+    ],
+    [
+     11.4,
+     40,
+     83
+    ],
+    [
+     12.2,
+     37,
+     85
+    ],
+    [
+     13.0,
+     30,
+     86
+    ],
+    [
+     13.8,
+     26,
+     87
+    ],
+    [
+     14.5,
+     25,
+     87
+    ]
+   ]
+  }
+ ],
+ "cta": {
+  "at": 19.92,
+  "text": "KELIB KO‘RING",
+  "sub": "bemalol"
+ }
+}

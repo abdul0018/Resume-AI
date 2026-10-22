@@ -1,6 +1,6 @@
 ---
 name: promo-reel
-description: Make vertical (9:16) promo reels in Remotion. Style A (`PromoReel`) is a 30-second reel in the style of the "Izohda LINK deb yozib qoldiring" reference reel. Style B (`ChecklistReel`) is a 10-second "handwritten checklist" reel: a paper sheet with a serif title and a list of 3D pill icons, where a red pen writes each answer and then the brand. Use Style B for "best time to… / daily plan / list"-type reels. Style C (`HabitsReel`) edits the user's own talking-head video into an "N habits" reel: a glowing pill hook, a pin board of numbered cards the camera flies between, product clips, and a CTA pill that types the comment keyword. Use Style C when the user sends their own recording plus a reference edit to copy. Style D (`StoryReel`) is a narrated story drawn as white line-art stick figures on charcoal with orange accents. It draws on stroke by stroke in time with a TTS or recorded voiceover, and ends on a title card plus a speech bubble. Use Style D when the user gives a story script. Style E (`IllustratedReel`) tells a story with flat vector illustrations (teal palette, warm light) drawn in code. It adds parallax and a slow push-in, soft dissolves, a logo on top, and karaoke subtitles in a dark lower third. Use Style E when the reference is an illustrated narrated explainer. The style uses an orange hero shot with year-tag pills, kinetic word-by-word text, full-bleed photo beats with a "KOMPUTER"-style punch word, an off-white grid board with a browser mockup, a screen-recording demo, and a comment-bait "LINK" ending. Use when the user asks for "this type of video", "the LINK video", a promo or Instagram/TikTok reel, or a Remotion video for a product or site.
+description: Make vertical (9:16) promo reels in Remotion. Style A (`PromoReel`) is a 30-second reel in the style of the "Izohda LINK deb yozib qoldiring" reference reel. Style B (`ChecklistReel`) is a 10-second "handwritten checklist" reel: a paper sheet with a serif title and a list of 3D pill icons, where a red pen writes each answer and then the brand. Use Style B for "best time to… / daily plan / list"-type reels. Style C (`HabitsReel`) edits the user's own talking-head video into an "N habits" reel: a glowing pill hook, a pin board of numbered cards the camera flies between, product clips, and a CTA pill that types the comment keyword. Use Style C when the user sends their own recording plus a reference edit to copy. Style D (`StoryReel`) is a narrated story drawn as white line-art stick figures on charcoal with orange accents. It draws on stroke by stroke in time with a TTS or recorded voiceover, and ends on a title card plus a speech bubble. Use Style D when the user gives a story script. Style E (`IllustratedReel`) tells a story with flat vector illustrations (teal palette, warm light) drawn in code. It adds parallax and a slow push-in, soft dissolves, a logo on top, and karaoke subtitles in a dark lower third. Use Style E when the reference is an illustrated narrated explainer. Style F (`FurnitureReel`) edits real product footage (furniture, interiors, retail) with 3D kinetic typography, whip and zoom-blur cuts on the beat, tracked callouts, colour swatches, a warm grade, an original music bed and a location-pin CTA. The style uses an orange hero shot with year-tag pills, kinetic word-by-word text, full-bleed photo beats with a "KOMPUTER"-style punch word, an off-white grid board with a browser mockup, a screen-recording demo, and a comment-bait "LINK" ending. Use when the user asks for "this type of video", "the LINK video", a promo or Instagram/TikTok reel, or a Remotion video for a product or site.
 ---
 
 # Promo reel (orange hero / grid board / "LINK" CTA)
@@ -235,3 +235,38 @@ The existing scenes are: graduate, repetitor, class, certificate, study, mock, f
 **Image generation costs the user credits** (Higgsfield ≈0.25 credit per image). Ask before generating; code-drawn scenes are the free default.
 
 Example: `examples/anvar-goprep-illustrated.props.json`.
+
+## 10. Style F: product showcase edit over real footage (`FurnitureReel`)
+
+Motion language comes from the "5 ta viral Reels" reference (3D kinetic type, whips, flashes). It is re-dressed per product; for furniture that means champagne gold, cream and ink, Oswald plus a DM Serif Display accent, and floating gold dust.
+
+**Timeline:** one global clock = the talking-head take's own time. Its audio is the continuous `voice`. B-roll `shots` cut in over the voice (J/L-cuts).
+
+**Shots** (`shots[]`):
+- `{src, from, to, srcStart?, rate?, follow?, still?, zoom?, origin?, trans}`.
+- `follow: true` keeps the head clip in sync.
+- `trans` is `zoom`, `whipL`, `whipR` or `cut`. Whips overscale so the frame edge never shows.
+- Every shot drifts in scale and rotation. `punches[]` adds beat punch-ins.
+- Freeze the final frame with `still` for the CTA tail (export the last frame as a jpg).
+
+**Overlays:**
+- `titles[]` with kinds `fly3d` (letters fly through Z with trails on a drifting 3D plane), `slab` (extruded word slams from huge, tracking collapses, shake), `serif` (gold accent), `small` (tracked caps + gold rule).
+- `callouts[]`: a ring and leader line tracked by `[sec, x%, y%]` keyframes to a product part, plus a frosted label.
+- `swatches[]`: colour dots, a word per beat, then a stamp.
+- `cta`: blur and dim, a bouncing pin, a slab and a serif sub.
+
+**Workflow:**
+- Transcribe for word timings (Uzbek text comes out garbled). Ask for the exact script if you need word captions, or use keyword titles only.
+- Put cuts on the music grid (120 bpm: multiples of 0.5 s) near phrase starts.
+- Place callouts from a gridded frame strip.
+- Check stills, then dense frame strips around every cut.
+
+**Music:** `python3 -I tools/music.py music.wav <sec> 120 house` makes an original deep-house bed. Its drop lands at bar 1 (2 s).
+- Mix with `musicVol` ≈ 0.16 under the voice, `musicVolOpen` / tail louder.
+- Process the voice: highpass, acompressor, loudnorm −14.
+
+**Export:**
+- `--pixel-format=yuv420p`, then re-encode `scale=in_range=pc:out_range=tv,format=yuv420p` (Remotion's jpeg frames otherwise give yuvj420p).
+- `loudnorm=I=-14:TP=-1.5` on the final mix.
+
+Example: `examples/mebel-showroom.props.json`.
