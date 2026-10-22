@@ -269,4 +269,11 @@ Motion language comes from the "5 ta viral Reels" reference (3D kinetic type, wh
 - `--pixel-format=yuv420p`, then re-encode `scale=in_range=pc:out_range=tv,format=yuv420p` (Remotion's jpeg frames otherwise give yuvj420p).
 - `loudnorm=I=-14:TP=-1.5` on the final mix.
 
+**Product hero ending** (bass drop):
+- Generate music with a hero section: `tools/music.py music.wav <sec> 120 house <hero_at_music_time>`. It adds a riser, a half-beat of silence, a sub boom, then 808 bass with glides, a half-time snare and hat rolls.
+- `hero_at` must be a bar start. Use `musicOffset` to slide the music so a bar lands where the voice ends. Example: offset 1 s means bars land at odd seconds, so hero 22 s in the file plays at 21 s.
+- `hero{at, until, vol}` adds a drop flash, cinematic letterbox bars, kick-synced 2.8% bumps and a vignette pulse, and raises the music to `vol`.
+- Cut to the cleanest product shots. Speed-ramp the first one: a 0.5× shot, then a `cut` shot continuing at 1× from the matching `srcStart`.
+- Keep type minimal (one `small`, one `serif`). Close on a frozen frame with the `cta`.
+
 Example: `examples/mebel-showroom.props.json`.

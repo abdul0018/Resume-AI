@@ -1,9 +1,11 @@
 """Original royalty-free music bed, synthesized (no samples, no downloads).
-usage: python3 -I music.py <out.wav> <seconds> [bpm=120] [style=house|cinematic]
+usage: python3 -I music.py <out.wav> <seconds> [bpm=120] [style=house|cinematic] [hero_at_sec]
 
 house: warm deep-house groove (kick, clap, offbeat hats, sub bass, filtered chord stabs,
 pad) with a filter-sweep intro, a short riser + drop at bar 2 and a gentle outro.
 Bars land on a fixed grid (4 beats), so cuts at multiples of 60/bpm hit the beat.
+hero_at (should be a bar start): a riser + one-beat silence, then a heavy bass section
+(808 sub with glides, half-time snare, hat rolls) for a product hero ending.
 """
 import sys
 import numpy as np
@@ -13,6 +15,7 @@ SR = 48000
 out, dur = sys.argv[1], float(sys.argv[2])
 bpm = float(sys.argv[3]) if len(sys.argv) > 3 else 120.0
 style = sys.argv[4] if len(sys.argv) > 4 else 'house'
+hero = float(sys.argv[5]) if len(sys.argv) > 5 else None
 beat = 60.0 / bpm
 N = int(dur * SR)
 t = np.arange(N) / SR
@@ -90,6 +93,23 @@ for b in range(nbars):
         bx = np.arange(bn) / SR
         f = note(roots[b % 4] - 12 + o)
         place(np.sin(2 * np.pi * f * bx) * env(bn, 0.004, 0.22), t0 + k * beat, 0.42)
+    if hero is not None and t0 >= hero - 1e-6:
+        # hero section: hard kick pattern, 808 sub with downward glide, half-time snare, hat rolls
+        for k in (0, 1.75, 2.5):
+            place(kick, t0 + k * beat, 1.0)
+        for k, ln in ((0, 1.7), (2.5, 1.4)):
+            n8 = int(ln * beat * SR)
+            x8 = np.arange(n8) / SR
+            f8 = note(roots[b % 4] - 24) * (1 + 0.5 * np.exp(-x8 / 0.03))
+            sub = np.sin(2 * np.pi * np.cumsum(f8) / SR) * np.minimum(1, x8 / 0.004) * np.exp(-x8 / (ln * beat * 0.9))
+            place(np.tanh(sub * 2.2) / 1.2, t0 + k * beat, 0.85)
+        place(clap, t0 + 2 * beat, 0.55)
+        place(hp(rng.standard_normal(int(0.2 * SR)), 2500) * env(int(0.2 * SR), 0.001, 0.09), t0 + 2 * beat, 0.3)
+        for k in range(8):
+            place(hat, t0 + k * beat / 2, 0.2, 0.3 if k % 2 else -0.3)
+        for k in range(4):
+            place(hat, t0 + 3 * beat + k * beat / 4, 0.14, 0.2)
+        continue
     if b >= DROP and t0 < dur - bar * 0.6:
         for k in range(4):
             place(kick, t0 + k * beat, 0.9)
@@ -107,6 +127,20 @@ rx = np.arange(rn) / SR
 riser = hp(rng.standard_normal(rn), 1200) * (rx / (bar)) ** 2.5 * 0.5
 riser += 0.15 * np.sin(2 * np.pi * (300 * rx + 600 * rx ** 2 / bar)) * (rx / bar) ** 2
 place(riser, max(0, DROP * bar - bar), 0.35)
+
+# hero build: riser over the bar before, a beat of silence, then a sub boom on the drop
+if hero is not None:
+    i0 = int((hero - beat * 0.5) * SR); i1 = int(hero * SR)
+    mix[i0:i1] *= np.linspace(1, 0, i1 - i0)[:, None] ** 3
+    rn2 = int((bar - beat * 0.5) * SR)
+    rx2 = np.arange(rn2) / SR
+    r2 = hp(rng.standard_normal(rn2), 900) * (rx2 / rx2[-1]) ** 2 * 0.6
+    r2 += 0.22 * np.sin(2 * np.pi * (200 * rx2 + 900 * rx2 ** 2 / rx2[-1])) * (rx2 / rx2[-1]) ** 2
+    place(r2, hero - bar, 0.45)
+    bn = int(1.6 * SR)
+    bx = np.arange(bn) / SR
+    boom = np.sin(2 * np.pi * np.cumsum(38 + 70 * np.exp(-bx / 0.08)) / SR) * np.exp(-bx / 0.7)
+    place(np.tanh(boom * 2) * 0.9 + 0.4 * rng.standard_normal(bn) * np.exp(-bx / 0.01), hero, 0.9)
 
 # sidechain pump from the kick grid + gentle master glue
 pump = np.ones(N)

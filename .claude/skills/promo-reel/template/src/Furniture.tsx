@@ -37,6 +37,8 @@ export type FurnitureProps = {
   shots: Shot[]; titles: Title[]; callouts?: Callout[]; swatches?: Swatch[];
   cta?: {at: number; text: string; sub?: string};
   punches?: number[]; voice?: string; music?: string; musicVol?: number; musicVolOpen?: number; voiceEnd?: number; end: number; sfx?: boolean;
+  /** Product hero ending: music offset (s trimmed from the file start), bass section start, beat bumps, letterbox. */
+  musicOffset?: number; hero?: {at: number; until: number; vol?: number; bpm?: number};
 };
 
 /* ------------------------------------------------------------------ helpers */
@@ -58,7 +60,7 @@ const TRANS = 7; // frames on each side of a cut
 
 const shots_dir = (sh: Shot) => (Math.round(sh.from * 10) % 2 === 0 ? 1 : -1);
 
-const ShotView: React.FC<{shot: Shot; prev?: Shot; next?: Shot; punches: number[]}> = ({shot, next, punches}) => {
+const ShotView: React.FC<{shot: Shot; prev?: Shot; next?: Shot; punches: number[]; bumps?: number[]}> = ({shot, next, punches, bumps = []}) => {
   const {f, fps, s} = useT();
   const a = s(shot.from); const b = s(shot.to);
   const local = f - a;
@@ -66,6 +68,8 @@ const ShotView: React.FC<{shot: Shot; prev?: Shot; next?: Shot; punches: number[
   let scale = interpolate(f, [a, b], [z0, z1], {...clamp, easing: inOut});
   // beat punch-ins: quick 7% snap that relaxes over ~10 frames
   punches.forEach((p) => { const d = f - s(p); if (d >= 0 && d < 14 && f >= a && f < b) scale *= 1 + 0.07 * Math.exp(-d / 5); });
+  // bass bumps: a small kick-synced pulse in the hero section
+  bumps.forEach((p) => { const d = f - s(p); if (d >= 0 && d < 10) scale *= 1 + 0.028 * Math.exp(-d / 3); });
   let tx = 0; let blur = 0; let dirX = 0;
   const rot = interpolate(f, [a, b], [-1.2, 1.2], clamp) * (shots_dir(shot) as number);
   // incoming
@@ -341,6 +345,25 @@ const CTA: React.FC<{at: number; text: string; sub?: string}> = ({at, text, sub}
   );
 };
 
+/** Hero section dressing: cinematic letterbox bars slide in on the drop, kick-synced vignette pulse, drop flash. */
+const HeroFX: React.FC<{at: number; until: number; bumps: number[]}> = ({at, until, bumps}) => {
+  const {f, s} = useT();
+  if (f < s(at) - 1 || f > s(until) + 12) return null;
+  const inK = interpolate(f, [s(at), s(at) + 10], [0, 1], {...clamp, easing: ease});
+  const outK = interpolate(f, [s(until), s(until) + 12], [0, 1], {...clamp, easing: inOut});
+  const bar = 150 * inK * (1 - outK);
+  const pulse = Math.max(0, ...bumps.map((b) => { const d = f - s(b); return d >= 0 && d < 10 ? Math.exp(-d / 3) : 0; }));
+  const flash = interpolate(f - s(at), [0, 8], [0.85, 0], clamp);
+  return (
+    <AbsoluteFill style={{pointerEvents: 'none'}}>
+      <AbsoluteFill style={{background: `radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 45%, rgba(0,0,0,${0.18 + 0.22 * pulse}) 100%)`}} />
+      {flash > 0 && <AbsoluteFill style={{background: '#FFF6E6', opacity: flash}} />}
+      <div style={{position: 'absolute', top: 0, left: 0, right: 0, height: bar, background: '#000'}} />
+      <div style={{position: 'absolute', bottom: 0, left: 0, right: 0, height: bar, background: '#000'}} />
+    </AbsoluteFill>
+  );
+};
+
 /* ------------------------------------------------------------------ composition */
 
 export const FurnitureReel: React.FC<FurnitureProps> = (p) => {
@@ -362,13 +385,22 @@ export const FurnitureReel: React.FC<FurnitureProps> = (p) => {
       sw.words.forEach((w) => sfx.push({f: s(w.at), file: 'tick', vol: 0.4}));
       if (sw.stamp) sfx.push({f: s(sw.stamp.at) + 3, file: 'impact', vol: 0.4});
     });
+    if (p.hero) sfx.push({f: s(p.hero.at), file: 'impact', vol: 0.55});
     if (p.cta) { sfx.push({f: s(p.cta.at) + 3, file: 'impact', vol: 0.5}); sfx.push({f: s(p.cta.at) + 14, file: 'ding', vol: 0.35}); }
   }
   // Music: louder where there is no voice, ducked under speech.
   const vEnd = p.voiceEnd ?? p.end;
+  // kick grid of the hero section (beats 1, 2.75, 3.5 of every bar, matching tools/music.py)
+  const bumps: number[] = [];
+  if (p.hero) {
+    const beat = 60 / (p.hero.bpm ?? 120);
+    for (let t0 = p.hero.at; t0 < p.hero.until - 0.01; t0 += 4 * beat) [0, 1.75, 2.5].forEach((k) => bumps.push(t0 + k * beat));
+  }
   const musicVol = (fr: number) => {
     const t = fr / fps;
-    return interpolate(t, [0, 0.6, vEnd - 0.2, vEnd + 0.4], [p.musicVolOpen ?? 0.3, p.musicVol ?? 0.17, p.musicVol ?? 0.17, 0.4], clamp);
+    const v = interpolate(t, [0, 0.6, vEnd - 0.2, vEnd + 0.4], [p.musicVolOpen ?? 0.3, p.musicVol ?? 0.17, p.musicVol ?? 0.17, 0.45], clamp);
+    // the hero drop takes the music up to full level
+    return p.hero && t >= p.hero.at - 0.05 ? (p.hero.vol ?? 0.75) : v;
   };
   return (
     <AbsoluteFill style={{background: INK}}>
@@ -376,7 +408,7 @@ export const FurnitureReel: React.FC<FurnitureProps> = (p) => {
         if (f < s(sh.from) - TRANS || f >= s(sh.to) + (i < shots.length - 1 ? 0 : 1)) return null;
         // during the incoming half of a transition only the new shot is visible (cut sits at `from`)
         if (f < s(sh.from)) return null;
-        return <ShotView key={i} shot={sh} prev={shots[i - 1]} next={shots[i + 1]} punches={p.punches ?? []} />;
+        return <ShotView key={i} shot={sh} prev={shots[i - 1]} next={shots[i + 1]} punches={p.punches ?? []} bumps={bumps} />;
       })}
       <Grade />
       <Dust />
@@ -387,8 +419,9 @@ export const FurnitureReel: React.FC<FurnitureProps> = (p) => {
         {p.cta && <CTA {...p.cta} />}
       </AbsoluteFill>
       <CutFlash cuts={cuts} />
+      {p.hero && <HeroFX at={p.hero.at} until={p.hero.until} bumps={bumps} />}
       {p.voice && <Audio src={src(p.voice)} />}
-      {p.music && <Audio src={staticFile(p.music)} volume={musicVol} />}
+      {p.music && <Audio src={staticFile(p.music)} startFrom={Math.round((p.musicOffset ?? 0) * fps)} volume={musicVol} />}
       {sfx.map((e, i) => (
         <Sequence key={i} from={Math.max(0, e.f)} durationInFrames={e.d ?? 40} layout="none"><Audio src={staticFile(`sfx/${e.file}.wav`)} volume={e.vol} /></Sequence>
       ))}

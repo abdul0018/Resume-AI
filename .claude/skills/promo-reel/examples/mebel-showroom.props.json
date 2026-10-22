@@ -4,7 +4,7 @@
  "musicVol": 0.16,
  "musicVolOpen": 0.3,
  "voiceEnd": 20.7,
- "end": 23.0,
+ "end": 31.0,
  "sfx": true,
  "punches": [
   3.72,
@@ -74,7 +74,7 @@
   {
    "src": "head.mp4",
    "from": 17.0,
-   "to": 21.1,
+   "to": 21.0,
    "follow": true,
    "zoom": [
     1.0,
@@ -83,13 +83,49 @@
    "trans": "zoom"
   },
   {
-   "src": "",
-   "still": "head_last.jpg",
-   "from": 21.1,
-   "to": 23.0,
+   "src": "h2.mp4",
+   "from": 21.0,
+   "to": 21.75,
+   "srcStart": 0.0,
+   "rate": 0.5,
+   "zoom": [
+    1.12,
+    1.08
+   ],
+   "trans": "zoom"
+  },
+  {
+   "src": "h2.mp4",
+   "from": 21.75,
+   "to": 24.5,
+   "srcStart": 0.375,
+   "rate": 1.0,
    "zoom": [
     1.08,
-    1.12
+    1.0
+   ],
+   "trans": "cut"
+  },
+  {
+   "src": "h1.mp4",
+   "from": 24.5,
+   "to": 28.5,
+   "srcStart": 0.4,
+   "rate": 1.0,
+   "zoom": [
+    1.0,
+    1.1
+   ],
+   "trans": "whipL"
+  },
+  {
+   "src": "",
+   "still": "h1_last.jpg",
+   "from": 28.5,
+   "to": 31.0,
+   "zoom": [
+    1.1,
+    1.16
    ],
    "trans": "cut"
   }
@@ -177,6 +213,31 @@
    "y": 9,
    "size": 180,
    "tilt": -8
+  },
+  {
+   "at": 19.92,
+   "out": 20.95,
+   "kind": "slab",
+   "text": "KELIB KO‘RING",
+   "y": 40,
+   "size": 170,
+   "tilt": -6
+  },
+  {
+   "at": 21.45,
+   "out": 24.4,
+   "kind": "small",
+   "text": "Maxsus dizayn",
+   "y": 80,
+   "size": 54
+  },
+  {
+   "at": 25.0,
+   "out": 28.4,
+   "kind": "serif",
+   "text": "uyingiz uchun",
+   "y": 78,
+   "size": 104
   }
  ],
  "swatches": [
@@ -248,8 +309,14 @@
   }
  ],
  "cta": {
-  "at": 19.92,
+  "at": 28.6,
   "text": "KELIB KO‘RING",
   "sub": "bemalol"
+ },
+ "musicOffset": 1.0,
+ "hero": {
+  "at": 21.0,
+  "until": 28.5,
+  "vol": 0.75
  }
 }
