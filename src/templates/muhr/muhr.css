@@ -68,8 +68,7 @@
 .mh-env {
   position: absolute;
   inset: 0;
-  perspective: 1150px;
-  perspective-origin: 50% 46%;
+  z-index: 2;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
   -webkit-user-select: none;
@@ -84,42 +83,47 @@
   filter: drop-shadow(0 0 0.5px var(--mh-gold-deep)) drop-shadow(0 0 10px rgba(246, 199, 106, 0.9));
 }
 
+/* Each flap tilts in its own perspective and is painted in document order
+   (inside, sides, bottom, top), so no two planes ever depth-sort against each other. */
 .mh-env-3d {
   position: absolute;
   inset: 0;
-  transform-style: preserve-3d;
-  -webkit-transform-style: preserve-3d;
 }
 
 .mh-inside {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: radial-gradient(60% 40% at 50% 48%, #fff6dc 0%, #f6d79a 45%, #e9c27a 100%);
-  transform: translateZ(-2px);
+  background: radial-gradient(55% 38% at 50% 48%, #fff4d2 0%, #f3cf86 42%, #d9a95a 100%);
 }
 .mh-inside i {
   position: absolute;
   inset: -40%;
   display: block;
 }
-.mh-rays {
-  background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(255, 248, 222, 0.55) 0deg 4deg, rgba(255, 248, 222, 0) 4deg 14deg);
-  -webkit-mask: radial-gradient(closest-side, #000 20%, transparent 75%);
-  mask: radial-gradient(closest-side, #000 20%, transparent 75%);
-  opacity: 0;
-}
 .mh-core {
-  background: radial-gradient(closest-side, #fffdf4 0%, rgba(255, 240, 200, 0.85) 30%, rgba(255, 220, 150, 0) 70%);
-  opacity: 0.25;
-  transform: scale(0.5);
+  top: 48%;
+  bottom: auto;
+  height: 0;
+  inset-inline: 0;
+  background: none;
+}
+.mh-core::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 150vmax;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  background: radial-gradient(closest-side, #fffdf4 0%, rgba(255, 238, 192, 0.9) 14%, rgba(250, 214, 140, 0.35) 40%, rgba(240, 196, 110, 0) 70%);
+  opacity: 0.2;
+  scale: 0.4;
 }
 
 .mh-flap {
   position: absolute;
   inset: 0;
-  transform-style: preserve-3d;
-  -webkit-transform-style: preserve-3d;
 }
 .mh-face {
   position: absolute;
@@ -142,7 +146,6 @@
 
 .mh-flap-t {
   transform-origin: 50% 0;
-  transform: translateZ(3px);
 }
 .mh-flap-t .front {
   clip-path: polygon(0 0, 100% 0, 50% 48%);
@@ -154,7 +157,6 @@
 }
 .mh-flap-b {
   transform-origin: 50% 100%;
-  transform: translateZ(2px);
 }
 .mh-flap-b .front {
   clip-path: polygon(0 100%, 50% 54%, 100% 100%);
@@ -166,7 +168,6 @@
 }
 .mh-flap-l {
   transform-origin: 0 50%;
-  transform: translateZ(1px);
 }
 .mh-flap-l .front {
   /* side flaps reach past the centre so they tuck under the top and bottom flaps */
@@ -179,7 +180,6 @@
 }
 .mh-flap-r {
   transform-origin: 100% 50%;
-  transform: translateZ(1px);
 }
 .mh-flap-r .front {
   clip-path: polygon(100% 0, 36% 50%, 100% 100%);
@@ -203,28 +203,31 @@
   background: rgba(110, 78, 36, 0.22);
 }
 .mh-shade-t {
-  transform: translateZ(2.5px) translateY(4px);
+  transform: translateY(4px);
 }
 .mh-shade-t i {
   clip-path: polygon(0 0, 100% 0, 50% 48%);
 }
 .mh-shade-b {
-  transform: translateZ(1.5px) translateY(-3px);
+  transform: translateY(-3px);
 }
 .mh-shade-b i {
   clip-path: polygon(0 100%, 50% 54%, 100% 100%);
   background: rgba(110, 78, 36, 0.14);
 }
 
+.mh-seal-layer {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 48%;
+}
 .mh-seal-wrap {
   position: absolute;
   left: 50%;
   top: 48%;
   width: 36%;
   aspect-ratio: 1;
-  transform: translate(-50%, -50%) translateZ(1px);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  transform: translate(-50%, -50%);
 }
 .mh-seal {
   position: relative;
@@ -266,7 +269,6 @@
   font-size: 15px;
   letter-spacing: 0.02em;
   color: var(--mh-ink-soft);
-  transform: translateZ(4px);
   pointer-events: none;
   transition: opacity 0.4s;
 }
@@ -274,22 +276,6 @@
   .mh-hint {
     top: calc(48% + 125px);
   }
-}
-
-.mh-env-names {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 40%;
-  text-align: center;
-  font-family: var(--mh-script);
-  font-size: clamp(52px, 15vw, 70px);
-  line-height: 1;
-  color: #7a5523;
-  text-shadow: 0 0 18px rgba(255, 246, 220, 0.9);
-  opacity: 0;
-  pointer-events: none;
-  transform: translateZ(6px);
 }
 
 .mh-dust {
@@ -300,13 +286,10 @@
   pointer-events: none;
   z-index: 5;
 }
-
-.mh-bloom {
-  position: absolute;
-  inset: 0;
-  z-index: 6;
-  pointer-events: none;
-  background: radial-gradient(70% 55% at 50% 47%, #fffdf6 0%, #fff4d8 45%, #f7dfab 100%);
+.mh-hero[data-stage="opening"] .mh-dust {
+  animation: mh-fade 700ms ease-in 1900ms both;
+}
+.mh-hero[data-stage="scene"] .mh-dust {
   opacity: 0;
 }
 
@@ -321,37 +304,30 @@
 .mh-env[data-state="opening"] .mh-hint {
   opacity: 0;
 }
+.mh-env[data-state="opening"] {
+  animation: mh-dissolve 850ms cubic-bezier(0.5, 0, 0.4, 1) 1850ms both;
+}
 .mh-env[data-state="opening"] .mh-flap-t {
-  animation: mh-open-t 1500ms cubic-bezier(0.4, 0, 0.3, 1) 620ms both;
+  animation: mh-open-t 1100ms cubic-bezier(0.4, 0, 0.3, 1) 560ms both;
+}
+/* follows the tip of the top flap (rotateX 56deg in a 3200px perspective lifts it to ~30% height) */
+.mh-env[data-state="opening"] .mh-seal-layer {
+  animation: mh-seal-rise 1100ms cubic-bezier(0.4, 0, 0.3, 1) 560ms both;
 }
 .mh-env[data-state="opening"] .mh-flap-l {
-  animation: mh-open-l 1150ms var(--mh-ease-flap) 1080ms both;
+  animation: mh-open-l 1050ms var(--mh-ease-flap) 700ms both;
 }
 .mh-env[data-state="opening"] .mh-flap-r {
-  animation: mh-open-r 1150ms var(--mh-ease-flap) 1110ms both;
+  animation: mh-open-r 1050ms var(--mh-ease-flap) 720ms both;
 }
 .mh-env[data-state="opening"] .mh-flap-b {
-  animation: mh-open-b 1150ms var(--mh-ease-flap) 1150ms both;
+  animation: mh-open-b 1050ms var(--mh-ease-flap) 760ms both;
 }
 .mh-env[data-state="opening"] .mh-shade {
   animation: mh-fade 300ms ease-out 600ms both;
 }
-.mh-env[data-state="opening"] .mh-core {
-  animation: mh-core 1300ms var(--mh-ease-out) 650ms both;
-}
-.mh-env[data-state="opening"] .mh-rays {
-  animation:
-    mh-rays-in 900ms ease-out 900ms both,
-    mh-spin 14s linear 900ms infinite;
-}
-.mh-env[data-state="opening"] .mh-env-names {
-  animation: mh-names 900ms var(--mh-ease-out) 1450ms both;
-}
-.mh-bloom[data-stage="opening"] {
-  animation: mh-bloom-in 620ms ease-in 2080ms both;
-}
-.mh-bloom[data-stage="scene"] {
-  animation: mh-bloom-out 1150ms var(--mh-ease-out) both;
+.mh-env[data-state="opening"] .mh-core::before {
+  animation: mh-core 1200ms var(--mh-ease-out) 650ms both;
 }
 
 @keyframes mh-press {
@@ -380,22 +356,34 @@
 }
 @keyframes mh-open-t {
   to {
-    transform: translateZ(3px) rotateX(165deg);
+    transform: perspective(3200px) rotateX(56deg);
   }
 }
 @keyframes mh-open-l {
   to {
-    transform: translateZ(1px) rotateY(-82deg);
+    transform: perspective(3200px) rotateY(-50deg);
   }
 }
 @keyframes mh-open-r {
   to {
-    transform: translateZ(1px) rotateY(82deg);
+    transform: perspective(3200px) rotateY(50deg);
   }
 }
 @keyframes mh-open-b {
   to {
-    transform: translateZ(2px) rotateX(-96deg);
+    transform: perspective(3200px) rotateX(-48deg);
+  }
+}
+@keyframes mh-seal-rise {
+  to {
+    translate: 0 -18%;
+    scale: 1.08;
+  }
+}
+@keyframes mh-dissolve {
+  to {
+    opacity: 0;
+    scale: 1.05;
   }
 }
 @keyframes mh-fade {
@@ -406,42 +394,7 @@
 @keyframes mh-core {
   to {
     opacity: 1;
-    transform: scale(1.25);
-  }
-}
-@keyframes mh-rays-in {
-  to {
-    opacity: 0.9;
-  }
-}
-@keyframes mh-spin {
-  to {
-    rotate: 360deg;
-  }
-}
-@keyframes mh-names {
-  from {
-    opacity: 0;
-    filter: blur(8px);
-    translate: 0 12px;
-  }
-  to {
-    opacity: 1;
-    filter: blur(0);
-    translate: 0 0;
-  }
-}
-@keyframes mh-bloom-in {
-  to {
-    opacity: 1;
-  }
-}
-@keyframes mh-bloom-out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
+    scale: 1;
   }
 }
 
@@ -457,8 +410,8 @@
   object-fit: cover;
   object-position: 52% 50%;
 }
-.mh-hero[data-stage="scene"] .mh-photo {
-  animation: mh-settle 2600ms var(--mh-ease-out) both;
+.mh-hero:not([data-stage="closed"]) .mh-photo {
+  animation: mh-settle 3000ms var(--mh-ease-out) 1700ms both;
 }
 @keyframes mh-settle {
   from {
@@ -479,6 +432,7 @@
 
 .mh-welcome-block {
   position: absolute;
+  z-index: 3; /* above the paper: the names emerge through it */
   left: 22%;
   right: 0;
   top: calc(9% + env(safe-area-inset-top, 0px));
@@ -522,9 +476,9 @@
   color: #8a6128;
   vertical-align: 0.35em;
 }
-.mh-hero[data-stage="scene"] .mh-line {
+.mh-hero:not([data-stage="closed"]) .mh-line {
   animation: mh-text 1500ms var(--mh-ease-out) both;
-  animation-delay: calc(400ms + var(--i, 0) * 140ms);
+  animation-delay: calc(1350ms + var(--i, 0) * 140ms);
 }
 @keyframes mh-text {
   from {
@@ -735,10 +689,12 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
+  width: 100%; /* size-contained tiles have no intrinsic width to shrink-wrap */
   max-width: 360px;
   margin: 0 auto;
 }
 .mh-tile {
+  container-type: inline-size;
   border-radius: 14px;
   padding: 14px 4px 11px;
   background: linear-gradient(165deg, #fbefcf, #ebcd8c 70%, #dcb46a);
@@ -749,22 +705,17 @@
 }
 .mh-tile b {
   display: block;
-  font-size: 32px;
+  font-size: min(32px, 38cqi);
   line-height: 1;
   font-weight: 500;
   font-variant-numeric: tabular-nums lining-nums;
   color: var(--mh-ink);
 }
-/* three-digit day counts would overflow a quarter-width tile */
-.mh-tile b[data-long] {
-  font-size: 25px;
-  padding-block: 3.5px;
-}
 .mh-tile small {
   display: block;
   margin-top: 6px;
-  font-size: 11px;
-  letter-spacing: 0.12em;
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #6a4f2c;
 }
@@ -959,7 +910,6 @@
   .mh-env[data-state="opening"] .mh-flap-b {
     animation-duration: 400ms;
   }
-  .mh-rays,
   .mh-lantern,
   .mh-lantern-glow,
   .mh-cue svg,
@@ -997,11 +947,11 @@
   gap: 0.18em;
   font-family: var(--mh-script);
   line-height: 1;
-  /* stamped gold: solid metal colour, pressed in by a light lower edge and a dark upper edge */
-  color: #9a7230;
-  text-shadow:
-    0 1px 0 rgba(255, 248, 228, 0.85),
-    0 -1px 0 rgba(96, 64, 18, 0.45);
+  max-width: 44%;
+  justify-content: center;
+  /* gold leaf in the impression, multiplied into the wax so it reads as pressed, not printed */
+  color: #a77b34;
+  mix-blend-mode: multiply;
 }
 .mh-wax-mono i {
   width: 0.12em;
@@ -1098,17 +1048,30 @@
   text-transform: uppercase;
   color: var(--mh-ink-soft);
 }
+/* collapsed until all three dates are scratched, so the page holds no empty band */
 .mh-after-date {
   display: grid;
-  gap: 18px;
+  grid-template-rows: 1fr;
   margin-top: 26px;
   transition:
-    opacity 0.9s var(--mh-ease-out),
-    translate 0.9s var(--mh-ease-out);
+    grid-template-rows 0.9s var(--mh-ease-out),
+    margin-top 0.9s var(--mh-ease-out),
+    opacity 0.9s var(--mh-ease-out) 0.2s;
+}
+.mh-after-date-inner {
+  display: grid;
+  gap: 18px;
+  min-height: 0;
+  overflow: hidden;
+  padding-bottom: 18px;
+}
+.mh-after-date[data-shown="true"] .mh-after-date-inner {
+  overflow: visible; /* the clip only serves the collapse; open, it would cut the tiles' shadows */
 }
 .mh-after-date[data-shown="false"] {
-  opacity: 0.001;
-  translate: 0 10px;
+  grid-template-rows: 0fr;
+  margin-top: 0;
+  opacity: 0;
 }
 
 /* the card art carries the arch; the text sits inside it */
@@ -1158,7 +1121,7 @@
   margin: 0;
   font-size: clamp(9.5px, 4.6cqi, 12px);
   line-height: 1.55;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #5a3d1f;
   text-wrap: balance;

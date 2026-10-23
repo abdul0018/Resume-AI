@@ -103,20 +103,22 @@ export function MuhrInvitation({ data, replayToken = 0, endSlot }: Props) {
     if (dustRef.current && !reduce) {
       stopDust.current = startGoldDust(dustRef.current, { x: box.w / 2, y: box.h * 0.48 });
     }
-    timers.current = [window.setTimeout(() => setStage("scene"), TO_SCENE)];
+    timers.current = [
+      window.setTimeout(() => {
+        stopDust.current();
+        setStage("scene");
+      }, TO_SCENE),
+    ];
   };
 
   return (
     <div className="mh">
       <div className="mh-col">
         <section ref={heroRef} className="mh-hero" data-stage={stage} aria-label="Taklifnoma">
-          {stage === "scene" ? (
-            <PhotoHero data={data} />
-          ) : (
-            <Envelope data={data} box={box} state={stage} onOpen={open} />
-          )}
+          {/* the scene waits under the paper, so the envelope can dissolve into it */}
+          {stage !== "closed" && <PhotoHero data={data} />}
+          {stage !== "scene" && <Envelope data={data} box={box} state={stage} onOpen={open} />}
           <canvas ref={dustRef} className="mh-dust" aria-hidden="true" />
-          <div className="mh-bloom" data-stage={stage} aria-hidden="true" />
         </section>
 
         {stage === "scene" && (
@@ -154,7 +156,7 @@ export function Seal({ pair, size, className = "" }: { pair: [string, string]; s
   return (
     <span className={`mh-wax ${className}`} style={{ width: size, height: size * (585 / 560) }}>
       <img src={sealUrl} alt="" draggable={false} />
-      <span className="mh-wax-mono" style={{ fontSize: size * 0.27 }}>
+      <span className="mh-wax-mono" style={{ fontSize: size * 0.2 }}>
         <span>{pair[0]}</span>
         <i aria-hidden="true" />
         <span>{pair[1]}</span>
@@ -202,7 +204,6 @@ export function Envelope({
     >
       <div className="mh-env-3d">
         <div className="mh-inside">
-          <i className="mh-rays" />
           <i className="mh-core" />
         </div>
         <div className="mh-flap mh-flap-l">{faces}</div>
@@ -214,8 +215,9 @@ export function Envelope({
         <div className="mh-shade mh-shade-t">
           <i />
         </div>
-        <div className="mh-flap mh-flap-t">
-          {faces}
+        <div className="mh-flap mh-flap-t">{faces}</div>
+        {/* the seal rides the top flap's tip but stays facing the guest */}
+        <div className="mh-seal-layer">
           <div className="mh-seal-wrap">
             <i className="mh-seal-glow" />
             <Seal pair={pair} size={box.w * 0.36} className="mh-seal" />
@@ -223,11 +225,6 @@ export function Envelope({
         </div>
       </div>
       {interactive && <p className="mh-hint">Muhrni bosing</p>}
-      {interactive && (
-        <p className="mh-env-names" aria-hidden="true">
-          {data.groom} &amp; {data.bride}
-        </p>
-      )}
     </div>
   );
 }
@@ -324,10 +321,12 @@ function Sections({ data }: { data: InviteData }) {
           <ScratchCard value={String(y)} label="Yil" onReveal={() => setOpened((n) => n + 1)} />
         </div>
         <div className="mh-after-date" data-shown={opened >= 3}>
-          <p className="mh-p mh-muted" style={{ fontStyle: "italic" }}>
-            {formatWeekday(data.date)}, soat {data.time}
-          </p>
-          <Countdown date={data.date} time={data.time} />
+          <div className="mh-after-date-inner">
+            <p className="mh-p mh-muted" style={{ fontStyle: "italic" }}>
+              {formatWeekday(data.date)}, soat {data.time}
+            </p>
+            <Countdown date={data.date} time={data.time} />
+          </div>
         </div>
       </section>
 
@@ -443,7 +442,7 @@ function Countdown({ date, time }: { date: string; time: string }) {
         ] as const
       ).map(([n, label]) => (
         <div key={label} className="mh-tile">
-          <b data-long={n > 99 || undefined}>{String(n).padStart(2, "0")}</b>
+          <b>{String(n).padStart(2, "0")}</b>
           <small>{label}</small>
         </div>
       ))}
