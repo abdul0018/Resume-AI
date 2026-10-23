@@ -21,8 +21,8 @@ interface ShowcaseTemplate {
 const TEMPLATES: ShowcaseTemplate[] = [
   {
     id: "oltin-muhr",
-    name: "Oltin muhr",
-    line: "Mumli muhr, oltin nur va Samarqand ravog‘i",
+    name: "Atlas lenta",
+    line: "Atlas lenta bilan bog‘langan ikki eshikli karta va oqshom nuri",
     data: {
       eventType: "nikoh",
       groom: "Sardor",
@@ -168,7 +168,7 @@ function Gallery({ onOpen }: { onOpen: (id: string) => void }) {
     <main className="sc-gallery">
       <header className="sc-head">
         <h1 className="sc-title">Taklifnoma namunalari</h1>
-        <p className="sc-lead">Namunani tanlang va muhrni bosing.</p>
+        <p className="sc-lead">Namunani tanlang va lentani yeching.</p>
       </header>
       <ul className="sc-grid" data-count={TEMPLATES.length}>
         {TEMPLATES.map(({ id, name, line, data, Preview }) => (

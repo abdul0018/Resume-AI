@@ -102,15 +102,16 @@ function bell(at: number, freq: number, gain: number, decay: number) {
   }
 }
 
-/** Wax seal breaking, a small gold chime, then the paper flaps. */
-export function playSealSounds() {
+/** A satin bow tugged loose and sliding away, two doors and the inner flaps, then a soft chime. */
+export function playRibbonSounds() {
   try {
-    noiseBurst(0, 0.12, 700, 0.8, 0.09);
-    [1568, 2093, 2637, 3136].forEach((f, i) => bell(0.12 + i * 0.07, f, 0.022, 1.6));
-    noiseBurst(0.65, 0.7, 1300, 0.6, 0.05);
-    noiseBurst(0.98, 0.8, 1000, 0.6, 0.045);
-    // a soft shimmer as the paper gives way to the scene
-    [2349, 2794, 3136, 3729].forEach((f, i) => bell(1.75 + i * 0.11, f, 0.012, 2.2));
+    noiseBurst(0.04, 0.22, 5200, 0.8, 0.03);
+    noiseBurst(0.68, 0.45, 4300, 0.7, 0.045);
+    noiseBurst(0.95, 0.75, 3000, 0.6, 0.03);
+    noiseBurst(2.1, 0.8, 1100, 0.6, 0.055);
+    noiseBurst(2.5, 0.8, 950, 0.6, 0.05);
+    noiseBurst(3.3, 0.6, 1500, 0.7, 0.03);
+    [2349, 2794, 3136, 3729].forEach((f, i) => bell(3.65 + i * 0.11, f, 0.012, 2.2));
   } catch {
     /* sound is decorative */
   }

@@ -1,14 +1,15 @@
-import { useEffect, useLayoutEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { EVENT_TYPES } from "@shared/constants";
 import type { InviteData } from "@shared/schema";
 import { eventTimestamp, formatDateLong, formatWeekday, initials, MONTHS, parseDate } from "@shared/format";
 import { useCountdown, useMusic } from "@/lib/hooks";
 import { defaultMessage, mapLinks } from "@/lib/invite";
-import { playSealSounds, unlockAudio } from "@/lib/media";
+import { playRibbonSounds, unlockAudio } from "@/lib/media";
 import { startAmbient } from "./ambient";
 import { startGoldDust } from "./goldDust";
 import { LineArt, type LineArtKind } from "./LineArt";
 import { archPath } from "./Ornaments";
+import { SatinBow } from "./SatinBow";
 import { ScratchCard } from "./ScratchCard";
 import heroUrl from "./assets/hero.jpg";
 import paperUrl from "./assets/paper.jpg";
@@ -37,7 +38,7 @@ const INVITE_LINE: Record<keyof typeof EVENT_TYPES, string> = {
 };
 
 /** Milliseconds from the tap until the scene replaces the envelope (keep in sync with muhr.css). */
-const TO_SCENE = 2700;
+const TO_SCENE = 4650;
 
 interface Props {
   data: InviteData;
@@ -51,9 +52,7 @@ export function MuhrInvitation({ data, replayToken = 0, endSlot }: Props) {
   const [stage, setStage] = useState<Stage>("closed");
   const music = useMusic(data.music);
   const heroRef = useRef<HTMLElement>(null);
-  const dustRef = useRef<HTMLCanvasElement>(null);
   const timers = useRef<number[]>([]);
-  const stopDust = useRef<() => void>(() => undefined);
   const [box, setBox] = useState({ w: 390, h: 844 });
 
   useLayoutEffect(() => {
@@ -71,7 +70,6 @@ export function MuhrInvitation({ data, replayToken = 0, endSlot }: Props) {
   useEffect(() => {
     if (replayToken === first.current) return;
     timers.current.forEach(clearTimeout);
-    stopDust.current();
     setStage("closed");
     window.scrollTo(0, 0);
   }, [replayToken]);
@@ -86,31 +84,17 @@ export function MuhrInvitation({ data, replayToken = 0, endSlot }: Props) {
     };
   }, [stage]);
 
-  useEffect(
-    () => () => {
-      timers.current.forEach(clearTimeout);
-      stopDust.current();
-    },
-    [],
-  );
+  useEffect(() => () => timers.current.forEach(clearTimeout), []);
 
   const open = () => {
     if (stage !== "closed") return;
     unlockAudio();
-    playSealSounds();
-    navigator.vibrate?.([14, 70, 22]);
+    playRibbonSounds();
+    navigator.vibrate?.([10, 60, 14]);
     music.play();
     setStage("opening");
     const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    if (dustRef.current && !reduce) {
-      stopDust.current = startGoldDust(dustRef.current, { x: box.w / 2, y: box.h * 0.48 });
-    }
-    timers.current = [
-      window.setTimeout(() => {
-        stopDust.current();
-        setStage("scene");
-      }, TO_SCENE),
-    ];
+    timers.current = [window.setTimeout(() => setStage("scene"), reduce ? 450 : TO_SCENE)];
   };
 
   return (
@@ -120,7 +104,6 @@ export function MuhrInvitation({ data, replayToken = 0, endSlot }: Props) {
           {/* the scene waits under the paper, so the envelope can dissolve into it */}
           {stage !== "closed" && <PhotoHero data={data} />}
           {stage !== "scene" && <Envelope data={data} box={box} state={stage} onOpen={open} />}
-          <canvas ref={dustRef} className="mh-dust" aria-hidden="true" />
         </section>
 
         {stage === "scene" && (
@@ -167,6 +150,30 @@ export function Seal({ pair, size, className = "" }: { pair: [string, string]; s
   );
 }
 
+/** The closed card's face: embossed paper, its folds, the names and the tap line, printed across both doors. */
+function DoorPrint({ names, nameSize, tap }: { names: string; nameSize: number; tap: boolean }) {
+  return (
+    <div className="mh-print">
+      <svg className="mh-creases" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        {["M0,0 L50,56 L0,100", "M100,0 L50,56 L100,100"].map((d) => (
+          <g key={d} fill="none">
+            <path d={d} stroke="rgba(255,253,246,0.95)" strokeWidth="1.4" vectorEffect="non-scaling-stroke" transform="translate(0.35 0.2)" />
+            <path d={d} stroke="rgba(120,92,52,0.42)" strokeWidth="0.9" vectorEffect="non-scaling-stroke" />
+          </g>
+        ))}
+      </svg>
+      <p className="mh-print-names" style={{ fontSize: nameSize }}>
+        {names}
+      </p>
+      {tap && <p className="mh-print-tap">Ochish uchun bosing</p>}
+    </div>
+  );
+}
+
+/**
+ * A gatefold card tied with a satin bow. Tapped, the bow tugs and comes undone, the ribbon falls away,
+ * the two doors swing open, then the inner envelope's four flaps fold back off the photograph.
+ */
 export function Envelope({
   data,
   box,
@@ -180,22 +187,39 @@ export function Envelope({
   onOpen?: () => void;
   interactive?: boolean;
 }) {
-  const pair = initials(data.groom, data.bride).split("") as [string, string];
+  const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
   const canOpen = interactive && state === "closed";
-  const faces = (
-    <>
-      <div className="mh-face front" />
-      <div className="mh-face back" />
-    </>
+  const names = `${data.groom} & ${data.bride}`;
+  const print = <DoorPrint names={names} nameSize={Math.min(box.w * 0.13, (box.w * 2.1) / Math.max(names.length, 8))} tap={interactive} />;
+  const door = (side: "l" | "r") => (
+    <div className={`mh-door mh-door-${side}`}>
+      <div className="mh-dface front">{print}</div>
+      <div className="mh-dface back" />
+    </div>
+  );
+  const flap = (k: "t" | "b" | "l" | "r") => (
+    <div className={`mh-iflap mh-iflap-${k}`}>
+      <i className="mh-iface front" />
+      <i className="mh-iface back" />
+    </div>
+  );
+  const shade = (k: "t" | "b" | "l" | "r") => (
+    <div className={`mh-ishade mh-ishade-${k}`}>
+      <i />
+    </div>
   );
   return (
     <div
       className="mh-env"
       data-state={state}
-      style={{ ["--mh-art" as string]: `url("${paperUrl}")` }}
+      style={{
+        ["--mh-art" as string]: `url("${paperUrl}")`,
+        ["--bw" as string]: `${box.w}px`,
+        ["--fall" as string]: `${Math.round(box.h * 0.38)}px`,
+      }}
       role={canOpen ? "button" : undefined}
       tabIndex={canOpen ? 0 : undefined}
-      aria-label={canOpen ? "Muhrni bosib, taklifnomani oching" : undefined}
+      aria-label={canOpen ? "Lentani yechib, taklifnomani oching" : undefined}
       onClick={canOpen ? onOpen : undefined}
       onKeyDown={(e) => {
         if (canOpen && (e.key === "Enter" || e.key === " ")) {
@@ -205,39 +229,29 @@ export function Envelope({
       }}
     >
       <div className="mh-env-3d">
-        <div className="mh-inside">
-          <i className="mh-rays" />
-          <i className="mh-core" />
+        {/* the inner envelope over the photograph: diamond gaps above and below the side flaps' tips */}
+        <div className="mh-inner">
+          {shade("t")}
+          {shade("b")}
+          {flap("t")}
+          {flap("b")}
+          {shade("l")}
+          {shade("r")}
+          {flap("l")}
+          {flap("r")}
+          <i className="mh-dshadow mh-dshadow-l" />
+          <i className="mh-dshadow mh-dshadow-r" />
         </div>
-        <div className="mh-flap mh-flap-l">{faces}</div>
-        <div className="mh-flap mh-flap-r">{faces}</div>
-        <div className="mh-shade mh-shade-b">
-          <i />
-        </div>
-        <div className="mh-flap mh-flap-b">{faces}</div>
-        <div className="mh-shade mh-shade-t">
-          <i />
-        </div>
-        <div className="mh-flap mh-flap-t">{faces}</div>
-        {/* the seal rides the top flap's tip but stays facing the guest */}
-        <div className="mh-seal-layer">
-          <div className="mh-seal-wrap">
-            <i className="mh-seal-glow" />
-            {canOpen && (
-              <>
-                <i className="mh-ping" />
-                <i className="mh-ping mh-ping-2" />
-              </>
-            )}
-            <i className="mh-shock" />
-            <Seal pair={pair} size={box.w * 0.36} className="mh-seal" />
+        {door("l")}
+        {door("r")}
+        <div className="mh-ribbon" aria-hidden="true">
+          <i className="mh-band mh-band-l" />
+          <i className="mh-band mh-band-r" />
+          <div className="mh-bow">
+            <SatinBow uid={uid} />
           </div>
         </div>
-        {/* a slow glint travelling over the embossing, and the amber light glowing through the paper once it opens */}
-        <i className="mh-sheen" />
-        <i className="mh-spill" />
       </div>
-      {interactive && <p className="mh-hint">Muhrni bosing</p>}
     </div>
   );
 }
@@ -253,7 +267,7 @@ function PhotoHero({ data }: { data: InviteData }) {
     if (!c || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
     let stop = () => undefined as void;
     // petals start drifting once the paper has dissolved
-    const t = window.setTimeout(() => (stop = startAmbient(c)), 2200);
+    const t = window.setTimeout(() => (stop = startAmbient(c)), 4300);
     return () => {
       window.clearTimeout(t);
       stop();
