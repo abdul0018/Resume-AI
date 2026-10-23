@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-23T19:30:00Z",
+  "generatedAt": "2026-10-23T20:30:00Z",
   "title": "Design System: Oltin muhr",
   "extensions": {
     "colorMeta": {
@@ -116,6 +116,86 @@
           "#ffecc1"
         ]
       },
+      "rb1": {
+        "role": "secondary",
+        "displayName": "Satin Shadow",
+        "canonical": "#858b94",
+        "oklch": "oklch(63.5% 0.015 258.4)",
+        "tonalRamp": [
+          "#070b12",
+          "#22272e",
+          "#40454d",
+          "#61666f",
+          "#848a93",
+          "#a8aeb8",
+          "#cbd1db",
+          "#e8eff9"
+        ]
+      },
+      "rb2": {
+        "role": "secondary",
+        "displayName": "Satin Light",
+        "canonical": "#e2e6ea",
+        "oklch": "oklch(92.3% 0.007 247.9)",
+        "tonalRamp": [
+          "#090b0e",
+          "#24272a",
+          "#424549",
+          "#63666a",
+          "#868a8d",
+          "#abaeb2",
+          "#cdd1d5",
+          "#ebeff3"
+        ]
+      },
+      "rb3": {
+        "role": "secondary",
+        "displayName": "Satin Mid-light",
+        "canonical": "#c2c8ce",
+        "oklch": "oklch(83.0% 0.011 248.0)",
+        "tonalRamp": [
+          "#080c10",
+          "#22272c",
+          "#41464b",
+          "#61676c",
+          "#848a8f",
+          "#a9afb4",
+          "#ccd2d8",
+          "#e9eff5"
+        ]
+      },
+      "rb4": {
+        "role": "secondary",
+        "displayName": "Satin Mid",
+        "canonical": "#a6adb5",
+        "oklch": "oklch(74.5% 0.014 251.6)",
+        "tonalRamp": [
+          "#070c11",
+          "#22272d",
+          "#40464c",
+          "#60676e",
+          "#838a92",
+          "#a8afb7",
+          "#cbd2da",
+          "#e8eff8"
+        ]
+      },
+      "rb5": {
+        "role": "secondary",
+        "displayName": "Satin Highlight",
+        "canonical": "#fbfcfd",
+        "oklch": "oklch(99.1% 0.002 247.8)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#262627",
+          "#444546",
+          "#656667",
+          "#88898a",
+          "#adaeaf",
+          "#d0d1d2",
+          "#edeeef"
+        ]
+      },
       "ink": {
         "role": "neutral",
         "displayName": "Sepia Ink",
@@ -226,22 +306,6 @@
           "#b7ad9a",
           "#dad0bd",
           "#f8edda"
-        ]
-      },
-      "lining": {
-        "role": "neutral",
-        "displayName": "Envelope Lining",
-        "canonical": "#ead9ba",
-        "oklch": "oklch(89.1% 0.045 82.6)",
-        "tonalRamp": [
-          "#130900",
-          "#312409",
-          "#514328",
-          "#736448",
-          "#97876a",
-          "#bcac8e",
-          "#e0cfb0",
-          "#feeccd"
         ]
       },
       "surround": {
@@ -357,6 +421,10 @@
         "displayName": "Script Cue",
         "purpose": "'Pastga suring' scroll cue."
       },
+      "script-print": {
+        "displayName": "Script Print",
+        "purpose": "The couple's names printed across both doors of the closed card at 35% height, bronze #8a6128; min(0.13, 2.1/L) of the card width for L characters (L at least 8)."
+      },
       "arabic": {
         "displayName": "Arabic",
         "purpose": "The Bismillah at the head of the arch card; Amiri, loaded as a text= subset of those glyphs only."
@@ -391,7 +459,7 @@
       },
       "italic-line": {
         "displayName": "Italic Line",
-        "purpose": "'Muhrni bosing' and the scratch instruction, ink-soft."
+        "purpose": "The scratch instruction, ink-soft."
       },
       "small": {
         "displayName": "Small",
@@ -404,6 +472,10 @@
       "label": {
         "displayName": "Label",
         "purpose": "KUN / OY / YIL under the scratch cards, uppercase."
+      },
+      "tap-label": {
+        "displayName": "Tap Label",
+        "purpose": "'Ochish uchun bosing' at 80% height on the closed card: 3% of the card width, 0.32em, uppercase, ink-soft."
       }
     },
     "shadows": [
@@ -445,17 +517,37 @@
       {
         "name": "wax-drop",
         "value": "drop-shadow(0 6px 10px rgba(80,52,20,0.28))",
-        "purpose": "The wax seal wherever it appears."
+        "purpose": "The closing seal."
       },
       {
         "name": "flap-cast",
-        "value": "rgba(110, 78, 36, 0.22) clipped to the flap, filter: blur(5px)",
-        "purpose": "Upper flaps casting on the paper beneath; 0.14 for the bottom flap."
+        "value": "rgba(90, 62, 26, 0.2) clipped to the flap, filter: blur(4px), offset 3-4px toward the point",
+        "purpose": "Each inner flap on the paper beneath it; fades over 350ms at 3250ms."
       },
       {
-        "name": "seal-focus",
-        "value": "drop-shadow(0 0 0.5px #8f6a2a) drop-shadow(0 0 10px rgba(246,199,106,0.9))",
-        "purpose": "Keyboard focus on the sealed envelope."
+        "name": "door-shadow",
+        "value": "linear-gradient(90deg, rgba(60, 40, 15, 0.34), rgba(60, 40, 15, 0)) across 55% from the hinge; door front overlay rgba(60, 40, 16, 0.42)",
+        "purpose": "A door swinging out casts on the paper beside its hinge (0 to 1 at 35% of the swing, back to 0) and its front darkens as it turns from the light."
+      },
+      {
+        "name": "seam",
+        "value": "left: inset -1px 0 0 rgba(255,253,246,0.7) + 8% fade rgba(110,80,40,0.08); right: inset 1px 0 0 rgba(110,80,40,0.3) + 7% fade rgba(110,80,40,0.14)",
+        "purpose": "Lit and shadowed edges where the doors meet."
+      },
+      {
+        "name": "fold-lines",
+        "value": "1.4px rgba(255,253,246,0.95) offset (0.35, 0.2) over 0.9px rgba(120,92,52,0.42), non-scaling",
+        "purpose": "The inner envelope's folds seen through the doors, from the corners to 50% 56%."
+      },
+      {
+        "name": "satin",
+        "value": "band: 0 2px 5px -1px rgba(50, 52, 60, 0.35); bow: drop-shadow(0 5px 6px rgba(50, 52, 60, 0.3))",
+        "purpose": "Cool shadows for the ribbon only."
+      },
+      {
+        "name": "bow-focus",
+        "value": "drop-shadow(0 0 1px #8a6128) drop-shadow(0 0 12px rgba(246, 199, 106, 0.85))",
+        "purpose": "Keyboard focus on the closed card, around the bow."
       },
       {
         "name": "sky-halo",
@@ -473,9 +565,9 @@
         "purpose": "Showcase phone bezel."
       },
       {
-        "name": "ring-of-light",
-        "value": "0 0 0 2px rgba(255, 236, 190, 0.9), 0 0 24px 6px rgba(246, 199, 106, 0.6)",
-        "purpose": "Light, not a shadow: the ring that leaves the seal on the press (scale 0.7 to 2.8)."
+        "name": "stamp-ring",
+        "value": "1.5px solid rgba(184, 146, 74, 0.6) at 4% inset; scale 0.7 to 2.8, fading",
+        "purpose": "The ring that leaves the closing seal as it is stamped (900ms after 480ms)."
       },
       {
         "name": "petal-shade",
@@ -487,82 +579,112 @@
       {
         "name": "ease-out",
         "value": "cubic-bezier(0.16, 1, 0.3, 1)",
-        "purpose": "Default: seal press, glow, text unblur, photo settle, scratch foil fade, after-date collapse, button press, showcase card lift."
+        "purpose": "Default: text unblur, photo settle, scratch foil fade, after-date collapse, button press, music coin, showcase card lift."
       },
       {
-        "name": "ease-flap",
-        "value": "cubic-bezier(0.55, 0.05, 0.25, 1)",
-        "purpose": "Side and bottom flaps parting."
+        "name": "ease-door",
+        "value": "cubic-bezier(0.45, 0.05, 0.25, 1)",
+        "purpose": "Doors swinging open and the inner flaps folding back."
       },
       {
-        "name": "ease-top-flap",
-        "value": "cubic-bezier(0.4, 0, 0.3, 1)",
-        "purpose": "Top flap lift and the seal layer riding it."
+        "name": "tied-hold",
+        "value": "9s ease-in-out infinite",
+        "purpose": "Closed card tilts in perspective(1600px) around its centre: rotateX 0.7deg / rotateY -0.9deg to rotateX -0.6deg / rotateY 0.9deg, scale 1.03."
       },
       {
-        "name": "ease-dissolve",
-        "value": "cubic-bezier(0.5, 0, 0.4, 1)",
-        "purpose": "Envelope dissolving into the photograph."
+        "name": "bow-idle",
+        "value": "3.2s ease-in-out 1.2s infinite",
+        "purpose": "The bow swells from 1 to 1.035 and back; the tap line breathes 0.55 to 1 opacity on the same beat."
       },
       {
-        "name": "seal-breathe",
-        "value": "3.4s ease-in-out 1.2s infinite",
-        "purpose": "Amber glow breathing under the seal while closed."
+        "name": "open-press",
+        "value": "0ms",
+        "purpose": "Haptic navigator.vibrate([10, 60, 14]); ribbon sounds and music start; hold, bow swell and hint stop; tap line fades (0.4s)."
       },
       {
-        "name": "open-seal-press",
-        "value": "0ms, 520ms",
-        "purpose": "Seal scales 1, 0.94, 1.05, 1; glow 0.6 to 1.35 over 900ms; 150 gold motes burst, then 3 per frame rise until 2520ms. Haptic navigator.vibrate([14, 70, 22]) on the press."
+        "name": "open-camera",
+        "value": "0ms, 4600ms, cubic-bezier(0.33, 0, 0.2, 1)",
+        "purpose": "Card gives under the thumb (1.03 to 1.015 by 3%), held nearly still while it opens (1 by 70%), then moves through it to 1.2."
       },
       {
-        "name": "open-top-flap",
-        "value": "560ms, 1100ms",
-        "purpose": "Top flap to perspective(3200px) rotateX(56deg); seal layer rises 18% and scales 1.08 in step."
+        "name": "open-untie",
+        "value": "0ms, 2300ms",
+        "purpose": "Bow tugs and wobbles about its knot (-6deg at 1.06 by 8%, 5deg by 17%, -3deg by 26%, rest by 33%), then falls 38% of the hero height turning 10deg to 0.92, crumples (1.06 x 0.6, settling to 1 x 0.7) and fades from 90%."
       },
       {
-        "name": "open-shade-fade",
-        "value": "600ms, 300ms",
-        "purpose": "Flap shadows fade."
+        "name": "open-tails",
+        "value": "650ms, 900ms cubic-bezier(0.4, 0, 0.6, 1)",
+        "purpose": "Tails swing in ±18deg and stretch to 1.15."
       },
       {
-        "name": "open-core",
-        "value": "650ms, 1200ms",
-        "purpose": "Amber interior core swells."
+        "name": "open-loops",
+        "value": "700ms / 760ms, 520ms cubic-bezier(0.5, 0, 0.7, 0.4)",
+        "purpose": "Left and right loops pull through the knot: rotate ∓70deg, scale 0.25, fade."
       },
       {
-        "name": "open-side-flaps",
-        "value": "700ms / 720ms, 1050ms",
-        "purpose": "Left and right flaps rotateY -50deg / 50deg, partway, leaving amber wedges."
+        "name": "open-knot",
+        "value": "820ms, 420ms ease-in",
+        "purpose": "Knot shrinks to 0.4 and fades."
       },
       {
-        "name": "open-bottom-flap",
-        "value": "760ms, 1050ms",
-        "purpose": "Bottom flap rotateX -48deg."
+        "name": "open-band",
+        "value": "0ms, 2300ms",
+        "purpose": "Band halves hold to 30%, free ends drop 6px at ±4deg by 38%, fall 38% of the hero height at ±7deg by 72%, crumple to 0.9 x 0.5 and fade from 90%."
       },
       {
-        "name": "open-welcome",
-        "value": "1350ms + i x 140ms, 1500ms",
-        "purpose": "Welcome lines and divider (i 0-2) unblur from 6px above the paper at hero position."
+        "name": "open-doors",
+        "value": "left 2050ms, right 2450ms; 1150ms ease-door",
+        "purpose": "Doors swing to perspective(1600px) rotateY(∓172deg); each front darkens (ease-in) and its shadow crosses the paper beside the hinge (ease-in-out)."
+      },
+      {
+        "name": "open-inner-flaps",
+        "value": "left 3250ms, right 3330ms, top 3420ms, bottom 3480ms; 850ms ease-door",
+        "purpose": "Inner flaps fold back 165deg off the photograph (rotateY ∓165deg, rotateX ±165deg in perspective(1600px)); flap shadows fade 350ms ease-out from 3250ms."
       },
       {
         "name": "photo-settle",
-        "value": "1700ms, 3000ms",
+        "value": "3300ms, 3000ms ease-out",
         "purpose": "Photograph scales 1.12 to 1.04, resting enlarged so the drift never shows an edge."
       },
       {
-        "name": "envelope-dissolve",
-        "value": "1850ms, 850ms",
-        "purpose": "Envelope to opacity 0, scale 1.05; dust fades from 1900ms over 700ms."
+        "name": "write",
+        "value": "1500ms; hero cubic-bezier(0.45, 0, 0.35, 1), headings cubic-bezier(0.5, 0, 0.3, 1)",
+        "purpose": "Handwriting wipe: mask linear-gradient(90deg, #000 40%, transparent 60%), mask-size 250% 100%, position 100% to 0. Hero names at 3300ms + i x 120ms (i 3, 4: 3660ms, 3780ms) with the 1200ms unblur."
+      },
+      {
+        "name": "open-welcome",
+        "value": "3600ms + i x 140ms, 1500ms ease-out",
+        "purpose": "Welcome lines and divider (i 0-2: 3600, 3740, 3880ms) unblur from 6px above the paper at hero position."
+      },
+      {
+        "name": "open-dissolve",
+        "value": "4100ms, 500ms ease-in",
+        "purpose": "The paper dissolves to opacity 0 over the scene."
       },
       {
         "name": "to-scene",
-        "value": "2700ms",
-        "purpose": "TO_SCENE: sections mount, scroll unlocks, dust stops (shared constant between component and stylesheet)."
+        "value": "4650ms (450ms under reduced motion)",
+        "purpose": "TO_SCENE: sections mount, scroll unlocks, music coin fades in (800ms); shared between the component and the stylesheet's timeline comment."
       },
       {
         "name": "scroll-cue",
-        "value": "1600ms, 1200ms; bob 2s infinite",
-        "purpose": "Scroll cue in, chevron bobs 5px."
+        "value": "4300ms after the tap, 1200ms; bob 2s infinite",
+        "purpose": "Mounted with the photograph, so it fades in beneath the paper and is first seen as the paper dissolves; chevron bobs 5px."
+      },
+      {
+        "name": "ribbon-sounds",
+        "value": "noise 40ms/220ms/5.2kHz; 680ms/450ms/4.3kHz; 950ms/750ms/3kHz; 2100ms and 2500ms/800ms/1.1kHz, 950Hz; 3300ms/600ms/1.5kHz; bells from 3650ms + i x 110ms",
+        "purpose": "playRibbonSounds: tug, satin slipping through, the two doors, the inner flaps, then four bells 2349, 2794, 3136, 3729Hz as the paper gives way."
+      },
+      {
+        "name": "ambient-petals",
+        "value": "starts 4300ms after the tap",
+        "purpose": "Canvas of 11 petals falling and 16 amber motes rising (lighter); DPR capped at 2; pauses off screen and in a hidden tab; off under reduced motion."
+      },
+      {
+        "name": "photo-drift",
+        "value": "22s ease-in-out 6300ms infinite alternate",
+        "purpose": "Photograph drifts to translate(-1.6%, -1%)."
       },
       {
         "name": "scratch-reveal",
@@ -573,71 +695,6 @@
         "name": "after-date",
         "value": "0.9s ease-out; opacity delayed 0.2s",
         "purpose": "Collapsed block opens after all three dates are revealed."
-      },
-      {
-        "name": "sealed-hold",
-        "value": "9s ease-in-out infinite",
-        "purpose": "Envelope tilts in perspective(1600px) around 50% 46%: rotateX 0.7deg / rotateY -0.9deg to rotateX -0.6deg / rotateY 0.9deg, scale 1.03."
-      },
-      {
-        "name": "sealed-sheen",
-        "value": "7s ease-in-out 1.2s infinite",
-        "purpose": "White-gold band (112deg, 0.42 peak) crosses the embossing in the first 45% of each cycle."
-      },
-      {
-        "name": "sealed-rings",
-        "value": "3.2s cubic-bezier(0.2, 0.6, 0.3, 1) 1.4s / 2.2s infinite",
-        "purpose": "Two 1.5px gilt rings pulse from the seal, scale 0.9 to 1.75; the hint breathes 0.6 to 1 opacity on the same 3.2s beat."
-      },
-      {
-        "name": "open-camera",
-        "value": "0ms, 2700ms, cubic-bezier(0.33, 0, 0.2, 1)",
-        "purpose": "Envelope gives under the thumb (1.03 to 1.012 at 7%), then pushes in to 1.13."
-      },
-      {
-        "name": "open-shock",
-        "value": "120ms, 800ms, cubic-bezier(0.15, 0.7, 0.3, 1)",
-        "purpose": "Ring of light leaves the seal."
-      },
-      {
-        "name": "open-spill",
-        "value": "520ms, 900ms ease-out",
-        "purpose": "Warm translucency through the paper around the seal (radial at 50% 47%)."
-      },
-      {
-        "name": "open-flap-tone",
-        "value": "600ms, 1100ms ease-out",
-        "purpose": "Each flap front warms toward its tip and darkens slightly at its fold (--mh-tone per flap)."
-      },
-      {
-        "name": "open-rays",
-        "value": "700ms, 900ms ease-out; spin 30s linear infinite",
-        "purpose": "Soft conic shafts behind the flaps, masked to a radial, seen only through the gaps."
-      },
-      {
-        "name": "open-seal-fade",
-        "value": "1500ms, 450ms ease-in",
-        "purpose": "Seal clears the sky before the names are written there."
-      },
-      {
-        "name": "write",
-        "value": "1500ms; hero cubic-bezier(0.45, 0, 0.35, 1), headings cubic-bezier(0.5, 0, 0.3, 1)",
-        "purpose": "Handwriting wipe: mask linear-gradient(90deg, #000 40%, transparent 60%), mask-size 250% 100%, position 100% to 0. Hero names at 1100ms + i x 120ms (i 3, 4: 1460ms, 1580ms) with the 1200ms unblur."
-      },
-      {
-        "name": "shimmer-bells",
-        "value": "1750ms + i x 110ms",
-        "purpose": "Four bells 2349, 2794, 3136, 3729Hz as the paper gives way."
-      },
-      {
-        "name": "ambient-petals",
-        "value": "starts 2200ms after the tap",
-        "purpose": "Canvas of 11 petals falling and 16 amber motes rising (lighter); DPR capped at 2; pauses off screen and in a hidden tab; off under reduced motion."
-      },
-      {
-        "name": "photo-drift",
-        "value": "22s ease-in-out 4700ms infinite alternate",
-        "purpose": "Photograph drifts to translate(-1.6%, -1%)."
       },
       {
         "name": "spray-sway",
@@ -681,8 +738,8 @@
       },
       {
         "name": "reduced-motion",
-        "value": "flaps 400ms; everything else at rest",
-        "purpose": "prefers-reduced-motion: reduce. No dust, petals, hold, sheen, rings, camera, rays, drift, sway, breathing glow or cue bob; every scroll reveal marked in at once and shown without clip, mask, transform or transition."
+        "value": "card fades to the scene in 400ms; everything else at rest",
+        "purpose": "prefers-reduced-motion: reduce. No hold, bow swell, hint breathing, untying, doors, flaps or camera; hero lettering, photograph and roses at rest; no petals, drift, sway or cue bob; every scroll reveal marked in at once and shown without clip, mask, transform or transition."
       }
     ],
     "breakpoints": [
@@ -762,34 +819,42 @@
       "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-sh{margin:0;font-family:Corinthia,\"Pinyon Script\",cursive;font-weight:400;font-size:52px;line-height:1.05;color:#9a6e2e}.ds-mh-dv{display:flex;justify-content:center;color:#b8924a;margin:4px 0 14px}.ds-mh-p{font-size:18px;line-height:1.62;margin:0 auto;max-width:300px;text-wrap:pretty}"
     },
     {
-      "name": "Pressed Wax Seal",
+      "name": "Closing Wax Seal",
       "kind": "custom",
       "refersTo": "",
-      "description": "Initials in gold multiplied into the seal's empty centre, with the sealed-state rings pulsing from it (the build uses the owner's seal.png; this stand-in disc shows the pressing).",
-      "html": "<div class=\"ds-mh\"><span class=\"ds-mh-wax\"><i class=\"ds-mh-ping\"></i><i class=\"ds-mh-ping ds-mh-ping-2\"></i><span class=\"ds-mh-mono\"><span>S</span><i></i><span>M</span></span></span></div>",
-      "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-wax{position:relative;display:inline-block;width:112px;height:117px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fdf7ea,#ecdcb8 60%,#c7a873);filter:drop-shadow(0 6px 10px rgba(80,52,20,.28))}.ds-mh-mono{position:absolute;left:50%;top:50%;translate:-50% -50%;display:flex;align-items:center;gap:.18em;font-family:Corinthia,\"Pinyon Script\",cursive;font-size:22px;line-height:1;color:#a77b34;mix-blend-mode:multiply}.ds-mh-mono i{width:.12em;height:.12em;border-radius:50%;background:#b88c3e}.ds-mh-ping{position:absolute;inset:6%;border-radius:50%;border:1.5px solid rgba(196,154,80,.75);opacity:0;pointer-events:none;animation:ds-mh-ping 3.2s cubic-bezier(.2,.6,.3,1) 1.4s infinite}.ds-mh-ping-2{animation-delay:2.2s}@keyframes ds-mh-ping{0%{opacity:0;scale:.9}12%{opacity:.8}70%,100%{opacity:0;scale:1.75}}@media (prefers-reduced-motion:reduce){.ds-mh-ping{animation:none}}"
+      "description": "Initials in gold multiplied into the seal's empty centre, stamped onto the closing section with a line-gold ring leaving it (the build uses the owner's seal.png; this stand-in disc shows the pressing). The closed card carries no seal.",
+      "html": "<div class=\"ds-mh\"><span class=\"ds-mh-stamp\"><span class=\"ds-mh-wax\"><span class=\"ds-mh-mono\"><span>S</span><i></i><span>M</span></span></span></span></div>",
+      "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-stamp{position:relative;display:inline-block;animation:ds-mh-stamp 900ms cubic-bezier(.3,0,.2,1) both}.ds-mh-stamp::after{content:\"\";position:absolute;inset:4%;border-radius:50%;border:1.5px solid rgba(184,146,74,.6);opacity:0;pointer-events:none;animation:ds-mh-shock 900ms cubic-bezier(.15,.7,.3,1) 480ms both}.ds-mh-wax{position:relative;display:block;width:112px;height:117px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fdf7ea,#ecdcb8 60%,#c7a873);filter:drop-shadow(0 6px 10px rgba(80,52,20,.28))}.ds-mh-mono{position:absolute;left:50%;top:50%;translate:-50% -50%;display:flex;align-items:center;gap:.18em;font-family:Corinthia,\"Pinyon Script\",cursive;font-size:22px;line-height:1;color:#a77b34;mix-blend-mode:multiply}.ds-mh-mono i{width:.12em;height:.12em;border-radius:50%;background:#b88c3e}@keyframes ds-mh-stamp{0%{opacity:0;scale:1.9;filter:blur(3px)}55%{opacity:1;scale:.94;filter:blur(0)}75%{scale:1.03}100%{opacity:1;scale:1}}@keyframes ds-mh-shock{0%{opacity:.95;scale:.7}100%{opacity:0;scale:2.8}}@media (prefers-reduced-motion:reduce){.ds-mh-stamp,.ds-mh-stamp::after{animation:none}}"
+    },
+    {
+      "name": "Tied Card with Satin Bow",
+      "kind": "custom",
+      "refersTo": "",
+      "description": "The closed gatefold card: embossed paper (a cream stand-in here), fold lines, the printed names and tap line split by the seam, a silver satin band at 56% and the bow tied over it; the bow swells on a 3.2s beat and takes the amber focus halo.",
+      "html": "<div class=\"ds-mh\"><div class=\"ds-mh-card\" role=\"button\" tabindex=\"0\" aria-label=\"Lentani yechib, taklifnomani oching\"><svg class=\"ds-mh-folds\" viewBox=\"0 0 100 100\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M0,0 L50,56 L0,100 M100,0 L50,56 L100,100\" fill=\"none\" stroke=\"rgba(120,92,52,0.42)\" stroke-width=\"0.9\" vector-effect=\"non-scaling-stroke\"/></svg><i class=\"ds-mh-seam\"></i><p class=\"ds-mh-names\">Sardor &amp; Mohinur</p><i class=\"ds-mh-band\"></i><span class=\"ds-mh-bow\"><svg viewBox=\"0 0 400 300\" aria-hidden=\"true\"><defs><linearGradient id=\"ds-rb-loop\" x1=\"0\" y1=\"0\" x2=\"0.35\" y2=\"1\"><stop offset=\"0\" style=\"stop-color:var(--rb4)\"/><stop offset=\"0.18\" style=\"stop-color:var(--rb5)\"/><stop offset=\"0.34\" style=\"stop-color:var(--rb2)\"/><stop offset=\"0.52\" style=\"stop-color:var(--rb3)\"/><stop offset=\"0.68\" style=\"stop-color:var(--rb5)\"/><stop offset=\"0.84\" style=\"stop-color:var(--rb4)\"/><stop offset=\"1\" style=\"stop-color:var(--rb1)\"/></linearGradient><linearGradient id=\"ds-rb-in\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" style=\"stop-color:var(--rb1)\"/><stop offset=\"0.55\" style=\"stop-color:var(--rb4)\"/><stop offset=\"1\" style=\"stop-color:var(--rb3)\"/></linearGradient><linearGradient id=\"ds-rb-tail\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0.25\"><stop offset=\"0\" style=\"stop-color:var(--rb1)\"/><stop offset=\"0.25\" style=\"stop-color:var(--rb4)\"/><stop offset=\"0.45\" style=\"stop-color:var(--rb5)\"/><stop offset=\"0.62\" style=\"stop-color:var(--rb2)\"/><stop offset=\"0.8\" style=\"stop-color:var(--rb4)\"/><stop offset=\"1\" style=\"stop-color:var(--rb1)\"/></linearGradient></defs><path d=\"M190,116 C178,158 150,214 112,272 L136,264 L144,294 C172,238 198,176 208,120 Z\" fill=\"url(#ds-rb-tail)\"/><path d=\"M210,116 C224,160 254,212 294,266 L268,264 L262,294 C236,238 204,178 194,120 Z\" fill=\"url(#ds-rb-tail)\"/><g id=\"ds-rb-l\"><path d=\"M192,100 C160,66 108,24 64,26 C26,28 10,66 18,102 C26,136 66,152 112,146 C148,141 174,128 192,118 Z\" fill=\"url(#ds-rb-loop)\"/><path d=\"M180,106 C154,84 112,56 78,58 C54,60 42,82 50,104 C58,124 92,130 122,124 C148,119 166,112 180,110 Z\" fill=\"url(#ds-rb-in)\"/><path d=\"M186,98 C156,68 110,34 70,34 C44,35 28,56 26,80\" fill=\"none\" stroke=\"var(--rb5)\" stroke-opacity=\"0.9\" stroke-width=\"5\" stroke-linecap=\"round\"/></g><use href=\"#ds-rb-l\" transform=\"matrix(-1 0 0 1 400 0)\"/><path d=\"M181,92 C181,84 219,84 219,92 L222,124 C222,133 178,133 178,124 Z\" fill=\"url(#ds-rb-loop)\"/></svg></span><p class=\"ds-mh-tap\">Ochish uchun bosing</p></div></div>",
+      "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-card{--rb1:#858b94;--rb2:#e2e6ea;--rb3:#c2c8ce;--rb4:#a6adb5;--rb5:#fbfcfd;--bw:200px;position:relative;width:200px;height:420px;margin:0 auto;overflow:hidden;cursor:pointer;background:linear-gradient(170deg,#fbf6ec,#efe4d1);outline:none}.ds-mh-folds{position:absolute;inset:0;width:100%;height:100%}.ds-mh-seam{position:absolute;top:0;bottom:0;left:50%;width:1px;background:rgba(110,80,40,.3);box-shadow:-1px 0 0 rgba(255,253,246,.7)}.ds-mh-names{position:absolute;left:0;right:0;top:35%;margin:0;font-family:Corinthia,\"Pinyon Script\",cursive;font-size:24px;line-height:1;color:#8a6128}.ds-mh-tap{position:absolute;left:0;right:0;top:80%;margin:0;font-size:calc(var(--bw)*.03);letter-spacing:.32em;text-transform:uppercase;color:var(--mh-ink-soft);animation:ds-mh-hint 3.2s ease-in-out 1.2s infinite}.ds-mh-band{position:absolute;left:0;right:0;top:56%;height:calc(var(--bw)*.064);margin-top:calc(var(--bw)*-.032);background:linear-gradient(180deg,var(--rb1),var(--rb3) 18%,var(--rb5) 40%,var(--rb2) 58%,var(--rb4) 84%,var(--rb1));box-shadow:0 2px 5px -1px rgba(50,52,60,.35)}.ds-mh-bow{position:absolute;left:14%;width:72%;top:calc(56% - var(--bw)*.194);transform-origin:50% 36%;filter:drop-shadow(0 5px 6px rgba(50,52,60,.3));animation:ds-mh-bow 3.2s ease-in-out 1.2s infinite}.ds-mh-bow svg{display:block;width:100%;height:auto;overflow:visible}.ds-mh-card:focus-visible .ds-mh-bow{filter:drop-shadow(0 0 1px #8a6128) drop-shadow(0 0 12px rgba(246,199,106,.85))}@keyframes ds-mh-bow{50%{scale:1.035}}@keyframes ds-mh-hint{0%,100%{opacity:.55}50%{opacity:1}}@media (prefers-reduced-motion:reduce){.ds-mh-bow,.ds-mh-tap{animation:none}}"
     }
   ],
   "narrative": {
-    "northStar": "The Sealed Letter at Sunset",
-    "overview": "The phone screen is the envelope, edge to edge: an owner-supplied photograph of ivory paper blind-embossed with roses and climbing vines, folded into four flaps that meet a cream wax seal at 48% height. The couple's initials sit pressed into the seal's empty centre in gold. Sealed, the letter is alive in the guest's hands: it breathes with a slow tilt, a glint travels over the embossing and rings pulse from the seal. Breaking the seal is the one orchestrated moment of the page, and light comes before movement: the seal gives under the thumb and a ring of light leaves it, gold dust bursts, warm light spills through the paper as the camera eases in, the flaps part only partway so amber light and soft shafts show in the wedge-shaped gaps, the seal clears the sky, the names are written in by hand where they will sit in the hero, and the paper dissolves into a sunset photograph of the couple walking toward a mosque, where petals keep falling and light keeps rising.\n\nAfter the opening the page is ceremonial, and each section arrives once as it scrolls in: one centred phone-width column on cream (#f5ecdf), sepia ink, gold script titles, rose sprays multiplied onto the ground so their white backgrounds vanish, and a gilded arch card that names both families under the Bismillah. The world is built from the owner's own rasters (photograph, paper, seal, roses, rings, arch card), each carrying its generation prompt and post-processing in embedded metadata; code draws only what the rasters do not cover yet (gold timeline line art, dividers, the venue map, icons).",
+    "northStar": "The Ribboned Letter at Sunset",
+    "overview": "The phone screen is the closed card, edge to edge: a gatefold of the owner's ivory paper blind-embossed with roses and climbing vines, its two doors meeting at a centre seam, the inner envelope's fold lines showing faintly through toward a point at 56% height. The couple's names are printed across both doors in bronze script at 35% height, a silver satin ribbon crosses the card at 56% and is tied at the centre in a bow, and \"Ochish uchun bosing\" is set in small spaced capitals near the foot. Closed, the card is alive in the guest's hands: it tilts slowly and the bow swells as if inviting a touch. Untying it is the one orchestrated moment of the page, told in order: the bow tugs and wobbles, its loops pull through and the knot gives, the ribbon and bow drop to the foot of the card and crumple away; the left door swings open, then the right; the inner envelope's four flaps fold back off the photograph; the names and the welcome are written in where they will sit in the hero, and the paper dissolves into a sunset photograph of the couple walking toward a mosque, where petals keep falling and light keeps rising.\n\nAfter the opening the page is ceremonial, and each section arrives once as it scrolls in: one centred phone-width column on cream (#f5ecdf), sepia ink, gold script titles, rose sprays multiplied onto the ground so their white backgrounds vanish, and a gilded arch card that names both families under the Bismillah. The world is built from the owner's own rasters (photograph, paper, seal, roses, rings, arch card), each carrying its generation prompt and post-processing in embedded metadata; code draws only what the rasters do not cover yet (the satin ribbon and bow, the card's fold lines, gold timeline line art, dividers, the venue map, icons).",
     "keyCharacteristics": [
-      "Full-bleed embossed envelope as the first viewport; the seal is the only control and \"Muhrni bosing\" the only printed line.",
+      "Full-bleed embossed gatefold card tied with a silver satin bow as the first viewport; the whole card is the control, and it carries only the printed names and one tap line.",
       "An owner-supplied raster world, each image carrying embedded provenance; nothing generic or stock.",
       "Gold is a material (foil, gilt edge, coin, pressed leaf), rendered as gradients from deep antique to pale champagne, never as a flat accent fill and never on text.",
       "Sepia ink throughout; no black anywhere a guest can see.",
       "Three faces with fixed jobs: Corinthia script for names, greetings and section titles; Bodoni Moda for everything set; Amiri for the Arabic Bismillah alone.",
-      "Slow exponential ease-out; a sealed letter that breathes in the hand, one choreographed opening, sections that arrive once as the guest scrolls them in, one tactile interaction (scratching the gold-foil date), otherwise only ambient motion (petals, rising light, drifting photograph, swaying roses). Reduced motion shows everything at rest."
+      "Slow exponential ease-out; a tied card that breathes in the hand, one choreographed untying and opening, sections that arrive once as the guest scrolls them in, one tactile interaction (scratching the gold-foil date), otherwise only ambient motion (petals, rising light, drifting photograph, swaying roses). Reduced motion shows everything at rest."
     ],
     "rules": [
       {
         "name": "The Sepia Rule",
-        "body": "Ink is brown, never black. Even the showcase phone bezel is dark brown (#241a10).",
+        "body": "Ink is brown, never black. Even the showcase phone bezel is dark brown (#241a10). The silver satin is the one cool material, and it stays on the ribbon.",
         "section": "colors"
       },
       {
         "name": "The Light Is Not Paint Rule",
-        "body": "Amber and the white-gold radials describe light (seal glow, envelope interior, spill and rays, gold dust, motes, the glints that cross the paper, the foil and the arch card, the sky veil behind the hero names). They never fill a card, a button or text.",
+        "body": "Amber and the white-gold radials describe light (the focus halo on the bow, the rising motes and the date shower, the glints that cross the foil and the arch card, the sky veil behind the hero names). They never fill a card, a button or text.",
         "section": "colors"
       },
       {
@@ -808,13 +873,13 @@
         "section": "typography"
       },
       {
-        "name": "The One Line Rule",
-        "body": "The sealed envelope carries exactly one line of text, the italic instruction under the seal. Everything else on the paper is the owner's embossing.",
+        "name": "The Printed Face Rule",
+        "body": "The closed card carries exactly two lines of text, both printed across the doors so they split at the seam: the couple's names in script and the tap line in spaced capitals. Everything else on the paper is the owner's embossing and the fold lines.",
         "section": "typography"
       },
       {
         "name": "The Real Paper Rule",
-        "body": "The envelope's relief is the owner's embossed-paper photograph; no coded relief, flourish or colour ornament is printed on top of it. Light may cross it (the sheen, the spill, the flap-tip tone); nothing is drawn on it.",
+        "body": "The card's relief is the owner's embossed-paper photograph, printed across both doors as one sheet (each door shows its half of a 200%-wide print, so the image runs unbroken across the seam). Code adds only the fold lines, the seam, the printed names and the tap line; no coded relief, flourish or colour ornament. The ribbon lies on the paper; it is not printed on it.",
         "section": "elevation"
       },
       {
@@ -827,22 +892,22 @@
       "Do keep every raster owner-supplied and carrying its prompt and post-processing in embedded metadata.",
       "Do lay white-ground rasters on cream with `mix-blend-mode: multiply`, and press the seal's initials into the wax the same way.",
       "Do render gold as a gradient material with a highlight and a darker edge (deep antique to pale champagne), not as a flat fill.",
-      "Do time motion with the slow ease-out (`cubic-bezier(0.16, 1, 0.3, 1)`) and bring light in before movement.",
+      "Do time motion with the slow ease-out (`cubic-bezier(0.16, 1, 0.3, 1)`), and tell the opening in order: the bow undone, the ribbon gone, the doors, the inner flaps, then the scene.",
       "Do draw icons, sparks, dividers and nodes as inline SVG in line gold or currentColor.",
       "Do keep fixed controls aligned to the 480px column and clear of safe-area insets.",
-      "Do honour reduced motion: the flaps open in 400ms, and there is no dust, petals, hold, sheen, rings, rays, drift, sway or breathing glow; every scroll reveal is shown at rest.",
+      "Do honour reduced motion: the closed card is still (no hold, bow swell or breathing hint), a tap fades it to the scene in 400ms, the hero lettering, photograph and roses stand at rest, and there are no petals, drift, sway or cue bob; every scroll reveal is shown at rest.",
       "Do bring each section in once, as the guest scrolls to it, and leave it in place.",
       "Do draw a multiplied photograph in with a clip-path wipe on the image itself."
     ],
     "donts": [
-      "Don't print colour ornament or extra text on the envelope; it carries the embossed paper, the seal and one italic line.",
-      "Don't use black ink or neutral grey anywhere visible; text is sepia.",
+      "Don't print colour ornament or extra text on the closed card; it carries the embossed paper, its fold lines, the printed names, one tap line and the satin bow.",
+      "Don't use black ink, or grey for text or surfaces; text is sepia, and the only grey is the silver satin of the ribbon.",
       "Don't fill text with a gradient or clip a gradient to text; gold text is a flat script gold or bronze.",
       "Don't use emoji or font glyphs as icons.",
       "Don't add a second automatic sequence after the opening; later motion answers the guest (a section scrolled into view, a date scratched) or is ambient.",
       "Don't fade a multiplied photograph or fade or transform any ancestor of one; Chrome drops the blend and its white ground shows.",
       "Don't set instructions, body copy, labels or form text in the script face, or use Amiri for anything but the Bismillah.",
-      "Don't let a later template borrow these tokens, rasters, the seal or the arch card; it shares only the showcase shell."
+      "Don't let a later template borrow these tokens, rasters, the satin bow, the seal or the arch card; it shares only the showcase shell."
     ]
   }
 }

@@ -6,14 +6,11 @@
 .mh {
   --mh-ground: #f5ecdf;
   --mh-paper: #f7efe2;
-  --mh-paper-2: #efe4d1;
-  --mh-lining: #ead9ba;
   --mh-ink: #4a331b;
   --mh-ink-soft: #77604a;
   --mh-gold-deep: #8f6a2a;
   --mh-gold: #b08636;
   --mh-gold-pale: #efd9a0;
-  --mh-amber: #f6c76a;
   --mh-line: rgba(176, 134, 54, 0.38);
   --mh-surround: #e9ddc9;
 
@@ -21,7 +18,6 @@
   --mh-serif: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
 
   --mh-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --mh-ease-flap: cubic-bezier(0.55, 0.05, 0.25, 1);
 
   background: var(--mh-surround);
   color: var(--mh-ink);
@@ -849,7 +845,7 @@
   font-size: 24px;
   color: #6a4818;
   pointer-events: none;
-  animation: mh-text 1200ms var(--mh-ease-out) 1600ms both;
+  animation: mh-text 1200ms var(--mh-ease-out) 4300ms both;
 }
 .mh-cue svg {
   animation: mh-bob 2s ease-in-out infinite;
