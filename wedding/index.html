@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="uz">
+<html lang="uz-Latn">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -8,7 +8,7 @@
 <meta name="description" content="Sardor va Madinaning nikoh to‘yiga taklifnoma — 12-iyun, 2027, Toshkent.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Jost:wght@300;400;500&family=Montserrat:wght@300;400;500&family=Noto+Serif+Display:ital,wght@0,300..600;1,300..600&family=Pinyon+Script&display=swap">
 <style>
 /* Layout: one narrow invitation column on white paper; a girih-patterned hero with a mihrab arch, then quiet sections separated by gold octagram dividers. Single light theme by choice (a letterpress invitation). */
 :root {
@@ -24,7 +24,7 @@
   --satin-2: #D9C6A1;
   --satin-3: #B89C6C;
 
-  --f-display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --f-display: "Noto Serif Display", "Didot", "Bodoni 72", Georgia, serif;
   --f-script: "Pinyon Script", "Snell Roundhand", "Apple Chancery", cursive;
   --f-arabic: "Amiri", "Traditional Arabic", "Geeza Pro", serif;
   --f-body: "Jost", "Futura", "Avenir Next", "Helvetica Neue", sans-serif;
@@ -32,6 +32,12 @@
   --ease: cubic-bezier(.65, 0, .25, 1);
   color-scheme: light;
 }
+/* Uzbek Cyrillic needs ў қ ғ ҳ: Jost and Pinyon Script lack them, so swap faces in Кирилл mode */
+:root[lang="uz-Cyrl"] {
+  --f-body: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --f-script: "Noto Serif Display", Georgia, serif;
+}
+:root[lang="uz-Cyrl"] .script { font-style: italic; font-size-adjust: .3; }
 
 *, *::before, *::after { box-sizing: border-box; }
 [hidden] { display: none !important; }
@@ -73,94 +79,152 @@ button { font: inherit; color: inherit; }
 .arabic { font-family: var(--f-arabic); direction: rtl; color: var(--gold-deep); text-wrap: balance; }
 .lede { color: var(--ink-soft); max-width: 30rem; }
 
-/* ---------- Envelope (opening) ---------- */
+/* ---------- Opening: atlas-wrapped gift ---------- */
 .env {
   position: fixed;
   inset: 0;
   z-index: 60;
-  perspective: 1800px;
-  perspective-origin: 50% 50%;
-  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(18px, 3.4vh, 30px);
+  padding: calc(64px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) calc(32px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  background-color: var(--paper);
   overflow: hidden;
+  cursor: pointer;
+  transition: background-color .9s ease;
 }
-.door {
+.env__emboss {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  mask-image: radial-gradient(80% 60% at 50% 50%, transparent 20%, #000 85%);
+  -webkit-mask-image: radial-gradient(80% 60% at 50% 50%, transparent 20%, #000 85%);
+  transition: opacity .8s ease;
+  pointer-events: none;
+}
+.blossom {
+  position: absolute;
+  width: min(54vw, 300px);
+  height: auto;
+  aspect-ratio: 1;
+  filter: drop-shadow(0 2px 3px rgba(110, 90, 60, .2));
+  pointer-events: none;
+  transition: opacity .8s ease;
+}
+.blossom--tl { top: calc(-16px + env(safe-area-inset-top, 0px)); left: -20px; }
+.blossom--br { bottom: -20px; right: -20px; transform: rotate(180deg); }
+.env > .lang {
+  position: absolute;
+  z-index: 3;
+  top: calc(14px + env(safe-area-inset-top, 0px));
+  right: max(14px, env(safe-area-inset-right, 0px));
+  transition: opacity .6s ease;
+}
+.env__title {
+  position: relative;
+  z-index: 2;
+  font: 400 clamp(30px, 8.4vw, 42px)/1.12 var(--f-display);
+  letter-spacing: -.01em;
+  text-align: center;
+  transition: opacity .6s ease;
+}
+
+.box {
+  --bw: min(72vw, 330px);
+  --rw: calc(var(--bw) * .12);
+  --ry: 56%;
+  position: relative;
+  z-index: 2;
+  width: var(--bw);
+  max-width: 100%;
+  aspect-ratio: 3 / 4;
+  perspective: 1400px;
+  overflow: hidden;
+  box-shadow: 0 34px 60px -24px rgba(70, 52, 26, .4), 0 10px 22px -6px rgba(70, 52, 26, .14);
+  transition: transform 1.1s var(--ease), opacity .9s ease;
+}
+@supports (height: 100svh) {
+  .box { --bw: min(72vw, 330px, calc((100svh - 300px) * .75)); }
+}
+.box__inside {
+  position: absolute; inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  text-align: center;
+  background: var(--paper);
+  box-shadow:
+    inset 0 0 0 10px var(--paper), inset 0 0 0 11px var(--gold),
+    inset 0 0 0 15px var(--paper), inset 0 0 0 15.6px var(--gold-pale),
+    inset 0 14px 30px rgba(70, 52, 26, .14);
+}
+.box__inside svg { width: 34px; height: 34px; color: var(--gold); }
+.box__inside .mini-names { font: 400 30px/1 var(--f-display); }
+.box__inside .mini-date { font: 400 11px/1 var(--f-body); letter-spacing: .32em; color: var(--ink-soft); }
+
+.half {
   position: absolute;
   top: 0; bottom: 0;
-  width: 50.2%;
-  background:
-    radial-gradient(120% 70% at 50% 50%, #FFFFFF 0%, #FCFAF6 60%, #F5F0E6 100%);
+  width: 50%;
+  background: var(--ikat, linear-gradient(135deg, #EFE3CC, #D9C49A));
+  background-size: 200% 100%;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  transition: transform 1.9s var(--ease), opacity .7s ease 1.2s;
-  will-change: transform;
-  overflow: hidden;
+  transition: transform 1.7s var(--ease), opacity .6s ease 1.1s;
 }
-.door--l { left: 0; transform-origin: left center; }
-.door--r {
-  right: 0;
-  transform-origin: right center;
-  box-shadow: -10px 0 22px rgba(90, 70, 40, .07), -1px 0 0 rgba(150, 125, 85, .18);
-}
-.door::after {
+.half--l { left: 0; background-position: 0 0; transform-origin: left center; }
+.half--r { right: 0; background-position: 100% 0; transform-origin: right center; box-shadow: -1px 0 0 rgba(40, 30, 15, .1); }
+.half::after {
   content: "";
   position: absolute; inset: 0;
-  background: linear-gradient(90deg, rgba(60, 45, 25, .0), rgba(60, 45, 25, .18));
-  opacity: 0;
-  transition: opacity 1.9s var(--ease);
-  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .22), transparent 22%, transparent 78%, rgba(40, 30, 15, .12));
+  transition: background-color 1.7s var(--ease);
 }
-.door--r::after { background: linear-gradient(270deg, rgba(60, 45, 25, .0), rgba(60, 45, 25, .18)); }
-.door svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-.door .emboss { opacity: .7; mask-image: radial-gradient(90% 60% at 50% 56%, transparent 0%, #000 80%); -webkit-mask-image: radial-gradient(90% 60% at 50% 56%, transparent 0%, #000 80%); }
+.env.open .half::after { background-color: rgba(40, 30, 15, .25); }
 
-.env__names {
+.rib {
   position: absolute;
-  left: 0; right: 0;
-  top: 22%;
-  text-align: center;
-  pointer-events: none;
-  transition: opacity .6s ease;
-  display: grid;
-  gap: 10px;
-  justify-items: center;
+  box-shadow: 0 1px 4px rgba(70, 52, 26, .25);
+  transition: transform .95s cubic-bezier(.5, 0, .75, 0), opacity .95s ease;
 }
-.env__names .script { font-size: clamp(38px, 11vw, 58px); line-height: 1; text-shadow: 0 1px 0 #fff; }
-.env__names .eyebrow { color: var(--gold); }
+.rib--t, .rib--b {
+  left: calc(50% - var(--rw) / 2);
+  width: var(--rw);
+  background: linear-gradient(90deg, var(--satin-3) 0%, var(--satin-2) 8%, var(--satin-1) 30%, #FFFDF7 44%, var(--satin-2) 64%, var(--satin-1) 84%, var(--satin-3) 100%);
+}
+.rib--t { top: 0; height: var(--ry); }
+.rib--b { top: var(--ry); bottom: 0; }
+.rib--l, .rib--r {
+  top: calc(var(--ry) - var(--rw) / 2);
+  height: var(--rw);
+  width: 50%;
+  background: linear-gradient(180deg, var(--satin-3) 0%, var(--satin-2) 8%, var(--satin-1) 30%, #FFFDF7 44%, var(--satin-2) 64%, var(--satin-1) 84%, var(--satin-3) 100%);
+}
+.rib--l { left: 0; }
+.rib--r { right: 0; }
 
-.ribbon {
+.bow-btn {
   position: absolute;
-  left: 0; right: 0;
-  top: 58%;
-  height: 30px;
-  transform: translateY(-50%);
-  border: 0;
-  padding: 0;
+  left: 50%;
+  top: var(--ry);
+  width: 72px; height: 72px;
+  transform: translate(-50%, -50%);
+  border: 0; padding: 0;
+  border-radius: 50%;
   background: none;
   cursor: pointer;
 }
-.band {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 50.5%;
-  background:
-    linear-gradient(180deg,
-      var(--satin-3) 0%, var(--satin-2) 8%, var(--satin-1) 30%,
-      #FFFDF7 42%, var(--satin-2) 62%, var(--satin-1) 82%, var(--satin-3) 100%);
-  box-shadow: 0 2px 6px rgba(90, 70, 40, .16);
-  transition: transform 1s cubic-bezier(.5, 0, .75, 0), opacity 1s ease;
-}
-.band--l { left: 0; }
-.band--r { right: 0; }
 .bow {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 168px;
+  left: 50%; top: 50%;
+  width: calc(var(--bw) * .62);
+  max-width: none;
   height: auto;
   transform: translate(-50%, -40%);
-  filter: drop-shadow(0 6px 10px rgba(90, 70, 40, .2));
+  filter: drop-shadow(0 8px 12px rgba(70, 52, 26, .32)) drop-shadow(0 1px 1px rgba(70, 52, 26, .25));
   overflow: visible;
+  pointer-events: none;
 }
 .bow .part {
   transform-box: view-box;
@@ -170,44 +234,72 @@ button { font: inherit; color: inherit; }
 .pulse {
   position: absolute;
   left: 50%; top: 50%;
-  width: 64px; height: 64px;
-  margin: -32px 0 0 -32px;
+  width: 84px; height: 84px;
+  margin: -42px 0 0 -42px;
   border-radius: 50%;
-  border: 1px solid var(--gold);
+  border: 1.5px solid rgba(255, 255, 255, .95);
   animation: pulse 2.4s ease-out infinite;
   pointer-events: none;
 }
 @keyframes pulse {
-  0% { transform: scale(.6); opacity: .8; }
-  100% { transform: scale(2.4); opacity: 0; }
+  0% { transform: scale(.7); opacity: .9; }
+  100% { transform: scale(2.2); opacity: 0; }
 }
-.env__hint {
-  position: absolute;
-  left: 0; right: 0;
-  bottom: calc(9% + env(safe-area-inset-bottom, 0px));
-  text-align: center;
-  font: 400 11px/1.4 var(--f-body);
-  letter-spacing: .3em;
+.env__pill {
+  position: relative;
+  z-index: 2;
+  padding: 12px 22px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .9);
+  font: 400 11px/1.3 var(--f-body);
+  letter-spacing: .24em;
   text-transform: uppercase;
+  text-align: center;
   color: var(--ink-soft);
   transition: opacity .5s ease;
-  pointer-events: none;
 }
 
-/* untie → slide → open */
-.env.untie .pulse, .env.untie .env__hint { opacity: 0; animation: none; }
+/* untie → slide → open → reveal */
+.env.untie .pulse { opacity: 0; animation: none; }
+.env.untie .env__pill { opacity: 0; }
 .env.untie .bow .loop-l { transform: rotate(-38deg) scale(.15); opacity: 0; }
 .env.untie .bow .loop-r { transform: rotate(38deg) scale(.15); opacity: 0; }
 .env.untie .bow .knot { transform: scale(.2); opacity: 0; }
 .env.untie .bow .tail-l { transform: translate(-30px, 70px) rotate(14deg); opacity: 0; }
 .env.untie .bow .tail-r { transform: translate(30px, 70px) rotate(-14deg); opacity: 0; }
-.env.slide .band--l { transform: translate(-105%, 40px) rotate(-6deg); opacity: 0; }
-.env.slide .band--r { transform: translate(105%, 40px) rotate(6deg); opacity: 0; }
-.env.slide .env__names { opacity: 0; }
-.env.open .door--l { transform: rotateY(84deg); opacity: 0; }
-.env.open .door--r { transform: rotateY(-84deg); opacity: 0; }
-.env.open .door::after { opacity: 1; }
+.env.slide .rib--t { transform: translateY(-102%); opacity: 0; }
+.env.slide .rib--b { transform: translateY(102%); opacity: 0; }
+.env.slide .rib--l { transform: translateX(-102%); opacity: 0; }
+.env.slide .rib--r { transform: translateX(102%); opacity: 0; }
+.env.open .half--l { transform: rotateY(84deg); opacity: 0; }
+.env.open .half--r { transform: rotateY(-84deg); opacity: 0; }
 .env.open { pointer-events: none; }
+.env.reveal { background-color: transparent; }
+.env.reveal .env__emboss, .env.reveal .blossom, .env.reveal .env__title, .env.reveal > .lang { opacity: 0; }
+.env.reveal .box { transform: scale(1.5); opacity: 0; }
+
+/* ---------- Lotin / Кирилл switch ---------- */
+.lang {
+  display: inline-flex;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .9);
+}
+.lang button {
+  min-height: 30px;
+  padding: 0 13px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  font: 500 12px/1 "Jost", "Montserrat", "Helvetica Neue", sans-serif;
+  letter-spacing: .04em;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: background .3s ease, color .3s ease;
+}
+.lang button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
 
 /* ---------- Header ---------- */
 .top {
@@ -242,6 +334,7 @@ body.ready .top { transform: none; }
 }
 .mono svg { width: 38px; height: 38px; }
 .mono span { font: 400 11px/1 var(--f-body); letter-spacing: .3em; text-transform: uppercase; color: var(--ink-soft); }
+.top__right { display: flex; align-items: center; gap: 6px; }
 .burger {
   width: 44px; height: 44px;
   border: 0; background: none;
@@ -355,7 +448,7 @@ body.opened .arch { transform: none; }
 @keyframes nudge { 50% { transform: translateY(5px); } }
 
 .hl { opacity: 0; transform: translateY(12px); transition: opacity 1.1s ease, transform 1.1s var(--ease); }
-body.opened .hl { opacity: 1; transform: none; transition-delay: calc(900ms + var(--d, 0) * 1ms); }
+body.opened .hl { opacity: 1; transform: none; transition-delay: calc(250ms + var(--d, 0) * 1ms); }
 
 /* ---------- Sections ---------- */
 .sec { padding-block: 88px; text-align: center; }
@@ -597,7 +690,10 @@ form.rsvp .btn--solid { justify-self: center; min-width: 14rem; min-height: 52px
 .faq p { padding: 0 0 22px; color: var(--ink-soft); }
 
 /* Closing */
-.closing { padding-block: 104px 72px; }
+.closing { position: relative; overflow: hidden; padding-block: 128px 96px; }
+.closing .blossom { width: min(40vw, 220px); }
+.closing .blossom--tl { top: -20px; }
+.closing .wrap { position: relative; }
 .closing .arabic { font-size: clamp(22px, 6vw, 28px); line-height: 2; }
 .closing .translit { font: italic 400 16px/1.6 var(--f-display); color: var(--ink-soft); max-width: 26rem; }
 .closing .names-script { font-size: clamp(46px, 13vw, 64px); line-height: 1.1; }
@@ -669,63 +765,108 @@ footer {
         <path d="M66 12l3-3 3 3-3 3zM96 12l3-3 3 3-3 3z"/>
       </g>
     </symbol>
+    <!-- Apricot blossom branch -->
+    <path id="petal" d="M0 0C-4.2-2.2-5.4-8.4-2.8-10.8C-1.5-12 0-11.2 0-10C0-11.2 1.5-12 2.8-10.8C5.4-8.4 4.2-2.2 0 0Z"/>
+    <g id="flower">
+      <g fill="#FFFFFF" stroke="#E3D5C0" stroke-width=".45">
+        <use href="#petal"/><use href="#petal" transform="rotate(72)"/><use href="#petal" transform="rotate(144)"/>
+        <use href="#petal" transform="rotate(216)"/><use href="#petal" transform="rotate(288)"/>
+      </g>
+      <path d="M0 0V-4.6M0 0L3.4-3M0 0L4.4.8M0 0L2.2 4M0 0L-2.2 4M0 0L-4.4.8M0 0L-3.4-3" stroke="#C9A86A" stroke-width=".35" stroke-linecap="round"/>
+      <g fill="#B8934F">
+        <circle cy="-4.6" r=".55"/><circle cx="3.4" cy="-3" r=".55"/><circle cx="4.4" cy=".8" r=".55"/><circle cx="2.2" cy="4" r=".55"/>
+        <circle cx="-2.2" cy="4" r=".55"/><circle cx="-4.4" cy=".8" r=".55"/><circle cx="-3.4" cy="-3" r=".55"/>
+      </g>
+      <circle r="1.5" fill="#EBD9A6"/>
+    </g>
+    <g id="bud">
+      <path d="M0 0C-2.6-1.6-3-5.4 0-7.4C3-5.4 2.6-1.6 0 0Z" fill="#FFFFFF" stroke="#E3D5C0" stroke-width=".45"/>
+      <path d="M-1.6-.6L0 1.6 1.6-.6" fill="none" stroke="#8E9F7F" stroke-width=".6"/>
+    </g>
+    <g id="leaf">
+      <path d="M0 0C4-4 12-5 18-2C12 2 5 3 0 0Z" fill="#A9BB9A"/>
+      <path d="M0 0C6-1.4 11-1.8 18-2" stroke="#8EA27E" stroke-width=".4" fill="none"/>
+    </g>
+    <symbol id="branch" viewBox="0 0 240 240">
+      <g fill="none" stroke="#8B7764" stroke-linecap="round">
+        <path d="M-10 26C40 34 84 58 122 108S156 176 168 236" stroke-width="2"/>
+        <path d="M72 54C84 38 100 28 122 24" stroke-width="1.3"/>
+        <path d="M122 108C142 98 166 98 192 106" stroke-width="1.3"/>
+        <path d="M38 36C42 58 50 74 64 90" stroke-width="1.1"/>
+      </g>
+      <use href="#leaf" transform="translate(98 34) rotate(-28) scale(.9)"/>
+      <use href="#leaf" transform="translate(146 101) rotate(14)"/>
+      <use href="#leaf" transform="translate(150 170) rotate(110) scale(.8)"/>
+      <use href="#bud" transform="translate(132 22) rotate(70) scale(1.1)"/>
+      <use href="#bud" transform="translate(198 104) rotate(80)"/>
+      <use href="#bud" transform="translate(66 96) rotate(160)"/>
+      <use href="#flower" transform="translate(118 26) rotate(10) scale(1.5)"/>
+      <use href="#flower" transform="translate(182 104) rotate(40) scale(1.3)"/>
+      <use href="#flower" transform="translate(56 80) rotate(-20) scale(1.35)"/>
+      <use href="#flower" transform="translate(98 76) rotate(25) scale(1.75)"/>
+      <use href="#flower" transform="translate(152 158) rotate(5) scale(1.25)"/>
+      <use href="#flower" transform="translate(28 30) rotate(60) scale(1.1)"/>
+      <use href="#flower" transform="translate(166 214) rotate(-15) scale(1.05)"/>
+    </symbol>
   </defs>
 </svg>
 
-<!-- ============ ENVELOPE ============ -->
-<div class="env" id="env" role="dialog" aria-modal="true" aria-label="Taklifnoma konverti">
-  <div class="door door--l" aria-hidden="true">
-    <svg class="emboss"><rect width="100%" height="100%" fill="url(#girih-emboss)"/></svg>
-    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
-      <path d="M0 0 100 58 0 100" fill="none" stroke="rgba(150,122,80,.32)" stroke-width="1" vector-effect="non-scaling-stroke"/>
-      <path d="M0 1.2 99 58.6 0 101" fill="none" stroke="#fff" stroke-width="1" vector-effect="non-scaling-stroke"/>
-    </svg>
-  </div>
-  <div class="door door--r" aria-hidden="true">
-    <svg class="emboss"><rect width="100%" height="100%" fill="url(#girih-emboss)"/></svg>
-    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
-      <path d="M100 0 0 58 100 100" fill="none" stroke="rgba(150,122,80,.32)" stroke-width="1" vector-effect="non-scaling-stroke"/>
-      <path d="M100 1.2 1 58.6 100 101" fill="none" stroke="#fff" stroke-width="1" vector-effect="non-scaling-stroke"/>
-    </svg>
+<!-- ============ OPENING: GIFT ============ -->
+<div class="env" id="env" role="dialog" aria-modal="true" aria-label="Taklifnoma">
+  <svg class="env__emboss" aria-hidden="true"><rect width="100%" height="100%" fill="url(#girih-emboss)"/></svg>
+  <svg class="blossom blossom--tl" aria-hidden="true"><use href="#branch"/></svg>
+  <svg class="blossom blossom--br" aria-hidden="true"><use href="#branch"/></svg>
+
+  <div class="lang" role="group" aria-label="Yozuv" translate="no">
+    <button type="button" data-script="lat" aria-pressed="true">Lotin</button>
+    <button type="button" data-script="cyr" aria-pressed="false">Кирилл</button>
   </div>
 
-  <div class="env__names">
-    <span class="script">Sardor &amp; Madina</span>
-    <span class="eyebrow">Nikoh to‘yi taklifnomasi</span>
+  <h2 class="env__title">Hurmatli<br>mehmonimiz!</h2>
+
+  <div class="box" id="box">
+    <div class="box__inside" aria-hidden="true">
+      <svg><use href="#star8"/></svg>
+      <p class="mini-names">S &amp; M</p>
+      <p class="mini-date">12 · 06 · 2027</p>
+    </div>
+    <div class="half half--l" aria-hidden="true"></div>
+    <div class="half half--r" aria-hidden="true"></div>
+    <span class="rib rib--t" aria-hidden="true"></span>
+    <span class="rib rib--b" aria-hidden="true"></span>
+    <span class="rib rib--l" aria-hidden="true"></span>
+    <span class="rib rib--r" aria-hidden="true"></span>
+    <button class="bow-btn" id="ribbon" type="button" aria-label="Sovg‘ani ochish">
+      <span class="pulse"></span>
+      <svg class="bow" viewBox="0 0 240 200" aria-hidden="true">
+        <defs>
+          <linearGradient id="satin" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#FFFBF2"/>
+            <stop offset=".45" stop-color="#E6D3AE"/>
+            <stop offset=".75" stop-color="#BFA06C"/>
+            <stop offset="1" stop-color="#F3E8D2"/>
+          </linearGradient>
+          <linearGradient id="satin-d" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#D8C39B"/>
+            <stop offset="1" stop-color="#A88B5A"/>
+          </linearGradient>
+        </defs>
+        <path class="part tail-l" d="M110 84 L130 90 L92 196 L80 182 L62 192 Z" fill="url(#satin)" stroke="#BFA678" stroke-width=".6"/>
+        <path class="part tail-r" d="M130 84 L110 90 L148 196 L160 182 L178 192 Z" fill="url(#satin)" stroke="#BFA678" stroke-width=".6"/>
+        <g class="part loop-l">
+          <path d="M120 80 C96 38 30 18 20 54 C12 90 70 102 120 80 Z" fill="url(#satin)" stroke="#BFA678" stroke-width=".6"/>
+          <path d="M120 80 C92 62 52 56 40 66 C60 74 92 80 120 80 Z" fill="url(#satin-d)" opacity=".55"/>
+        </g>
+        <g class="part loop-r">
+          <path d="M120 80 C144 38 210 18 220 54 C228 90 170 102 120 80 Z" fill="url(#satin)" stroke="#BFA678" stroke-width=".6"/>
+          <path d="M120 80 C148 62 188 56 200 66 C180 74 148 80 120 80 Z" fill="url(#satin-d)" opacity=".55"/>
+        </g>
+        <rect class="part knot" x="106" y="65" width="28" height="31" rx="11" fill="url(#satin)" stroke="#BFA678" stroke-width=".7"/>
+      </svg>
+    </button>
   </div>
 
-  <button class="ribbon" id="ribbon" type="button" aria-label="Taklifnomani ochish">
-    <span class="band band--l"></span>
-    <span class="band band--r"></span>
-    <span class="pulse"></span>
-    <svg class="bow" viewBox="0 0 240 200" aria-hidden="true">
-      <defs>
-        <linearGradient id="satin" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#FFFBF2"/>
-          <stop offset=".45" stop-color="#E9DABB"/>
-          <stop offset=".75" stop-color="#C8AF82"/>
-          <stop offset="1" stop-color="#F3E8D2"/>
-        </linearGradient>
-        <linearGradient id="satin-d" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#D8C39B"/>
-          <stop offset="1" stop-color="#A88B5A"/>
-        </linearGradient>
-      </defs>
-      <path class="part tail-l" d="M110 84 L130 90 L92 196 L80 182 L62 192 Z" fill="url(#satin)" stroke="#BFA678" stroke-width=".6"/>
-      <path class="part tail-r" d="M130 84 L110 90 L148 196 L160 182 L178 192 Z" fill="url(#satin)" stroke="#BFA678" stroke-width=".6"/>
-      <g class="part loop-l">
-        <path d="M120 80 C96 38 30 18 20 54 C12 90 70 102 120 80 Z" fill="url(#satin)" stroke="#BFA678" stroke-width=".6"/>
-        <path d="M120 80 C92 62 52 56 40 66 C60 74 92 80 120 80 Z" fill="url(#satin-d)" opacity=".55"/>
-      </g>
-      <g class="part loop-r">
-        <path d="M120 80 C144 38 210 18 220 54 C228 90 170 102 120 80 Z" fill="url(#satin)" stroke="#BFA678" stroke-width=".6"/>
-        <path d="M120 80 C148 62 188 56 200 66 C180 74 148 80 120 80 Z" fill="url(#satin-d)" opacity=".55"/>
-      </g>
-      <rect class="part knot" x="106" y="65" width="28" height="31" rx="11" fill="url(#satin)" stroke="#BFA678" stroke-width=".7"/>
-    </svg>
-  </button>
-
-  <p class="env__hint">Ochish uchun bosing</p>
+  <p class="env__pill">Sovg‘ani ochish uchun bosing</p>
 </div>
 
 <!-- ============ HEADER ============ -->
@@ -737,11 +878,17 @@ footer {
           <rect x="7.5" y="7.5" width="25" height="25"/>
           <rect x="7.5" y="7.5" width="25" height="25" transform="rotate(45 20 20)"/>
         </g>
-        <text x="20" y="23.6" text-anchor="middle" font-family="Bodoni Moda, Georgia, serif" font-size="10" fill="#1F2624">S·M</text>
+        <text x="20" y="23.6" text-anchor="middle" font-family="Noto Serif Display, Georgia, serif" font-size="10" fill="#1F2624">S·M</text>
       </svg>
       <span>12.06.2027</span>
     </a>
-    <button class="burger" id="burger" type="button" aria-label="Menyu" aria-expanded="false" aria-controls="menu"><i></i><i></i></button>
+    <div class="top__right">
+      <div class="lang" role="group" aria-label="Yozuv" translate="no">
+        <button type="button" data-script="lat" aria-pressed="true">Lotin</button>
+        <button type="button" data-script="cyr" aria-pressed="false">Кирилл</button>
+      </div>
+      <button class="burger" id="burger" type="button" aria-label="Menyu" aria-expanded="false" aria-controls="menu"><i></i><i></i></button>
+    </div>
   </div>
 </header>
 <nav class="menu" id="menu" aria-label="Bo‘limlar">
@@ -868,8 +1015,8 @@ footer {
             </svg>
           </div>
           <div class="btns">
-            <a class="btn" target="_blank" rel="noopener" href="https://yandex.uz/maps/?text=Toshkent%2C%20Buyuk%20Ipak%20Yo%27li%20ko%27chasi%2045">Yandex xarita</a>
-            <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Tashkent%2C%20Buyuk%20Ipak%20Yuli%2045">Google Maps</a>
+            <a class="btn" target="_blank" rel="noopener" href="https://yandex.uz/maps/?text=Toshkent%2C%20Buyuk%20Ipak%20Yo%27li%20ko%27chasi%2045" data-lat="Yandex xarita" data-cyr="Яндекс харита">Yandex xarita</a>
+            <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Tashkent%2C%20Buyuk%20Ipak%20Yuli%2045" translate="no">Google Maps</a>
           </div>
         </article>
         <article class="venue rv">
@@ -896,8 +1043,8 @@ footer {
             </svg>
           </div>
           <div class="btns">
-            <a class="btn" target="_blank" rel="noopener" href="https://yandex.uz/maps/?text=Toshkent%2C%20Amir%20Temur%20shoh%20ko%27chasi%20108">Yandex xarita</a>
-            <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Tashkent%2C%20Amir%20Temur%20108">Google Maps</a>
+            <a class="btn" target="_blank" rel="noopener" href="https://yandex.uz/maps/?text=Toshkent%2C%20Amir%20Temur%20shoh%20ko%27chasi%20108" data-lat="Yandex xarita" data-cyr="Яндекс харита">Yandex xarita</a>
+            <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Tashkent%2C%20Amir%20Temur%20108" translate="no">Google Maps</a>
           </div>
         </article>
       </div>
@@ -947,10 +1094,10 @@ footer {
       <h2 class="title rv">Sovg‘a haqida</h2>
       <p class="lede rv">Tashrifingiz va duolaringiz biz uchun eng qimmatli sovg‘a. To‘yona yo‘llamoqchi bo‘lsangiz, quyidagi kartadan foydalanishingiz mumkin.</p>
       <div class="gift rv">
-        <span class="eyebrow">Humo</span>
+        <span class="eyebrow" translate="no">Humo</span>
         <span class="num" id="card-num">9860 1201 2345 6789</span>
         <span class="holder">Sardor Karimov</span>
-        <button class="btn" type="button" id="copy">Nusxa olish</button>
+        <button class="btn" type="button" id="copy" data-lat="Nusxa olish">Nusxa olish</button>
       </div>
     </div>
   </section>
@@ -1000,8 +1147,8 @@ footer {
 
       <div class="thanks" id="thanks" hidden>
         <svg class="divider" aria-hidden="true"><use href="#divider"/></svg>
-        <h3 id="thanks-h">Rahmat!</h3>
-        <p class="lede" id="thanks-p">Javobingiz qabul qilindi.</p>
+        <h3 id="thanks-h" data-lat="Rahmat!">Rahmat!</h3>
+        <p class="lede" id="thanks-p" data-lat="Javobingiz qabul qilindi.">Javobingiz qabul qilindi.</p>
         <button class="btn" type="button" id="again">Javobni o‘zgartirish</button>
       </div>
     </div>
@@ -1025,6 +1172,8 @@ footer {
 
   <!-- ============ CLOSING ============ -->
   <section class="sec sec--tint closing">
+    <svg class="blossom blossom--tl" aria-hidden="true"><use href="#branch"/></svg>
+    <svg class="blossom blossom--br" aria-hidden="true"><use href="#branch"/></svg>
     <div class="wrap">
       <svg class="divider rv" aria-hidden="true"><use href="#divider"/></svg>
       <p class="arabic rv" lang="ar">بَارَكَ اللَّهُ لَكَ، وَبَارَكَ عَلَيْكَ، وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ</p>
@@ -1044,6 +1193,7 @@ footer {
   var WEDDING = {
     start: "2027-06-12T17:30:00+05:00", // Tashkent time
     year: 2027, month: 5, day: 12,       // month is 0-based (5 = iyun)
+    ikat: "pearl",                       // gift wrap: "pearl" (oq-oltin) or "classic" (yorqin xon-atlas)
     rsvpEndpoint: ""                     // optional: URL that accepts a JSON POST
   };
 
@@ -1051,25 +1201,186 @@ footer {
   var body = document.body;
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* ---------- Envelope ---------- */
+  /* ---------- Lotin → Кирилл ---------- */
+  var LETTERS = {
+    a: "а", b: "б", c: "ц", d: "д", e: "е", f: "ф", g: "г", h: "ҳ", i: "и", j: "ж", k: "к", l: "л", m: "м",
+    n: "н", o: "о", p: "п", q: "қ", r: "р", s: "с", t: "т", u: "у", v: "в", w: "в", x: "х", y: "й", z: "з"
+  };
+  var PAIRS = { sh: "ш", ch: "ч", ya: "я", yo: "ё", yu: "ю", ye: "е" };
+  var WORDS = { iyun: "июнь", iyul: "июль" };
+  var APOS = /[‘ʻ'`]/;
+  function isLetter(ch) { return !!ch && /[A-Za-zЀ-ӿ‘’ʻ]/.test(ch); }
+  function isUpper(ch) { return !!ch && ch !== ch.toLowerCase(); }
+  function withCase(src, res) {
+    if (!isUpper(src[0])) return res;
+    if (src.length === 1 || isUpper(src[1])) return res.toUpperCase();
+    return res[0].toUpperCase() + res.slice(1);
+  }
+  function toCyr(s) {
+    s = s.replace(/[A-Za-z]+/g, function (w) {
+      var r = WORDS[w.toLowerCase()];
+      if (!r) return w;
+      return w === w.toUpperCase() ? r.toUpperCase() : isUpper(w[0]) ? r[0].toUpperCase() + r.slice(1) : r;
+    });
+    var out = "", i = 0;
+    while (i < s.length) {
+      var ch = s[i], lo = ch.toLowerCase();
+      if (ch === "’") { out += isLetter(s[i - 1]) && isLetter(s[i + 1]) ? "ъ" : ch; i++; continue; }
+      if (!LETTERS[lo]) { out += ch; i++; continue; }
+      var lo2 = s.substr(i, 2).toLowerCase(), src, res;
+      if (lo2 === "yo" && APOS.test(s[i + 2] || "")) { src = s.substr(i, 3); res = "йў"; }
+      else if ((lo === "o" || lo === "g") && APOS.test(s[i + 1] || "")) { src = s.substr(i, 2); res = lo === "o" ? "ў" : "ғ"; }
+      else if (PAIRS[lo2]) { src = s.substr(i, 2); res = PAIRS[lo2]; }
+      else if (lo === "e" && !isLetter(s[i - 1])) { src = ch; res = "э"; }
+      else { src = ch; res = LETTERS[lo]; }
+      out += withCase(src, res);
+      i += src.length;
+    }
+    return out;
+  }
+
+  var mode = "lat";
+  var TITLE = document.title;
+  var textNodes = [], attrNodes = [];
+  function t(lat) { return mode === "cyr" ? toCyr(lat) : lat; }
+  function setText(el, lat) { el.dataset.lat = lat; el.textContent = t(lat); }
+  function collectText() {
+    var skip = "script, style, [translate='no'], [data-lat], .arabic";
+    var tw = document.createTreeWalker(body, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        if (!/[A-Za-z]/.test(n.nodeValue)) return NodeFilter.FILTER_REJECT;
+        return n.parentElement.closest(skip) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    while (tw.nextNode()) textNodes.push({ n: tw.currentNode, lat: tw.currentNode.nodeValue });
+    document.querySelectorAll("[placeholder], [aria-label]").forEach(function (el) {
+      if (el.closest("[translate='no']") && !el.matches("[translate='no']")) return;
+      ["placeholder", "aria-label"].forEach(function (a) {
+        var v = el.getAttribute(a);
+        if (v && /[A-Za-z]/.test(v)) attrNodes.push({ el: el, a: a, lat: v });
+      });
+    });
+  }
+  function applyScript(m) {
+    mode = m;
+    textNodes.forEach(function (o) { o.n.nodeValue = t(o.lat); });
+    attrNodes.forEach(function (o) { o.el.setAttribute(o.a, t(o.lat)); });
+    document.querySelectorAll("[data-lat]").forEach(function (el) {
+      el.textContent = m === "cyr" ? (el.dataset.cyr || toCyr(el.dataset.lat)) : el.dataset.lat;
+    });
+    doc.lang = m === "cyr" ? "uz-Cyrl" : "uz-Latn";
+    document.title = t(TITLE);
+    document.querySelectorAll(".lang button").forEach(function (b) {
+      b.setAttribute("aria-pressed", b.dataset.script === m ? "true" : "false");
+    });
+    try { localStorage.setItem("yozuv", m); } catch (x) {}
+  }
+  document.querySelectorAll(".lang button").forEach(function (b) {
+    b.addEventListener("click", function (e) {
+      e.stopPropagation();
+      applyScript(b.dataset.script);
+    });
+  });
+
+  /* ---------- Atlas (ikat) gift wrap ---------- */
+  var PALETTES = {
+    pearl: { base: "#FBF8F1", sets: [["#D8C29A", "#F5EDDD", "#9A7B48"], ["#AEBCA8", "#EFF2EB", "#3E6356"]] },
+    classic: { base: "#FFF6E0", sets: [["#D61F7E", "#FFFFFF", "#F4B42F"], ["#17A99C", "#FFFFFF", "#6B2C83"], ["#F4B42F", "#FFFFFF", "#D61F7E"]] }
+  };
+  function seeded(a) {
+    return function () {
+      a |= 0; a = a + 0x6D2B79F5 | 0;
+      var r = Math.imul(a ^ a >>> 15, 1 | a);
+      r = r + Math.imul(r ^ r >>> 7, 61 | r) ^ r;
+      return ((r ^ r >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  function drawIkat(w, h, pal) {
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    var c = document.createElement("canvas");
+    c.width = Math.round(w * dpr);
+    c.height = Math.round(h * dpr);
+    var g = c.getContext("2d");
+    g.scale(dpr, dpr);
+    var rnd = seeded(11);
+    g.fillStyle = pal.base;
+    g.fillRect(0, 0, w, h);
+    var cols = 4, cw = w / cols, P = cw * 1.5, step = 1.5;
+    function seg(col, a, b, y) { g.fillStyle = col; g.fillRect(a, y, b - a, step + .6); }
+    for (var ci = -1; ci <= cols; ci++) {
+      var x0 = ci * cw + cw / 2;
+      var ph = ci % 2 ? P / 2 : 0;
+      var set = pal.sets[(ci + cols) % pal.sets.length];
+      var jl = 0, jr = 0;
+      for (var y = 0, row = 0; y < h; y += step, row++) {
+        // ikat threads are dyed in bundles, so edges jitter in short horizontal streaks
+        if (row % 3 === 0) {
+          jl = (rnd() - .5) * cw * .12;
+          jr = (rnd() - .5) * cw * .12;
+          if (rnd() < .07) jl -= cw * .12;
+          if (rnd() < .07) jr += cw * .12;
+        }
+        var tt = ((y + ph) % P + P) % P / P;
+        var tri = 1 - Math.abs(2 * tt - 1);
+        var cx = x0 + (tri - .5) * cw * .5;
+        var hw = cw * (.14 + .34 * tri);
+        seg(set[0], cx - hw + jl, cx + hw + jr, y);
+        if (tri > .18) { var h2 = hw * .62; seg(set[1], cx - h2 + jl * .7, cx + h2 + jr * .7, y); }
+        if (tri > .35) { var h3 = hw * .26; seg(set[2], cx - h3 + jl * .4, cx + h3 + jr * .4, y); }
+      }
+    }
+    g.globalAlpha = .05;
+    g.fillStyle = "#000";
+    for (var x = 0; x < w; x += 2) g.fillRect(x, 0, .6, h);
+    g.globalAlpha = 1;
+    var sh = g.createLinearGradient(0, 0, w, h);
+    sh.addColorStop(0, "rgba(255,255,255,0)");
+    sh.addColorStop(.45, "rgba(255,255,255,.3)");
+    sh.addColorStop(.56, "rgba(255,255,255,.04)");
+    sh.addColorStop(1, "rgba(255,255,255,.18)");
+    g.fillStyle = sh;
+    g.fillRect(0, 0, w, h);
+    return c.toDataURL("image/png");
+  }
+  var box = document.getElementById("box");
+  function paintIkat() {
+    var r = box.getBoundingClientRect();
+    if (!r.width) return;
+    box.style.setProperty("--ikat", 'url("' + drawIkat(r.width, r.height, PALETTES[WEDDING.ikat] || PALETTES.pearl) + '")');
+  }
+  paintIkat();
+  var resizeT;
+  window.addEventListener("resize", function () {
+    if (opened) return;
+    clearTimeout(resizeT);
+    resizeT = setTimeout(paintIkat, 150);
+  });
+
+  /* ---------- Opening ---------- */
   var env = document.getElementById("env");
   var opened = false;
-  function openEnvelope() {
+  function openGift() {
     if (opened) return;
     opened = true;
     var k = reduce ? 0.15 : 1;
     env.classList.add("untie");
-    setTimeout(function () { env.classList.add("slide"); }, 420 * k);
-    setTimeout(function () { env.classList.add("open"); body.classList.add("opened"); }, 1200 * k);
+    setTimeout(function () { env.classList.add("slide"); }, 400 * k);
+    setTimeout(function () { env.classList.add("open"); }, 1100 * k);
+    setTimeout(function () { env.classList.add("reveal"); body.classList.add("opened"); }, 2300 * k);
     setTimeout(function () {
       env.hidden = true;
       body.classList.remove("locked");
       body.classList.add("ready");
-    }, 3200 * k);
+    }, 3400 * k);
   }
-  env.addEventListener("click", openEnvelope);
+  env.addEventListener("click", function (e) {
+    if (!e.target.closest(".lang")) openGift();
+  });
   document.addEventListener("keydown", function (e) {
-    if (!opened && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openEnvelope(); }
+    if (!opened && (e.key === "Enter" || e.key === " ") && !e.target.closest(".lang")) {
+      e.preventDefault();
+      openGift();
+    }
   });
 
   /* ---------- Menu ---------- */
@@ -1101,8 +1412,11 @@ footer {
 
   /* ---------- Calendar (Monday first) ---------- */
   var cal = document.getElementById("cal");
-  var dows = ["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"];
-  var html = dows.map(function (d) { return '<span class="dow">' + d + "</span>"; }).join("");
+  var dowLat = ["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"];
+  var dowCyr = ["Ду", "Се", "Чо", "Па", "Жу", "Ша", "Як"];
+  var html = dowLat.map(function (d, i) {
+    return '<span class="dow" data-lat="' + d + '" data-cyr="' + dowCyr[i] + '">' + d + "</span>";
+  }).join("");
   var first = (new Date(WEDDING.year, WEDDING.month, 1).getDay() + 6) % 7;
   var days = new Date(WEDDING.year, WEDDING.month + 1, 0).getDate();
   for (var i = 0; i < first; i++) html += "<span></span>";
@@ -1129,9 +1443,9 @@ footer {
   var cardNum = document.getElementById("card-num");
   copyBtn.addEventListener("click", function () {
     var text = cardNum.textContent.replace(/\s+/g, "");
-    function done() {
-      copyBtn.textContent = "Nusxa olindi";
-      setTimeout(function () { copyBtn.textContent = "Nusxa olish"; }, 2200);
+    function flash(lat) {
+      setText(copyBtn, lat);
+      setTimeout(function () { setText(copyBtn, "Nusxa olish"); }, 2200);
     }
     function fallback() {
       var r = document.createRange();
@@ -1139,11 +1453,10 @@ footer {
       var sel = getSelection();
       sel.removeAllRanges();
       sel.addRange(r);
-      copyBtn.textContent = "Raqam belgilandi";
-      setTimeout(function () { copyBtn.textContent = "Nusxa olish"; }, 2200);
+      flash("Raqam belgilandi");
     }
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(done, fallback);
+      navigator.clipboard.writeText(text).then(function () { flash("Nusxa olindi"); }, fallback);
     } else {
       fallback();
     }
@@ -1177,11 +1490,11 @@ footer {
   nameIn.addEventListener("input", function () { err.hidden = true; });
 
   function showThanks(data) {
-    var first = data.name.split(/\s+/)[0];
-    document.getElementById("thanks-h").textContent = "Rahmat, " + first + "!";
-    document.getElementById("thanks-p").textContent = data.attend === "yes"
+    var firstName = data.name.split(/\s+/)[0];
+    setText(document.getElementById("thanks-h"), "Rahmat, " + firstName + "!");
+    setText(document.getElementById("thanks-p"), data.attend === "yes"
       ? "Javobingiz qabul qilindi. Sizni 12-iyun kuni intizorlik bilan kutamiz."
-      : "Javobingiz qabul qilindi. Duolaringiz biz bilan.";
+      : "Javobingiz qabul qilindi. Duolaringiz biz bilan.");
     form.hidden = true;
     thanks.hidden = false;
   }
@@ -1196,6 +1509,7 @@ footer {
       side: form.attend.value === "yes" ? form.side.value : null,
       guests: form.attend.value === "yes" ? count : 0,
       message: document.getElementById("rsvp-msg").value.trim(),
+      script: mode,
       at: new Date().toISOString()
     };
     try { localStorage.setItem("rsvp", JSON.stringify(data)); } catch (x) {}
@@ -1215,18 +1529,22 @@ footer {
     nameIn.focus();
   });
 
-  try {
-    var saved = JSON.parse(localStorage.getItem("rsvp") || "null");
-    if (saved && saved.name) {
-      nameIn.value = saved.name;
-      form.attend.value = saved.attend;
-      if (saved.side) form.side.value = saved.side;
-      setCount(saved.guests || 1);
-      document.getElementById("rsvp-msg").value = saved.message || "";
-      syncAttend();
-      showThanks(saved);
-    }
-  } catch (x) {}
+  /* ---------- Restore saved state ---------- */
+  collectText();
+  var saved = null;
+  try { saved = JSON.parse(localStorage.getItem("rsvp") || "null"); } catch (x) {}
+  if (saved && saved.name) {
+    nameIn.value = saved.name;
+    form.attend.value = saved.attend;
+    if (saved.side) form.side.value = saved.side;
+    setCount(saved.guests || 1);
+    document.getElementById("rsvp-msg").value = saved.message || "";
+    syncAttend();
+    showThanks(saved);
+  }
+  var savedScript = null;
+  try { savedScript = localStorage.getItem("yozuv"); } catch (x) {}
+  if (savedScript === "cyr") applyScript("cyr");
 })();
 </script>
 </body>
