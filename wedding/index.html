@@ -79,150 +79,93 @@ button { font: inherit; color: inherit; }
 .arabic { font-family: var(--f-arabic); direction: rtl; color: var(--gold-deep); text-wrap: balance; }
 .lede { color: var(--ink-soft); max-width: 30rem; }
 
-/* ---------- Opening: atlas-wrapped gift ---------- */
-.env {
+/* ---------- Opening: gatefold envelope ---------- */
+/* Two doors, each a centre triangle plus two tip flaps that fold back along the X creases. */
+.gate {
+  --ax: 390;            /* door width : half height, set from the viewport in script */
+  --ay: 844;
   position: fixed;
   inset: 0;
   z-index: 60;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(18px, 3.4vh, 30px);
-  padding: calc(64px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) calc(32px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
-  background-color: var(--paper);
-  overflow: hidden;
+  perspective: 2400px;
+  perspective-origin: 50% 50%;
   cursor: pointer;
-  transition: background-color .9s ease;
-}
-.env__emboss {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  mask-image: radial-gradient(80% 60% at 50% 50%, transparent 20%, #000 85%);
-  -webkit-mask-image: radial-gradient(80% 60% at 50% 50%, transparent 20%, #000 85%);
-  transition: opacity .8s ease;
-  pointer-events: none;
-}
-.blossom {
-  position: absolute;
-  width: min(54vw, 300px);
-  height: auto;
-  aspect-ratio: 1;
-  filter: drop-shadow(0 2px 3px rgba(110, 90, 60, .2));
-  pointer-events: none;
-  transition: opacity .8s ease;
-}
-.blossom--tl { top: calc(-16px + env(safe-area-inset-top, 0px)); left: -20px; }
-.blossom--br { bottom: -20px; right: -20px; transform: rotate(180deg); }
-.env > .lang {
-  position: absolute;
-  z-index: 3;
-  top: calc(14px + env(safe-area-inset-top, 0px));
-  right: max(14px, env(safe-area-inset-right, 0px));
-  transition: opacity .6s ease;
-}
-.env__title {
-  position: relative;
-  z-index: 2;
-  font: 400 clamp(30px, 8.4vw, 42px)/1.12 var(--f-display);
-  letter-spacing: -.01em;
-  text-align: center;
-  transition: opacity .6s ease;
-}
-
-.box {
-  --bw: min(72vw, 330px);
-  --rw: calc(var(--bw) * .12);
-  --ry: 56%;
-  position: relative;
-  z-index: 2;
-  width: var(--bw);
-  max-width: 100%;
-  aspect-ratio: 3 / 4;
-  perspective: 1400px;
   overflow: hidden;
-  box-shadow: 0 34px 60px -24px rgba(70, 52, 26, .4), 0 10px 22px -6px rgba(70, 52, 26, .14);
-  transition: transform 1.1s var(--ease), opacity .9s ease;
 }
-@supports (height: 100svh) {
-  .box { --bw: min(72vw, 330px, calc((100svh - 300px) * .75)); }
-}
-.box__inside {
-  position: absolute; inset: 0;
-  display: grid;
-  place-content: center;
-  justify-items: center;
-  gap: 10px;
-  text-align: center;
-  background: var(--paper);
-  box-shadow:
-    inset 0 0 0 10px var(--paper), inset 0 0 0 11px var(--gold),
-    inset 0 0 0 15px var(--paper), inset 0 0 0 15.6px var(--gold-pale),
-    inset 0 14px 30px rgba(70, 52, 26, .14);
-}
-.box__inside svg { width: 34px; height: 34px; color: var(--gold); }
-.box__inside .mini-names { font: 400 30px/1 var(--f-display); }
-.box__inside .mini-date { font: 400 11px/1 var(--f-body); letter-spacing: .32em; color: var(--ink-soft); }
-
-.half {
+.door {
   position: absolute;
   top: 0; bottom: 0;
   width: 50%;
-  background: var(--ikat, linear-gradient(135deg, #EFE3CC, #D9C49A));
-  background-size: 200% 100%;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transition: transform 1.7s var(--ease), opacity .6s ease 1.1s;
+  transform-style: preserve-3d;
+  transition: transform 1.6s cubic-bezier(.6, .02, .25, 1), opacity .45s ease 1.05s;
 }
-.half--l { left: 0; background-position: 0 0; transform-origin: left center; }
-.half--r { right: 0; background-position: 100% 0; transform-origin: right center; box-shadow: -1px 0 0 rgba(40, 30, 15, .1); }
-.half::after {
-  content: "";
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, .22), transparent 22%, transparent 78%, rgba(40, 30, 15, .12));
-  transition: background-color 1.7s var(--ease);
-}
-.env.open .half::after { background-color: rgba(40, 30, 15, .25); }
-
-.rib {
+.door--l { left: 0; transform-origin: left center; }
+.door--r { right: 0; transform-origin: right center; }
+.leaf {
   position: absolute;
-  box-shadow: 0 1px 4px rgba(70, 52, 26, .25);
-  transition: transform .95s cubic-bezier(.5, 0, .75, 0), opacity .95s ease;
+  inset: 0;
+  background-color: #FBF9F4;
+  background-image: var(--grain, none), linear-gradient(100deg, #FDFCF9 0%, #F7F3EA 100%);
+  transition: transform 1s cubic-bezier(.55, 0, .25, 1), filter 1s ease;
 }
-.rib--t, .rib--b {
-  left: calc(50% - var(--rw) / 2);
-  width: var(--rw);
-  background: linear-gradient(90deg, var(--satin-3) 0%, var(--satin-2) 8%, var(--satin-1) 30%, #FFFDF7 44%, var(--satin-2) 64%, var(--satin-1) 84%, var(--satin-3) 100%);
-}
-.rib--t { top: 0; height: var(--ry); }
-.rib--b { top: var(--ry); bottom: 0; }
-.rib--l, .rib--r {
-  top: calc(var(--ry) - var(--rw) / 2);
-  height: var(--rw);
-  width: 50%;
-  background: linear-gradient(180deg, var(--satin-3) 0%, var(--satin-2) 8%, var(--satin-1) 30%, #FFFDF7 44%, var(--satin-2) 64%, var(--satin-1) 84%, var(--satin-3) 100%);
-}
-.rib--l { left: 0; }
-.rib--r { right: 0; }
+.leaf > svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+/* centre triangles */
+.door--l .leaf--main { clip-path: polygon(0 0, 100% 50%, 0 100%); }
+.door--r .leaf--main { clip-path: polygon(100% 0, 0 50%, 100% 100%); background-image: var(--grain, none), linear-gradient(260deg, #FDFCF9 0%, #F5F0E5 100%); }
+/* tip flaps, lighter so the creases read */
+.leaf--top, .leaf--bot { background-image: var(--grain, none), linear-gradient(180deg, #FFFFFF 0%, #FAF7F0 100%); }
+.door--l .leaf--top { clip-path: polygon(0 0, 100% 0, 100% 50%); transform-origin: 0 0; }
+.door--l .leaf--bot { clip-path: polygon(0 100%, 100% 100%, 100% 50%); transform-origin: 0 100%; background-image: var(--grain, none), linear-gradient(0deg, #FFFFFF 0%, #F8F4EC 100%); }
+.door--r .leaf--top { clip-path: polygon(100% 0, 0 0, 0 50%); transform-origin: 100% 0; }
+.door--r .leaf--bot { clip-path: polygon(100% 100%, 0 100%, 0 50%); transform-origin: 100% 100%; background-image: var(--grain, none), linear-gradient(0deg, #FFFFFF 0%, #F8F4EC 100%); }
+.door--r { box-shadow: -1px 0 0 rgba(150, 125, 85, .16); }
+.emboss-art { color: transparent; }
 
-.bow-btn {
+.gate__names {
   position: absolute;
-  left: 50%;
-  top: var(--ry);
-  width: 72px; height: 72px;
-  transform: translate(-50%, -50%);
+  left: 0; right: 0;
+  top: 23%;
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  text-align: center;
+  pointer-events: none;
+  transition: opacity .6s ease;
+}
+.gate__names .script { font-size: clamp(40px, 11.5vw, 62px); line-height: 1.05; padding: 0 .1em; }
+.gate__names .eyebrow { color: var(--gold); font-size: 10px; }
+
+.ribbon {
+  position: absolute;
+  left: 0; right: 0;
+  top: 61%;
+  height: 34px;
+  transform: translateY(-50%);
   border: 0; padding: 0;
-  border-radius: 50%;
   background: none;
   cursor: pointer;
 }
+.band {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 50.5%;
+  background: linear-gradient(180deg,
+    var(--satin-3) 0%, var(--satin-2) 8%, var(--satin-1) 30%,
+    #FFFDF7 44%, var(--satin-2) 64%, var(--satin-1) 84%, var(--satin-3) 100%);
+  box-shadow: 0 3px 8px rgba(70, 52, 26, .18);
+  transition: transform 1.1s cubic-bezier(.55, 0, .8, .4), opacity .9s ease .2s;
+}
+.band--l { left: 0; transform-origin: 0 50%; }
+.band--r { right: 0; transform-origin: 100% 50%; }
 .bow {
   position: absolute;
   left: 50%; top: 50%;
-  width: calc(var(--bw) * .62);
+  width: min(48vw, 220px);
   max-width: none;
   height: auto;
   transform: translate(-50%, -40%);
-  filter: drop-shadow(0 8px 12px rgba(70, 52, 26, .32)) drop-shadow(0 1px 1px rgba(70, 52, 26, .25));
+  filter: drop-shadow(0 8px 12px rgba(70, 52, 26, .3)) drop-shadow(0 1px 1px rgba(70, 52, 26, .2));
   overflow: visible;
   pointer-events: none;
 }
@@ -234,50 +177,114 @@ button { font: inherit; color: inherit; }
 .pulse {
   position: absolute;
   left: 50%; top: 50%;
-  width: 84px; height: 84px;
-  margin: -42px 0 0 -42px;
+  width: 80px; height: 80px;
+  margin: -40px 0 0 -40px;
   border-radius: 50%;
-  border: 1.5px solid rgba(255, 255, 255, .95);
+  border: 1px solid var(--gold);
   animation: pulse 2.4s ease-out infinite;
   pointer-events: none;
 }
 @keyframes pulse {
-  0% { transform: scale(.7); opacity: .9; }
-  100% { transform: scale(2.2); opacity: 0; }
+  0% { transform: scale(.7); opacity: .8; }
+  100% { transform: scale(2.3); opacity: 0; }
 }
-.env__pill {
-  position: relative;
-  z-index: 2;
-  padding: 12px 22px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, .9);
-  font: 400 11px/1.3 var(--f-body);
-  letter-spacing: .24em;
-  text-transform: uppercase;
+.gate__hint {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: calc(7% + env(safe-area-inset-bottom, 0px));
   text-align: center;
+  font: 400 10px/1.4 var(--f-body);
+  letter-spacing: .34em;
+  text-transform: uppercase;
   color: var(--ink-soft);
+  pointer-events: none;
+  transition: opacity .5s ease;
+}
+.gate > .lang {
+  position: absolute;
+  z-index: 3;
+  top: calc(14px + env(safe-area-inset-top, 0px));
+  right: max(14px, env(safe-area-inset-right, 0px));
   transition: opacity .5s ease;
 }
 
-/* untie → slide → open → reveal */
-.env.untie .pulse { opacity: 0; animation: none; }
-.env.untie .env__pill { opacity: 0; }
-.env.untie .bow .loop-l { transform: rotate(-38deg) scale(.15); opacity: 0; }
-.env.untie .bow .loop-r { transform: rotate(38deg) scale(.15); opacity: 0; }
-.env.untie .bow .knot { transform: scale(.2); opacity: 0; }
-.env.untie .bow .tail-l { transform: translate(-30px, 70px) rotate(14deg); opacity: 0; }
-.env.untie .bow .tail-r { transform: translate(30px, 70px) rotate(-14deg); opacity: 0; }
-.env.slide .rib--t { transform: translateY(-102%); opacity: 0; }
-.env.slide .rib--b { transform: translateY(102%); opacity: 0; }
-.env.slide .rib--l { transform: translateX(-102%); opacity: 0; }
-.env.slide .rib--r { transform: translateX(102%); opacity: 0; }
-.env.open .half--l { transform: rotateY(84deg); opacity: 0; }
-.env.open .half--r { transform: rotateY(-84deg); opacity: 0; }
-.env.open { pointer-events: none; }
-.env.reveal { background-color: transparent; }
-.env.reveal .env__emboss, .env.reveal .blossom, .env.reveal .env__title, .env.reveal > .lang { opacity: 0; }
-.env.reveal .box { transform: scale(1.5); opacity: 0; }
+/* Envelope tray behind the card: liner, inner shadow and the open top flap */
+.tray {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  background-color: #F4EEE2;
+  background-image: var(--grain, none);
+  box-shadow: inset 0 0 0 1px rgba(150, 125, 85, .12), inset 0 0 80px rgba(70, 52, 26, .16);
+  transition: opacity 1.2s ease .3s;
+}
+.tray__flap {
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 34%;
+  filter: drop-shadow(0 6px 10px rgba(70, 52, 26, .16));
+}
+.tray__flap i {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background-color: #FAF6EE;
+  background-image: var(--grain, none), linear-gradient(180deg, #FDFBF6, #F3ECDF);
+}
+
+/* Sequence: untie → drop → fold tips → swing doors → card rises */
+.gate.untie .pulse, .gate.untie .gate__hint, .gate.untie > .lang { opacity: 0; animation: none; }
+.gate.untie .bow .loop-l { transform: rotate(-38deg) scale(.15); opacity: 0; }
+.gate.untie .bow .loop-r { transform: rotate(38deg) scale(.15); opacity: 0; }
+.gate.untie .bow .knot { transform: scale(.2); opacity: 0; }
+.gate.untie .bow .tail-l { transform: translate(-30px, 80px) rotate(14deg); opacity: 0; }
+.gate.untie .bow .tail-r { transform: translate(30px, 80px) rotate(-14deg); opacity: 0; }
+.gate.drop .band--l { transform: translate(-12%, 70vh) rotate(-24deg); opacity: 0; }
+.gate.drop .band--r { transform: translate(12%, 70vh) rotate(24deg); opacity: 0; }
+.gate.drop .gate__names { opacity: 0; }
+.gate.fold .door--l .leaf--top { transform: rotate3d(var(--ax), var(--ay), 0, -172deg); filter: brightness(.94); }
+.gate.fold .door--l .leaf--bot { transform: rotate3d(var(--ax), calc(var(--ay) * -1), 0, 172deg); filter: brightness(.94); }
+.gate.fold .door--r .leaf--top { transform: rotate3d(var(--ax), calc(var(--ay) * -1), 0, -172deg); filter: brightness(.94); }
+.gate.fold .door--r .leaf--bot { transform: rotate3d(var(--ax), var(--ay), 0, 172deg); filter: brightness(.94); }
+.gate.swing .door--l { transform: rotateY(-172deg); opacity: 0; }
+.gate.swing .door--r { transform: rotateY(172deg); opacity: 0; }
+.gate.swing .leaf { filter: brightness(.9); }
+.gate.swing { pointer-events: none; }
+
+body.in-env .hero {
+  transform: scale(.8);
+  box-shadow: 0 40px 80px -30px rgba(70, 52, 26, .45), 0 0 0 1px rgba(150, 125, 85, .12);
+}
+body.rise .tray { opacity: 0; }
+
+/* Blossom branches */
+.blossom {
+  position: absolute;
+  width: min(48vw, 270px);
+  height: auto;
+  aspect-ratio: 1;
+  filter: drop-shadow(0 2px 3px rgba(110, 90, 60, .2));
+  pointer-events: none;
+}
+
+/* Gold foil */
+.foil {
+  background: linear-gradient(100deg, #8A6C3D 0%, #C9AD74 20%, #F4E7C6 34%, #B39462 50%, #8A6C3D 68%, #D4BC88 86%, #9C7D49 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: foil 6s ease-in-out infinite alternate;
+}
+@keyframes foil { from { background-position: 0 0; } to { background-position: 100% 0; } }
+
+.leaf > svg.medal { inset: auto; left: 66%; top: 73%; width: min(38%, 150px); height: auto; aspect-ratio: 1; transform: translate(-50%, -50%); }
+.blossom--tl { top: -16px; left: -20px; }
+.blossom--br { bottom: -20px; right: -20px; transform: rotate(180deg); }
+.hero .blossom { width: min(44vw, 250px); z-index: 1; }
+.hero .blossom--tr { top: 30px; right: -26px; transform: scaleX(-1); }
+.hero .blossom--bl { bottom: 26px; left: -26px; transform: scaleY(-1); }
 
 /* ---------- Lotin / Кирилл switch ---------- */
 .lang {
@@ -379,6 +386,9 @@ body.ready .top { transform: none; }
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   background: var(--paper);
+  z-index: 10;
+  transform-origin: 50% 70%;
+  transition: transform 1.6s var(--ease), box-shadow 1.6s var(--ease);
 }
 .girih {
   position: absolute;
@@ -452,7 +462,16 @@ body.opened .hl { opacity: 1; transform: none; transition-delay: calc(250ms + va
 
 /* ---------- Sections ---------- */
 .sec { padding-block: 88px; text-align: center; }
-.sec--tint { background: var(--paper-2); }
+.sec--tint { position: relative; background: var(--paper-2); }
+/* a row of small pointed arches, like an arcade, crowning each tinted band */
+.sec--tint::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 12px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12' viewBox='0 0 24 12'%3E%3Cpath d='M0 12V8C0 4.5 6 1.6 12 0c6 1.6 12 4.5 12 8v4' fill='none' stroke='%23B39462' stroke-width='.8'/%3E%3C/svg%3E") repeat-x center top / 24px 12px;
+  opacity: .5;
+}
 .sec .wrap { display: grid; gap: 22px; justify-items: center; }
 .divider { width: 168px; height: 24px; color: var(--gold); }
 
@@ -721,9 +740,9 @@ footer {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .2s !important; }
 }
 </style>
-<noscript><style>.env{display:none}.hl{opacity:1;transform:none}.top{transform:none}</style></noscript>
+<noscript><style>.gate,.tray{display:none}body.in-env .hero{transform:none;box-shadow:none}.hl{opacity:1;transform:none}.top{transform:none}</style></noscript>
 </head>
-<body class="locked">
+<body class="locked in-env">
 
 <!-- Reusable ornaments -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -763,6 +782,17 @@ footer {
         <rect x="76" y="4" width="16" height="16" transform="rotate(45 84 12)"/>
         <circle cx="84" cy="12" r="3"/>
         <path d="M66 12l3-3 3 3-3 3zM96 12l3-3 3 3-3 3z"/>
+      </g>
+    </symbol>
+    <!-- Embossed rosette for the envelope door -->
+    <symbol id="rosette" viewBox="-52 -52 104 104">
+      <g fill="none">
+        <circle r="48"/><circle r="44"/>
+        <g id="sq16"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g>
+        <use href="#sq16" transform="rotate(22.5)"/>
+        <circle r="21"/>
+        <rect x="-12" y="-12" width="24" height="24"/><rect x="-12" y="-12" width="24" height="24" transform="rotate(45)"/>
+        <circle r="4"/>
       </g>
     </symbol>
     <!-- Apricot blossom branch -->
@@ -811,63 +841,79 @@ footer {
   </defs>
 </svg>
 
-<!-- ============ OPENING: GIFT ============ -->
-<div class="env" id="env" role="dialog" aria-modal="true" aria-label="Taklifnoma">
-  <svg class="env__emboss" aria-hidden="true"><rect width="100%" height="100%" fill="url(#girih-emboss)"/></svg>
-  <svg class="blossom blossom--tl" aria-hidden="true"><use href="#branch"/></svg>
-  <svg class="blossom blossom--br" aria-hidden="true"><use href="#branch"/></svg>
+<!-- ============ OPENING: GATEFOLD ============ -->
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-label="Taklifnoma">
+  <div class="door door--l" aria-hidden="true">
+    <div class="leaf leaf--main">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0 0 100 50 0 100" fill="none" stroke="rgba(150,122,80,.3)" stroke-width="1" vector-effect="non-scaling-stroke"/></svg>
+    </div>
+    <div class="leaf leaf--top">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0 0 100 50" fill="none" stroke="#FFFFFF" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg>
+    </div>
+    <div class="leaf leaf--bot">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0 100 100 50" fill="none" stroke="#FFFFFF" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg>
+    </div>
+  </div>
+  <div class="door door--r" aria-hidden="true">
+    <div class="leaf leaf--main">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M100 0 0 50 100 100" fill="none" stroke="rgba(150,122,80,.3)" stroke-width="1" vector-effect="non-scaling-stroke"/></svg>
+      <svg class="medal" viewBox="-52 -52 104 104">
+        <use href="#rosette" x="-52" y="-52" width="104" height="104" stroke="rgba(255,255,255,.95)" stroke-width="1.1" transform="translate(-.7 -.7)"/>
+        <use href="#rosette" x="-52" y="-52" width="104" height="104" stroke="rgba(140,112,70,.26)" stroke-width="1" transform="translate(.6 .6)"/>
+      </svg>
+    </div>
+    <div class="leaf leaf--top">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M100 0 0 50" fill="none" stroke="#FFFFFF" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg>
+    </div>
+    <div class="leaf leaf--bot">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M100 100 0 50" fill="none" stroke="#FFFFFF" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg>
+    </div>
+  </div>
+
+  <div class="gate__names">
+    <span class="script foil">Sardor &amp; Madina</span>
+    <span class="eyebrow">Nikoh to‘yi taklifnomasi</span>
+  </div>
 
   <div class="lang" role="group" aria-label="Yozuv" translate="no">
     <button type="button" data-script="lat" aria-pressed="true">Lotin</button>
     <button type="button" data-script="cyr" aria-pressed="false">Кирилл</button>
   </div>
 
-  <h2 class="env__title">Hurmatli<br>mehmonimiz!</h2>
+  <button class="ribbon" id="ribbon" type="button" aria-label="Taklifnomani ochish">
+    <span class="band band--l"></span>
+    <span class="band band--r"></span>
+    <span class="pulse"></span>
+    <svg class="bow" viewBox="0 0 240 200" aria-hidden="true">
+      <defs>
+        <linearGradient id="satin" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FFFBF2"/>
+          <stop offset=".45" stop-color="#E6D3AE"/>
+          <stop offset=".75" stop-color="#BFA06C"/>
+          <stop offset="1" stop-color="#F3E8D2"/>
+        </linearGradient>
+        <linearGradient id="satin-d" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#D8C39B"/>
+          <stop offset="1" stop-color="#A88B5A"/>
+        </linearGradient>
+      </defs>
+      <path class="part tail-l" d="M110 84 L130 90 L92 196 L80 182 L62 192 Z" fill="url(#satin)" stroke="#BFA678" stroke-width=".6"/>
+      <path class="part tail-r" d="M130 84 L110 90 L148 196 L160 182 L178 192 Z" fill="url(#satin)" stroke="#BFA678" stroke-width=".6"/>
+      <g class="part loop-l">
+        <path d="M120 80 C96 38 30 18 20 54 C12 90 70 102 120 80 Z" fill="url(#satin)" stroke="#BFA678" stroke-width=".6"/>
+        <path d="M120 80 C92 62 52 56 40 66 C60 74 92 80 120 80 Z" fill="url(#satin-d)" opacity=".55"/>
+      </g>
+      <g class="part loop-r">
+        <path d="M120 80 C144 38 210 18 220 54 C228 90 170 102 120 80 Z" fill="url(#satin)" stroke="#BFA678" stroke-width=".6"/>
+        <path d="M120 80 C148 62 188 56 200 66 C180 74 148 80 120 80 Z" fill="url(#satin-d)" opacity=".55"/>
+      </g>
+      <rect class="part knot" x="106" y="65" width="28" height="31" rx="11" fill="url(#satin)" stroke="#BFA678" stroke-width=".7"/>
+    </svg>
+  </button>
 
-  <div class="box" id="box">
-    <div class="box__inside" aria-hidden="true">
-      <svg><use href="#star8"/></svg>
-      <p class="mini-names">S &amp; M</p>
-      <p class="mini-date">12 · 06 · 2027</p>
-    </div>
-    <div class="half half--l" aria-hidden="true"></div>
-    <div class="half half--r" aria-hidden="true"></div>
-    <span class="rib rib--t" aria-hidden="true"></span>
-    <span class="rib rib--b" aria-hidden="true"></span>
-    <span class="rib rib--l" aria-hidden="true"></span>
-    <span class="rib rib--r" aria-hidden="true"></span>
-    <button class="bow-btn" id="ribbon" type="button" aria-label="Sovg‘ani ochish">
-      <span class="pulse"></span>
-      <svg class="bow" viewBox="0 0 240 200" aria-hidden="true">
-        <defs>
-          <linearGradient id="satin" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#FFFBF2"/>
-            <stop offset=".45" stop-color="#E6D3AE"/>
-            <stop offset=".75" stop-color="#BFA06C"/>
-            <stop offset="1" stop-color="#F3E8D2"/>
-          </linearGradient>
-          <linearGradient id="satin-d" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#D8C39B"/>
-            <stop offset="1" stop-color="#A88B5A"/>
-          </linearGradient>
-        </defs>
-        <path class="part tail-l" d="M110 84 L130 90 L92 196 L80 182 L62 192 Z" fill="url(#satin)" stroke="#BFA678" stroke-width=".6"/>
-        <path class="part tail-r" d="M130 84 L110 90 L148 196 L160 182 L178 192 Z" fill="url(#satin)" stroke="#BFA678" stroke-width=".6"/>
-        <g class="part loop-l">
-          <path d="M120 80 C96 38 30 18 20 54 C12 90 70 102 120 80 Z" fill="url(#satin)" stroke="#BFA678" stroke-width=".6"/>
-          <path d="M120 80 C92 62 52 56 40 66 C60 74 92 80 120 80 Z" fill="url(#satin-d)" opacity=".55"/>
-        </g>
-        <g class="part loop-r">
-          <path d="M120 80 C144 38 210 18 220 54 C228 90 170 102 120 80 Z" fill="url(#satin)" stroke="#BFA678" stroke-width=".6"/>
-          <path d="M120 80 C148 62 188 56 200 66 C180 74 148 80 120 80 Z" fill="url(#satin-d)" opacity=".55"/>
-        </g>
-        <rect class="part knot" x="106" y="65" width="28" height="31" rx="11" fill="url(#satin)" stroke="#BFA678" stroke-width=".7"/>
-      </svg>
-    </button>
-  </div>
-
-  <p class="env__pill">Sovg‘ani ochish uchun bosing</p>
+  <p class="gate__hint">Ochish uchun bosing</p>
 </div>
+<div class="tray" id="tray" aria-hidden="true"><div class="tray__flap"><i></i></div></div>
 
 <!-- ============ HEADER ============ -->
 <header class="top" id="top">
@@ -924,13 +970,16 @@ footer {
         <p class="eyebrow hl" style="--d:250">Sizni nikoh to‘yimizga taklif etamiz</p>
         <h1 class="names hl" style="--d:550">
           <span class="n">Sardor</span>
-          <span class="amp">&amp;</span>
+          <span class="amp foil">&amp;</span>
           <span class="n">Madina</span>
         </h1>
         <p class="date-line hl" style="--d:900">12 · 06 · 2027</p>
         <p class="city script hl" style="--d:1100">Toshkent shahri</p>
       </div>
     </div>
+
+    <svg class="blossom blossom--tr" aria-hidden="true"><use href="#branch"/></svg>
+    <svg class="blossom blossom--bl" aria-hidden="true"><use href="#branch"/></svg>
 
     <a class="scroll-cue hl" style="--d:1500" href="#taklif">
       Pastga suring
@@ -982,6 +1031,7 @@ footer {
         <div class="cal__head">Iyun · 2027</div>
         <div class="cal__grid" id="cal"></div>
       </div>
+      <a class="btn rv" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Sardor%20va%20Madina%20nikoh%20to%E2%80%98yi&amp;dates=20270612T123000Z/20270612T180000Z&amp;location=Toshkent%2C%20Amir%20Temur%20shoh%20ko%E2%80%98chasi%20108&amp;details=%C2%ABOq%20Saroy%C2%BB%20to%E2%80%98yxonasi%2C%2017%3A30">Taqvimga qo‘shish</a>
     </div>
   </section>
 
@@ -1179,7 +1229,7 @@ footer {
       <p class="arabic rv" lang="ar">بَارَكَ اللَّهُ لَكَ، وَبَارَكَ عَلَيْكَ، وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ</p>
       <p class="translit rv">Alloh sizga baraka bersin, ustingizga baraka yog‘dirsin va ikkovingizni yaxshilikda jamlasin.</p>
       <p class="eyebrow rv">Sizni intizorlik bilan kutamiz</p>
-      <p class="script names-script rv">Sardor &amp; Madina</p>
+      <p class="script names-script foil rv">Sardor &amp; Madina</p>
       <p class="date-line rv">12 · 06 · 2027</p>
     </div>
   </section>
@@ -1193,7 +1243,6 @@ footer {
   var WEDDING = {
     start: "2027-06-12T17:30:00+05:00", // Tashkent time
     year: 2027, month: 5, day: 12,       // month is 0-based (5 = iyun)
-    ikat: "pearl",                       // gift wrap: "pearl" (oq-oltin) or "classic" (yorqin xon-atlas)
     rsvpEndpoint: ""                     // optional: URL that accepts a JSON POST
   };
 
@@ -1282,11 +1331,7 @@ footer {
     });
   });
 
-  /* ---------- Atlas (ikat) gift wrap ---------- */
-  var PALETTES = {
-    pearl: { base: "#FBF8F1", sets: [["#D8C29A", "#F5EDDD", "#9A7B48"], ["#AEBCA8", "#EFF2EB", "#3E6356"]] },
-    classic: { base: "#FFF6E0", sets: [["#D61F7E", "#FFFFFF", "#F4B42F"], ["#17A99C", "#FFFFFF", "#6B2C83"], ["#F4B42F", "#FFFFFF", "#D61F7E"]] }
-  };
+  /* ---------- Paper grain ---------- */
   function seeded(a) {
     return function () {
       a |= 0; a = a + 0x6D2B79F5 | 0;
@@ -1295,91 +1340,59 @@ footer {
       return ((r ^ r >>> 14) >>> 0) / 4294967296;
     };
   }
-  function drawIkat(w, h, pal) {
-    var dpr = Math.min(2, window.devicePixelRatio || 1);
-    var c = document.createElement("canvas");
-    c.width = Math.round(w * dpr);
-    c.height = Math.round(h * dpr);
-    var g = c.getContext("2d");
-    g.scale(dpr, dpr);
-    var rnd = seeded(11);
-    g.fillStyle = pal.base;
-    g.fillRect(0, 0, w, h);
-    var cols = 4, cw = w / cols, P = cw * 1.5, step = 1.5;
-    function seg(col, a, b, y) { g.fillStyle = col; g.fillRect(a, y, b - a, step + .6); }
-    for (var ci = -1; ci <= cols; ci++) {
-      var x0 = ci * cw + cw / 2;
-      var ph = ci % 2 ? P / 2 : 0;
-      var set = pal.sets[(ci + cols) % pal.sets.length];
-      var jl = 0, jr = 0;
-      for (var y = 0, row = 0; y < h; y += step, row++) {
-        // ikat threads are dyed in bundles, so edges jitter in short horizontal streaks
-        if (row % 3 === 0) {
-          jl = (rnd() - .5) * cw * .12;
-          jr = (rnd() - .5) * cw * .12;
-          if (rnd() < .07) jl -= cw * .12;
-          if (rnd() < .07) jr += cw * .12;
-        }
-        var tt = ((y + ph) % P + P) % P / P;
-        var tri = 1 - Math.abs(2 * tt - 1);
-        var cx = x0 + (tri - .5) * cw * .5;
-        var hw = cw * (.14 + .34 * tri);
-        seg(set[0], cx - hw + jl, cx + hw + jr, y);
-        if (tri > .18) { var h2 = hw * .62; seg(set[1], cx - h2 + jl * .7, cx + h2 + jr * .7, y); }
-        if (tri > .35) { var h3 = hw * .26; seg(set[2], cx - h3 + jl * .4, cx + h3 + jr * .4, y); }
-      }
+  (function () {
+    var n = 160, c = document.createElement("canvas");
+    c.width = c.height = n;
+    var g = c.getContext("2d"), img = g.createImageData(n, n), rnd = seeded(5);
+    for (var i = 0; i < img.data.length; i += 4) {
+      var v = 120 + rnd() * 110 | 0;
+      img.data[i] = v; img.data[i + 1] = v * .97 | 0; img.data[i + 2] = v * .9 | 0;
+      img.data[i + 3] = 16;
     }
-    g.globalAlpha = .05;
-    g.fillStyle = "#000";
-    for (var x = 0; x < w; x += 2) g.fillRect(x, 0, .6, h);
-    g.globalAlpha = 1;
-    var sh = g.createLinearGradient(0, 0, w, h);
-    sh.addColorStop(0, "rgba(255,255,255,0)");
-    sh.addColorStop(.45, "rgba(255,255,255,.3)");
-    sh.addColorStop(.56, "rgba(255,255,255,.04)");
-    sh.addColorStop(1, "rgba(255,255,255,.18)");
-    g.fillStyle = sh;
-    g.fillRect(0, 0, w, h);
-    return c.toDataURL("image/png");
-  }
-  var box = document.getElementById("box");
-  function paintIkat() {
-    var r = box.getBoundingClientRect();
-    if (!r.width) return;
-    box.style.setProperty("--ikat", 'url("' + drawIkat(r.width, r.height, PALETTES[WEDDING.ikat] || PALETTES.pearl) + '")');
-  }
-  paintIkat();
-  var resizeT;
-  window.addEventListener("resize", function () {
-    if (opened) return;
-    clearTimeout(resizeT);
-    resizeT = setTimeout(paintIkat, 150);
-  });
+    g.putImageData(img, 0, 0);
+    doc.style.setProperty("--grain", 'url("' + c.toDataURL("image/png") + '")');
+  })();
 
   /* ---------- Opening ---------- */
-  var env = document.getElementById("env");
+  var gate = document.getElementById("gate");
+  var tray = document.getElementById("tray");
   var opened = false;
-  function openGift() {
+  // The tip flaps fold along the X creases, whose direction depends on the screen's proportions.
+  function setAxis() {
+    gate.style.setProperty("--ax", window.innerWidth);
+    gate.style.setProperty("--ay", window.innerHeight);
+  }
+  setAxis();
+  window.addEventListener("resize", setAxis);
+  window.scrollTo(0, 0);
+
+  function openInvite() {
     if (opened) return;
     opened = true;
     var k = reduce ? 0.15 : 1;
-    env.classList.add("untie");
-    setTimeout(function () { env.classList.add("slide"); }, 400 * k);
-    setTimeout(function () { env.classList.add("open"); }, 1100 * k);
-    setTimeout(function () { env.classList.add("reveal"); body.classList.add("opened"); }, 2300 * k);
-    setTimeout(function () {
-      env.hidden = true;
-      body.classList.remove("locked");
-      body.classList.add("ready");
-    }, 3400 * k);
+    var steps = [
+      [0, function () { gate.classList.add("untie"); }],
+      [450, function () { gate.classList.add("drop"); }],
+      [1250, function () { gate.classList.add("fold"); }],
+      [2050, function () { gate.classList.add("swing"); }],
+      [3250, function () { body.classList.remove("in-env"); body.classList.add("rise"); }],
+      [3900, function () { body.classList.add("opened"); }],
+      [5000, function () {
+        gate.hidden = true;
+        tray.hidden = true;
+        body.classList.remove("locked");
+        body.classList.add("ready");
+      }]
+    ];
+    steps.forEach(function (s) { setTimeout(s[1], s[0] * k); });
   }
-  env.addEventListener("click", function (e) {
-    if (!e.target.closest(".lang")) openGift();
+  gate.addEventListener("click", function (e) {
+    if (!e.target.closest(".lang")) openInvite();
   });
   document.addEventListener("keydown", function (e) {
     if (!opened && (e.key === "Enter" || e.key === " ") && !e.target.closest(".lang")) {
       e.preventDefault();
-      openGift();
+      openInvite();
     }
   });
 
