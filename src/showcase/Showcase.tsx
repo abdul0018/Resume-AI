@@ -35,6 +35,8 @@ const TEMPLATES: ShowcaseTemplate[] = [
       hosts: "Karimovlar va Yusupovlar oilasi",
       groomParents: "Karimovlar oilasining o‘g‘li",
       brideParents: "Yusupovlar oilasining qizi",
+      giftCardNumber: "8600123456789012",
+      giftCardHolder: "Sardor Karimov",
       message: "Muhabbat, quvonch va duolarga to‘la oqshomda biz bilan birga bo‘ling — shu kuni biz umrbod baxtimizni boshlaymiz.",
       bismillah: true,
       program: [

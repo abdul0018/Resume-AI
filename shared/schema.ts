@@ -42,6 +42,13 @@ export const inviteDataSchema = z.object({
   /** Families named under each name on the invitation card, e.g. "Karimovlar oilasining o‘g‘li". */
   groomParents: trimmed(120).optional(),
   brideParents: trimmed(120).optional(),
+  /** To‘yana: a bank card guests may send a wedding gift to. Digits only, 16 of them. */
+  giftCardNumber: z
+    .string()
+    .transform((v) => v.replace(/\D/g, ""))
+    .refine((v) => v === "" || v.length === 16, "Karta raqami 16 ta raqamdan iborat bo‘lishi kerak")
+    .optional(),
+  giftCardHolder: trimmed(80).optional(),
   message: trimmed(900).default(""),
   bismillah: z.boolean().default(false),
   program: z.array(programItemSchema).max(8).default([]),

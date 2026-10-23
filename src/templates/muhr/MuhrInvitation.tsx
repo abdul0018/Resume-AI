@@ -1,9 +1,10 @@
-import { useEffect, useId, useLayoutEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState, type FormEvent, type PointerEvent as ReactPointerEvent, type ReactNode } from "react";
 import { EVENT_TYPES } from "@shared/constants";
 import type { InviteData } from "@shared/schema";
 import { eventTimestamp, formatDateLong, formatWeekday, initials, MONTHS, parseDate } from "@shared/format";
 import { useCountdown, useMusic } from "@/lib/hooks";
 import { defaultMessage, mapLinks } from "@/lib/invite";
+import { copyText } from "@/lib/share";
 import { playRibbonSounds, unlockAudio } from "@/lib/media";
 import { startAmbient } from "./ambient";
 import { startGoldDust } from "./goldDust";
@@ -38,7 +39,7 @@ const INVITE_LINE: Record<keyof typeof EVENT_TYPES, string> = {
 };
 
 /** Milliseconds from the tap until the scene replaces the envelope (keep in sync with muhr.css). */
-const TO_SCENE = 4650;
+const TO_SCENE = 5100;
 
 interface Props {
   data: InviteData;
@@ -90,7 +91,8 @@ export function MuhrInvitation({ data, replayToken = 0, endSlot }: Props) {
     if (stage !== "closed") return;
     unlockAudio();
     playRibbonSounds();
-    navigator.vibrate?.([10, 60, 14]);
+    // a light touch, then the give of the knot as it slips
+    navigator.vibrate?.([8, 920, 14]);
     music.play();
     setStage("opening");
     const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
@@ -150,8 +152,8 @@ export function Seal({ pair, size, className = "" }: { pair: [string, string]; s
   );
 }
 
-/** The closed card's face: embossed paper, its folds, the names and the tap line, printed across both doors. */
-function DoorPrint({ names, nameSize, tap }: { names: string; nameSize: number; tap: boolean }) {
+/** The closed card's face: embossed paper, its folds, the names and the hint, printed across both doors. */
+function DoorPrint({ names, nameSize, hint }: { names: string; nameSize: number; hint: boolean }) {
   return (
     <div className="mh-print">
       <svg className="mh-creases" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
@@ -165,14 +167,20 @@ function DoorPrint({ names, nameSize, tap }: { names: string; nameSize: number; 
       <p className="mh-print-names" style={{ fontSize: nameSize }}>
         {names}
       </p>
-      {tap && <p className="mh-print-tap">Ochish uchun bosing</p>}
+      {hint && <p className="mh-print-tap">Lentani torting</p>}
     </div>
   );
 }
 
+/** Satin gives a little, then resists: displacement eases toward `max` however far the finger travels. */
+const rubber = (d: number, max: number) => Math.sign(d) * max * (1 - 1 / (Math.abs(d) / (max * 1.8) + 1));
+const DEG = 180 / Math.PI;
+
 /**
- * A gatefold card tied with a satin bow. Tapped, the bow tugs and comes undone, the ribbon falls away,
- * the two doors swing open, then the inner envelope's four flaps fold back off the photograph.
+ * A gatefold card tied with a satin bow. The guest taps it, or takes the ribbon and pulls: the bow
+ * follows the finger under tension and springs back if let go early. Past the knot's give, one loop
+ * slips through, the other follows, the satin flutters down and crumples, each door is lifted at its
+ * edge and swung open, and the inner envelope's flaps fold back off the photograph.
  */
 export function Envelope({
   data,
@@ -188,9 +196,73 @@ export function Envelope({
   interactive?: boolean;
 }) {
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
+  const root = useRef<HTMLDivElement>(null);
+  const press = useRef<{ id: number; x: number; y: number; dx: number; dy: number } | null>(null);
+  const [pull, setPull] = useState<"l" | "r">("r");
+  const [touch, setTouch] = useState<{ x: number; y: number; n: number } | null>(null);
   const canOpen = interactive && state === "closed";
   const names = `${data.groom} & ${data.bride}`;
-  const print = <DoorPrint names={names} nameSize={Math.min(box.w * 0.13, (box.w * 2.1) / Math.max(names.length, 8))} tap={interactive} />;
+  const print = <DoorPrint names={names} nameSize={Math.min(box.w * 0.13, (box.w * 2.1) / Math.max(names.length, 8))} hint={interactive} />;
+
+  /** Moves the bow toward the finger and lets the band's two halves follow its knot. */
+  const tension = (dx: number, dy: number) => {
+    const el = root.current;
+    if (!el) return;
+    const px = rubber(dx, 34);
+    const py = rubber(dy, 26);
+    const half = box.w / 2;
+    const set = (k: string, v: string) => el.style.setProperty(k, v);
+    set("--px", `${px}px`);
+    set("--py", `${py}px`);
+    set("--pr", `${px * 0.22}deg`);
+    set("--bl", `${Math.atan2(py, half + px) * DEG}deg`);
+    set("--br", `${-Math.atan2(py, half - px) * DEG}deg`);
+    set("--bls", `${Math.hypot(half + px, py) / half}`);
+    set("--brs", `${Math.hypot(half - px, py) / half}`);
+    set("--tail", `${-px * 0.5}deg`);
+    set("--tails", `${1 + Math.hypot(px, py) / 160}`);
+  };
+
+  const release = (open: boolean, dx: number) => {
+    root.current?.removeAttribute("data-drag");
+    tension(0, 0);
+    if (!open) return;
+    setPull(dx < -4 ? "l" : "r");
+    onOpen?.();
+  };
+
+  const handlers = canOpen
+    ? {
+        onPointerDown: (e: ReactPointerEvent<HTMLDivElement>) => {
+          if (press.current) return;
+          const r = e.currentTarget.getBoundingClientRect();
+          e.currentTarget.setPointerCapture(e.pointerId);
+          press.current = { id: e.pointerId, x: e.clientX, y: e.clientY, dx: 0, dy: 0 };
+          setTouch((t) => ({ x: e.clientX - r.left, y: e.clientY - r.top, n: (t?.n ?? 0) + 1 }));
+        },
+        onPointerMove: (e: ReactPointerEvent<HTMLDivElement>) => {
+          const p = press.current;
+          if (!p || p.id !== e.pointerId) return;
+          p.dx = e.clientX - p.x;
+          p.dy = e.clientY - p.y;
+          if (Math.hypot(p.dx, p.dy) > 8) root.current?.setAttribute("data-drag", "");
+          tension(p.dx, p.dy);
+        },
+        onPointerUp: (e: ReactPointerEvent<HTMLDivElement>) => {
+          const p = press.current;
+          if (!p || p.id !== e.pointerId) return;
+          press.current = null;
+          const d = Math.hypot(p.dx, p.dy);
+          // a tap opens; so does a pull past the knot's give; a short tug springs back
+          release(d < 10 || d > 56, p.dx);
+        },
+        onPointerCancel: () => {
+          press.current = null;
+          release(false, 0);
+        },
+      }
+    : {};
+
   const door = (side: "l" | "r") => (
     <div className={`mh-door mh-door-${side}`}>
       <div className="mh-dface front">{print}</div>
@@ -210,8 +282,10 @@ export function Envelope({
   );
   return (
     <div
+      ref={root}
       className="mh-env"
       data-state={state}
+      data-pull={pull}
       style={{
         ["--mh-art" as string]: `url("${paperUrl}")`,
         ["--bw" as string]: `${box.w}px`,
@@ -220,13 +294,13 @@ export function Envelope({
       role={canOpen ? "button" : undefined}
       tabIndex={canOpen ? 0 : undefined}
       aria-label={canOpen ? "Lentani yechib, taklifnomani oching" : undefined}
-      onClick={canOpen ? onOpen : undefined}
       onKeyDown={(e) => {
         if (canOpen && (e.key === "Enter" || e.key === " ")) {
           e.preventDefault();
           onOpen?.();
         }
       }}
+      {...handlers}
     >
       <div className="mh-env-3d">
         {/* the inner envelope over the photograph: diamond gaps above and below the side flaps' tips */}
@@ -244,11 +318,19 @@ export function Envelope({
         </div>
         {door("l")}
         {door("r")}
+        {touch && <i key={touch.n} className="mh-touch" style={{ left: touch.x, top: touch.y }} aria-hidden="true" />}
+        {/* outer layers follow the finger; inner layers carry the untying, so a release never jumps */}
         <div className="mh-ribbon" aria-hidden="true">
-          <i className="mh-band mh-band-l" />
-          <i className="mh-band mh-band-r" />
+          <div className="mh-band mh-band-l">
+            <i />
+          </div>
+          <div className="mh-band mh-band-r">
+            <i />
+          </div>
           <div className="mh-bow">
-            <SatinBow uid={uid} />
+            <div className="mh-bow-in">
+              <SatinBow uid={uid} />
+            </div>
           </div>
         </div>
       </div>
@@ -267,7 +349,7 @@ function PhotoHero({ data }: { data: InviteData }) {
     if (!c || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
     let stop = () => undefined as void;
     // petals start drifting once the paper has dissolved
-    const t = window.setTimeout(() => (stop = startAmbient(c)), 4300);
+    const t = window.setTimeout(() => (stop = startAmbient(c)), 4900);
     return () => {
       window.clearTimeout(t);
       stop();
@@ -510,6 +592,18 @@ function Sections({ data }: { data: InviteData }) {
         <Rsvp />
       </section>
 
+      {data.giftCardNumber && (
+        <section className="mh-sec">
+          <h2 className="mh-script-h" data-reveal="write">
+            To‘yana
+          </h2>
+          <p className="mh-p mh-muted" data-reveal="up" style={{ marginTop: 6, fontSize: 16, ...delay(300) }}>
+            Duolaringiz biz uchun eng qimmatli sovg‘a. To‘yana yubormoqchi bo‘lsangiz:
+          </p>
+          <GiftCard number={data.giftCardNumber} holder={data.giftCardHolder} />
+        </section>
+      )}
+
       <section className="mh-sec mh-sec-close">
         <div className="mh-stamp" data-reveal="stamp">
           <Seal pair={initials(data.groom, data.bride).split("") as [string, string]} size={112} className="mh-closing-seal" />
@@ -524,6 +618,51 @@ function Sections({ data }: { data: InviteData }) {
           {formatDateLong(data.date)}
         </p>
       </section>
+    </div>
+  );
+}
+
+/** The couple's card for wedding gifts, laid on the paper like a foil-stamped card, with a copy button. */
+function GiftCard({ number, holder }: { number: string; holder?: string }) {
+  const [copied, setCopied] = useState(false);
+  const groups = number.match(/.{1,4}/g) ?? [number];
+  const network = number.startsWith("9860") ? "HUMO" : number.startsWith("8600") || number.startsWith("5614") ? "UZCARD" : "";
+  const copy = async () => {
+    if (!(await copyText(number))) return;
+    setCopied(true);
+    navigator.vibrate?.(10);
+    window.setTimeout(() => setCopied(false), 2200);
+  };
+  return (
+    <div className="mh-gift" data-reveal="card">
+      <div className="mh-gift-card">
+        <span className="mh-gift-chip" aria-hidden="true" />
+        {network && <span className="mh-gift-net">{network}</span>}
+        <p className="mh-gift-number" aria-label={`Karta raqami ${groups.join(" ")}`}>
+          {groups.map((g, i) => (
+            <span key={i}>{g}</span>
+          ))}
+        </p>
+        {holder && <p className="mh-gift-holder">{holder}</p>}
+      </div>
+      <button type="button" className="mh-btn mh-gift-copy" onClick={copy} aria-live="polite">
+        {copied ? (
+          <>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M5 12.5l4.5 4.5L19 7.5" />
+            </svg>
+            Nusxa olindi
+          </>
+        ) : (
+          <>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <rect x="8" y="8" width="12" height="12" rx="2.5" />
+              <path d="M16 8V6.5A2.5 2.5 0 0 0 13.5 4h-7A2.5 2.5 0 0 0 4 6.5v7A2.5 2.5 0 0 0 6.5 16H8" />
+            </svg>
+            Karta raqamini nusxalash
+          </>
+        )}
+      </button>
     </div>
   );
 }

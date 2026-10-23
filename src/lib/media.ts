@@ -102,16 +102,17 @@ function bell(at: number, freq: number, gain: number, decay: number) {
   }
 }
 
-/** A satin bow tugged loose and sliding away, two doors and the inner flaps, then a soft chime. */
+/** Satin drawn through its knot and slipping free, a light flutter down, two doors, the inner flaps, a soft chime. */
 export function playRibbonSounds() {
   try {
-    noiseBurst(0.04, 0.22, 5200, 0.8, 0.03);
-    noiseBurst(0.68, 0.45, 4300, 0.7, 0.045);
-    noiseBurst(0.95, 0.75, 3000, 0.6, 0.03);
-    noiseBurst(2.1, 0.8, 1100, 0.6, 0.055);
-    noiseBurst(2.5, 0.8, 950, 0.6, 0.05);
-    noiseBurst(3.3, 0.6, 1500, 0.7, 0.03);
-    [2349, 2794, 3136, 3729].forEach((f, i) => bell(3.65 + i * 0.11, f, 0.012, 2.2));
+    noiseBurst(0.05, 0.18, 5200, 0.8, 0.025);
+    noiseBurst(0.3, 0.7, 4600, 0.6, 0.04);
+    noiseBurst(0.92, 0.3, 3600, 0.8, 0.045);
+    noiseBurst(1.15, 0.9, 2600, 0.5, 0.02);
+    noiseBurst(2.45, 0.9, 1100, 0.6, 0.05);
+    noiseBurst(2.85, 0.9, 950, 0.6, 0.045);
+    noiseBurst(3.7, 0.7, 1500, 0.7, 0.028);
+    [2349, 2794, 3136, 3729].forEach((f, i) => bell(4.4 + i * 0.11, f, 0.011, 2.4));
   } catch {
     /* sound is decorative */
   }
