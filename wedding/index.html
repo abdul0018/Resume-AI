@@ -1,0 +1,1233 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sardor va Madina Nikohi</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Sardor va Madinaning nikoh to‘yiga taklifnoma — 12-iyun, 2027, Toshkent.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap">
+<style>
+/* Layout: one narrow invitation column on white paper; a girih-patterned hero with a mihrab arch, then quiet sections separated by gold octagram dividers. Single light theme by choice (a letterpress invitation). */
+:root {
+  --paper: #FFFFFF;
+  --paper-2: #FAF8F3;
+  --ink: #1F2624;
+  --ink-soft: #626A66;
+  --gold: #B39462;
+  --gold-deep: #8A6C3D;
+  --gold-pale: #ECE3D1;
+  --line: #EDE7DC;
+  --satin-1: #F7EFDF;
+  --satin-2: #D9C6A1;
+  --satin-3: #B89C6C;
+
+  --f-display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --f-script: "Pinyon Script", "Snell Roundhand", "Apple Chancery", cursive;
+  --f-arabic: "Amiri", "Traditional Arabic", "Geeza Pro", serif;
+  --f-body: "Jost", "Futura", "Avenir Next", "Helvetica Neue", sans-serif;
+
+  --ease: cubic-bezier(.65, 0, .25, 1);
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 300 16px/1.7 var(--f-body);
+  -webkit-font-smoothing: antialiased;
+}
+body.locked { overflow: hidden; height: 100%; }
+img, svg { max-width: 100%; }
+h1, h2, h3 { font-weight: 400; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 1px solid var(--gold-deep); outline-offset: 4px; }
+
+.wrap {
+  width: 100%;
+  max-width: 36rem;
+  margin: 0 auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+
+/* ---------- Shared type ---------- */
+.eyebrow {
+  font: 400 11px/1.4 var(--f-body);
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+.title {
+  font: 400 clamp(30px, 8vw, 40px)/1.15 var(--f-display);
+  letter-spacing: -.01em;
+}
+.script { font-family: var(--f-script); font-weight: 400; color: var(--gold-deep); }
+.arabic { font-family: var(--f-arabic); direction: rtl; color: var(--gold-deep); text-wrap: balance; }
+.lede { color: var(--ink-soft); max-width: 30rem; }
+
+/* ---------- Envelope (opening) ---------- */
+.env {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  perspective: 1800px;
+  perspective-origin: 50% 50%;
+  cursor: pointer;
+  overflow: hidden;
+}
+.door {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 50.2%;
+  background:
+    radial-gradient(120% 70% at 50% 50%, #FFFFFF 0%, #FCFAF6 60%, #F5F0E6 100%);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: transform 1.9s var(--ease), opacity .7s ease 1.2s;
+  will-change: transform;
+  overflow: hidden;
+}
+.door--l { left: 0; transform-origin: left center; }
+.door--r {
+  right: 0;
+  transform-origin: right center;
+  box-shadow: -10px 0 22px rgba(90, 70, 40, .07), -1px 0 0 rgba(150, 125, 85, .18);
+}
+.door::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(60, 45, 25, .0), rgba(60, 45, 25, .18));
+  opacity: 0;
+  transition: opacity 1.9s var(--ease);
+  pointer-events: none;
+}
+.door--r::after { background: linear-gradient(270deg, rgba(60, 45, 25, .0), rgba(60, 45, 25, .18)); }
+.door svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.door .emboss { opacity: .7; mask-image: radial-gradient(90% 60% at 50% 56%, transparent 0%, #000 80%); -webkit-mask-image: radial-gradient(90% 60% at 50% 56%, transparent 0%, #000 80%); }
+
+.env__names {
+  position: absolute;
+  left: 0; right: 0;
+  top: 22%;
+  text-align: center;
+  pointer-events: none;
+  transition: opacity .6s ease;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+}
+.env__names .script { font-size: clamp(38px, 11vw, 58px); line-height: 1; text-shadow: 0 1px 0 #fff; }
+.env__names .eyebrow { color: var(--gold); }
+
+.ribbon {
+  position: absolute;
+  left: 0; right: 0;
+  top: 58%;
+  height: 30px;
+  transform: translateY(-50%);
+  border: 0;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+}
+.band {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 50.5%;
+  background:
+    linear-gradient(180deg,
+      var(--satin-3) 0%, var(--satin-2) 8%, var(--satin-1) 30%,
+      #FFFDF7 42%, var(--satin-2) 62%, var(--satin-1) 82%, var(--satin-3) 100%);
+  box-shadow: 0 2px 6px rgba(90, 70, 40, .16);
+  transition: transform 1s cubic-bezier(.5, 0, .75, 0), opacity 1s ease;
+}
+.band--l { left: 0; }
+.band--r { right: 0; }
+.bow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 168px;
+  height: auto;
+  transform: translate(-50%, -40%);
+  filter: drop-shadow(0 6px 10px rgba(90, 70, 40, .2));
+  overflow: visible;
+}
+.bow .part {
+  transform-box: view-box;
+  transform-origin: 120px 80px;
+  transition: transform .7s cubic-bezier(.5, 0, .3, 1), opacity .55s ease;
+}
+.pulse {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 64px; height: 64px;
+  margin: -32px 0 0 -32px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  animation: pulse 2.4s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes pulse {
+  0% { transform: scale(.6); opacity: .8; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.env__hint {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: calc(9% + env(safe-area-inset-bottom, 0px));
+  text-align: center;
+  font: 400 11px/1.4 var(--f-body);
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  transition: opacity .5s ease;
+  pointer-events: none;
+}
+
+/* untie → slide → open */
+.env.untie .pulse, .env.untie .env__hint { opacity: 0; animation: none; }
+.env.untie .bow .loop-l { transform: rotate(-38deg) scale(.15); opacity: 0; }
+.env.untie .bow .loop-r { transform: rotate(38deg) scale(.15); opacity: 0; }
+.env.untie .bow .knot { transform: scale(.2); opacity: 0; }
+.env.untie .bow .tail-l { transform: translate(-30px, 70px) rotate(14deg); opacity: 0; }
+.env.untie .bow .tail-r { transform: translate(30px, 70px) rotate(-14deg); opacity: 0; }
+.env.slide .band--l { transform: translate(-105%, 40px) rotate(-6deg); opacity: 0; }
+.env.slide .band--r { transform: translate(105%, 40px) rotate(6deg); opacity: 0; }
+.env.slide .env__names { opacity: 0; }
+.env.open .door--l { transform: rotateY(84deg); opacity: 0; }
+.env.open .door--r { transform: rotateY(-84deg); opacity: 0; }
+.env.open .door::after { opacity: 1; }
+.env.open { pointer-events: none; }
+
+/* ---------- Header ---------- */
+.top {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 40;
+  padding-top: env(safe-area-inset-top, 0px);
+  background: rgba(255, 255, 255, .86);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+  transform: translateY(-110%);
+  transition: transform .8s var(--ease);
+}
+body.ready .top { transform: none; }
+.top__in {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 58px;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.mono {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--ink);
+}
+.mono svg { width: 38px; height: 38px; }
+.mono span { font: 400 11px/1 var(--f-body); letter-spacing: .3em; text-transform: uppercase; color: var(--ink-soft); }
+.burger {
+  width: 44px; height: 44px;
+  border: 0; background: none;
+  display: grid; place-content: center; gap: 6px;
+  cursor: pointer;
+}
+.burger i { display: block; width: 22px; height: 1px; background: var(--ink); transition: transform .4s var(--ease); }
+.burger[aria-expanded="true"] i:first-child { transform: translateY(3.5px) rotate(45deg); }
+.burger[aria-expanded="true"] i:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+  background: var(--paper);
+  display: grid;
+  place-content: center;
+  text-align: center;
+  padding: calc(80px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) calc(40px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .45s ease, visibility .45s;
+}
+.menu.on { opacity: 1; visibility: visible; }
+.menu ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.menu a {
+  font: 400 clamp(24px, 6.5vw, 32px)/1.2 var(--f-display);
+  color: var(--ink);
+  text-decoration: none;
+}
+.menu a:hover { color: var(--gold-deep); }
+
+/* ---------- Hero card ---------- */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding-block: 72px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  background: var(--paper);
+}
+.girih {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  mask-image: radial-gradient(72% 60% at 50% 48%, transparent 34%, #000 86%);
+  -webkit-mask-image: radial-gradient(72% 60% at 50% 48%, transparent 34%, #000 86%);
+  opacity: .6;
+  transform: scale(1.08);
+  transition: transform 2.6s var(--ease);
+}
+body.opened .girih { transform: none; }
+.arch {
+  position: relative;
+  width: min(82vw, 380px);
+  aspect-ratio: 300 / 460;
+  max-width: 100%;
+  transform: scale(1.04);
+  transition: transform 2.4s var(--ease);
+}
+body.opened .arch { transform: none; }
+.arch > svg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 24px 40px rgba(80, 64, 36, .09));
+}
+.arch__text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: center;
+  padding: 0 11% 13%;
+  gap: 10px;
+}
+.arch__text .arabic { font-size: clamp(19px, 5.4vw, 25px); line-height: 1.6; }
+.arch__text .eyebrow { font-size: 10px; letter-spacing: .28em; max-width: 15em; line-height: 1.7; color: var(--ink-soft); }
+.names { display: grid; gap: 0; justify-items: center; margin-block: 4px; }
+.names .n {
+  font: 400 clamp(42px, 12.5vw, 60px)/1 var(--f-display);
+  letter-spacing: -.015em;
+}
+.names .amp { font: italic 400 clamp(26px, 7vw, 34px)/1.2 var(--f-display); color: var(--gold-deep); }
+.date-line {
+  font: 400 13px/1 var(--f-body);
+  letter-spacing: .38em;
+  padding-left: .38em;
+  font-variant-numeric: tabular-nums;
+}
+.city { font-size: clamp(24px, 6.4vw, 30px); line-height: 1; }
+.scroll-cue {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  font: 400 10px/1 var(--f-body);
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+.scroll-cue svg { width: 12px; height: 18px; animation: nudge 2s ease-in-out infinite; }
+@keyframes nudge { 50% { transform: translateY(5px); } }
+
+.hl { opacity: 0; transform: translateY(12px); transition: opacity 1.1s ease, transform 1.1s var(--ease); }
+body.opened .hl { opacity: 1; transform: none; transition-delay: calc(900ms + var(--d, 0) * 1ms); }
+
+/* ---------- Sections ---------- */
+.sec { padding-block: 88px; text-align: center; }
+.sec--tint { background: var(--paper-2); }
+.sec .wrap { display: grid; gap: 22px; justify-items: center; }
+.divider { width: 168px; height: 24px; color: var(--gold); }
+
+.ayah { display: grid; gap: 18px; justify-items: center; }
+.ayah .arabic { font-size: clamp(22px, 6vw, 28px); line-height: 2; max-width: 28rem; }
+.ayah blockquote {
+  margin: 0;
+  font: italic 400 clamp(17px, 4.6vw, 20px)/1.6 var(--f-display);
+  color: var(--ink);
+  max-width: 28rem;
+}
+.ayah cite { font: 400 11px/1 var(--f-body); letter-spacing: .28em; text-transform: uppercase; font-style: normal; color: var(--ink-soft); }
+.invite { display: grid; gap: 14px; justify-items: center; }
+.invite .greet { font: 400 clamp(22px, 6vw, 26px)/1.3 var(--f-display); }
+.parents { display: grid; gap: 4px; }
+.parents .script { font-size: 30px; line-height: 1.2; }
+
+/* Countdown */
+.count {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+  max-width: 26rem;
+}
+.count div { display: grid; gap: 6px; padding: 4px 0; }
+.count div + div { border-left: 1px solid var(--gold-pale); }
+.count b {
+  font: 400 clamp(32px, 9vw, 46px)/1 var(--f-display);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.count small { font: 400 10px/1 var(--f-body); letter-spacing: .26em; text-transform: uppercase; color: var(--ink-soft); }
+
+/* Calendar */
+.cal { width: 100%; max-width: 20rem; display: grid; gap: 14px; }
+.cal__head { font: 400 12px/1 var(--f-body); letter-spacing: .32em; text-transform: uppercase; color: var(--gold-deep); }
+.cal__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 6px;
+  font-variant-numeric: tabular-nums;
+}
+.cal__grid span {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  font: 400 14px/1 var(--f-body);
+}
+.cal__grid .dow { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); aspect-ratio: auto; padding-bottom: 6px; }
+.cal__grid .mark { color: var(--gold-deep); font-weight: 500; }
+.cal__grid .mark svg { position: absolute; inset: -4px; width: calc(100% + 8px); height: calc(100% + 8px); color: var(--gold); }
+.weekday { font: italic 400 20px/1 var(--f-display); color: var(--ink-soft); }
+
+/* Venues */
+.venues { display: grid; gap: 56px; width: 100%; }
+.venue { display: grid; gap: 12px; justify-items: center; }
+.venue h3 { font: 400 clamp(24px, 6.6vw, 30px)/1.2 var(--f-display); }
+.venue .time { font: 400 13px/1 var(--f-body); letter-spacing: .3em; color: var(--gold-deep); font-variant-numeric: tabular-nums; }
+.venue address { font-style: normal; color: var(--ink-soft); max-width: 22rem; }
+.map {
+  width: 100%;
+  aspect-ratio: 16 / 8;
+  max-width: 100%;
+  border: 1px solid var(--line);
+  background: var(--paper-2);
+  margin-top: 6px;
+}
+.map svg { display: block; width: 100%; height: 100%; }
+.btns { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 22px;
+  border: 1px solid var(--gold);
+  background: transparent;
+  color: var(--gold-deep);
+  font: 400 11px/1 var(--f-body);
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .3s ease, color .3s ease;
+}
+.btn:hover { background: var(--gold); color: var(--paper); }
+.btn--solid { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.btn--solid:hover { background: var(--gold-deep); border-color: var(--gold-deep); }
+
+/* Program */
+.program { list-style: none; margin: 8px 0 0; padding: 0; width: 100%; max-width: 26rem; text-align: left; }
+.program li {
+  display: grid;
+  grid-template-columns: 74px 1fr;
+  gap: 20px;
+  position: relative;
+  padding-bottom: 30px;
+}
+.program li::before {
+  content: "";
+  position: absolute;
+  left: 74px; top: 8px; bottom: -8px;
+  border-left: 1px solid var(--gold-pale);
+  transform: translateX(14px);
+}
+.program li:last-child::before { display: none; }
+.program li::after {
+  content: "";
+  position: absolute;
+  left: 84px; top: 6px;
+  width: 9px; height: 9px;
+  border: 1px solid var(--gold);
+  background: var(--paper);
+  transform: rotate(45deg);
+}
+.program time {
+  font: 400 22px/1 var(--f-display);
+  font-variant-numeric: tabular-nums lining-nums;
+  text-align: right;
+}
+.program div { padding-left: 14px; min-width: 0; }
+.program h3 { font: 400 13px/1.4 var(--f-body); letter-spacing: .2em; text-transform: uppercase; }
+.program p { color: var(--ink-soft); font-size: 15px; }
+
+/* Dress code */
+.swatches { display: flex; flex-wrap: wrap; justify-content: center; gap: 22px; }
+.swatches figure { margin: 0; display: grid; gap: 10px; justify-items: center; }
+.swatches i {
+  display: block;
+  width: 54px; height: 54px;
+  border-radius: 50%;
+  background: var(--c);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .06);
+}
+.swatches figcaption { font: 400 10px/1 var(--f-body); letter-spacing: .24em; text-transform: uppercase; color: var(--ink-soft); }
+.note { font: italic 400 17px/1.5 var(--f-display); color: var(--ink-soft); max-width: 26rem; }
+
+/* Gift */
+.gift {
+  width: 100%;
+  max-width: 24rem;
+  border: 1px solid var(--gold-pale);
+  padding: 28px 22px;
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  background: var(--paper);
+  position: relative;
+}
+.gift::before {
+  content: "";
+  position: absolute; inset: 5px;
+  border: 1px solid var(--line);
+  pointer-events: none;
+}
+.gift .num {
+  font: 400 clamp(20px, 5.8vw, 24px)/1 var(--f-display);
+  letter-spacing: .08em;
+  font-variant-numeric: tabular-nums lining-nums;
+  user-select: all;
+}
+.gift .holder { color: var(--ink-soft); font-size: 14px; letter-spacing: .1em; }
+
+/* RSVP */
+form.rsvp { width: 100%; max-width: 26rem; display: grid; gap: 26px; text-align: left; }
+.field { display: grid; gap: 8px; border: 0; margin: 0; padding: 0; min-width: 0; }
+.field > label, .field > legend {
+  font: 400 11px/1.4 var(--f-body);
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  padding: 0;
+  margin-bottom: 8px;
+}
+.field input[type="text"], .field textarea {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--gold-pale);
+  background: transparent;
+  padding: 8px 0;
+  font: 400 18px/1.4 var(--f-display);
+  color: var(--ink);
+  border-radius: 0;
+  resize: vertical;
+}
+.field input[type="text"]:focus, .field textarea:focus { outline: none; border-bottom-color: var(--gold-deep); }
+.field input::placeholder, .field textarea::placeholder { color: #B5B2AA; }
+.choices { display: flex; flex-wrap: wrap; gap: 10px; }
+.choice { position: relative; flex: 1 1 10rem; }
+.choice input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.choice span {
+  display: grid;
+  place-items: center;
+  min-height: 48px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  font: 400 14px/1.3 var(--f-body);
+  text-align: center;
+  transition: border-color .25s ease, background .25s ease, color .25s ease;
+}
+.choice input:checked + span { border-color: var(--gold); background: var(--paper-2); color: var(--gold-deep); }
+.choice input:focus-visible + span { outline: 1px solid var(--gold-deep); outline-offset: 3px; }
+.stepper { display: inline-flex; align-items: center; border: 1px solid var(--line); width: max-content; }
+.stepper button { width: 48px; height: 48px; border: 0; background: none; font-size: 20px; cursor: pointer; color: var(--gold-deep); }
+.stepper button:disabled { color: #CFCAC0; cursor: default; }
+.stepper output { width: 48px; text-align: center; font: 400 20px/1 var(--f-display); font-variant-numeric: tabular-nums lining-nums; }
+.err { color: #A34A3A; font-size: 13px; }
+form.rsvp .btn--solid { justify-self: center; min-width: 14rem; min-height: 52px; }
+.thanks { display: grid; gap: 14px; justify-items: center; max-width: 24rem; }
+.thanks h3 { font: 400 28px/1.2 var(--f-display); }
+
+/* FAQ */
+.faq { width: 100%; max-width: 30rem; text-align: left; border-top: 1px solid var(--line); }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 0;
+  font: 400 18px/1.35 var(--f-display);
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "";
+  flex: none;
+  width: 11px; height: 11px;
+  border: 1px solid var(--gold);
+  transform: rotate(45deg);
+  transition: background .3s ease;
+}
+.faq details[open] summary::after { background: var(--gold); }
+.faq p { padding: 0 0 22px; color: var(--ink-soft); }
+
+/* Closing */
+.closing { padding-block: 104px 72px; }
+.closing .arabic { font-size: clamp(22px, 6vw, 28px); line-height: 2; }
+.closing .translit { font: italic 400 16px/1.6 var(--f-display); color: var(--ink-soft); max-width: 26rem; }
+.closing .names-script { font-size: clamp(46px, 13vw, 64px); line-height: 1.1; }
+footer {
+  padding-block: 28px calc(28px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--line);
+  text-align: center;
+  font: 400 10px/1 var(--f-body);
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* Scroll reveal (only when JS enables it) */
+.js-rv .rv { opacity: 0; transform: translateY(22px); transition: opacity 1.1s ease, transform 1.1s var(--ease); }
+.js-rv .rv.in { opacity: 1; transform: none; }
+
+@media (min-width: 720px) {
+  .sec { padding-block: 120px; }
+  .venues { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .wrap--wide { max-width: 56rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .2s !important; }
+}
+</style>
+<noscript><style>.env{display:none}.hl{opacity:1;transform:none}.top{transform:none}</style></noscript>
+</head>
+<body class="locked">
+
+<!-- Reusable ornaments -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Girih tile: Rub el Hizb stars at centre and corners, joined by diagonals, diamonds at edge midpoints -->
+    <pattern id="girih" width="64" height="64" patternUnits="userSpaceOnUse">
+      <g fill="none" stroke="#B39462" stroke-width=".7">
+        <g id="rub">
+          <rect x="20.7" y="20.7" width="22.6" height="22.6"/>
+          <rect x="20.7" y="20.7" width="22.6" height="22.6" transform="rotate(45 32 32)"/>
+          <circle cx="32" cy="32" r="5.2"/>
+        </g>
+        <use href="#rub" x="-32" y="-32"/><use href="#rub" x="32" y="-32"/>
+        <use href="#rub" x="-32" y="32"/><use href="#rub" x="32" y="32"/>
+        <path d="M43.3 43.3 52.7 52.7M20.7 20.7 11.3 11.3M43.3 20.7 52.7 11.3M20.7 43.3 11.3 52.7"/>
+        <path d="M48 32h4l4-4 4 4-4 4-4-4M16 32h-4l-4-4-4 4 4 4 4-4M32 48v4l-4 4 4 4 4-4-4-4M32 16v-4l-4-4 4-4 4 4-4 4"/>
+      </g>
+    </pattern>
+    <pattern id="girih-emboss" width="64" height="64" patternUnits="userSpaceOnUse">
+      <g fill="none" stroke="#E9E0CE" stroke-width=".8">
+        <use href="#rub"/>
+        <use href="#rub" x="-32" y="-32"/><use href="#rub" x="32" y="-32"/>
+        <use href="#rub" x="-32" y="32"/><use href="#rub" x="32" y="32"/>
+        <path d="M43.3 43.3 52.7 52.7M20.7 20.7 11.3 11.3M43.3 20.7 52.7 11.3M20.7 43.3 11.3 52.7"/>
+      </g>
+    </pattern>
+    <symbol id="star8" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1">
+        <rect x="5" y="5" width="14" height="14"/>
+        <rect x="5" y="5" width="14" height="14" transform="rotate(45 12 12)"/>
+      </g>
+    </symbol>
+    <symbol id="divider" viewBox="0 0 168 24">
+      <g fill="none" stroke="currentColor" stroke-width="1">
+        <path d="M0 12h62M106 12h62"/>
+        <rect x="76" y="4" width="16" height="16"/>
+        <rect x="76" y="4" width="16" height="16" transform="rotate(45 84 12)"/>
+        <circle cx="84" cy="12" r="3"/>
+        <path d="M66 12l3-3 3 3-3 3zM96 12l3-3 3 3-3 3z"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============ ENVELOPE ============ -->
+<div class="env" id="env" role="dialog" aria-modal="true" aria-label="Taklifnoma konverti">
+  <div class="door door--l" aria-hidden="true">
+    <svg class="emboss"><rect width="100%" height="100%" fill="url(#girih-emboss)"/></svg>
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+      <path d="M0 0 100 58 0 100" fill="none" stroke="rgba(150,122,80,.32)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+      <path d="M0 1.2 99 58.6 0 101" fill="none" stroke="#fff" stroke-width="1" vector-effect="non-scaling-stroke"/>
+    </svg>
+  </div>
+  <div class="door door--r" aria-hidden="true">
+    <svg class="emboss"><rect width="100%" height="100%" fill="url(#girih-emboss)"/></svg>
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+      <path d="M100 0 0 58 100 100" fill="none" stroke="rgba(150,122,80,.32)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+      <path d="M100 1.2 1 58.6 100 101" fill="none" stroke="#fff" stroke-width="1" vector-effect="non-scaling-stroke"/>
+    </svg>
+  </div>
+
+  <div class="env__names">
+    <span class="script">Sardor &amp; Madina</span>
+    <span class="eyebrow">Nikoh to‘yi taklifnomasi</span>
+  </div>
+
+  <button class="ribbon" id="ribbon" type="button" aria-label="Taklifnomani ochish">
+    <span class="band band--l"></span>
+    <span class="band band--r"></span>
+    <span class="pulse"></span>
+    <svg class="bow" viewBox="0 0 240 200" aria-hidden="true">
+      <defs>
+        <linearGradient id="satin" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FFFBF2"/>
+          <stop offset=".45" stop-color="#E9DABB"/>
+          <stop offset=".75" stop-color="#C8AF82"/>
+          <stop offset="1" stop-color="#F3E8D2"/>
+        </linearGradient>
+        <linearGradient id="satin-d" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#D8C39B"/>
+          <stop offset="1" stop-color="#A88B5A"/>
+        </linearGradient>
+      </defs>
+      <path class="part tail-l" d="M110 84 L130 90 L92 196 L80 182 L62 192 Z" fill="url(#satin)" stroke="#BFA678" stroke-width=".6"/>
+      <path class="part tail-r" d="M130 84 L110 90 L148 196 L160 182 L178 192 Z" fill="url(#satin)" stroke="#BFA678" stroke-width=".6"/>
+      <g class="part loop-l">
+        <path d="M120 80 C96 38 30 18 20 54 C12 90 70 102 120 80 Z" fill="url(#satin)" stroke="#BFA678" stroke-width=".6"/>
+        <path d="M120 80 C92 62 52 56 40 66 C60 74 92 80 120 80 Z" fill="url(#satin-d)" opacity=".55"/>
+      </g>
+      <g class="part loop-r">
+        <path d="M120 80 C144 38 210 18 220 54 C228 90 170 102 120 80 Z" fill="url(#satin)" stroke="#BFA678" stroke-width=".6"/>
+        <path d="M120 80 C148 62 188 56 200 66 C180 74 148 80 120 80 Z" fill="url(#satin-d)" opacity=".55"/>
+      </g>
+      <rect class="part knot" x="106" y="65" width="28" height="31" rx="11" fill="url(#satin)" stroke="#BFA678" stroke-width=".7"/>
+    </svg>
+  </button>
+
+  <p class="env__hint">Ochish uchun bosing</p>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header class="top" id="top">
+  <div class="top__in">
+    <a class="mono" href="#bosh" aria-label="Bosh sahifa">
+      <svg viewBox="0 0 40 40" aria-hidden="true">
+        <g fill="none" stroke="#B39462" stroke-width=".8">
+          <rect x="7.5" y="7.5" width="25" height="25"/>
+          <rect x="7.5" y="7.5" width="25" height="25" transform="rotate(45 20 20)"/>
+        </g>
+        <text x="20" y="23.6" text-anchor="middle" font-family="Bodoni Moda, Georgia, serif" font-size="10" fill="#1F2624">S·M</text>
+      </svg>
+      <span>12.06.2027</span>
+    </a>
+    <button class="burger" id="burger" type="button" aria-label="Menyu" aria-expanded="false" aria-controls="menu"><i></i><i></i></button>
+  </div>
+</header>
+<nav class="menu" id="menu" aria-label="Bo‘limlar">
+  <ol>
+    <li><a href="#taklif">Taklif</a></li>
+    <li><a href="#sana">Sana</a></li>
+    <li><a href="#manzil">Manzil</a></li>
+    <li><a href="#dastur">Kun tartibi</a></li>
+    <li><a href="#libos">Libos</a></li>
+    <li><a href="#toyona">To‘yona</a></li>
+    <li><a href="#tasdiq">Tasdiqlash</a></li>
+    <li><a href="#savollar">Savollar</a></li>
+  </ol>
+</nav>
+
+<main>
+  <!-- ============ HERO CARD ============ -->
+  <section class="hero" id="bosh">
+    <svg class="girih" aria-hidden="true"><rect width="100%" height="100%" fill="url(#girih)"/></svg>
+
+    <div class="arch">
+      <svg viewBox="0 0 300 460" aria-hidden="true">
+        <path d="M4 456V176C4 102 78 50 150 4c72 46 146 98 146 172v280Z" fill="#FFFFFF" stroke="#B39462" stroke-width="1"/>
+        <path d="M14 446V178C14 110 82 62 150 18c68 44 136 92 136 160v268Z" fill="none" stroke="#B39462" stroke-width=".6"/>
+        <path d="M20 440V179C20 114 86 68 150 25c64 43 130 89 130 154v261Z" fill="none" stroke="#ECE3D1" stroke-width=".6"/>
+        <g transform="translate(138 -8)" color="#B39462"><use href="#star8" width="24" height="24"/></g>
+        <g fill="none" stroke="#B39462" stroke-width=".7">
+          <path d="M120 440h60M150 432l6 8-6 8-6-8z"/>
+        </g>
+      </svg>
+      <div class="arch__text">
+        <p class="arabic hl" style="--d:0" lang="ar">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+        <p class="eyebrow hl" style="--d:250">Sizni nikoh to‘yimizga taklif etamiz</p>
+        <h1 class="names hl" style="--d:550">
+          <span class="n">Sardor</span>
+          <span class="amp">&amp;</span>
+          <span class="n">Madina</span>
+        </h1>
+        <p class="date-line hl" style="--d:900">12 · 06 · 2027</p>
+        <p class="city script hl" style="--d:1100">Toshkent shahri</p>
+      </div>
+    </div>
+
+    <a class="scroll-cue hl" style="--d:1500" href="#taklif">
+      Pastga suring
+      <svg viewBox="0 0 12 18" aria-hidden="true"><path d="M6 0v16M1 11l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1"/></svg>
+    </a>
+  </section>
+
+  <!-- ============ AYAH + INVITATION ============ -->
+  <section class="sec" id="taklif">
+    <div class="wrap">
+      <svg class="divider rv" aria-hidden="true"><use href="#divider"/></svg>
+      <div class="ayah rv">
+        <p class="arabic" lang="ar">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً</p>
+        <blockquote>«Sizlar taskin topishingiz uchun o‘zlaringizdan juftlar yaratgani va oralaringizga muhabbat hamda rahmat solgani Uning alomatlaridandir.»</blockquote>
+        <cite>Rum surasi, 21-oyat</cite>
+      </div>
+      <div class="invite rv">
+        <p class="greet">Aziz va qadrli mehmonlarimiz!</p>
+        <p class="lede">Alloh taoloning marhamati bilan farzandlarimiz Sardor va Madina oila qurmoqda. Ushbu muborak kunda tashrifingiz va duolaringiz bilan quvonchimizga sherik bo‘lishingizni so‘raymiz.</p>
+        <div class="parents">
+          <span class="eyebrow">Hurmat bilan</span>
+          <span class="script">Karimovlar va Yusupovlar oilasi</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COUNTDOWN ============ -->
+  <section class="sec sec--tint" aria-labelledby="count-h">
+    <div class="wrap">
+      <p class="eyebrow rv" id="count-h">Muborak kungacha</p>
+      <div class="count rv" id="count" aria-live="off">
+        <div><b data-u="d">000</b><small>Kun</small></div>
+        <div><b data-u="h">00</b><small>Soat</small></div>
+        <div><b data-u="m">00</b><small>Daqiqa</small></div>
+        <div><b data-u="s">00</b><small>Soniya</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DATE ============ -->
+  <section class="sec" id="sana">
+    <div class="wrap">
+      <svg class="divider rv" aria-hidden="true"><use href="#divider"/></svg>
+      <p class="eyebrow rv">Sana</p>
+      <h2 class="title rv">12-iyun, 2027</h2>
+      <p class="weekday rv">Shanba</p>
+      <div class="cal rv" aria-label="Iyun 2027 taqvimi">
+        <div class="cal__head">Iyun · 2027</div>
+        <div class="cal__grid" id="cal"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VENUES ============ -->
+  <section class="sec sec--tint" id="manzil">
+    <div class="wrap wrap--wide">
+      <svg class="divider rv" aria-hidden="true"><use href="#divider"/></svg>
+      <p class="eyebrow rv">Manzil</p>
+      <h2 class="title rv">Qayerda uchrashamiz</h2>
+      <div class="venues">
+        <article class="venue rv">
+          <p class="eyebrow">Nikoh o‘qish marosimi</p>
+          <h3>Kuyov xonadoni</h3>
+          <p class="time">11:00</p>
+          <address>Toshkent sh., Mirzo Ulug‘bek tumani, Buyuk Ipak Yo‘li ko‘chasi, 45-uy</address>
+          <div class="map" aria-hidden="true">
+            <svg viewBox="0 0 320 160" preserveAspectRatio="xMidYMid slice">
+              <rect width="320" height="160" fill="#FAF8F3"/>
+              <g stroke="#E6DED0" stroke-width="7" fill="none" stroke-linecap="round">
+                <path d="M-10 46h340M-10 118h340M70-10v180M214-10v180"/>
+              </g>
+              <g stroke="#EFE9DE" stroke-width="3" fill="none">
+                <path d="M-10 82h340M142-10v180M270-10v180M10 -10l120 180"/>
+              </g>
+              <path d="M-10 140c60-20 90 10 150-8s110-40 190-20" stroke="#E4D8C2" stroke-width="5" fill="none"/>
+              <g transform="translate(160 66)">
+                <circle r="20" fill="#B39462" opacity=".12"/>
+                <path d="M0 10C-9 0-12-5-12-10a12 12 0 0 1 24 0c0 5-3 10-12 20Z" fill="#B39462"/>
+                <circle cy="-10" r="4" fill="#fff"/>
+              </g>
+            </svg>
+          </div>
+          <div class="btns">
+            <a class="btn" target="_blank" rel="noopener" href="https://yandex.uz/maps/?text=Toshkent%2C%20Buyuk%20Ipak%20Yo%27li%20ko%27chasi%2045">Yandex xarita</a>
+            <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Tashkent%2C%20Buyuk%20Ipak%20Yuli%2045">Google Maps</a>
+          </div>
+        </article>
+        <article class="venue rv">
+          <p class="eyebrow">To‘y tantanasi</p>
+          <h3>«Oq Saroy» to‘yxonasi</h3>
+          <p class="time">17:30</p>
+          <address>Toshkent sh., Yunusobod tumani, Amir Temur shoh ko‘chasi, 108</address>
+          <div class="map" aria-hidden="true">
+            <svg viewBox="0 0 320 160" preserveAspectRatio="xMidYMid slice">
+              <rect width="320" height="160" fill="#FAF8F3"/>
+              <g stroke="#E6DED0" stroke-width="7" fill="none" stroke-linecap="round">
+                <path d="M160-10v180M-10 58h340"/>
+                <path d="M-10 150 330 20"/>
+              </g>
+              <g stroke="#EFE9DE" stroke-width="3" fill="none">
+                <path d="M-10 108h340M60-10v180M250-10v180M-10 20h340"/>
+              </g>
+              <circle cx="250" cy="120" r="22" fill="none" stroke="#E4D8C2" stroke-width="5"/>
+              <g transform="translate(184 46)">
+                <circle r="20" fill="#B39462" opacity=".12"/>
+                <path d="M0 10C-9 0-12-5-12-10a12 12 0 0 1 24 0c0 5-3 10-12 20Z" fill="#B39462"/>
+                <circle cy="-10" r="4" fill="#fff"/>
+              </g>
+            </svg>
+          </div>
+          <div class="btns">
+            <a class="btn" target="_blank" rel="noopener" href="https://yandex.uz/maps/?text=Toshkent%2C%20Amir%20Temur%20shoh%20ko%27chasi%20108">Yandex xarita</a>
+            <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Tashkent%2C%20Amir%20Temur%20108">Google Maps</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROGRAM ============ -->
+  <section class="sec" id="dastur">
+    <div class="wrap">
+      <svg class="divider rv" aria-hidden="true"><use href="#divider"/></svg>
+      <p class="eyebrow rv">Kun tartibi</p>
+      <h2 class="title rv">Muborak kun dasturi</h2>
+      <ol class="program">
+        <li class="rv"><time>06:00</time><div><h3>Nahor oshi</h3><p>Erkaklar uchun, kuyov mahallasida</p></div></li>
+        <li class="rv"><time>11:00</time><div><h3>Nikoh o‘qilishi</h3><p>Yaqin qarindoshlar davrasida, kuyov xonadonida</p></div></li>
+        <li class="rv"><time>17:30</time><div><h3>Mehmonlarni kutib olish</h3><p>To‘yxona bog‘ida choy va shirinliklar</p></div></li>
+        <li class="rv"><time>18:00</time><div><h3>Kelin-kuyov kirib kelishi</h3><p>«Yor-yor» sadolari ostida tantanali kirish</p></div></li>
+        <li class="rv"><time>18:30</time><div><h3>Ziyofat va tabriklar</h3><p>Halol milliy taomlar, yaqinlarning tilaklari</p></div></li>
+        <li class="rv"><time>20:30</time><div><h3>Milliy dastur</h3><p>Lazgi, milliy raqslar va xonandalar chiqishi</p></div></li>
+        <li class="rv"><time>22:00</time><div><h3>Yakuniy duo</h3><p>Kelin-kuyov haqqiga duo va xayrlashuv</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ DRESS CODE ============ -->
+  <section class="sec sec--tint" id="libos">
+    <div class="wrap">
+      <svg class="divider rv" aria-hidden="true"><use href="#divider"/></svg>
+      <p class="eyebrow rv">Libos</p>
+      <h2 class="title rv">Kiyinish uslubi</h2>
+      <p class="lede rv">Oqlangan, kamtarona va bayramona liboslarni tanlashingizni so‘raymiz. Ochiq va iliq ranglar kunimizga mos keladi.</p>
+      <div class="swatches rv">
+        <figure><i style="--c:#FFFFFF"></i><figcaption>Oq</figcaption></figure>
+        <figure><i style="--c:#ECDDBD"></i><figcaption>Shampan</figcaption></figure>
+        <figure><i style="--c:#D9C8AE"></i><figcaption>Bej</figcaption></figure>
+        <figure><i style="--c:#A9B59C"></i><figcaption>Zaytun</figcaption></figure>
+      </div>
+      <p class="note rv">Ayollar uchun yopiq liboslar tavsiya etiladi.</p>
+    </div>
+  </section>
+
+  <!-- ============ GIFT ============ -->
+  <section class="sec" id="toyona">
+    <div class="wrap">
+      <svg class="divider rv" aria-hidden="true"><use href="#divider"/></svg>
+      <p class="eyebrow rv">To‘yona</p>
+      <h2 class="title rv">Sovg‘a haqida</h2>
+      <p class="lede rv">Tashrifingiz va duolaringiz biz uchun eng qimmatli sovg‘a. To‘yona yo‘llamoqchi bo‘lsangiz, quyidagi kartadan foydalanishingiz mumkin.</p>
+      <div class="gift rv">
+        <span class="eyebrow">Humo</span>
+        <span class="num" id="card-num">9860 1201 2345 6789</span>
+        <span class="holder">Sardor Karimov</span>
+        <button class="btn" type="button" id="copy">Nusxa olish</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RSVP ============ -->
+  <section class="sec sec--tint" id="tasdiq">
+    <div class="wrap">
+      <svg class="divider rv" aria-hidden="true"><use href="#divider"/></svg>
+      <p class="eyebrow rv">Tasdiqlash</p>
+      <h2 class="title rv">Tashrifingizni tasdiqlang</h2>
+      <p class="lede rv">Iltimos, 25-maygacha javob bering.</p>
+
+      <form class="rsvp rv" id="rsvp" novalidate>
+        <div class="field">
+          <label for="rsvp-name">Ism va familiya</label>
+          <input type="text" id="rsvp-name" name="name" autocomplete="name" placeholder="Masalan, Aziza Rahimova" required>
+          <p class="err" id="rsvp-err" hidden>Ismingizni kiriting</p>
+        </div>
+        <fieldset class="field">
+          <legend>Kela olasizmi?</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="attend" id="rsvp-yes" value="yes" checked><span>Albatta kelaman</span></label>
+            <label class="choice"><input type="radio" name="attend" id="rsvp-no" value="no"><span>Afsuski, kela olmayman</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="field" id="side-field">
+          <legend>Kimning mehmonisiz?</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="side" id="rsvp-groom" value="kuyov" checked><span>Kuyov tomoni</span></label>
+            <label class="choice"><input type="radio" name="side" id="rsvp-bride" value="kelin"><span>Kelin tomoni</span></label>
+          </div>
+        </fieldset>
+        <div class="field" id="count-field">
+          <label for="rsvp-count">Mehmonlar soni</label>
+          <div class="stepper">
+            <button type="button" id="minus" aria-label="Kamaytirish">−</button>
+            <output id="rsvp-count" name="count">1</output>
+            <button type="button" id="plus" aria-label="Ko‘paytirish">+</button>
+          </div>
+        </div>
+        <div class="field">
+          <label for="rsvp-msg">Tilaklaringiz</label>
+          <textarea id="rsvp-msg" name="message" rows="3" placeholder="Kelin-kuyovga tilak yozing"></textarea>
+        </div>
+        <button class="btn btn--solid" type="submit">Javobni yuborish</button>
+      </form>
+
+      <div class="thanks" id="thanks" hidden>
+        <svg class="divider" aria-hidden="true"><use href="#divider"/></svg>
+        <h3 id="thanks-h">Rahmat!</h3>
+        <p class="lede" id="thanks-p">Javobingiz qabul qilindi.</p>
+        <button class="btn" type="button" id="again">Javobni o‘zgartirish</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="sec" id="savollar">
+    <div class="wrap">
+      <svg class="divider rv" aria-hidden="true"><use href="#divider"/></svg>
+      <p class="eyebrow rv">Savollar</p>
+      <h2 class="title rv">Ko‘p so‘raladigan savollar</h2>
+      <div class="faq rv">
+        <details><summary>Qachon kelishim kerak?</summary><p>Mehmonlarni kutib olish 17:30 da boshlanadi. Kelin-kuyov 18:00 da kirib keladi.</p></details>
+        <details><summary>Bolalar bilan kelsam bo‘ladimi?</summary><p>Albatta. Farzandlaringiz uchun alohida o‘yin burchagi tashkil etiladi.</p></details>
+        <details><summary>Namoz uchun joy bormi?</summary><p>Ha, to‘yxonada erkaklar va ayollar uchun alohida namozxona bor. Shom namozi vaqtida dastur tanaffus qiladi.</p></details>
+        <details><summary>Spirtli ichimliklar bo‘ladimi?</summary><p>Yo‘q. To‘yimiz islomiy odob asosida, spirtli ichimliklarsiz o‘tadi. Barcha taomlar halol.</p></details>
+        <details><summary>Avtoturargoh bormi?</summary><p>Ha, to‘yxona yonida 150 o‘rinli bepul avtoturargoh mavjud.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CLOSING ============ -->
+  <section class="sec sec--tint closing">
+    <div class="wrap">
+      <svg class="divider rv" aria-hidden="true"><use href="#divider"/></svg>
+      <p class="arabic rv" lang="ar">بَارَكَ اللَّهُ لَكَ، وَبَارَكَ عَلَيْكَ، وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ</p>
+      <p class="translit rv">Alloh sizga baraka bersin, ustingizga baraka yog‘dirsin va ikkovingizni yaxshilikda jamlasin.</p>
+      <p class="eyebrow rv">Sizni intizorlik bilan kutamiz</p>
+      <p class="script names-script rv">Sardor &amp; Madina</p>
+      <p class="date-line rv">12 · 06 · 2027</p>
+    </div>
+  </section>
+</main>
+
+<footer>S &amp; M · Toshkent · 2027</footer>
+
+<script>
+(function () {
+  // Wedding details used by the script. Edit here to reuse the template.
+  var WEDDING = {
+    start: "2027-06-12T17:30:00+05:00", // Tashkent time
+    year: 2027, month: 5, day: 12,       // month is 0-based (5 = iyun)
+    rsvpEndpoint: ""                     // optional: URL that accepts a JSON POST
+  };
+
+  var doc = document.documentElement;
+  var body = document.body;
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- Envelope ---------- */
+  var env = document.getElementById("env");
+  var opened = false;
+  function openEnvelope() {
+    if (opened) return;
+    opened = true;
+    var k = reduce ? 0.15 : 1;
+    env.classList.add("untie");
+    setTimeout(function () { env.classList.add("slide"); }, 420 * k);
+    setTimeout(function () { env.classList.add("open"); body.classList.add("opened"); }, 1200 * k);
+    setTimeout(function () {
+      env.hidden = true;
+      body.classList.remove("locked");
+      body.classList.add("ready");
+    }, 3200 * k);
+  }
+  env.addEventListener("click", openEnvelope);
+  document.addEventListener("keydown", function (e) {
+    if (!opened && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openEnvelope(); }
+  });
+
+  /* ---------- Menu ---------- */
+  var burger = document.getElementById("burger");
+  var menu = document.getElementById("menu");
+  function setMenu(on) {
+    menu.classList.toggle("on", on);
+    burger.setAttribute("aria-expanded", on ? "true" : "false");
+    body.classList.toggle("locked", on);
+  }
+  burger.addEventListener("click", function () { setMenu(!menu.classList.contains("on")); });
+  menu.addEventListener("click", function (e) { if (e.target.closest("a")) setMenu(false); });
+
+  /* ---------- Countdown ---------- */
+  var target = new Date(WEDDING.start).getTime();
+  var cells = {};
+  document.querySelectorAll("#count b").forEach(function (b) { cells[b.dataset.u] = b; });
+  function pad(n, w) { n = String(n); while (n.length < w) n = "0" + n; return n; }
+  function tick() {
+    var diff = Math.max(0, target - Date.now());
+    var s = Math.floor(diff / 1000);
+    cells.d.textContent = pad(Math.floor(s / 86400), 2);
+    cells.h.textContent = pad(Math.floor(s % 86400 / 3600), 2);
+    cells.m.textContent = pad(Math.floor(s % 3600 / 60), 2);
+    cells.s.textContent = pad(s % 60, 2);
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  /* ---------- Calendar (Monday first) ---------- */
+  var cal = document.getElementById("cal");
+  var dows = ["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"];
+  var html = dows.map(function (d) { return '<span class="dow">' + d + "</span>"; }).join("");
+  var first = (new Date(WEDDING.year, WEDDING.month, 1).getDay() + 6) % 7;
+  var days = new Date(WEDDING.year, WEDDING.month + 1, 0).getDate();
+  for (var i = 0; i < first; i++) html += "<span></span>";
+  for (var d = 1; d <= days; d++) {
+    html += d === WEDDING.day
+      ? '<span class="mark" aria-label="To‘y kuni, ' + d + '-iyun"><svg aria-hidden="true"><use href="#star8"/></svg>' + d + "</span>"
+      : "<span>" + d + "</span>";
+  }
+  cal.innerHTML = html;
+
+  /* ---------- Scroll reveal ---------- */
+  if ("IntersectionObserver" in window && !reduce) {
+    doc.classList.add("js-rv");
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+    document.querySelectorAll(".rv").forEach(function (el) { io.observe(el); });
+  }
+
+  /* ---------- Copy card number ---------- */
+  var copyBtn = document.getElementById("copy");
+  var cardNum = document.getElementById("card-num");
+  copyBtn.addEventListener("click", function () {
+    var text = cardNum.textContent.replace(/\s+/g, "");
+    function done() {
+      copyBtn.textContent = "Nusxa olindi";
+      setTimeout(function () { copyBtn.textContent = "Nusxa olish"; }, 2200);
+    }
+    function fallback() {
+      var r = document.createRange();
+      r.selectNodeContents(cardNum);
+      var sel = getSelection();
+      sel.removeAllRanges();
+      sel.addRange(r);
+      copyBtn.textContent = "Raqam belgilandi";
+      setTimeout(function () { copyBtn.textContent = "Nusxa olish"; }, 2200);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } else {
+      fallback();
+    }
+  });
+
+  /* ---------- RSVP ---------- */
+  var form = document.getElementById("rsvp");
+  var nameIn = document.getElementById("rsvp-name");
+  var err = document.getElementById("rsvp-err");
+  var countOut = document.getElementById("rsvp-count");
+  var minus = document.getElementById("minus");
+  var plus = document.getElementById("plus");
+  var thanks = document.getElementById("thanks");
+  var count = 1;
+  function setCount(n) {
+    count = Math.min(6, Math.max(1, n));
+    countOut.textContent = count;
+    minus.disabled = count === 1;
+    plus.disabled = count === 6;
+  }
+  setCount(1);
+  minus.addEventListener("click", function () { setCount(count - 1); });
+  plus.addEventListener("click", function () { setCount(count + 1); });
+
+  function syncAttend() {
+    var yes = form.attend.value === "yes";
+    document.getElementById("side-field").hidden = !yes;
+    document.getElementById("count-field").hidden = !yes;
+  }
+  form.addEventListener("change", syncAttend);
+  nameIn.addEventListener("input", function () { err.hidden = true; });
+
+  function showThanks(data) {
+    var first = data.name.split(/\s+/)[0];
+    document.getElementById("thanks-h").textContent = "Rahmat, " + first + "!";
+    document.getElementById("thanks-p").textContent = data.attend === "yes"
+      ? "Javobingiz qabul qilindi. Sizni 12-iyun kuni intizorlik bilan kutamiz."
+      : "Javobingiz qabul qilindi. Duolaringiz biz bilan.";
+    form.hidden = true;
+    thanks.hidden = false;
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = nameIn.value.trim();
+    if (!name) { err.hidden = false; nameIn.focus(); return; }
+    var data = {
+      name: name,
+      attend: form.attend.value,
+      side: form.attend.value === "yes" ? form.side.value : null,
+      guests: form.attend.value === "yes" ? count : 0,
+      message: document.getElementById("rsvp-msg").value.trim(),
+      at: new Date().toISOString()
+    };
+    try { localStorage.setItem("rsvp", JSON.stringify(data)); } catch (x) {}
+    if (WEDDING.rsvpEndpoint) {
+      fetch(WEDDING.rsvpEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      }).catch(function () {});
+    }
+    showThanks(data);
+  });
+
+  document.getElementById("again").addEventListener("click", function () {
+    thanks.hidden = true;
+    form.hidden = false;
+    nameIn.focus();
+  });
+
+  try {
+    var saved = JSON.parse(localStorage.getItem("rsvp") || "null");
+    if (saved && saved.name) {
+      nameIn.value = saved.name;
+      form.attend.value = saved.attend;
+      if (saved.side) form.side.value = saved.side;
+      setCount(saved.guests || 1);
+      document.getElementById("rsvp-msg").value = saved.message || "";
+      syncAttend();
+      showThanks(saved);
+    }
+  } catch (x) {}
+})();
+</script>
+</body>
+</html>
