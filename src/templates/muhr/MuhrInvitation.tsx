@@ -1,4 +1,4 @@
-import { useEffect, useId, useLayoutEffect, useRef, useState, type FormEvent, type PointerEvent as ReactPointerEvent, type ReactNode } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState, type CSSProperties, type FormEvent, type PointerEvent as ReactPointerEvent, type ReactNode } from "react";
 import { EVENT_TYPES } from "@shared/constants";
 import type { InviteData } from "@shared/schema";
 import { eventTimestamp, formatDateLong, formatWeekday, initials, MONTHS, parseDate } from "@shared/format";
@@ -6,7 +6,7 @@ import { useCountdown, useMusic } from "@/lib/hooks";
 import { defaultMessage, mapLinks } from "@/lib/invite";
 import { copyText } from "@/lib/share";
 import { playRibbonSounds, unlockAudio } from "@/lib/media";
-import { ArchCard } from "./ArchCard";
+import { FloralCard } from "./FloralCard";
 import { startAmbient } from "./ambient";
 import { startGoldDust } from "./goldDust";
 import { LineArt, type LineArtKind } from "./LineArt";
@@ -38,14 +38,44 @@ const INVITE_LINE: Record<keyof typeof EVENT_TYPES, string> = {
   qizbazmi: "Sizni qizimizning bazmiga taklif etamiz",
 };
 
-/** "Sizni farzandlarimizning / nikoh to‘yiga / taklif etamiz": the first two words, then the rest halved by length. */
-function captionLines(text: string) {
+/** Splits a caption into balanced lines: `head` words on their own, then the rest halved by length. */
+function captionLines(text: string, head = 2) {
   const words = text.split(" ");
-  const rest = words.slice(2);
+  const rest = words.slice(head);
   const total = rest.join(" ").length;
   let cut = 1;
   while (cut < rest.length - 1 && rest.slice(0, cut + 1).join(" ").length <= total / 2) cut++;
-  return [words.slice(0, 2).join(" "), rest.slice(0, cut).join(" "), rest.slice(cut).join(" ")].filter(Boolean);
+  return [words.slice(0, head).join(" "), rest.slice(0, cut).join(" "), rest.slice(cut).join(" ")].filter(Boolean);
+}
+
+/** Staggers the card's lines as it is laid down. */
+const line = (i: number) => ({ ["--i" as string]: i });
+
+/** A gold leaf sprig, as the card's marks. */
+function CardSprig({ flip = false, className = "mh-card-sprig", style }: { flip?: boolean; className?: string; style?: CSSProperties }) {
+  return (
+    <svg className={className} viewBox="0 0 40 20" style={{ ...style, transform: flip ? "scaleX(-1)" : undefined }} aria-hidden="true">
+      <g fill="currentColor">
+        <path d="M2,10 C12,10 24,10 38,10" fill="none" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round" />
+        {[10, 18, 26].map((x, k) => (
+          <g key={x}>
+            <path d="M0,0 C2,-3 6,-4 9,-3 C6,0 3,1 0,0Z" transform={`translate(${x} 10) rotate(${-24 + k * 4})`} />
+            <path d="M0,0 C2,3 6,4 9,3 C6,0 3,-1 0,0Z" transform={`translate(${x + 3} 10) rotate(${24 - k * 4})`} />
+          </g>
+        ))}
+        <circle cx="38" cy="10" r="1.3" />
+      </g>
+    </svg>
+  );
+}
+
+function CardRule({ style }: { style?: CSSProperties }) {
+  return (
+    <svg className="mh-card-rule" viewBox="0 0 120 8" style={style} aria-hidden="true">
+      <path d="M0,4 H52 M68,4 H120" stroke="currentColor" strokeWidth="0.7" />
+      <path d="M60,0.5 L63.5,4 L60,7.5 L56.5,4Z" fill="currentColor" />
+    </svg>
+  );
 }
 
 /** Milliseconds from the tap until the scene replaces the envelope (keep in sync with muhr.css). */
@@ -507,25 +537,68 @@ function Sections({ data }: { data: InviteData }) {
 
       <section className="mh-sec mh-sec-card">
         <div className="mh-card" data-reveal="card">
-          <ArchCard />
+          <FloralCard />
           <div className="mh-card-text">
-            {data.bismillah && (
-              <p className="mh-bismillah" lang="ar" dir="rtl">
+            {data.bismillah ? (
+              <p className="mh-bismillah" lang="ar" dir="rtl" style={line(0)}>
                 بسم الله الرحمن الرحيم
               </p>
+            ) : (
+              <CardSprig className="mh-card-mark" style={line(0)} />
             )}
-            <p className="mh-caps">
-              {captionLines(INVITE_LINE[data.eventType]).map((l) => (
+            <p className="mh-verse" style={line(1)}>
+              <span>Va Uning alomatlaridan biri —</span>
+              <span>sizlar uchun o‘zingizdan</span>
+              <span>juftlar yaratgani, toki</span>
+              <span>ular bilan orom topgaysiz.</span>
+              <span className="mh-verse-ref">— Rum surasi, 21</span>
+            </p>
+            <CardRule style={line(2)} />
+            <p className="mh-card-caps" style={line(3)}>
+              {captionLines(data.hosts || "Ota-onalari duosi bilan", 0).map((l) => (
                 <span key={l}>{l}</span>
               ))}
             </p>
-            <p className="mh-card-name">{data.groom}</p>
-            <Divider />
-            {data.groomParents && <p className="mh-caps mh-caps-sm">{data.groomParents}</p>}
-            <p className="mh-card-with">va</p>
-            <p className="mh-card-name">{data.bride}</p>
-            <Divider />
-            {data.brideParents && <p className="mh-caps mh-caps-sm">{data.brideParents}</p>}
+            <p className="mh-card-name" style={line(4)}>
+              {data.groom}
+            </p>
+            <p className="mh-card-with" style={line(5)}>
+              <CardSprig />
+              va
+              <CardSprig flip />
+            </p>
+            <p className="mh-card-name" style={line(6)}>
+              {data.bride}
+            </p>
+            <p className="mh-card-caps" style={line(7)}>
+              {captionLines(INVITE_LINE[data.eventType], 0).map((l) => (
+                <span key={l}>{l}</span>
+              ))}
+            </p>
+            <CardRule style={line(8)} />
+            <div className="mh-card-date" style={line(9)}>
+              <span className="mh-cd-small">{formatWeekday(data.date)}</span>
+              <span className="mh-cd-row">
+                <span>{month}</span>
+                <b>{d}</b>
+                <span>{y}</span>
+              </span>
+              <span className="mh-cd-small">soat {data.time}</span>
+            </div>
+            <CardRule style={line(10)} />
+            <p className="mh-card-venue" style={line(11)}>
+              {data.venue}
+            </p>
+            {data.address && (
+              <p className="mh-card-caps mh-card-addr" style={line(12)}>
+                {captionLines(data.address, 0).map((l) => (
+                  <span key={l}>{l}</span>
+                ))}
+              </p>
+            )}
+            <svg className="mh-card-heart" viewBox="0 0 24 22" style={line(13)} aria-hidden="true">
+              <path d="M12,21 C5,15.5 1,11.5 1,7 C1,3.5 3.6,1 6.8,1 C9,1 10.8,2.2 12,4 C13.2,2.2 15,1 17.2,1 C20.4,1 23,3.5 23,7 C23,11.5 19,15.5 12,21Z" fill="currentColor" />
+            </svg>
           </div>
         </div>
       </section>
