@@ -310,6 +310,10 @@
 .mh-env[data-state="opening"] .mh-flap-t {
   animation: mh-open-t 1100ms cubic-bezier(0.4, 0, 0.3, 1) 560ms both;
 }
+/* the seal gives the sky to the names before they are written there */
+.mh-env[data-state="opening"] .mh-seal-wrap {
+  animation: mh-fade 450ms ease-in 1500ms both;
+}
 /* follows the tip of the top flap (rotateX 56deg in a 3200px perspective lifts it to ~30% height) */
 .mh-env[data-state="opening"] .mh-seal-layer {
   animation: mh-seal-rise 1100ms cubic-bezier(0.4, 0, 0.3, 1) 560ms both;
@@ -411,14 +415,22 @@
   object-position: 52% 50%;
 }
 .mh-hero:not([data-stage="closed"]) .mh-photo {
-  animation: mh-settle 3000ms var(--mh-ease-out) 1700ms both;
+  animation:
+    mh-settle 3000ms var(--mh-ease-out) 1700ms both,
+    mh-drift 22s ease-in-out 4700ms infinite alternate;
 }
+/* rests slightly enlarged so the slow drift never shows an edge */
 @keyframes mh-settle {
   from {
-    scale: 1.08;
+    scale: 1.12;
   }
   to {
-    scale: 1;
+    scale: 1.04;
+  }
+}
+@keyframes mh-drift {
+  to {
+    translate: -1.6% -1%;
   }
 }
 /* light in the sky for the lettering, and a long fade of the floor into the page */
@@ -460,14 +472,16 @@
   color: #8a6128;
 }
 .mh-hero-name {
-  margin: 0;
+  /* room for the script's swashes inside the handwriting mask */
+  margin: -0.2em -0.3em;
+  padding: 0.2em 0.3em;
   font-family: var(--mh-script);
   font-weight: 400;
   line-height: 0.95;
   color: #4f2f12;
 }
 .mh-hero-name-2 {
-  margin-left: 18%;
+  margin-left: calc(18% - 0.3em);
 }
 .mh-amp {
   font-family: var(--mh-serif);
@@ -1123,4 +1137,541 @@
   font-size: clamp(46px, 13vw, 60px);
   line-height: 1.05;
   color: #6a4818;
+}
+
+/* ------------------------------------------------------------------ */
+/* Life: the envelope held in the hand, light through paper, ink       */
+/* ------------------------------------------------------------------ */
+
+.mh-env-3d {
+  transform-origin: 50% 46%;
+}
+/* sealed: the letter breathes in the guest's hands */
+.mh-env[data-state="closed"] .mh-env-3d {
+  animation: mh-hold 9s ease-in-out infinite;
+}
+@keyframes mh-hold {
+  0%,
+  100% {
+    transform: perspective(1600px) rotateX(0.7deg) rotateY(-0.9deg) scale(1.03);
+  }
+  50% {
+    transform: perspective(1600px) rotateX(-0.6deg) rotateY(0.9deg) scale(1.03);
+  }
+}
+/* opening: a small give under the thumb, then the camera moves into the light */
+.mh-env[data-state="opening"] .mh-env-3d {
+  animation: mh-camera 2700ms cubic-bezier(0.33, 0, 0.2, 1) both;
+}
+@keyframes mh-camera {
+  0% {
+    transform: perspective(1600px) scale(1.03);
+  }
+  7% {
+    transform: perspective(1600px) scale(1.012);
+  }
+  100% {
+    transform: perspective(1600px) scale(1.13);
+  }
+}
+
+.mh-sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(112deg, rgba(255, 253, 244, 0) 40%, rgba(255, 253, 244, 0.42) 50%, rgba(255, 253, 244, 0) 60%);
+  background-size: 320% 100%;
+  background-position: 130% 0;
+}
+.mh-env[data-state="closed"] .mh-sheen {
+  animation: mh-sheen 7s ease-in-out 1.2s infinite;
+}
+.mh-env[data-state="opening"] .mh-sheen {
+  opacity: 0;
+}
+@keyframes mh-sheen {
+  0% {
+    background-position: 130% 0;
+  }
+  45%,
+  100% {
+    background-position: -30% 0;
+  }
+}
+
+.mh-ping {
+  position: absolute;
+  inset: 6%;
+  border-radius: 50%;
+  border: 1.5px solid rgba(196, 154, 80, 0.75);
+  opacity: 0;
+  pointer-events: none;
+}
+.mh-env[data-state="closed"] .mh-ping {
+  animation: mh-ping 3.2s cubic-bezier(0.2, 0.6, 0.3, 1) 1.4s infinite;
+}
+.mh-env[data-state="closed"] .mh-ping-2 {
+  animation-delay: 2.2s;
+}
+@keyframes mh-ping {
+  0% {
+    opacity: 0;
+    scale: 0.9;
+  }
+  12% {
+    opacity: 0.8;
+  }
+  70%,
+  100% {
+    opacity: 0;
+    scale: 1.75;
+  }
+}
+.mh-env[data-state="closed"] .mh-hint {
+  animation: mh-hint 3.2s ease-in-out 1.4s infinite;
+}
+@keyframes mh-hint {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* the press: a ring of light leaves the seal */
+.mh-shock {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 2px rgba(255, 236, 190, 0.9),
+    0 0 24px 6px rgba(246, 199, 106, 0.6);
+  opacity: 0;
+  pointer-events: none;
+}
+.mh-env[data-state="opening"] .mh-shock {
+  animation: mh-shock 800ms cubic-bezier(0.15, 0.7, 0.3, 1) 120ms both;
+}
+@keyframes mh-shock {
+  0% {
+    opacity: 0.95;
+    scale: 0.7;
+  }
+  100% {
+    opacity: 0;
+    scale: 2.8;
+  }
+}
+
+/* light from inside warms the paper and catches the flap tips */
+.mh-spill {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(44% 30% at 50% 47%, rgba(255, 214, 140, 0.55), rgba(255, 200, 120, 0.18) 55%, rgba(255, 190, 110, 0) 80%);
+}
+.mh-env[data-state="opening"] .mh-spill {
+  animation: mh-appear 900ms ease-out 520ms both;
+}
+.mh-face.front::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--mh-tone, none);
+  opacity: 0;
+}
+.mh-flap-t .front {
+  --mh-tone: radial-gradient(36% 20% at 50% 46%, rgba(255, 206, 124, 0.7), rgba(255, 206, 124, 0) 70%), linear-gradient(180deg, rgba(70, 46, 16, 0.14), rgba(70, 46, 16, 0) 45%);
+}
+.mh-flap-b .front {
+  --mh-tone: radial-gradient(36% 20% at 50% 55%, rgba(255, 206, 124, 0.6), rgba(255, 206, 124, 0) 70%), linear-gradient(0deg, rgba(70, 46, 16, 0.12), rgba(70, 46, 16, 0) 45%);
+}
+.mh-flap-l .front {
+  --mh-tone: radial-gradient(28% 24% at 62% 50%, rgba(255, 206, 124, 0.6), rgba(255, 206, 124, 0) 70%), linear-gradient(90deg, rgba(70, 46, 16, 0.14), rgba(70, 46, 16, 0) 50%);
+}
+.mh-flap-r .front {
+  --mh-tone: radial-gradient(28% 24% at 38% 50%, rgba(255, 206, 124, 0.6), rgba(255, 206, 124, 0) 70%), linear-gradient(270deg, rgba(70, 46, 16, 0.14), rgba(70, 46, 16, 0) 50%);
+}
+.mh-env[data-state="opening"] .mh-face.front::before {
+  animation: mh-appear 1100ms ease-out 600ms both;
+}
+/* soft shafts behind the flaps: seen only through the gaps */
+.mh-rays {
+  background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(255, 250, 228, 0.34) 0deg 3deg, rgba(255, 250, 228, 0) 3deg 11deg);
+  -webkit-mask: radial-gradient(closest-side, #000 10%, transparent 80%);
+  mask: radial-gradient(closest-side, #000 10%, transparent 80%);
+  opacity: 0;
+}
+.mh-env[data-state="opening"] .mh-rays {
+  animation:
+    mh-appear 900ms ease-out 700ms both,
+    mh-spin 30s linear infinite;
+}
+@keyframes mh-appear {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes mh-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+/* the names are written in, left to right, as the paper gives way */
+.mh-hero-name,
+.mh [data-reveal="write"] {
+  /* 250% wide, black to 40%: the first ink shows the moment the wipe starts, and it ends fully opaque */
+  -webkit-mask-image: linear-gradient(90deg, #000 40%, transparent 60%);
+  mask-image: linear-gradient(90deg, #000 40%, transparent 60%);
+  -webkit-mask-size: 250% 100%;
+  mask-size: 250% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: 0 0;
+  mask-position: 0 0;
+}
+.mh-hero:not([data-stage="closed"]) .mh-hero-name {
+  animation:
+    mh-write 1500ms cubic-bezier(0.45, 0, 0.35, 1) both,
+    mh-text 1200ms var(--mh-ease-out) both;
+  animation-delay: calc(1100ms + var(--i, 0) * 120ms);
+}
+@keyframes mh-write {
+  from {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+  to {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+}
+
+/* the scene keeps living: petals, drifting light, roses moving in the air */
+.mh-petals {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+.mh-hero:not([data-stage="closed"]) .mh-hero-spray {
+  transform-origin: 50% 100%;
+  animation: mh-sway 5.5s ease-in-out infinite alternate;
+}
+.mh-hero-spray.r {
+  animation-delay: -2.7s !important;
+}
+@keyframes mh-sway {
+  from {
+    rotate: -1.6deg;
+  }
+  to {
+    rotate: 1.6deg;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Sections arrive as they scroll in                                   */
+/* ------------------------------------------------------------------ */
+
+.mh [data-reveal] {
+  transition:
+    opacity 1s var(--mh-ease-out) var(--d, 0ms),
+    translate 1s var(--mh-ease-out) var(--d, 0ms),
+    scale 1.4s var(--mh-ease-out) var(--d, 0ms),
+    filter 1s var(--mh-ease-out) var(--d, 0ms),
+    transform 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0ms);
+}
+.mh [data-reveal="up"]:not([data-in]) {
+  opacity: 0;
+  translate: 0 22px;
+  filter: blur(4px);
+}
+
+/* script headings are written in like the names */
+.mh [data-reveal="write"] {
+  padding-block: 0.18em;
+  margin-block: -0.18em;
+  -webkit-mask-position: 100% 0;
+  mask-position: 100% 0;
+}
+.mh [data-reveal="write"][data-in] {
+  animation: mh-write 1500ms cubic-bezier(0.5, 0, 0.3, 1) var(--d, 0ms) both;
+}
+
+/* the three date cards are dealt onto the paper */
+.mh [data-reveal="deal"] > * {
+  transition:
+    opacity 0.8s var(--mh-ease-out),
+    translate 1s cubic-bezier(0.3, 1.35, 0.5, 1),
+    rotate 1s cubic-bezier(0.3, 1.35, 0.5, 1);
+}
+.mh [data-reveal="deal"]:not([data-in]) > * {
+  opacity: 0;
+  translate: 0 38px;
+  rotate: -7deg;
+}
+.mh [data-reveal="deal"]:not([data-in]) > :nth-child(2) {
+  rotate: 2deg;
+}
+.mh [data-reveal="deal"]:not([data-in]) > :nth-child(3) {
+  rotate: 8deg;
+}
+.mh [data-reveal="deal"] > :nth-child(2) {
+  transition-delay: 0.12s;
+}
+.mh [data-reveal="deal"] > :nth-child(3) {
+  transition-delay: 0.24s;
+}
+
+/* scratched clear: the value pops and a glint crosses the card */
+.mh-scratch-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, rgba(255, 250, 230, 0) 35%, rgba(255, 250, 230, 0.85) 50%, rgba(255, 250, 230, 0) 65%);
+  background-size: 300% 100%;
+  background-position: 150% 0;
+}
+.mh-scratch-card[data-revealed="true"]::after {
+  animation: mh-glint 1100ms ease-out 150ms both;
+}
+.mh-scratch-card[data-revealed="true"] .mh-scratch-value {
+  animation: mh-pop 700ms cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+@keyframes mh-glint {
+  to {
+    background-position: -50% 0;
+  }
+}
+@keyframes mh-pop {
+  from {
+    scale: 0.82;
+  }
+  to {
+    scale: 1;
+  }
+}
+.mh-date-dust {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* the invitation card is laid down on the paper, then its foil catches the light */
+.mh [data-reveal="card"] {
+  transform-origin: 50% 100%;
+}
+.mh [data-reveal="card"]:not([data-in]) {
+  opacity: 0;
+  transform: perspective(1100px) rotateX(16deg) translateY(50px) scale(0.96);
+}
+.mh-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(105deg, rgba(255, 246, 220, 0) 40%, rgba(255, 246, 220, 0.5) 50%, rgba(255, 246, 220, 0) 60%);
+  background-size: 300% 100%;
+  background-position: 130% 0;
+}
+.mh-card[data-in]::after {
+  animation: mh-card-sheen 8s ease-in-out 1.3s infinite;
+}
+@keyframes mh-card-sheen {
+  0% {
+    background-position: 130% 0;
+  }
+  22%,
+  100% {
+    background-position: -30% 0;
+  }
+}
+.mh-card[data-reveal] .mh-card-text > * {
+  opacity: 0;
+}
+.mh-card[data-in] .mh-card-text > * {
+  animation: mh-text 1100ms var(--mh-ease-out) both;
+}
+.mh-card[data-in] .mh-card-text > :nth-child(1) { animation-delay: 0.55s; }
+.mh-card[data-in] .mh-card-text > :nth-child(2) { animation-delay: 0.7s; }
+.mh-card[data-in] .mh-card-text > :nth-child(3) { animation-delay: 0.85s; }
+.mh-card[data-in] .mh-card-text > :nth-child(4) { animation-delay: 1s; }
+.mh-card[data-in] .mh-card-text > :nth-child(5) { animation-delay: 1.1s; }
+.mh-card[data-in] .mh-card-text > :nth-child(6) { animation-delay: 1.2s; }
+.mh-card[data-in] .mh-card-text > :nth-child(7) { animation-delay: 1.35s; }
+.mh-card[data-in] .mh-card-text > :nth-child(8) { animation-delay: 1.45s; }
+.mh-card[data-in] .mh-card-text > :nth-child(9) { animation-delay: 1.55s; }
+
+/* roses open out from the edges, then move in the air */
+.mh .mh-side-spray[data-reveal]:not([data-in]) {
+  opacity: 0;
+  scale: 0.7;
+}
+.mh .mh-side-spray[data-in] {
+  animation: mh-sway 6s ease-in-out 1.4s infinite alternate;
+}
+
+/* the programme line is drawn down the page; each moment arrives from its side */
+.mh-timeline[data-reveal]::before {
+  transform-origin: 50% 0;
+  scale: 1 0;
+  transition: scale 2.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.mh-timeline[data-in]::before {
+  scale: 1 1;
+}
+/* the art's own image moves, not its box: an ancestor's opacity would isolate the multiply blend */
+.mh-timeline li[data-reveal] > *,
+.mh-timeline li[data-reveal] .mh-tl-art > * {
+  transition:
+    opacity 0.9s var(--mh-ease-out),
+    translate 1s var(--mh-ease-out),
+    scale 0.7s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.mh-timeline li[data-reveal] .mh-tl-node {
+  transition-delay: 0.1s;
+}
+.mh-timeline li[data-reveal] .mh-tl-text {
+  transition-delay: 0.25s;
+}
+.mh-timeline li[data-reveal]:not([data-in]) .mh-tl-art > * {
+  opacity: 0;
+  translate: -28px 0;
+}
+.mh-timeline li[data-side="r"][data-reveal]:not([data-in]) .mh-tl-art > * {
+  translate: 28px 0;
+}
+/* multiplied photographs cannot fade (Chrome drops the blend mid-fade): they are drawn in with a wipe instead */
+.mh-timeline li[data-reveal] .mh-tl-art > img {
+  transition: clip-path 1.3s var(--mh-ease-out) 0.05s;
+}
+.mh-timeline li[data-reveal]:not([data-in]) .mh-tl-art > img {
+  opacity: 1;
+  translate: none;
+  clip-path: inset(0 100% 0 0);
+}
+.mh-timeline li[data-side="r"][data-reveal]:not([data-in]) .mh-tl-art > img {
+  translate: none;
+  clip-path: inset(0 0 0 100%);
+}
+.mh-timeline li[data-reveal]:not([data-in]) .mh-tl-node {
+  scale: 0;
+}
+.mh-timeline li[data-reveal]:not([data-in]) .mh-tl-text {
+  opacity: 0;
+  translate: 28px 0;
+}
+.mh-timeline li[data-side="r"][data-reveal]:not([data-in]) .mh-tl-text {
+  translate: -28px 0;
+}
+
+/* the venue pin drops onto the map */
+.mh-map[data-reveal]:not([data-in]) .mh-pin {
+  opacity: 0;
+}
+.mh-map[data-in] .mh-pin {
+  animation: mh-drop 1000ms cubic-bezier(0.3, 1.45, 0.55, 1) 500ms both;
+}
+@keyframes mh-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-70px);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* the closing seal is stamped onto the page */
+.mh-stamp {
+  position: relative;
+  width: fit-content;
+  margin: 0 auto;
+}
+.mh-stamp::after {
+  content: "";
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  border: 1.5px solid rgba(184, 146, 74, 0.6);
+  opacity: 0;
+  pointer-events: none;
+}
+.mh [data-reveal="stamp"]:not([data-in]) {
+  opacity: 0;
+}
+.mh [data-reveal="stamp"][data-in] {
+  animation: mh-stamp 900ms cubic-bezier(0.3, 0, 0.2, 1) both;
+}
+.mh [data-reveal="stamp"][data-in]::after {
+  animation: mh-shock 900ms cubic-bezier(0.15, 0.7, 0.3, 1) 480ms both;
+}
+@keyframes mh-stamp {
+  0% {
+    opacity: 0;
+    scale: 1.9;
+    filter: blur(3px);
+  }
+  55% {
+    opacity: 1;
+    scale: 0.94;
+    filter: blur(0);
+  }
+  75% {
+    scale: 1.03;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mh-env .mh-env-3d,
+  .mh-sheen,
+  .mh-ping,
+  .mh-rays,
+  .mh-hint,
+  .mh-photo,
+  .mh-hero-spray,
+  .mh-side-spray,
+  .mh-card::after {
+    animation: none !important;
+  }
+  .mh [data-reveal],
+  .mh [data-reveal] > *,
+  .mh [data-reveal] .mh-card-text > *,
+  .mh [data-reveal] .mh-tl-art > *,
+  .mh [data-reveal] .mh-tl-node,
+  .mh [data-reveal] .mh-tl-text,
+  .mh [data-reveal] .mh-pin,
+  .mh-timeline[data-reveal]::before {
+    clip-path: none !important;
+    opacity: 1 !important;
+    translate: none !important;
+    rotate: none !important;
+    scale: none !important;
+    filter: none !important;
+    transform: none !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
 }

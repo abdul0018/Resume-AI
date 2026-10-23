@@ -51,6 +51,7 @@ export function ScratchCard({ value, label, onReveal }: { value: string; label: 
   const reveal = () => {
     if (revealed) return;
     setRevealed(true);
+    navigator.vibrate?.(12);
     onReveal();
   };
 

@@ -5,6 +5,7 @@ import { eventTimestamp, formatDateLong, formatWeekday, initials, MONTHS, parseD
 import { useCountdown, useMusic } from "@/lib/hooks";
 import { defaultMessage, mapLinks } from "@/lib/invite";
 import { playSealSounds, unlockAudio } from "@/lib/media";
+import { startAmbient } from "./ambient";
 import { startGoldDust } from "./goldDust";
 import { LineArt, type LineArtKind } from "./LineArt";
 import { archPath } from "./Ornaments";
@@ -97,6 +98,7 @@ export function MuhrInvitation({ data, replayToken = 0, endSlot }: Props) {
     if (stage !== "closed") return;
     unlockAudio();
     playSealSounds();
+    navigator.vibrate?.([14, 70, 22]);
     music.play();
     setStage("opening");
     const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
@@ -204,6 +206,7 @@ export function Envelope({
     >
       <div className="mh-env-3d">
         <div className="mh-inside">
+          <i className="mh-rays" />
           <i className="mh-core" />
         </div>
         <div className="mh-flap mh-flap-l">{faces}</div>
@@ -220,9 +223,19 @@ export function Envelope({
         <div className="mh-seal-layer">
           <div className="mh-seal-wrap">
             <i className="mh-seal-glow" />
+            {canOpen && (
+              <>
+                <i className="mh-ping" />
+                <i className="mh-ping mh-ping-2" />
+              </>
+            )}
+            <i className="mh-shock" />
             <Seal pair={pair} size={box.w * 0.36} className="mh-seal" />
           </div>
         </div>
+        {/* a slow glint travelling over the embossing, and the amber light glowing through the paper once it opens */}
+        <i className="mh-sheen" />
+        <i className="mh-spill" />
       </div>
       {interactive && <p className="mh-hint">Muhrni bosing</p>}
     </div>
@@ -234,12 +247,25 @@ export function Envelope({
 /* ================================================================== */
 
 function PhotoHero({ data }: { data: InviteData }) {
+  const petals = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    const c = petals.current;
+    if (!c || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    let stop = () => undefined as void;
+    // petals start drifting once the paper has dissolved
+    const t = window.setTimeout(() => (stop = startAmbient(c)), 2200);
+    return () => {
+      window.clearTimeout(t);
+      stop();
+    };
+  }, []);
   const longest = Math.max(data.groom.length, data.bride.length, 5);
   const nameSize = `min(${Math.min(17, 110 / longest).toFixed(1)}vw, ${Math.min(80, 520 / longest).toFixed(0)}px)`;
   return (
     <>
       <img className="mh-photo" src={heroUrl} alt={`${data.groom} va ${data.bride}`} />
       <div className="mh-photo-veil" aria-hidden="true" />
+      <canvas ref={petals} className="mh-petals" aria-hidden="true" />
       <div className="mh-welcome-block">
         <p className="mh-line mh-welcome-small" style={{ ["--i" as string]: 0 }}>
           Xush kelibsiz
@@ -303,19 +329,62 @@ function artFor(title: string, index: number): LineArtKind | "rings" {
   return (["door", "rings", "feast", "doira"] as const)[index % 4];
 }
 
+/** Marks each `[data-reveal]` element with `data-in` the first time it scrolls into view. */
+function useReveal() {
+  const root = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const els = Array.from(root.current?.querySelectorAll<HTMLElement>("[data-reveal]") ?? []);
+    const show = (el: Element) => el.setAttribute("data-in", "");
+    if (!("IntersectionObserver" in window) || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      els.forEach(show);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          show(e.target);
+          io.unobserve(e.target);
+        }
+      },
+      { rootMargin: "0px 0px -10% 0px", threshold: 0.12 },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+  return root;
+}
+
+const delay = (ms: number) => ({ ["--d" as string]: `${ms}ms` });
+
 function Sections({ data }: { data: InviteData }) {
   const message = data.message || defaultMessage(data);
   const [opened, setOpened] = useState(0);
   const { d, m, y } = parseDate(data.date);
   const month = MONTHS[m - 1];
+  const root = useReveal();
+  const burst = useRef<HTMLCanvasElement>(null);
+  const row = useRef<HTMLDivElement>(null);
+
+  // all three dates scratched: a shower of gold over the row
+  useEffect(() => {
+    const c = burst.current;
+    const r = row.current;
+    if (opened < 3 || !c || !r || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    return startGoldDust(c, { x: c.clientWidth / 2, y: r.offsetTop + r.offsetHeight / 2 }, 1600);
+  }, [opened]);
+
   return (
-    <>
+    <div ref={root}>
       <section className="mh-sec mh-sec-date">
-        <h2 className="mh-script-h">Sana</h2>
-        <p className="mh-hint-line">
+        <canvas ref={burst} className="mh-date-dust" aria-hidden="true" />
+        <h2 className="mh-script-h" data-reveal="write">
+          Sana
+        </h2>
+        <p className="mh-hint-line" data-reveal="up" style={delay(350)}>
           <Spark /> Sanani ko‘rish uchun qirib oching <Spark />
         </p>
-        <div className="mh-scratch-row">
+        <div className="mh-scratch-row" ref={row} data-reveal="deal">
           <ScratchCard value={String(d)} label="Kun" onReveal={() => setOpened((n) => n + 1)} />
           <ScratchCard value={month[0].toUpperCase() + month.slice(1)} label="Oy" onReveal={() => setOpened((n) => n + 1)} />
           <ScratchCard value={String(y)} label="Yil" onReveal={() => setOpened((n) => n + 1)} />
@@ -331,7 +400,7 @@ function Sections({ data }: { data: InviteData }) {
       </section>
 
       <section className="mh-sec mh-sec-card">
-        <div className="mh-card">
+        <div className="mh-card" data-reveal="card">
           <img className="mh-card-art" src={cardUrl} alt="" aria-hidden="true" />
           <div className="mh-card-text">
             {data.bismillah && (
@@ -352,12 +421,16 @@ function Sections({ data }: { data: InviteData }) {
       </section>
 
       <section className="mh-sec mh-sec-message">
-        <img className="mh-side-spray l" src={sprayUrl} alt="" aria-hidden="true" />
-        <img className="mh-side-spray r" src={sprayUrl} alt="" aria-hidden="true" />
-        <h2 className="mh-script-h">Qadrli do‘stlar va yaqinlar</h2>
-        <p className="mh-p mh-message">{message}</p>
+        <img className="mh-side-spray l" src={sprayUrl} alt="" aria-hidden="true" data-reveal="bloom" />
+        <img className="mh-side-spray r" src={sprayUrl} alt="" aria-hidden="true" data-reveal="bloom" style={delay(150)} />
+        <h2 className="mh-script-h" data-reveal="write">
+          Qadrli do‘stlar va yaqinlar
+        </h2>
+        <p className="mh-p mh-message" data-reveal="up" style={delay(500)}>
+          {message}
+        </p>
         {data.hosts && (
-          <p className="mh-p mh-muted" style={{ marginTop: 22, fontStyle: "italic" }}>
+          <p className="mh-p mh-muted" data-reveal="up" style={{ marginTop: 22, fontStyle: "italic", ...delay(750) }}>
             Hurmat bilan, <span style={{ color: "var(--mh-ink)" }}>{data.hosts}</span>
           </p>
         )}
@@ -365,13 +438,15 @@ function Sections({ data }: { data: InviteData }) {
 
       {data.program.length > 0 && (
         <section className="mh-sec mh-sec-time">
-          <h2 className="mh-script-h">To‘y dasturi</h2>
-          <Divider />
-          <ol className="mh-timeline">
+          <h2 className="mh-script-h" data-reveal="write">
+            To‘y dasturi
+          </h2>
+          <Divider className="mh-rv-divider" />
+          <ol className="mh-timeline" data-reveal="line">
             {data.program.map((p, i) => {
               const art = artFor(p.title, i);
               return (
-                <li key={`${p.time}${p.title}`} data-side={i % 2 ? "r" : "l"}>
+                <li key={`${p.time}${p.title}`} data-side={i % 2 ? "r" : "l"} data-reveal="step">
                   <div className="mh-tl-art">
                     {art === "rings" ? <img src={ringsUrl} alt="" aria-hidden="true" /> : <LineArt kind={art} />}
                   </div>
@@ -395,8 +470,12 @@ function Sections({ data }: { data: InviteData }) {
       )}
 
       <section className="mh-sec">
-        <h2 className="mh-script-h">To‘yxona</h2>
-        <p className="mh-h" style={{ marginTop: 6 }}>{data.venue}</p>
+        <h2 className="mh-script-h" data-reveal="write">
+          To‘yxona
+        </h2>
+        <p className="mh-h" data-reveal="up" style={{ marginTop: 6, ...delay(300) }}>
+          {data.venue}
+        </p>
         {data.address && <p className="mh-p mh-muted" style={{ marginTop: 10, fontSize: 16 }}>{data.address}</p>}
         {data.dressCode && (
           <p className="mh-p" style={{ marginTop: 10, fontSize: 15 }}>
@@ -407,7 +486,9 @@ function Sections({ data }: { data: InviteData }) {
       </section>
 
       <section className="mh-sec">
-        <h2 className="mh-script-h">Javobingizni kutamiz</h2>
+        <h2 className="mh-script-h" data-reveal="write">
+          Javobingizni kutamiz
+        </h2>
         <p className="mh-p mh-muted" style={{ marginTop: 6, fontSize: 16 }}>
           To‘y kunidan oldin tashrifingizni tasdiqlang.
         </p>
@@ -415,16 +496,20 @@ function Sections({ data }: { data: InviteData }) {
       </section>
 
       <section className="mh-sec mh-sec-close">
-        <Seal pair={initials(data.groom, data.bride).split("") as [string, string]} size={112} className="mh-closing-seal" />
-        <p className="mh-script-h" style={{ marginTop: 18 }}>Sizni intiqlik bilan kutamiz!</p>
-        <p className="mh-closing-names">
+        <div className="mh-stamp" data-reveal="stamp">
+          <Seal pair={initials(data.groom, data.bride).split("") as [string, string]} size={112} className="mh-closing-seal" />
+        </div>
+        <p className="mh-script-h" data-reveal="write" style={{ marginTop: 18, ...delay(700) }}>
+          Sizni intiqlik bilan kutamiz!
+        </p>
+        <p className="mh-closing-names" data-reveal="write" style={delay(1200)}>
           {data.groom} &amp; {data.bride}
         </p>
         <p className="mh-muted" style={{ marginTop: 10, fontSize: 14, letterSpacing: "0.18em" }}>
           {formatDateLong(data.date)}
         </p>
       </section>
-    </>
+    </div>
   );
 }
 
@@ -467,7 +552,7 @@ function VenueMap({ data }: { data: InviteData }) {
   const label = data.venue.length > 22 ? `${data.venue.slice(0, 21)}…` : data.venue;
   return (
     <div>
-      <svg className="mh-map" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`Xarita: ${data.venue}`}>
+      <svg className="mh-map" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`Xarita: ${data.venue}`} data-reveal="up">
         <defs>
           <clipPath id="mh-map-arch">
             <path d={arch} />
@@ -489,8 +574,10 @@ function VenueMap({ data }: { data: InviteData }) {
               <animate attributeName="r" values="12;30;12" dur="2.8s" repeatCount="indefinite" />
               <animate attributeName="opacity" values="0.3;0;0.3" dur="2.8s" repeatCount="indefinite" />
             </circle>
-            <path d="M0,36 C-6,24 -19,13 -19,0 A19,19 0 1 1 19,0 C19,13 6,24 0,36Z" fill="#a77a2c" />
-            <circle r="6.5" fill="#fff7e6" />
+            <g className="mh-pin">
+              <path d="M0,36 C-6,24 -19,13 -19,0 A19,19 0 1 1 19,0 C19,13 6,24 0,36Z" fill="#a77a2c" />
+              <circle r="6.5" fill="#fff7e6" />
+            </g>
           </g>
           <g transform="translate(150 152)">
             <rect x={-(label.length * 4.4 + 18)} y="-16" width={label.length * 8.8 + 36} height="28" rx="14" fill="#fffcf5" stroke="#d8bf8a" />

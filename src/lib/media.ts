@@ -109,6 +109,8 @@ export function playSealSounds() {
     [1568, 2093, 2637, 3136].forEach((f, i) => bell(0.12 + i * 0.07, f, 0.022, 1.6));
     noiseBurst(0.65, 0.7, 1300, 0.6, 0.05);
     noiseBurst(0.98, 0.8, 1000, 0.6, 0.045);
+    // a soft shimmer as the paper gives way to the scene
+    [2349, 2794, 3136, 3729].forEach((f, i) => bell(1.75 + i * 0.11, f, 0.012, 2.2));
   } catch {
     /* sound is decorative */
   }
