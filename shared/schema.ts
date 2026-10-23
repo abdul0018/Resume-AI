@@ -39,6 +39,9 @@ export const inviteDataSchema = z.object({
     .refine((v) => v === "" || /^https:\/\//.test(v), "Havola https:// bilan boshlanishi kerak")
     .default(""),
   hosts: trimmed(160).default(""),
+  /** Families named under each name on the invitation card, e.g. "Karimovlar oilasining o‘g‘li". */
+  groomParents: trimmed(120).optional(),
+  brideParents: trimmed(120).optional(),
   message: trimmed(900).default(""),
   bismillah: z.boolean().default(false),
   program: z.array(programItemSchema).max(8).default([]),

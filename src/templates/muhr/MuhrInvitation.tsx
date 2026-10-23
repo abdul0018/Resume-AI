@@ -1,24 +1,23 @@
-import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { EVENT_TYPES } from "@shared/constants";
 import type { InviteData } from "@shared/schema";
-import { eventTimestamp, formatDateDots, formatDateLong, formatWeekday, initials, MONTHS, parseDate } from "@shared/format";
+import { eventTimestamp, formatDateLong, formatWeekday, initials, MONTHS, parseDate } from "@shared/format";
 import { useCountdown, useMusic } from "@/lib/hooks";
 import { defaultMessage, mapLinks } from "@/lib/invite";
 import { playSealSounds, unlockAudio } from "@/lib/media";
-import { envelopeArt, PAPER_GRAIN, reliefSpray } from "./envelopeArt";
 import { startGoldDust } from "./goldDust";
-import { ArchFrame, ArchSky, Lantern, RoseSpray, STAGE_H, STAGE_W, WaxSeal, archEdgeY, archPath } from "./Ornaments";
+import { LineArt, type LineArtKind } from "./LineArt";
+import { archPath } from "./Ornaments";
+import { ScratchCard } from "./ScratchCard";
+import heroUrl from "./assets/hero.jpg";
+import paperUrl from "./assets/paper.jpg";
+import sealUrl from "./assets/seal.png";
+import sprayUrl from "./assets/spray.jpg";
+import ringsUrl from "./assets/rings.jpg";
+import cardUrl from "./assets/card.jpg";
 import "./muhr.css";
 
 type Stage = "closed" | "opening" | "scene";
-
-/** Lanterns hung from the arch at staggered drops (stage units; chain = drop below the arch edge). */
-const LANTERNS = [
-  { x: 64, drop: 12, w: 32, cls: "l" },
-  { x: 88, drop: 200, w: 26, cls: "l2" },
-  { x: 336, drop: 26, w: 32, cls: "r" },
-  { x: 312, drop: 182, w: 26, cls: "r2" },
-].map((l) => ({ ...l, chain: Math.round((l.drop * 60) / l.w) })); // chain in the lantern's own 60-wide units
 
 /** "… to our wedding", with the possessive ending each ceremony name takes in Uzbek. */
 const WELCOME: Record<keyof typeof EVENT_TYPES, string> = {
@@ -28,7 +27,15 @@ const WELCOME: Record<keyof typeof EVENT_TYPES, string> = {
   qizbazmi: "Qiz bazmimizga",
 };
 
-/** Milliseconds from the tap until the arch scene replaces the envelope (keep in sync with muhr.css). */
+/** "We invite you to our children's …" for the card, per ceremony. */
+const INVITE_LINE: Record<keyof typeof EVENT_TYPES, string> = {
+  nikoh: "Sizni farzandlarimizning nikoh to‘yiga taklif etamiz",
+  fotiha: "Sizni farzandlarimizning fotiha to‘yiga taklif etamiz",
+  unashtiruv: "Sizni farzandlarimizning unashtiruv marosimiga taklif etamiz",
+  qizbazmi: "Sizni qizimizning bazmiga taklif etamiz",
+};
+
+/** Milliseconds from the tap until the scene replaces the envelope (keep in sync with muhr.css). */
 const TO_SCENE = 2700;
 
 interface Props {
@@ -101,10 +108,10 @@ export function MuhrInvitation({ data, replayToken = 0, endSlot }: Props) {
 
   return (
     <div className="mh">
-      <div className="mh-col" style={{ ["--mh-grain" as string]: `url("${PAPER_GRAIN}")` }}>
+      <div className="mh-col">
         <section ref={heroRef} className="mh-hero" data-stage={stage} aria-label="Taklifnoma">
           {stage === "scene" ? (
-            <ArchHero data={data} box={box} />
+            <PhotoHero data={data} />
           ) : (
             <Envelope data={data} box={box} state={stage} onOpen={open} />
           )}
@@ -142,6 +149,20 @@ export function MuhrInvitation({ data, replayToken = 0, endSlot }: Props) {
 /* Envelope                                                            */
 /* ================================================================== */
 
+/** The owner's wax seal photograph with the couple's initials pressed into its centre in gold. */
+export function Seal({ pair, size, className = "" }: { pair: [string, string]; size: number; className?: string }) {
+  return (
+    <span className={`mh-wax ${className}`} style={{ width: size, height: size * (585 / 560) }}>
+      <img src={sealUrl} alt="" draggable={false} />
+      <span className="mh-wax-mono" style={{ fontSize: size * 0.27 }}>
+        <span>{pair[0]}</span>
+        <i aria-hidden="true" />
+        <span>{pair[1]}</span>
+      </span>
+    </span>
+  );
+}
+
 export function Envelope({
   data,
   box,
@@ -155,8 +176,6 @@ export function Envelope({
   onOpen?: () => void;
   interactive?: boolean;
 }) {
-  // One raster of the embossed paper per size, shared by every flap face.
-  const art = useMemo(() => envelopeArt(Math.round(box.w), Math.round(box.h)), [box.w, box.h]);
   const pair = initials(data.groom, data.bride).split("") as [string, string];
   const canOpen = interactive && state === "closed";
   const faces = (
@@ -169,7 +188,7 @@ export function Envelope({
     <div
       className="mh-env"
       data-state={state}
-      style={{ ["--mh-art" as string]: `url("${art}")` }}
+      style={{ ["--mh-art" as string]: `url("${paperUrl}")` }}
       role={canOpen ? "button" : undefined}
       tabIndex={canOpen ? 0 : undefined}
       aria-label={canOpen ? "Muhrni bosib, taklifnomani oching" : undefined}
@@ -199,7 +218,7 @@ export function Envelope({
           {faces}
           <div className="mh-seal-wrap">
             <i className="mh-seal-glow" />
-            <WaxSeal initials={pair} className="mh-seal" />
+            <Seal pair={pair} size={box.w * 0.36} className="mh-seal" />
           </div>
         </div>
       </div>
@@ -214,65 +233,33 @@ export function Envelope({
 }
 
 /* ================================================================== */
-/* Arch hero                                                           */
+/* Hero: the owner's photograph with the welcome set in its sky        */
 /* ================================================================== */
 
-function ArchHero({ data, box }: { data: InviteData; box: { w: number; h: number } }) {
-  const s = Math.max(box.w / STAGE_W, box.h / STAGE_H);
+function PhotoHero({ data }: { data: InviteData }) {
   const longest = Math.max(data.groom.length, data.bride.length, 5);
-  const nameSize = Math.min(66, 430 / longest);
-  const at = (y: number, i: number) => ({ top: `${(y / STAGE_H) * 100}%`, ["--i" as string]: i });
+  const nameSize = `min(${Math.min(17, 110 / longest).toFixed(1)}vw, ${Math.min(80, 520 / longest).toFixed(0)}px)`;
   return (
     <>
-      <div className="mh-stage" style={{ ["--s" as string]: s }}>
-        <ArchSky className="mh-layer" />
-        <div className="mh-layer">
-          {data.bismillah && (
-            <p className="mh-line mh-bism" style={at(186, 0)}>
-              Bismillahir Rohmanir Rohiym
-            </p>
-          )}
-          <p className="mh-line mh-welcome" style={at(226, 1)}>
-            {WELCOME[data.eventType]}
-          </p>
-          <p className="mh-line mh-welcome" style={at(258, 1)}>
-            xush kelibsiz
-          </p>
-          <h1 className="mh-line mh-name" style={{ ...at(318, 2), fontSize: `calc(${nameSize}px * var(--s))` }}>
-            {data.groom}
-          </h1>
-          <p className="mh-line mh-amp" style={at(360, 3)}>
-            &amp;
-          </p>
-          <p className="mh-line mh-name" style={{ ...at(402, 4), fontSize: `calc(${nameSize}px * var(--s))` }}>
-            {data.bride}
-          </p>
-          <p className="mh-line mh-date" style={at(688, 5)}>
-            {formatDateDots(data.date)}
-          </p>
-          <p className="mh-line mh-time" style={at(712, 6)}>
-            {formatWeekday(data.date)} · soat {data.time}
-          </p>
-        </div>
-        <ArchFrame className="mh-layer" />
-        {LANTERNS.map((l) => (
-          <div
-            key={l.cls}
-            className={`mh-lantern ${l.cls}`}
-            style={{
-              left: `${((l.x - l.w / 2) / STAGE_W) * 100}%`,
-              top: `${((archEdgeY(l.x) + 3) / STAGE_H) * 100}%`,
-              width: `${(l.w / STAGE_W) * 100}%`,
-            }}
-          >
-            <span
-              className="mh-lantern-glow"
-              style={{ left: "-80%", right: "-80%", top: `${((l.chain + 10) / (l.chain + 92)) * 100 - 18}%`, aspectRatio: "1" }}
-            />
-            <Lantern chain={l.chain} style={{ width: "100%", height: "auto", display: "block", position: "relative" }} />
-          </div>
-        ))}
+      <img className="mh-photo" src={heroUrl} alt={`${data.groom} va ${data.bride}`} />
+      <div className="mh-photo-veil" aria-hidden="true" />
+      <div className="mh-welcome-block">
+        <p className="mh-line mh-welcome-small" style={{ ["--i" as string]: 0 }}>
+          Xush kelibsiz
+        </p>
+        <p className="mh-line mh-welcome-script" style={{ ["--i" as string]: 1 }}>
+          {WELCOME[data.eventType]}
+        </p>
+        <Divider className="mh-line" i={2} />
+        <h1 className="mh-line mh-hero-name" style={{ ["--i" as string]: 3, fontSize: nameSize }}>
+          {data.groom}
+        </h1>
+        <p className="mh-line mh-hero-name mh-hero-name-2" style={{ ["--i" as string]: 4, fontSize: nameSize }}>
+          <span className="mh-amp">&amp;</span> {data.bride}
+        </p>
       </div>
+      <img className="mh-hero-spray l" src={sprayUrl} alt="" aria-hidden="true" />
+      <img className="mh-hero-spray r" src={sprayUrl} alt="" aria-hidden="true" />
       <div className="mh-cue" aria-hidden="true">
         <span>Pastga suring</span>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
@@ -287,121 +274,131 @@ function ArchHero({ data, box }: { data: InviteData; box: { w: number; h: number
 /* Sections                                                            */
 /* ================================================================== */
 
-function Rule() {
+function Divider({ className = "", i }: { className?: string; i?: number }) {
   return (
-    <div className="mh-rule" aria-hidden="true">
-      <i />
-      <svg width="16" height="16" viewBox="0 0 16 16">
-        <path d="M8 0 L9.6 6.4 L16 8 L9.6 9.6 L8 16 L6.4 9.6 L0 8 L6.4 6.4Z" fill="currentColor" />
+    <div className={`mh-divider ${className}`} style={i === undefined ? undefined : { ["--i" as string]: i }} aria-hidden="true">
+      <svg viewBox="0 0 220 20" width="220" height="20">
+        <path d="M6,10 H86 M134,10 H214" stroke="currentColor" strokeWidth="0.9" />
+        <path d="M86,10 C94,4 100,4 104,10 C100,16 94,16 86,10Z M134,10 C126,4 120,4 116,10 C120,16 126,16 134,10Z" fill="none" stroke="currentColor" strokeWidth="0.9" />
+        <path d="M110,3 L113,10 L110,17 L107,10Z" fill="currentColor" />
+        <circle cx="4" cy="10" r="1.6" fill="currentColor" />
+        <circle cx="216" cy="10" r="1.6" fill="currentColor" />
       </svg>
-      <i />
     </div>
   );
 }
 
-/** Pointed-arch panel; its gold outline draws itself the first time it scrolls into view. */
-const SPRAY = reliefSpray();
-
-function ArchPanel({ children, className = "" }: { children: ReactNode; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const gid = `mp${useId().replace(/[^a-zA-Z0-9]/g, "")}`;
-  const [size, setSize] = useState({ w: 0, h: 0 });
-  const [drawn, setDrawn] = useState(false);
-  useLayoutEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const measure = () => setSize({ w: el.clientWidth, h: el.clientHeight });
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    if (!("IntersectionObserver" in window)) {
-      setDrawn(true);
-      return () => ro.disconnect();
-    }
-    const io = new IntersectionObserver(([e]) => e.isIntersecting && (setDrawn(true), io.disconnect()), { threshold: 0.15 });
-    io.observe(el);
-    return () => {
-      ro.disconnect();
-      io.disconnect();
-    };
-  }, []);
+function Spark() {
   return (
-    <div ref={ref} className={`mh-panel ${className}`} data-drawn={drawn}>
-      {size.w > 0 && (
-        <svg viewBox={`0 0 ${size.w} ${size.h}`} aria-hidden="true">
-          <defs>
-            <linearGradient id={`${gid}g`} x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stopColor="#8f6a2a" />
-              <stop offset="0.45" stopColor="#e9cd86" />
-              <stop offset="0.6" stopColor="#fff1c4" />
-              <stop offset="1" stopColor="#9a7230" />
-            </linearGradient>
-          </defs>
-          <path className="fill" d={archPath(size.w, size.h, 1)} />
-          <path d={archPath(size.w, size.h, 1)} pathLength={1} strokeWidth={1.3} />
-          <path className="gilt" d={archPath(size.w, size.h, 8)} pathLength={1} strokeWidth={1.6} style={{ stroke: `url(#${gid}g)` }} />
-        </svg>
-      )}
-      <img className="mh-spray mh-spray-top" src={SPRAY} alt="" />
-      <img className="mh-spray mh-spray-l" src={SPRAY} alt="" />
-      <img className="mh-spray mh-spray-r" src={SPRAY} alt="" />
-      {children}
-    </div>
+    <svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M8 0 L9.6 6.4 L16 8 L9.6 9.6 L8 16 L6.4 9.6 L0 8 L6.4 6.4Z" fill="currentColor" />
+    </svg>
   );
+}
+
+/** Chooses a timeline drawing from the event's wording. */
+function artFor(title: string, index: number): LineArtKind | "rings" {
+  const t = title.toLowerCase();
+  if (/nikoh|fotiha|unashtiruv/.test(t)) return "rings";
+  if (/kutib|kelish|xush/.test(t)) return "door";
+  if (/ziyofat|dasturxon|osh|kechki/.test(t)) return "feast";
+  if (/raqs|bazm|musiqa/.test(t)) return "doira";
+  return (["door", "rings", "feast", "doira"] as const)[index % 4];
 }
 
 function Sections({ data }: { data: InviteData }) {
   const message = data.message || defaultMessage(data);
+  const [opened, setOpened] = useState(0);
+  const { d, m, y } = parseDate(data.date);
+  const month = MONTHS[m - 1];
   return (
     <>
-      <section className="mh-sec">
-        <ArchPanel>
-          <h2 className="mh-h">
-            Assalomu alaykum,
-            <br />
-            qadrli mehmon!
-          </h2>
-          <Rule />
-          <p className="mh-p">{message}</p>
-          {data.hosts && (
-            <p className="mh-p mh-muted" style={{ marginTop: 26, fontStyle: "italic" }}>
-              Hurmat bilan,
-              <br />
-              <span style={{ color: "var(--mh-ink)", fontSize: 20 }}>{data.hosts}</span>
-            </p>
-          )}
-        </ArchPanel>
-      </section>
-
-      <section className="mh-sec">
-        <h2 className="mh-h">To‘y kuni</h2>
-        <SaveTheDate date={data.date} time={data.time} />
-        <div style={{ marginTop: 44 }}>
+      <section className="mh-sec mh-sec-date">
+        <h2 className="mh-script-h">Sana</h2>
+        <p className="mh-hint-line">
+          <Spark /> Sanani ko‘rish uchun qirib oching <Spark />
+        </p>
+        <div className="mh-scratch-row">
+          <ScratchCard value={String(d)} label="Kun" onReveal={() => setOpened((n) => n + 1)} />
+          <ScratchCard value={month[0].toUpperCase() + month.slice(1)} label="Oy" onReveal={() => setOpened((n) => n + 1)} />
+          <ScratchCard value={String(y)} label="Yil" onReveal={() => setOpened((n) => n + 1)} />
+        </div>
+        <div className="mh-after-date" data-shown={opened >= 3}>
+          <p className="mh-p mh-muted" style={{ fontStyle: "italic" }}>
+            {formatWeekday(data.date)}, soat {data.time}
+          </p>
           <Countdown date={data.date} time={data.time} />
         </div>
-        <div style={{ marginTop: 44 }}>
-          <MonthCalendar date={data.date} />
+      </section>
+
+      <section className="mh-sec mh-sec-card">
+        <div className="mh-card">
+          <img className="mh-card-art" src={cardUrl} alt="" aria-hidden="true" />
+          <div className="mh-card-text">
+            {data.bismillah && (
+              <p className="mh-bismillah" lang="ar" dir="rtl">
+                بسم الله الرحمن الرحيم
+              </p>
+            )}
+            <p className="mh-caps">{INVITE_LINE[data.eventType]}</p>
+            <p className="mh-card-name">{data.groom}</p>
+            <Divider />
+            {data.groomParents && <p className="mh-caps mh-caps-sm">{data.groomParents}</p>}
+            <p className="mh-card-with">va</p>
+            <p className="mh-card-name">{data.bride}</p>
+            <Divider />
+            {data.brideParents && <p className="mh-caps mh-caps-sm">{data.brideParents}</p>}
+          </div>
         </div>
+      </section>
+
+      <section className="mh-sec mh-sec-message">
+        <img className="mh-side-spray l" src={sprayUrl} alt="" aria-hidden="true" />
+        <img className="mh-side-spray r" src={sprayUrl} alt="" aria-hidden="true" />
+        <h2 className="mh-script-h">Qadrli do‘stlar va yaqinlar</h2>
+        <p className="mh-p mh-message">{message}</p>
+        {data.hosts && (
+          <p className="mh-p mh-muted" style={{ marginTop: 22, fontStyle: "italic" }}>
+            Hurmat bilan, <span style={{ color: "var(--mh-ink)" }}>{data.hosts}</span>
+          </p>
+        )}
       </section>
 
       {data.program.length > 0 && (
-        <section className="mh-sec">
-          <h2 className="mh-h">To‘y dasturi</h2>
-          <ol className="mh-prog">
-            {data.program.map((p) => (
-              <li key={`${p.time}${p.title}`}>
-                <time>{p.time}</time>
-                <i aria-hidden="true" />
-                <span>{p.title}</span>
-              </li>
-            ))}
+        <section className="mh-sec mh-sec-time">
+          <h2 className="mh-script-h">To‘y dasturi</h2>
+          <Divider />
+          <ol className="mh-timeline">
+            {data.program.map((p, i) => {
+              const art = artFor(p.title, i);
+              return (
+                <li key={`${p.time}${p.title}`} data-side={i % 2 ? "r" : "l"}>
+                  <div className="mh-tl-art">
+                    {art === "rings" ? <img src={ringsUrl} alt="" aria-hidden="true" /> : <LineArt kind={art} />}
+                  </div>
+                  <span className="mh-tl-node" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="22" height="22">
+                      {[0, 60, 120, 180, 240, 300].map((a) => (
+                        <ellipse key={a} cx="12" cy="6.5" rx="3" ry="5" transform={`rotate(${a} 12 12)`} fill="#fbf3e2" stroke="#b8924a" strokeWidth="0.9" />
+                      ))}
+                      <circle cx="12" cy="12" r="2.4" fill="#b8924a" />
+                    </svg>
+                  </span>
+                  <div className="mh-tl-text">
+                    <time>{p.time}</time>
+                    <span>{p.title}</span>
+                  </div>
+                </li>
+              );
+            })}
           </ol>
         </section>
       )}
 
       <section className="mh-sec">
-        <h2 className="mh-h">{data.venue}</h2>
-        {data.address && <p className="mh-p mh-muted" style={{ marginTop: 12, fontSize: 16 }}>{data.address}</p>}
+        <h2 className="mh-script-h">To‘yxona</h2>
+        <p className="mh-h" style={{ marginTop: 6 }}>{data.venue}</p>
+        {data.address && <p className="mh-p mh-muted" style={{ marginTop: 10, fontSize: 16 }}>{data.address}</p>}
         {data.dressCode && (
           <p className="mh-p" style={{ marginTop: 10, fontSize: 15 }}>
             <span className="mh-muted">Kiyinish uslubi:</span> {data.dressCode}
@@ -411,46 +408,23 @@ function Sections({ data }: { data: InviteData }) {
       </section>
 
       <section className="mh-sec">
-        <ArchPanel>
-          <h2 className="mh-h">Tashrifingizni tasdiqlang</h2>
-          <p className="mh-p mh-muted" style={{ marginTop: 12, fontSize: 16 }}>
-            To‘y kunidan oldin javobingizni bildiring.
-          </p>
-          <Rsvp />
-        </ArchPanel>
+        <h2 className="mh-script-h">Javobingizni kutamiz</h2>
+        <p className="mh-p mh-muted" style={{ marginTop: 6, fontSize: 16 }}>
+          To‘y kunidan oldin tashrifingizni tasdiqlang.
+        </p>
+        <Rsvp />
       </section>
 
-      <section className="mh-sec" style={{ paddingBottom: 40 }}>
-        <div className="mh-closing">
-          <RoseSpray className="mh-closing-spray" />
-          <WaxSeal initials={initials(data.groom, data.bride).split("") as [string, string]} className="mh-closing-seal" />
-        </div>
-        <p className="mh-h" style={{ fontStyle: "italic", fontSize: 24 }}>
-          Sizni intiqlik bilan kutamiz!
-        </p>
-        <p style={{ fontFamily: "var(--mh-script)", fontSize: 58, lineHeight: 1.05, color: "#6a4818", margin: "14px 0 0" }}>
+      <section className="mh-sec mh-sec-close">
+        <Seal pair={initials(data.groom, data.bride).split("") as [string, string]} size={112} className="mh-closing-seal" />
+        <p className="mh-script-h" style={{ marginTop: 18 }}>Sizni intiqlik bilan kutamiz!</p>
+        <p className="mh-closing-names">
           {data.groom} &amp; {data.bride}
         </p>
         <p className="mh-muted" style={{ marginTop: 10, fontSize: 14, letterSpacing: "0.18em" }}>
           {formatDateLong(data.date)}
         </p>
       </section>
-    </>
-  );
-}
-
-function SaveTheDate({ date, time }: { date: string; time: string }) {
-  const { d, m, y } = parseDate(date);
-  return (
-    <>
-      <div className="mh-big-date">
-        <span>{MONTHS[m - 1]}</span>
-        <strong>{d}</strong>
-        <span>{y}</span>
-      </div>
-      <p className="mh-p mh-muted" style={{ fontSize: 16, fontStyle: "italic" }}>
-        {formatWeekday(date)}, soat {time}
-      </p>
     </>
   );
 }
@@ -473,32 +447,6 @@ function Countdown({ date, time }: { date: string; time: string }) {
           <small>{label}</small>
         </div>
       ))}
-    </div>
-  );
-}
-
-function MonthCalendar({ date }: { date: string }) {
-  const { y, m, d } = parseDate(date);
-  const offset = (new Date(Date.UTC(y, m - 1, 1)).getUTCDay() + 6) % 7;
-  const days = new Date(Date.UTC(y, m, 0)).getUTCDate();
-  const cells = [...Array(offset).fill(null), ...Array.from({ length: days }, (_, i) => i + 1)];
-  return (
-    <div>
-      <p style={{ fontFamily: "var(--mh-script)", fontSize: 40, lineHeight: 1, margin: "0 0 14px", color: "#6a4818" }}>
-        {MONTHS[m - 1][0].toUpperCase() + MONTHS[m - 1].slice(1)}
-      </p>
-      <div className="mh-cal">
-        {["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"].map((w) => (
-          <div key={w} className="wd">
-            {w}
-          </div>
-        ))}
-        {cells.map((c, i) => (
-          <div key={i} className={c === d ? "on" : undefined}>
-            <span>{c ?? ""}</span>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }

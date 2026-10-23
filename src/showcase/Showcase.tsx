@@ -33,7 +33,9 @@ const TEMPLATES: ShowcaseTemplate[] = [
       address: "Samarqand sh., Registon ko‘chasi, 15",
       mapUrl: "",
       hosts: "Karimovlar va Yusupovlar oilasi",
-      message: "",
+      groomParents: "Karimovlar oilasining o‘g‘li",
+      brideParents: "Yusupovlar oilasining qizi",
+      message: "Muhabbat, quvonch va duolarga to‘la oqshomda biz bilan birga bo‘ling — shu kuni biz umrbod baxtimizni boshlaymiz.",
       bismillah: true,
       program: [
         { time: "17:30", title: "Mehmonlarni kutib olish" },

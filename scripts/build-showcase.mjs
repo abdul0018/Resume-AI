@@ -29,6 +29,7 @@ const page = `<title>Taklifnoma namunalari</title>
 <meta name="theme-color" content="#f8f5ef" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri&text=${encodeURIComponent("بسم الله الرحمن الرحيم")}&display=swap" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Corinthia:wght@400;700&display=swap" />
 <style>
 ${css}
