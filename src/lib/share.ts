@@ -34,7 +34,8 @@ export async function nativeShare(url: string, title: string, text: string) {
   try {
     await navigator.share({ url, title, text });
     return true;
-  } catch {
-    return true; // user cancelled — still handled
+  } catch (e) {
+    // Cancelling the share sheet is fine; a refusal (sandboxed frames, in-app browsers) falls back to copying.
+    return (e as Error).name === "AbortError";
   }
 }

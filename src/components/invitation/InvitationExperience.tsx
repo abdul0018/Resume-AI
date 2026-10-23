@@ -41,6 +41,12 @@ interface Props {
   brandName?: string;
   /** Space reserved at the bottom for overlaid UI (e.g. the demo CTA bar). */
   bottomInset?: number;
+  /** Show the brand link at the very bottom. */
+  showFooter?: boolean;
+  /** Draw an illustrated map instead of embedding Google Maps (for hosts that block iframes). */
+  staticMap?: boolean;
+  /** Extra content after the closing section (e.g. showcase navigation). */
+  endSlot?: ReactNode;
 }
 
 export function InvitationExperience({
@@ -56,6 +62,9 @@ export function InvitationExperience({
   sound = true,
   brandName = "Visol",
   bottomInset = 0,
+  showFooter = true,
+  staticMap = false,
+  endSlot,
 }: Props) {
   const theme = getTheme(template);
   const flags = mode === "live" ? PACKAGE_FLAGS[pkg] : { photos: true, music: true, rsvp: true };
@@ -187,6 +196,9 @@ export function InvitationExperience({
           mode={mode}
           brandName={brandName}
           delay={opened ? 0 : OPEN_DURATION}
+          showFooter={showFooter}
+          staticMap={staticMap}
+          endSlot={endSlot}
         />
       )}
       {showContent && bottomInset > 0 && <div style={{ height: bottomInset }} aria-hidden="true" />}
@@ -221,6 +233,9 @@ function InviteContent({
   mode,
   brandName,
   delay,
+  showFooter,
+  staticMap,
+  endSlot,
 }: {
   template: TemplateId;
   data: InviteData;
@@ -230,6 +245,9 @@ function InviteContent({
   mode: InviteMode;
   brandName: string;
   delay: number;
+  showFooter: boolean;
+  staticMap: boolean;
+  endSlot?: ReactNode;
 }) {
   const ref = useReveal<HTMLDivElement>([data.photos.length, data.program.length, flags.rsvp, template]);
   const message = data.message || defaultMessage(data);
@@ -334,7 +352,7 @@ function InviteContent({
             </p>
           )}
         </div>
-        <VenueMap data={data} />
+        <VenueMap data={data} illustrated={staticMap} />
       </Section>
 
       {/* RSVP */}
@@ -347,7 +365,7 @@ function InviteContent({
               Iltimos, to‘y kunidan oldin kelish-kelmasligingizni bildiring.
             </p>
           </div>
-          <Rsvp slug={slug} simulate={preview} />
+          <Rsvp slug={slug} simulate={preview} showNote={mode === "preview"} />
         </Section>
       )}
 
@@ -363,7 +381,9 @@ function InviteContent({
         {mode !== "preview" && <ShareRow slug={slug} data={data} />}
       </Section>
 
-      {mode !== "preview" && (
+      {endSlot}
+
+      {mode !== "preview" && showFooter && (
         <footer className="pb-[max(28px,env(safe-area-inset-bottom))] text-center">
           <Link
             href="/"
@@ -446,7 +466,7 @@ function Countdown({ date, time }: { date: string; time: string }) {
   );
 }
 
-function VenueMap({ data }: { data: InviteData }) {
+function VenueMap({ data, illustrated }: { data: InviteData; illustrated: boolean }) {
   const links = mapLinks(data);
   const [load, setLoad] = useState(false);
   const holder = useRef<HTMLDivElement>(null);
@@ -460,7 +480,11 @@ function VenueMap({ data }: { data: InviteData }) {
   return (
     <div className="reveal mt-8" style={{ ["--delay" as string]: "120ms" }}>
       <div ref={holder} className="inv-map overflow-hidden">
-        {load && <iframe title="Xarita" src={links.embed} className="h-full w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />}
+        {illustrated ? (
+          <IllustratedMap venue={data.venue} />
+        ) : (
+          load && <iframe title="Xarita" src={links.embed} className="h-full w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+        )}
       </div>
       <div className="mt-5 grid grid-cols-2 gap-3">
         <a className="inv-btn" href={links.google} target="_blank" rel="noopener noreferrer">
@@ -474,7 +498,53 @@ function VenueMap({ data }: { data: InviteData }) {
   );
 }
 
-function Rsvp({ slug, simulate }: { slug?: string; simulate: boolean }) {
+/** Stylised city map in the template's colours, used where map embeds are unavailable. */
+function IllustratedMap({ venue }: { venue: string }) {
+  const road = { fill: "none", stroke: "var(--pg-bg)", strokeLinecap: "round" as const };
+  const edge = { fill: "none", stroke: "var(--pg-line)", strokeLinecap: "round" as const };
+  const roads = [
+    { d: "M-20,210 C80,190 150,230 240,200 C320,175 360,190 420,170", w: 16 },
+    { d: "M120,-20 C130,80 110,160 150,320", w: 13 },
+    { d: "M280,-20 C270,70 300,150 285,320", w: 11 },
+    { d: "M-20,90 C90,100 200,70 420,95", w: 9 },
+    { d: "M-20,265 C100,255 230,280 420,250", w: 7 },
+    { d: "M200,95 C205,140 195,170 200,215", w: 6 },
+    { d: "M40,-20 C50,60 30,150 60,320", w: 5 },
+    { d: "M350,95 C360,140 345,190 360,320", w: 5 },
+  ];
+  return (
+    <svg viewBox="0 0 400 300" className="h-full w-full" role="img" aria-label={`Xarita: ${venue}`}>
+      <rect width="400" height="300" style={{ fill: "var(--pg-surface)" }} />
+      <path d="M-20,40 C60,30 90,60 160,45 C230,30 300,55 420,30 L420,-20 L-20,-20Z" style={{ fill: "var(--pg-accent)", opacity: 0.07 }} />
+      <path d="M-20,150 C40,140 70,175 110,150 C140,132 150,120 175,135" fill="none" style={{ stroke: "var(--pg-accent)", opacity: 0.14 }} strokeWidth={12} strokeLinecap="round" />
+      <rect x="215" y="112" width="52" height="66" rx="10" style={{ fill: "var(--pg-accent)", opacity: 0.08 }} />
+      <rect x="66" y="222" width="40" height="30" rx="8" style={{ fill: "var(--pg-accent)", opacity: 0.08 }} />
+      {roads.map((r, i) => (
+        <path key={`e${i}`} d={r.d} {...edge} strokeWidth={r.w + 2} />
+      ))}
+      {roads.map((r, i) => (
+        <path key={`r${i}`} d={r.d} {...road} strokeWidth={r.w} />
+      ))}
+      <g transform="translate(200 158)">
+        <ellipse cx="0" cy="40" rx="16" ry="5" style={{ fill: "var(--pg-ink)", opacity: 0.15 }} />
+        <circle r="26" cy="2" style={{ fill: "var(--pg-accent)", opacity: 0.12 }}>
+          <animate attributeName="r" values="14;34;14" dur="2.6s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.25;0;0.25" dur="2.6s" repeatCount="indefinite" />
+        </circle>
+        <path d="M0,38 C-6,26 -20,14 -20,0 A20,20 0 1 1 20,0 C20,14 6,26 0,38Z" style={{ fill: "var(--pg-accent)" }} />
+        <circle r="7" style={{ fill: "var(--pg-on-accent)" }} />
+      </g>
+      <g transform="translate(200 104)">
+        <rect x={-Math.min(170, venue.length * 4.6 + 22)} y="-17" width={Math.min(340, venue.length * 9.2 + 44)} height="30" rx="15" style={{ fill: "var(--pg-surface)", stroke: "var(--pg-line)" }} />
+        <text textAnchor="middle" y="3" style={{ fill: "var(--pg-ink)", font: "600 13px Manrope, system-ui, sans-serif" }}>
+          {venue}
+        </text>
+      </g>
+    </svg>
+  );
+}
+
+function Rsvp({ slug, simulate, showNote }: { slug?: string; simulate: boolean; showNote: boolean }) {
   const [name, setName] = useState("");
   const [attending, setAttending] = useState<boolean | null>(null);
   const [guests, setGuests] = useState(1);
@@ -508,7 +578,7 @@ function Rsvp({ slug, simulate }: { slug?: string; simulate: boolean }) {
         <p className="inv-muted mt-2 text-[14px]">
           {attending ? "Sizni to‘yda ko‘rishdan xursand bo‘lamiz." : "Javobingiz uchun rahmat. Duolaringiz biz bilan."}
         </p>
-        {simulate && <p className="inv-muted mt-4 text-[12px]">(Namuna rejimi — javob saqlanmadi)</p>}
+        {simulate && showNote && <p className="inv-muted mt-4 text-[12px]">(Namuna rejimi — javob saqlanmadi)</p>}
       </div>
     );
   }

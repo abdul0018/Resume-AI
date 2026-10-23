@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Visol — premium raqamli to‘y taklifnomalari",
+  "description": "Visol \u2014 premium raqamli to\u2018y taklifnomalari",
   "engines": {
     "node": ">=22.13"
   },
@@ -12,7 +12,8 @@
     "build": "vite build && esbuild server/index.ts --bundle --platform=node --format=esm --packages=external --outfile=dist/server.js",
     "start": "NODE_ENV=production node --disable-warning=ExperimentalWarning dist/server.js",
     "lint": "tsc --noEmit",
-    "test:e2e": "node scripts/e2e.mjs"
+    "test:e2e": "node scripts/e2e.mjs",
+    "build:showcase": "node scripts/build-showcase.mjs"
   },
   "dependencies": {
     "express": "^4.21.2",

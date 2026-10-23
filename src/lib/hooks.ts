@@ -48,6 +48,9 @@ export function useCountdown(target: number) {
 
 export function musicSrc(music: string) {
   if (!music || music === "none") return null;
+  // Self-contained builds (the showcase) embed the tracks and register them here.
+  const embedded = (window as { __VISOL_MUSIC__?: Record<string, string> }).__VISOL_MUSIC__?.[music];
+  if (embedded) return embedded;
   if (music in BUILTIN_MUSIC) return `/music/${music}.mp3`;
   return music.startsWith("/uploads/") ? music : null;
 }
