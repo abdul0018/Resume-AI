@@ -1531,7 +1531,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: #6d6452;
+  color: #5c5341;
 }
 .mh-card-text > * {
   margin: 0;
@@ -1551,12 +1551,12 @@
   transform: rotate(-90deg);
 }
 .mh-verse {
-  font-size: 8.5px;
-  font-size: 2.25cqi;
-  line-height: 1.8;
-  letter-spacing: 0.1em;
+  font-size: 9px;
+  font-size: 2.4cqi;
+  line-height: 1.75;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #7a705c;
+  color: #625947;
 }
 .mh-verse span,
 .mh-card-caps span {
@@ -1578,7 +1578,7 @@
   line-height: 1.75;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #6d6452;
+  color: #5c5341;
 }
 .mh-card-name {
   margin-top: 1.4cqi !important;
@@ -1597,7 +1597,7 @@
   font-size: 22px;
   font-size: 6cqi;
   line-height: 1;
-  color: #b08636;
+  color: #9a7230;
 }
 .mh-card-sprig {
   width: 9cqi;
@@ -1612,11 +1612,11 @@
   gap: 1cqi;
 }
 .mh-cd-small {
-  font-size: 8.5px;
-  font-size: 2.3cqi;
-  letter-spacing: 0.22em;
+  font-size: 9px;
+  font-size: 2.45cqi;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #7a705c;
+  color: #625947;
 }
 .mh-cd-row {
   display: grid;
@@ -1627,7 +1627,7 @@
   font-size: 2.6cqi;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #6d6452;
+  color: #5c5341;
 }
 .mh-cd-row > span:first-child {
   text-align: right;
@@ -1656,8 +1656,8 @@
 }
 .mh-card-addr {
   margin-top: 0.8cqi !important;
-  font-size: 8.5px;
-  font-size: 2.25cqi;
+  font-size: 9px;
+  font-size: 2.4cqi;
 }
 .mh-card-heart {
   width: 3.2cqi;

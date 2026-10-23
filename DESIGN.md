@@ -26,6 +26,14 @@ colors:
   gilt-line: "rgba(176, 134, 54, 0.38)"
   error-brick: "#9b3b22"
   showcase-ground: "#efe5d4"
+  card-stock: "#fbf4ea"
+  card-ink: "#5c5341"
+  card-ink-soft: "#625947"
+  sage-ink: "#4b5846"
+  paint-butter: "#e6c977"
+  paint-ivory: "#e9e0d0"
+  paint-blush: "#e6b2a5"
+  paint-sage: "#7f8e72"
 typography:
   display:
     fontFamily: "Corinthia, Pinyon Script, cursive"
@@ -44,9 +52,9 @@ typography:
     lineHeight: 1.05
   script-name:
     fontFamily: "Corinthia, Pinyon Script, cursive"
-    fontSize: "clamp(38px, 21cqi, 58px)"
+    fontSize: "10.5cqi"
     fontWeight: 400
-    lineHeight: 1
+    lineHeight: 1.08
   script-welcome:
     fontFamily: "Corinthia, Pinyon Script, cursive"
     fontSize: "clamp(34px, 10vw, 46px)"
@@ -59,8 +67,9 @@ typography:
     lineHeight: 1
   script-joiner:
     fontFamily: "Corinthia, Pinyon Script, cursive"
-    fontSize: "clamp(24px, 12cqi, 32px)"
+    fontSize: "6cqi"
     fontWeight: 400
+    lineHeight: 1
   script-cue:
     fontFamily: "Corinthia, Pinyon Script, cursive"
     fontSize: "24px"
@@ -72,7 +81,7 @@ typography:
     lineHeight: 1
   arabic:
     fontFamily: "Amiri, Noto Naskh Arabic, serif"
-    fontSize: "clamp(17px, 9cqi, 24px)"
+    fontSize: "3.8cqi"
     fontWeight: 400
     lineHeight: 1.5
   showcase-title:
@@ -143,8 +152,26 @@ typography:
     fontSize: "calc(var(--bw) * 0.03)"
     fontWeight: 400
     letterSpacing: "0.32em"
+  card-caps:
+    fontFamily: "Bodoni Moda, Didot, Bodoni 72, Georgia, serif"
+    fontSize: "2.45cqi"
+    fontWeight: 400
+    lineHeight: 1.75
+    letterSpacing: "0.14em"
+  card-venue:
+    fontFamily: "Bodoni Moda, Didot, Bodoni 72, Georgia, serif"
+    fontSize: "2.95cqi"
+    fontWeight: 400
+    letterSpacing: "0.15em"
+  card-day:
+    fontFamily: "Bodoni Moda, Didot, Bodoni 72, Georgia, serif"
+    fontSize: "7.4cqi"
+    fontWeight: 400
+    lineHeight: 1.1
+    letterSpacing: "0.02em"
+    fontFeature: "lnum"
 rounded:
-  card: "3px"
+  card: "4px"
   field: "14px"
   gift-card: "16px"
   phone: "34px"
@@ -210,11 +237,17 @@ components:
     textColor: "{colors.ink}"
     rounded: "{rounded.pill}"
     size: "48px"
+  invitation-card:
+    backgroundColor: "{colors.card-stock}"
+    textColor: "{colors.card-ink}"
+    typography: "{typography.card-caps}"
+    rounded: "{rounded.card}"
+    width: "420px"
 ---
 
 # Design System: Oltin muhr
 
-Scope: this file records the first of seven invitation worlds in the examples-only showcase, as shipped in revision 4 (the opening re-made after the owner's ribbon reference video, `.impeccable/review/reference-ribbon-keyframes.jpg`, then made to answer the guest's finger, with champagne satin and the To‘yana gift card; the sequence is captured in `.impeccable/review/opening-sequence-0-6000ms.jpg`). The showcase gallery now names it **Atlas lenta**; the code keeps the `oltin-muhr` route and the `src/templates/muhr` directory. Everything under Colors through Components belongs to this world alone; a later template brings its own world and must not inherit these tokens, rasters, the satin bow, the seal, the arch card or the gift card. The parts marked **Showcase shell** are the shared hosting conventions every template plugs into. The legacy app under `src/pages` and `src/components/invitation` is outside this system.
+Scope: this file records the first of seven invitation worlds in the examples-only showcase, as shipped in revision 4 (the opening re-made after the owner's ribbon reference video, `.impeccable/review/reference-ribbon-keyframes.jpg`, then made to answer the guest's finger, with champagne satin and the To‘yana gift card; the sequence is captured in `.impeccable/review/opening-sequence-0-6000ms.jpg`), with the invitation card since redrawn in code after the owner's choice of a pastel watercolour card with impasto flowers (captured in `.impeccable/review/floral-card-pixel7.png`). The showcase gallery now names it **Atlas lenta**; the code keeps the `oltin-muhr` route and the `src/templates/muhr` directory. Everything under Colors through Components belongs to this world alone; a later template brings its own world and must not inherit these tokens, rasters, the satin bow, the seal, the floral card or the gift card. The parts marked **Showcase shell** are the shared hosting conventions every template plugs into. The legacy app under `src/pages` and `src/components/invitation` is outside this system.
 
 ## Overview
 
@@ -222,30 +255,33 @@ Scope: this file records the first of seven invitation worlds in the examples-on
 
 The phone screen is the closed card, edge to edge: a gatefold of the owner's ivory paper blind-embossed with roses and climbing vines, its two doors meeting at a centre seam, the inner envelope's fold lines showing faintly through toward a point at 56% height. The couple's names are printed across both doors in bronze script at 35% height, a champagne satin ribbon crosses the card at 56% and is tied at the centre in a bow, and "Lentani torting" is set in small spaced capitals near the foot. Closed, the card is alive in the guest's hands: it tilts slowly and the bow swells and rocks as if inviting a touch. A fingertip presses softly into the paper where it lands; the guest can tap, or take the ribbon and pull, and the bow and band follow the finger under rubber-band tension and spring back if let go early. Untying it is the one orchestrated moment of the page, told in order: the pulled tail is drawn out and its loop slips through, the knot gives and the other loop follows, the bow rocks free and the satin flutters down, lands and crumples away; the left door is lifted at its edge, swung open with a slight flex and settles, then the right; the inner envelope's four flaps lift and fold back off the photograph, which comes into focus as the camera moves through; the names and the welcome are written in where they will sit in the hero, and the paper dissolves into a sunset photograph of the couple walking toward a mosque, where petals keep falling and light keeps rising.
 
-After the opening the page is ceremonial, and each section arrives once as it scrolls in: one centred phone-width column on cream (#f5ecdf), sepia ink, gold script titles, rose sprays multiplied onto the ground so their white backgrounds vanish, and a gilded arch card that names both families under the Bismillah. The world is built from the owner's own rasters (photograph, paper, seal, roses, rings, arch card), each carrying its generation prompt and post-processing in embedded metadata; code draws only what the rasters do not cover yet (the satin ribbon and bow, the card's fold lines, gold timeline line art, dividers, the venue map, icons).
+After the opening the page is ceremonial, and each section arrives once as it scrolls in: one centred phone-width column on cream (#f5ecdf), sepia ink, gold script titles, rose sprays multiplied onto the ground so their white backgrounds vanish, and a painted invitation card (cream stock under watercolour washes, a fine gold rule, impasto flowers in butter, ivory and blush with sage leaves and beaded gold sprigs) that sets the Bismillah, the Rum 30:21 verse, the families, the names in sage ink, the date and the venue. The world is built from the owner's own rasters (photograph, paper, seal, roses, rings), each carrying its generation prompt and post-processing in embedded metadata; code draws what the rasters do not cover (the satin ribbon and bow, the card's fold lines, the floral invitation card after the owner's watercolour reference, gold timeline line art, dividers, the venue map, icons).
 
 **Key Characteristics:**
 - Full-bleed embossed gatefold card tied with a champagne satin bow as the first viewport; the whole card is the control (tap or pull), and it carries only the printed names and one hint line.
-- An owner-supplied raster world, each image carrying embedded provenance; nothing generic or stock.
+- An owner-supplied raster world, each image carrying embedded provenance; nothing generic or stock. Where code draws instead (the floral card), it follows a reference the owner chose.
 - Gold is a material (foil, gilt edge, coin, pressed leaf, satin), rendered as gradients from deep antique to pale champagne, never as a flat accent fill and never on text.
-- Sepia ink throughout; no black anywhere a guest can see.
+- Sepia ink throughout, save the sage names on the floral card; no black anywhere a guest can see.
 - Three faces with fixed jobs: Corinthia script for names, greetings and section titles; Bodoni Moda for everything set; Amiri for the Arabic Bismillah alone.
 - Slow exponential ease-out; a tied card that breathes in the hand, one choreographed untying and opening, sections that arrive once as the guest scrolls them in, two tactile interactions (pulling the ribbon, scratching the gold-foil date), otherwise only ambient motion (petals, rising light, drifting photograph, swaying roses). Reduced motion shows everything at rest.
 
 ## Colors
 
-A warm palette of cream papers, sepia inks and a gold ramp, with amber reserved for light; even the satin ribbon is the lettering's gold softened toward the paper, so there is no cool note anywhere.
+A warm palette of cream papers, sepia inks and a gold ramp, with amber reserved for light; even the satin ribbon is the lettering's gold softened toward the paper. The one cool-leaning note is the sage of the floral invitation card, taken from the owner's watercolour reference and kept on that card.
 
 ### Primary
 - **Antique Gold Leaf** (gold-deep, #8f6a2a): focus outlines and caret, the scratch-card focus ring, the dark end of gilt gradients.
 - **Gilt** (gold, #b08636): selected-choice border, field focus border, map arch outlines, showcase focus underline.
 - **Champagne Gold** (gold-pale, #efd9a0): the light face of gold surfaces (buttons, tiles, coin, selected choice) and the selection highlight. Button gold runs #f8e4ad, #dcb466 60%, #c59a4a at 170deg; tile gold #fbefcf, #ebcd8c 70%, #dcb46a at 165deg.
-- **Script Gold** (script-gold, #9a6e2e): every Corinthia section title, the timeline times, the Bismillah and the card's "va".
-- **Line Gold** (line-gold, #b8924a): coded line art (timeline drawings, ornamental dividers, blossom nodes, hint sparks); matches the owner's rings drawing.
+- **Script Gold** (script-gold, #9a6e2e): every Corinthia section title and the timeline times.
+- **Line Gold** (line-gold, #b8924a): coded line art (timeline drawings, ornamental dividers, blossom nodes, hint sparks, the floral card's rules and sprig mark); matches the owner's rings drawing.
 - **Bronze** (bronze, #8a6128): revealed scratch values, the hero ampersand and hero divider.
 
 ### Secondary
 - **Champagne Satin** (rb1 shadow, rb2 light, rb3 mid-light, rb4 mid, rb5 highlight; `--rb1`..`--rb5` on the card): the gold of the lettering softened toward the paper, for the ribbon and bow on the closed card and nothing else. The band runs a vertical gradient (180deg: rb1, rb3 18%, rb5 40%, rb2 58%, rb4 84%, rb1) so it reads as a rounded satin band; the bow's loops, insides, knot and tails take the same five stops in their own gradients, with rb5 (and white) for the specular streaks along the loop crowns, the knot and the tail creases, and rb1 for the inside of each loop, the rims turning under and the gathered folds at the pinch. Its shadows are warm brown to match (rgba(96, 70, 30, ...)).
+
+- **Card Paint** (paint-butter #e6c977, paint-ivory #e9e0d0, paint-blush #e6b2a5, paint-sage #7f8e72): the impasto petals and leaves of the floral card and nothing else. Each is the base of a tint run from base to tip with a paler rim and a darker groove: butter #e6c977 / #f6e6b2 / #fdf5da / #c9a654, ivory #e9e0d0 / #fbf8f1 / #ffffff / #cfc3ad, blush #e6b2a5 / #f6dbd2 / #fdf0eb / #cf968a, sage #7f8e72 / #b9c4a8 / #d8dfcb / #6c7a60 (leaf vein #e6ebdc). Under them, watercolour washes at 0.46 opacity: peach #f2dcc0, sage #d9dfc8, butter #f3e2b0, blush #f1d0c4, sand #f0dcc8.
+- **Card Foil** (a userSpaceOnUse gradient across the card, #a9802f, #e5c67c 22%, #b88c3e 40%, #f0d99a 60%, #ad8236 80%, #d9b866): the floral card's border rule, stems, sprigs, beads and the gilt edges of the butter and blush petals. The type's small gold marks are flat: the sprigs beside "va" #c09a52, the heart #c39a4c, the Bismillah #a17a35.
 
 ### Tertiary
 - **Lantern Amber** (amber, #f6c76a): light only. The halo around the bow on keyboard focus (rgba(246, 199, 106, 0.85)), the rising motes over the photograph, the gold shower over the scratched dates.
@@ -263,11 +299,15 @@ A warm palette of cream papers, sepia inks and a gold ramp, with amber reserved 
 - **Gilt Hairline** (gilt-line): 1px borders on fields and choices.
 - **Brick Sepia** (error-brick, #9b3b22): the single RSVP error line.
 - **Gallery Linen** (showcase-ground, #efe5d4): the showcase gallery, lit from the top by a pale radial.
+- **Card Stock** (card-stock, #fbf4ea): the floral card's paper, a gradient to #f5ebdd toward the foot, under a fine warm grain.
+- **Card Ink** (card-ink, #5c5341): the floral card's set type (families, invitation line, month and year, address); an olive-leaning sepia that sits with the sage.
+- **Card Ink Soft** (card-ink-soft, #625947): the verse and the date's weekday and time on the floral card.
+- **Sage Ink** (sage-ink, #4b5846): the couple's names, the day numeral and the venue on the floral card, and nowhere else.
 
 ### Named Rules
-**The Sepia Rule.** Ink is brown, never black. Even the showcase phone bezel is dark brown (#241a10). Nothing code draws is cool: the satin ribbon is champagne, and its shadows are brown; the only cool notes are in the owner's photograph.
+**The Sepia Rule.** Ink is brown, never black. Even the showcase phone bezel is dark brown (#241a10). Nothing code draws is cool: the satin ribbon is champagne, and its shadows are brown; the cool notes are in the owner's photograph, with one deliberate exception: the sage of the floral invitation card (the leaves, the sage wash, and the sage ink of the names, day and venue), which follows the owner's watercolour reference and stays on that card.
 
-**The Light Is Not Paint Rule.** Amber and the white-gold radials describe light (the focus halo on the bow, the rising motes and the date shower, the glints that cross the foil, the arch card and the gift card, the sky veil behind the hero names). They never fill a card, a button or text.
+**The Light Is Not Paint Rule.** Amber and the white-gold radials describe light (the focus halo on the bow, the rising motes and the date shower, the glints that cross the foil, the floral card and the gift card, the sky veil behind the hero names). They never fill a card, a button or text.
 
 **The Multiply Rule.** Rasters drawn on white (rose spray, rings) are laid on cream with `mix-blend-mode: multiply` so their ground disappears; the seal's initials are gold (#a77b34, dot #b88c3e) multiplied into the wax so they read as pressed, not printed.
 
@@ -283,11 +323,11 @@ A warm palette of cream papers, sepia inks and a gold ramp, with amber reserved 
 - **Display** (Corinthia 400, `min(min(17, 110/L)vw, min(80, 520/L)px)` for the longest name of L letters, 0.95, hero-ink): the couple's names in the photograph's sky, the second name indented 18% after an italic Bodoni ampersand at 0.42em.
 - **Script title** (Corinthia 400, clamp(44px, 12.5vw, 56px), 1.05, script-gold): every section title (Sana, Qadrli do‘stlar va yaqinlar, To‘y dasturi, To‘yxona, Javobingizni kutamiz, the closing line).
 - **Script closing** (clamp(46px, 13vw, 60px), name-ink): the names that sign the page.
-- **Script name** (clamp(38px, 21cqi, 58px), #8f6426): the names on the arch card, sized to the card.
+- **Script name** (10.5cqi of the card, 1.08, sage ink): the names on the floral card.
 - **Script welcome** (clamp(34px, 10vw, 46px)): "Nikoh to‘yimizga" in the hero.
-- **Script time** (42px, script-gold): timeline times. **Script joiner** (clamp(24px, 12cqi, 32px)): the card's "va". **Script cue** (24px, name-ink): "Pastga suring".
+- **Script time** (42px, script-gold): timeline times. **Script joiner** (6cqi, 1, #9a7230): the floral card's "va", between two gold sprigs (9cqi, #c09a52) 2.6cqi away. **Script cue** (24px, name-ink): "Pastga suring".
 - **Script print** (Corinthia 400, min(0.13, 2.1/L) of the card width for "Groom & Bride" of L characters (L at least 8), 1, bronze #8a6128): the names printed across both doors of the closed card at 35% height, split by the seam.
-- **Arabic** (Amiri 400, clamp(17px, 9cqi, 24px), 1.5, script-gold, `lang="ar" dir="rtl"`): the Bismillah at the head of the arch card.
+- **Arabic** (Amiri 400, 3.8cqi, 1.5, #a17a35, `lang="ar" dir="rtl"`): the Bismillah at the head of the floral card, when the couple asks for it; otherwise an upright gold sprig mark (8cqi, line gold) stands in its place.
 - **Headline** (Bodoni Moda 500, 30px, 1.12, balanced): the venue name. The showcase title uses clamp(34px, 8.5vw, 52px).
 - **Numeral** (Bodoni Moda 500, 32px, tabular lining): countdown tiles, shrinking with the tile (`min(32px, 38cqi)`).
 - **Scratch value** (Bodoni Moda 500, clamp(20px, 6.4vw, 28px), bronze).
@@ -297,12 +337,14 @@ A warm palette of cream papers, sepia inks and a gold ramp, with amber reserved 
 - **Small** (14px): form labels, the closing long date (0.18em), the showcase text link. **Meta** (12.5px, 0.12em): gallery couple and date.
 - **Label** (11px, 0.24em, uppercase, ink-soft): KUN / OY / YIL under the scratch cards.
 - **Tap label** (Bodoni Moda 400, 3% of the card width, 0.32em, uppercase, ink-soft): "Lentani torting" at 80% height on the closed card, the only instruction it carries.
-- **Card caps** (Bodoni Moda uppercase, 0.08em, #5a3d1f): the invitation line and parents' lines inside the arch card, sized to the card with container units.
+- **Card type** (Bodoni Moda 400, every size in cqi of the floral card's width, uppercase, centred, each line set in code by balanced breaks): **card caps** (2.45cqi, 1.75, 0.14em, card ink) for the families (hosts, or "Ota-onalari duosi bilan") and the invitation line; the address at 2.4cqi; **verse** (2.4cqi, 1.8, 0.1em, card ink soft) for Rum 30:21 in Uzbek in four lines and "— Rum surasi, 21" at 0.16em; the **date block** as weekday (2.45cqi, 0.22em, card ink soft), then month | day | year in a 46cqi row (month and year 2.6cqi, 0.2em, card ink; the day as **card day**, 7.4cqi, 0.02em, lining, sage ink, between gold hairlines rgba(184, 146, 74, 0.7)), then "soat" and the time; **card venue** (2.95cqi, 0.15em, sage ink). Each size carries a px fallback for browsers without container units. The parents' lines are not on the card.
 
 ### Named Rules
 **The Spoken Script Rule.** Corinthia sets names, greetings, section titles and the programme times. Instructions, body copy, labels, form text and data are Bodoni Moda.
 
 **The Bismillah Only Rule.** Amiri sets the Arabic Bismillah and nothing else, and it is fetched only for those glyphs.
+
+**The Shares of the Card Rule.** Everything on the floral card (type, rules, sprigs, heart, gaps) is a share of the card's width in `cqi` (1cqi is 6 of its 600 drawing units), so the card scales whole on any phone like a printed one; nothing inside it is sized in px or vw.
 
 **The Printed Face Rule.** The closed card carries exactly two lines of text, both printed across the doors so they split at the seam: the couple's names in script and the hint line in spaced capitals. Everything else on the paper is the owner's embossing and the fold lines.
 
@@ -312,7 +354,7 @@ One phone-width column, max 480px, centred on the table-linen surround with a so
 
 The hero photograph covers the frame (`object-position: 52% 50%`). A veil lightens the sky behind the lettering (a radial at 50% 22%) and fades the floor into the cream ground from 64% to 99%. The welcome block sits in the sky from 22% to the right edge, 9% from the top plus the safe-area inset, clear of the flowering branch. Rose sprays (46% wide, rotated -12deg, one mirrored) bleed off the bottom corners.
 
-Sections follow on cream in this order: **Sana** (scratch date, then weekday/time and countdown), **arch card** (Bismillah, invitation line, both names with their parents), **message** (with rose sprays at the sides), **To‘y dasturi** (timeline), **To‘yxona** (venue, address, arch map, map buttons), **Javobingizni kutamiz** (RSVP), **To‘yana** (the gift card, only when the couple has given a card number), **closing** (112px seal, closing line, names, long date), then the showcase end slot. Sections pad 72px by 24px, consecutive sections tighten to 24px on top; the message section pads 56px / 72px; the card section narrows sides to 12px. Inner blocks sit in 300-400px measures (scratch row and tiles 360px, gift card 340px). Grids use a 10px gap; the scratch row 12px.
+Sections follow on cream in this order: **Sana** (scratch date, then weekday/time and countdown), **floral card** (Bismillah or sprig mark, Rum 30:21, the families, both names, the invitation line, date, venue and address), **message** (with rose sprays at the sides), **To‘y dasturi** (timeline), **To‘yxona** (venue, address, arch map, map buttons), **Javobingizni kutamiz** (RSVP), **To‘yana** (the gift card, only when the couple has given a card number), **closing** (112px seal, closing line, names, long date), then the showcase end slot. Sections pad 72px by 24px, consecutive sections tighten to 24px on top; the message section pads 56px / 72px; the card section narrows sides to 12px and the card is the column less 20px, at most 420px. Inner blocks sit in 300-400px measures (scratch row and tiles 360px, gift card 340px). Grids use a 10px gap; the scratch row 12px.
 
 Fixed controls align to the column, not the viewport: `right: max(0px, (100vw - 480px) / 2) + 16px`, and respect safe-area insets.
 
@@ -331,7 +373,9 @@ Depth is physical and photographic: real embossed paper, doors and flaps turning
 - **Column halo** (`box-shadow: 0 0 80px -30px rgba(74, 51, 27, 0.35)`): the column on wide screens.
 - **Gold surface** (`inset 0 1px 0 rgba(255,255,255,0.65), inset 0 0 0 1px rgba(143,106,42,0.45), 0 10px 20px -12px rgba(120,84,30,0.7)`): buttons; tiles use the same recipe with a 0.35 gilt ring and a 22px drop.
 - **Scratch card** (`inset 0 0 0 1px rgba(184,146,74,0.45), 0 14px 26px -16px rgba(110,76,26,0.65)`).
-- **Card on paper** (`0 1px 2px rgba(80,56,24,0.18), 0 22px 40px -22px rgba(80,56,24,0.55)`): the arch card.
+- **Card on paper** (`0 1px 2px rgba(80,56,24,0.18), 0 22px 40px -22px rgba(80,56,24,0.55)`): the floral card.
+- **Impasto relief** (SVG `fc-impasto`: a height map from the petal's silhouette blurred 8 into a dome plus stretched fractal noise 0.17 x 0.022 for brush ridges, lit by `feDiffuseLighting` and `feSpecularLighting` from azimuth 225deg, surface scale 3.8, then `feDropShadow` 2, 4, 6 in #9a7a50 at 0.2): the floral card's petals and leaves only, so they stand off the stock as thick paint.
+- **Watercolour wash** (SVG `fc-wash`: fractal noise 0.011 displacing soft ellipses by 70, then a 14 blur, at 0.46 opacity) and **stock grain** (noise 0.85 tinted warm brown at 0.07): the floral card's paper.
 - **Wax drop** (`filter: drop-shadow(0 6px 10px rgba(80,52,20,0.28))`): the closing seal.
 - **Flap cast** (`rgba(90, 62, 26, 0.2)` clipped to the flap shape, `blur(4px)`, offset 3-4px toward the flap's point): each inner flap on the paper beneath it.
 - **Door shadow** (`linear-gradient(90deg, rgba(60, 40, 15, 0.34), transparent)` across 55% from the hinge, mirrored for the right door): rises to full at 35% of the door's swing and fades as it completes; the door's front darkens under `rgba(60, 40, 16, 0.42)` as it turns from the light.
@@ -347,13 +391,13 @@ Depth is physical and photographic: real embossed paper, doors and flaps turning
 - **Petal shade** (canvas `rgba(90, 55, 25, 0.18)`, blur 3, 1.5px down): the falling petals only, so they read as paper-thin objects over the photograph.
 
 ### Named Rules
-**The Real Paper Rule.** The card's relief is the owner's embossed-paper photograph, printed across both doors as one sheet (each door shows its half of a 200%-wide print, so the image runs unbroken across the seam). Code adds only the fold lines, the seam, the printed names and the hint line; no coded relief, flourish or colour ornament. The ribbon lies on the paper; it is not printed on it.
+**The Real Paper Rule.** The closed card's relief is the owner's embossed-paper photograph, printed across both doors as one sheet (each door shows its half of a 200%-wide print, so the image runs unbroken across the seam). Code adds only the fold lines, the seam, the printed names and the hint line; no coded relief, flourish or colour ornament. The ribbon lies on the paper; it is not printed on it.
 
 **The Wipe, Not Fade Rule.** A multiplied photograph (rose spray, rings) never fades and never sits inside an ancestor that fades or transforms: Chrome drops the blend mid-fade and an ancestor's opacity isolates it, so the white ground flashes. Move the image itself, not its box, and draw it in with a clip-path wipe (`inset(0 100% 0 0)` to none, 1.3s ease-out, mirrored for right-hand art). Its own rotate or scale (the sway) is fine.
 
 ## Shapes
 
-The closed card is a gatefold: two doors, each half the width, hinged at the outer edges and meeting at the centre seam. Beneath them the inner envelope has four triangular flaps over the photograph: top and bottom reach 30% of the height to their points, the side flaps 62% of the width so they overlap, leaving diamond gaps above and below the side flaps' tips. The ribbon is a straight band 6.4% of the card width deep at 56% height; the bow is 72% of the card width, its knot 36% down the drawing and centred on the band: two loops with their darker insides showing, a pinched knot and two creased, forked tails. The arch card is a real card (3px corners, 960:1624) whose cusped Mughal arch and jali pillar are in the raster; text sits inside the arch (13.5% from the left, 62% wide, 19% to 84% high). The venue map is clipped by the pointed `archPath` with a double gilt outline. Controls are pills (999px) or soft rectangles (14px), as are scratch cards and countdown tiles; the gift card is a bank card in proportion (1.586:1, 16px corners) with a 38 x 28 chip at 6px; the seal is the photographed wax disc (the closing stamp only); timeline nodes are six-petal blossoms on the ground colour; dividers are a hairline with two leaf loops around a central diamond.
+The closed card is a gatefold: two doors, each half the width, hinged at the outer edges and meeting at the centre seam. Beneath them the inner envelope has four triangular flaps over the photograph: top and bottom reach 30% of the height to their points, the side flaps 62% of the width so they overlap, leaving diamond gaps above and below the side flaps' tips. The ribbon is a straight band 6.4% of the card width deep at 56% height; the bow is 72% of the card width, its knot 36% down the drawing and centred on the band: two loops with their darker insides showing, a pinched knot and two creased, forked tails. The floral card is a 3:5 card (4px corners) drawn on a 600 x 1000 grid with a gold rule 16 units in; the flowers climb the left edge and fill the lower right, and the type column sits right of the stem (31% from the left to 5.5% from the right, 7% to 94% high), centred. Its petals are heart and round shapes pointing up from their base so the knife strokes run along them; leaves are narrow ovals. The venue map is clipped by the pointed `archPath` with a double gilt outline. Controls are pills (999px) or soft rectangles (14px), as are scratch cards and countdown tiles; the gift card is a bank card in proportion (1.586:1, 16px corners) with a 38 x 28 chip at 6px; the seal is the photographed wax disc (the closing stamp only); timeline nodes are six-petal blossoms on the ground colour; dividers are a hairline with two leaf loops around a central diamond; on the floral card, a 22cqi hairline broken by a small diamond (CardRule).
 
 ## Components
 
@@ -429,8 +473,12 @@ Collapsed (`grid-template-rows: 0fr`, no margin, transparent) until all three da
 ### Countdown tiles
 Four gold tiles in a 4-up grid (10px gap, 360px max), 14px radius, tabular numerals that shrink with the tile (container query), uppercase unit label.
 
-### Arch card (signature)
-The owner's arch-card raster (cusped arch pressed into ivory, gold jali pillar, flowers) lying on the page with the card-on-paper shadow. It is laid down as it scrolls in (from perspective(1100px) rotateX(16deg), 50px low, 0.96, pivoting on its foot, 1.4s), then its lines appear one by one from 0.55s to 1.55s, and a foil sheen crosses it every 8s after 1.3s. Inside the arch: the Bismillah in Amiri, the invitation line in card caps, the groom's name in script, a divider, his parents, a script "va", the bride's name, a divider, her parents.
+### Floral card (signature)
+The invitation card, drawn in code after the owner's pastel watercolour reference (`FloralCard.tsx`, one memoised SVG behind `.mh-card-text`). The card is a size container (`container-type: inline-size`) and lies on the page with the card-on-paper shadow.
+- **Paper:** card stock (#fbf4ea to #f5ebdd) under watercolour washes (peach and butter behind the upper-left stem, sage low on the left, blush in the lower right, sand at the lower left) and a fine warm grain; a 1.3-unit foil rule 16 units inside the edge.
+- **Flowers:** impasto petals in butter, ivory and blush, each a base-to-tip gradient lit by the Impasto relief filter, with palette-knife ridges (rim colour at 0.62) and grooves (groove colour at 0.22) clipped to the petal, a heavy rim lip, and a foil edge on the butter and blush petals of the main head. A foil stem rises from the lower left margin to a head of three petals with a blush one below, sage leaves along it; a paler stem with ivory and blush petals at the lower left; an open five-petal blush-and-ivory flower with a gold beaded heart in the lower-right corner. Beaded gold sprigs (foil stems, leaflets and 2-3px beads) branch from the stems.
+- **Type, top to bottom:** the Bismillah or a sprig mark; the verse; a rule; the families; the groom's name; "va" between two gold sprigs (CardSprig, mirrored); the bride's name; the invitation line; a rule; the date block; a rule; the venue; the address (when given); a small gold heart (3.2cqi, #c39a4c).
+- **Motion:** laid down as it scrolls in (from perspective(1100px) rotateX(16deg), 50px low, 0.96, pivoting on its foot, 1.4s), then each line rises in (1100ms ease-out) at 0.5s + 0.09s x its index `--i` (0 to 13), and a foil sheen (rgba(255, 246, 220, 0.5) band at 105deg) crosses it every 8s after 1.3s.
 
 ### Programme timeline
 A centred fading gold hairline (#c9a868) with blossom nodes; entries alternate sides, art on one side (max 150px, multiplied) and a script time with a 15px title on the other. The nikoh entry uses the owner's rings drawing; the door, feast and doira entries are coded gold line art. The hairline is drawn down the page as the programme scrolls in (scale from 0, 2.6s); each moment then arrives from its own side: art slides in 28px (the rings photograph wipes in instead, per the Wipe, Not Fade Rule), the blossom node pops from 0 at 0.1s, the text slides from the opposite side at 0.25s.
@@ -443,14 +491,14 @@ Every section arrives once, the first time it scrolls in (12% visible, bottom ma
 - **up:** body lines, the venue name and the map rise 22px from opacity 0 and blur(4px), 1s ease-out.
 - **write:** script headings and the closing names are written in with the same mask wipe as the hero names (1500ms, `cubic-bezier(0.5, 0, 0.3, 1)`).
 - **deal:** the three date cards are dealt from 38px low and tilted (-7deg, 2deg, 8deg), 0.12s apart, with a slight overshoot.
-- **card:** the arch card and the gift card laid down (see Arch card).
+- **card:** the floral card and the gift card laid down (see Floral card).
 - **bloom:** the message section's rose sprays open from 0.7 scale, then sway ±1.6deg every 6s after 1.4s.
 - **line / step:** the programme hairline drawn down, each moment arriving from its side (see Programme timeline).
 - **stamp:** the closing seal is pressed onto the page from 1.9 scale and blurred, overshooting to 0.94 and 1.03 (900ms), and a line-gold ring leaves it at 480ms; the closing line and names are then written in at 700ms and 1200ms.
 
 ### Gift card (To‘yana, signature)
 The couple's card for wedding gifts, shown only when they have given a 16-digit card number (the schema strips everything but digits; the holder's name is optional). Under the script title "To‘yana" and one muted 16px line, a foil-stamped card on cream stock in the invitation's own gold, never a bank's colours.
-- **Card:** 340px max, bank-card proportion (1.586:1), 16px corners, 0 22px padding; a pale radial light from the top-left corner over a 150deg cream-to-gold gradient (#f8eedb, #ecdab6 55%, #e2c993); the gift-card shadow (gilt edge, pale inner frame, warm drop). It is laid down as it scrolls in like the arch card, then a sheen crosses it every 7s after 1.1s.
+- **Card:** 340px max, bank-card proportion (1.586:1), 16px corners, 0 22px padding; a pale radial light from the top-left corner over a 150deg cream-to-gold gradient (#f8eedb, #ecdab6 55%, #e2c993); the gift-card shadow (gilt edge, pale inner frame, warm drop). It is laid down as it scrolls in like the floral card, then a sheen crosses it every 7s after 1.1s.
 - **Chip:** a 38 x 28 gold chip (135deg #f6dfa4, #c99a4c 55%, #e9cc86) with engraved contact lines, 22px from the left at 26% height.
 - **Network:** UZCARD (8600, 5614) or HUMO (9860) detected from the number, set top-right in bronze spaced capitals; omitted for anything else.
 - **Number:** grouped in fours with tabular numerals, spread edge to edge at 52% height (Gift number), read aloud grouped; the holder sits in caps near the foot.
@@ -473,16 +521,17 @@ A 48px gold coin fixed bottom-right of the column after the scene, play/pause dr
 - **Do** let the satin answer the finger: tension that gives and then resists, a spring back with a slight overshoot when let go early, and an untying that starts from the pulled side.
 - **Do** draw icons, sparks, dividers and nodes as inline SVG in line gold or currentColor.
 - **Do** keep fixed controls aligned to the 480px column and clear of safe-area insets.
+- **Do** size everything inside the floral card in `cqi` of the card, with a px fallback, so it scales whole.
 - **Do** honour reduced motion: the closed card is still (no hold, bow swell or breathing hint), a tap fades it to the scene in 400ms, the hero lettering, photograph and roses stand at rest, and there are no petals, drift, sway or cue bob; every scroll reveal is shown at rest.
 - **Do** bring each section in once, as the guest scrolls to it, and leave it in place.
 - **Do** draw a multiplied photograph in with a clip-path wipe on the image itself.
 
 ### Don't:
 - **Don't** print colour ornament or extra text on the closed card; it carries the embossed paper, its fold lines, the printed names, one hint line and the satin bow.
-- **Don't** use black ink, or grey or cool tones in anything code draws; text is sepia, and even the satin ribbon is champagne.
+- **Don't** use black ink, or grey or cool tones in anything code draws; text is sepia, and even the satin ribbon is champagne. The floral card's sage is the single exception, and it does not leave that card.
 - **Don't** fill text with a gradient or clip a gradient to text; gold text is a flat script gold or bronze.
 - **Don't** use emoji or font glyphs as icons.
 - **Don't** add a second automatic sequence after the opening; later motion answers the guest (a section scrolled into view, a date scratched) or is ambient.
 - **Don't** fade a multiplied photograph or fade or transform any ancestor of one; Chrome drops the blend and its white ground shows.
 - **Don't** set instructions, body copy, labels or form text in the script face, or use Amiri for anything but the Bismillah.
-- **Don't** let a later template borrow these tokens, rasters, the satin bow, the seal, the arch card or the gift card; it shares only the showcase shell.
+- **Don't** let a later template borrow these tokens, rasters, the satin bow, the seal, the floral card or the gift card; it shares only the showcase shell.
