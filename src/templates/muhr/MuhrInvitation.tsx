@@ -443,7 +443,7 @@ function Countdown({ date, time }: { date: string; time: string }) {
         ] as const
       ).map(([n, label]) => (
         <div key={label} className="mh-tile">
-          <b>{String(n).padStart(2, "0")}</b>
+          <b data-long={n > 99 || undefined}>{String(n).padStart(2, "0")}</b>
           <small>{label}</small>
         </div>
       ))}

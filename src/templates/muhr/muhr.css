@@ -755,6 +755,11 @@
   font-variant-numeric: tabular-nums lining-nums;
   color: var(--mh-ink);
 }
+/* three-digit day counts would overflow a quarter-width tile */
+.mh-tile b[data-long] {
+  font-size: 25px;
+  padding-block: 3.5px;
+}
 .mh-tile small {
   display: block;
   margin-top: 6px;
