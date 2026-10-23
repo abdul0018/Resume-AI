@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-23T00:00:00Z",
+  "generatedAt": "2026-10-23T19:30:00Z",
   "title": "Design System: Oltin muhr",
   "extensions": {
     "colorMeta": {
@@ -471,6 +471,16 @@
         "name": "phone-frame",
         "value": "0 0 0 7px #241a10, 0 0 0 8px #3a2c1c, 0 34px 60px -28px rgba(60,40,15,0.65)",
         "purpose": "Showcase phone bezel."
+      },
+      {
+        "name": "ring-of-light",
+        "value": "0 0 0 2px rgba(255, 236, 190, 0.9), 0 0 24px 6px rgba(246, 199, 106, 0.6)",
+        "purpose": "Light, not a shadow: the ring that leaves the seal on the press (scale 0.7 to 2.8)."
+      },
+      {
+        "name": "petal-shade",
+        "value": "canvas shadowColor rgba(90,55,25,0.18), blur 3, offsetY 1.5",
+        "purpose": "Falling petals over the hero photograph only."
       }
     ],
     "motion": [
@@ -502,7 +512,7 @@
       {
         "name": "open-seal-press",
         "value": "0ms, 520ms",
-        "purpose": "Seal scales 1, 0.94, 1.05, 1; glow 0.6 to 1.35 over 900ms; 150 gold motes burst, then 3 per frame rise until 2520ms."
+        "purpose": "Seal scales 1, 0.94, 1.05, 1; glow 0.6 to 1.35 over 900ms; 150 gold motes burst, then 3 per frame rise until 2520ms. Haptic navigator.vibrate([14, 70, 22]) on the press."
       },
       {
         "name": "open-top-flap",
@@ -530,14 +540,14 @@
         "purpose": "Bottom flap rotateX -48deg."
       },
       {
-        "name": "open-names",
+        "name": "open-welcome",
         "value": "1350ms + i x 140ms, 1500ms",
-        "purpose": "Welcome lines and names unblur from 6px above the paper at hero position."
+        "purpose": "Welcome lines and divider (i 0-2) unblur from 6px above the paper at hero position."
       },
       {
         "name": "photo-settle",
         "value": "1700ms, 3000ms",
-        "purpose": "Photograph scales 1.08 to 1."
+        "purpose": "Photograph scales 1.12 to 1.04, resting enlarged so the drift never shows an edge."
       },
       {
         "name": "envelope-dissolve",
@@ -556,8 +566,8 @@
       },
       {
         "name": "scratch-reveal",
-        "value": "0.7s ease-out",
-        "purpose": "Foil fades once half is scratched."
+        "value": "0.7s ease-out; pop 700ms cubic-bezier(0.3, 1.6, 0.5, 1); glint 1100ms ease-out after 150ms",
+        "purpose": "Foil fades once half is scratched; value pops from 0.82, a glint crosses the card, navigator.vibrate(12). All three scratched: gold-mote shower from the row centre for 1600ms."
       },
       {
         "name": "after-date",
@@ -565,9 +575,114 @@
         "purpose": "Collapsed block opens after all three dates are revealed."
       },
       {
+        "name": "sealed-hold",
+        "value": "9s ease-in-out infinite",
+        "purpose": "Envelope tilts in perspective(1600px) around 50% 46%: rotateX 0.7deg / rotateY -0.9deg to rotateX -0.6deg / rotateY 0.9deg, scale 1.03."
+      },
+      {
+        "name": "sealed-sheen",
+        "value": "7s ease-in-out 1.2s infinite",
+        "purpose": "White-gold band (112deg, 0.42 peak) crosses the embossing in the first 45% of each cycle."
+      },
+      {
+        "name": "sealed-rings",
+        "value": "3.2s cubic-bezier(0.2, 0.6, 0.3, 1) 1.4s / 2.2s infinite",
+        "purpose": "Two 1.5px gilt rings pulse from the seal, scale 0.9 to 1.75; the hint breathes 0.6 to 1 opacity on the same 3.2s beat."
+      },
+      {
+        "name": "open-camera",
+        "value": "0ms, 2700ms, cubic-bezier(0.33, 0, 0.2, 1)",
+        "purpose": "Envelope gives under the thumb (1.03 to 1.012 at 7%), then pushes in to 1.13."
+      },
+      {
+        "name": "open-shock",
+        "value": "120ms, 800ms, cubic-bezier(0.15, 0.7, 0.3, 1)",
+        "purpose": "Ring of light leaves the seal."
+      },
+      {
+        "name": "open-spill",
+        "value": "520ms, 900ms ease-out",
+        "purpose": "Warm translucency through the paper around the seal (radial at 50% 47%)."
+      },
+      {
+        "name": "open-flap-tone",
+        "value": "600ms, 1100ms ease-out",
+        "purpose": "Each flap front warms toward its tip and darkens slightly at its fold (--mh-tone per flap)."
+      },
+      {
+        "name": "open-rays",
+        "value": "700ms, 900ms ease-out; spin 30s linear infinite",
+        "purpose": "Soft conic shafts behind the flaps, masked to a radial, seen only through the gaps."
+      },
+      {
+        "name": "open-seal-fade",
+        "value": "1500ms, 450ms ease-in",
+        "purpose": "Seal clears the sky before the names are written there."
+      },
+      {
+        "name": "write",
+        "value": "1500ms; hero cubic-bezier(0.45, 0, 0.35, 1), headings cubic-bezier(0.5, 0, 0.3, 1)",
+        "purpose": "Handwriting wipe: mask linear-gradient(90deg, #000 40%, transparent 60%), mask-size 250% 100%, position 100% to 0. Hero names at 1100ms + i x 120ms (i 3, 4: 1460ms, 1580ms) with the 1200ms unblur."
+      },
+      {
+        "name": "shimmer-bells",
+        "value": "1750ms + i x 110ms",
+        "purpose": "Four bells 2349, 2794, 3136, 3729Hz as the paper gives way."
+      },
+      {
+        "name": "ambient-petals",
+        "value": "starts 2200ms after the tap",
+        "purpose": "Canvas of 11 petals falling and 16 amber motes rising (lighter); DPR capped at 2; pauses off screen and in a hidden tab; off under reduced motion."
+      },
+      {
+        "name": "photo-drift",
+        "value": "22s ease-in-out 4700ms infinite alternate",
+        "purpose": "Photograph drifts to translate(-1.6%, -1%)."
+      },
+      {
+        "name": "spray-sway",
+        "value": "hero 5.5s ease-in-out infinite alternate (right -2.7s); message 6s after 1.4s",
+        "purpose": "Rose sprays rock ±1.6deg from their foot."
+      },
+      {
+        "name": "reveal",
+        "value": "IntersectionObserver threshold 0.12, rootMargin 0 0 -10% 0; once",
+        "purpose": "[data-reveal] gains data-in on first entry; --d staggers. up: 22px + blur(4px), 1s ease-out."
+      },
+      {
+        "name": "reveal-deal",
+        "value": "translate/rotate 1s cubic-bezier(0.3, 1.35, 0.5, 1), 0.12s apart",
+        "purpose": "Date cards dealt from 38px low at -7deg, 2deg, 8deg."
+      },
+      {
+        "name": "reveal-card",
+        "value": "1.4s cubic-bezier(0.2, 0.8, 0.2, 1); lines 0.55-1.55s; sheen 8s after 1.3s",
+        "purpose": "Arch card laid down from perspective(1100px) rotateX(16deg) translateY(50px) scale(0.96), pivoting on its foot."
+      },
+      {
+        "name": "reveal-bloom",
+        "value": "scale 1.4s ease-out",
+        "purpose": "Message sprays open from 0.7 scale, then sway."
+      },
+      {
+        "name": "reveal-line-step",
+        "value": "line 2.6s cubic-bezier(0.4, 0, 0.2, 1); art 1s, node pop 0.7s at 0.1s, text at 0.25s",
+        "purpose": "Programme hairline drawn down; art slides 28px from its side, the rings photograph wipes in with clip-path over 1.3s; text from the opposite side."
+      },
+      {
+        "name": "pin-drop",
+        "value": "500ms, 1000ms cubic-bezier(0.3, 1.45, 0.55, 1)",
+        "purpose": "Venue pin drops 70px onto the map."
+      },
+      {
+        "name": "stamp",
+        "value": "900ms cubic-bezier(0.3, 0, 0.2, 1); ring at 480ms",
+        "purpose": "Closing seal pressed from 1.9 scale and blur(3px) through 0.94 and 1.03; closing line and names written in at 700ms and 1200ms."
+      },
+      {
         "name": "reduced-motion",
-        "value": "flaps 400ms; no dust, breathing glow or cue bob",
-        "purpose": "prefers-reduced-motion: reduce."
+        "value": "flaps 400ms; everything else at rest",
+        "purpose": "prefers-reduced-motion: reduce. No dust, petals, hold, sheen, rings, camera, rays, drift, sway, breathing glow or cue bob; every scroll reveal marked in at once and shown without clip, mask, transform or transition."
       }
     ],
     "breakpoints": [
@@ -650,21 +765,21 @@
       "name": "Pressed Wax Seal",
       "kind": "custom",
       "refersTo": "",
-      "description": "Initials in gold multiplied into the seal's empty centre (the build uses the owner's seal.png; this stand-in disc shows the pressing).",
-      "html": "<div class=\"ds-mh\"><span class=\"ds-mh-wax\"><span class=\"ds-mh-mono\"><span>S</span><i></i><span>M</span></span></span></div>",
-      "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-wax{position:relative;display:inline-block;width:112px;height:117px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fdf7ea,#ecdcb8 60%,#c7a873);filter:drop-shadow(0 6px 10px rgba(80,52,20,.28))}.ds-mh-mono{position:absolute;left:50%;top:50%;translate:-50% -50%;display:flex;align-items:center;gap:.18em;font-family:Corinthia,\"Pinyon Script\",cursive;font-size:22px;line-height:1;color:#a77b34;mix-blend-mode:multiply}.ds-mh-mono i{width:.12em;height:.12em;border-radius:50%;background:#b88c3e}"
+      "description": "Initials in gold multiplied into the seal's empty centre, with the sealed-state rings pulsing from it (the build uses the owner's seal.png; this stand-in disc shows the pressing).",
+      "html": "<div class=\"ds-mh\"><span class=\"ds-mh-wax\"><i class=\"ds-mh-ping\"></i><i class=\"ds-mh-ping ds-mh-ping-2\"></i><span class=\"ds-mh-mono\"><span>S</span><i></i><span>M</span></span></span></div>",
+      "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-wax{position:relative;display:inline-block;width:112px;height:117px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fdf7ea,#ecdcb8 60%,#c7a873);filter:drop-shadow(0 6px 10px rgba(80,52,20,.28))}.ds-mh-mono{position:absolute;left:50%;top:50%;translate:-50% -50%;display:flex;align-items:center;gap:.18em;font-family:Corinthia,\"Pinyon Script\",cursive;font-size:22px;line-height:1;color:#a77b34;mix-blend-mode:multiply}.ds-mh-mono i{width:.12em;height:.12em;border-radius:50%;background:#b88c3e}.ds-mh-ping{position:absolute;inset:6%;border-radius:50%;border:1.5px solid rgba(196,154,80,.75);opacity:0;pointer-events:none;animation:ds-mh-ping 3.2s cubic-bezier(.2,.6,.3,1) 1.4s infinite}.ds-mh-ping-2{animation-delay:2.2s}@keyframes ds-mh-ping{0%{opacity:0;scale:.9}12%{opacity:.8}70%,100%{opacity:0;scale:1.75}}@media (prefers-reduced-motion:reduce){.ds-mh-ping{animation:none}}"
     }
   ],
   "narrative": {
     "northStar": "The Sealed Letter at Sunset",
-    "overview": "The phone screen is the envelope, edge to edge: an owner-supplied photograph of ivory paper blind-embossed with roses and climbing vines, folded into four flaps that meet a cream wax seal at 48% height. The couple's initials sit pressed into the seal's empty centre in gold. Breaking the seal is the one orchestrated moment of the page, and light comes before movement: the seal presses and glows, gold dust bursts from it, the flaps part only partway so amber light shows in the wedge-shaped gaps, the names surface through the paper where they will sit in the hero, and the paper dissolves into a sunset photograph of the couple walking toward a mosque.\n\nAfter the opening the page is calm and ceremonial: one centred phone-width column on cream (#f5ecdf), sepia ink, gold script titles, rose sprays multiplied onto the ground so their white backgrounds vanish, and a gilded arch card that names both families under the Bismillah. The world is built from the owner's own rasters (photograph, paper, seal, roses, rings, arch card), each carrying its generation prompt and post-processing in embedded metadata; code draws only what the rasters do not cover yet (gold timeline line art, dividers, the venue map, icons).",
+    "overview": "The phone screen is the envelope, edge to edge: an owner-supplied photograph of ivory paper blind-embossed with roses and climbing vines, folded into four flaps that meet a cream wax seal at 48% height. The couple's initials sit pressed into the seal's empty centre in gold. Sealed, the letter is alive in the guest's hands: it breathes with a slow tilt, a glint travels over the embossing and rings pulse from the seal. Breaking the seal is the one orchestrated moment of the page, and light comes before movement: the seal gives under the thumb and a ring of light leaves it, gold dust bursts, warm light spills through the paper as the camera eases in, the flaps part only partway so amber light and soft shafts show in the wedge-shaped gaps, the seal clears the sky, the names are written in by hand where they will sit in the hero, and the paper dissolves into a sunset photograph of the couple walking toward a mosque, where petals keep falling and light keeps rising.\n\nAfter the opening the page is ceremonial, and each section arrives once as it scrolls in: one centred phone-width column on cream (#f5ecdf), sepia ink, gold script titles, rose sprays multiplied onto the ground so their white backgrounds vanish, and a gilded arch card that names both families under the Bismillah. The world is built from the owner's own rasters (photograph, paper, seal, roses, rings, arch card), each carrying its generation prompt and post-processing in embedded metadata; code draws only what the rasters do not cover yet (gold timeline line art, dividers, the venue map, icons).",
     "keyCharacteristics": [
       "Full-bleed embossed envelope as the first viewport; the seal is the only control and \"Muhrni bosing\" the only printed line.",
       "An owner-supplied raster world, each image carrying embedded provenance; nothing generic or stock.",
       "Gold is a material (foil, gilt edge, coin, pressed leaf), rendered as gradients from deep antique to pale champagne, never as a flat accent fill and never on text.",
       "Sepia ink throughout; no black anywhere a guest can see.",
       "Three faces with fixed jobs: Corinthia script for names, greetings and section titles; Bodoni Moda for everything set; Amiri for the Arabic Bismillah alone.",
-      "Slow exponential ease-out; one choreographed opening, one guest-driven interaction (scratching the gold-foil date), otherwise only ambient motion."
+      "Slow exponential ease-out; a sealed letter that breathes in the hand, one choreographed opening, sections that arrive once as the guest scrolls them in, one tactile interaction (scratching the gold-foil date), otherwise only ambient motion (petals, rising light, drifting photograph, swaying roses). Reduced motion shows everything at rest."
     ],
     "rules": [
       {
@@ -674,7 +789,7 @@
       },
       {
         "name": "The Light Is Not Paint Rule",
-        "body": "Amber and the white-gold radials describe light (seal glow, envelope interior, gold dust, the sky veil behind the hero names). They never fill a card, a button or text.",
+        "body": "Amber and the white-gold radials describe light (seal glow, envelope interior, spill and rays, gold dust, motes, the glints that cross the paper, the foil and the arch card, the sky veil behind the hero names). They never fill a card, a button or text.",
         "section": "colors"
       },
       {
@@ -699,7 +814,12 @@
       },
       {
         "name": "The Real Paper Rule",
-        "body": "The envelope's relief is the owner's embossed-paper photograph; no coded relief, flourish or colour ornament is printed on top of it.",
+        "body": "The envelope's relief is the owner's embossed-paper photograph; no coded relief, flourish or colour ornament is printed on top of it. Light may cross it (the sheen, the spill, the flap-tip tone); nothing is drawn on it.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Wipe, Not Fade Rule",
+        "body": "A multiplied photograph (rose spray, rings) never fades and never sits inside an ancestor that fades or transforms: Chrome drops the blend mid-fade and an ancestor's opacity isolates it, so the white ground flashes. Move the image itself, not its box, and draw it in with a clip-path wipe (`inset(0 100% 0 0)` to none, 1.3s ease-out, mirrored for right-hand art). Its own rotate or scale (the sway) is fine.",
         "section": "elevation"
       }
     ],
@@ -710,14 +830,17 @@
       "Do time motion with the slow ease-out (`cubic-bezier(0.16, 1, 0.3, 1)`) and bring light in before movement.",
       "Do draw icons, sparks, dividers and nodes as inline SVG in line gold or currentColor.",
       "Do keep fixed controls aligned to the 480px column and clear of safe-area insets.",
-      "Do honour reduced motion with the shortened flap opening and no dust or breathing glow."
+      "Do honour reduced motion: the flaps open in 400ms, and there is no dust, petals, hold, sheen, rings, rays, drift, sway or breathing glow; every scroll reveal is shown at rest.",
+      "Do bring each section in once, as the guest scrolls to it, and leave it in place.",
+      "Do draw a multiplied photograph in with a clip-path wipe on the image itself."
     ],
     "donts": [
       "Don't print colour ornament or extra text on the envelope; it carries the embossed paper, the seal and one italic line.",
       "Don't use black ink or neutral grey anywhere visible; text is sepia.",
       "Don't fill text with a gradient or clip a gradient to text; gold text is a flat script gold or bronze.",
       "Don't use emoji or font glyphs as icons.",
-      "Don't add a second automatic sequence after the opening; later motion is guest-driven (scratching) or ambient.",
+      "Don't add a second automatic sequence after the opening; later motion answers the guest (a section scrolled into view, a date scratched) or is ambient.",
+      "Don't fade a multiplied photograph or fade or transform any ancestor of one; Chrome drops the blend and its white ground shows.",
       "Don't set instructions, body copy, labels or form text in the script face, or use Amiri for anything but the Bismillah.",
       "Don't let a later template borrow these tokens, rasters, the seal or the arch card; it shares only the showcase shell."
     ]

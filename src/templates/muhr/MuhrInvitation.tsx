@@ -420,9 +420,10 @@ function Sections({ data }: { data: InviteData }) {
         </div>
       </section>
 
-      <section className="mh-sec mh-sec-message">
-        <img className="mh-side-spray l" src={sprayUrl} alt="" aria-hidden="true" data-reveal="bloom" />
-        <img className="mh-side-spray r" src={sprayUrl} alt="" aria-hidden="true" data-reveal="bloom" style={delay(150)} />
+      {/* the section, not the roses, is observed: a fully clipped image never reports as visible */}
+      <section className="mh-sec mh-sec-message" data-reveal="bloom">
+        <img className="mh-side-spray l" src={sprayUrl} alt="" aria-hidden="true" />
+        <img className="mh-side-spray r" src={sprayUrl} alt="" aria-hidden="true" style={delay(150)} />
         <h2 className="mh-script-h" data-reveal="write">
           Qadrli do‘stlar va yaqinlar
         </h2>
@@ -441,7 +442,7 @@ function Sections({ data }: { data: InviteData }) {
           <h2 className="mh-script-h" data-reveal="write">
             To‘y dasturi
           </h2>
-          <Divider className="mh-rv-divider" />
+          <Divider />
           <ol className="mh-timeline" data-reveal="line">
             {data.program.map((p, i) => {
               const art = artFor(p.title, i);

@@ -1515,11 +1515,14 @@
 .mh-card[data-in] .mh-card-text > :nth-child(9) { animation-delay: 1.55s; }
 
 /* roses open out from the edges, then move in the air */
-.mh .mh-side-spray[data-reveal]:not([data-in]) {
-  opacity: 0;
-  scale: 0.7;
+/* multiplied photographs: grown up from the stem with a wipe, never faded */
+.mh [data-reveal="bloom"] .mh-side-spray {
+  transition: clip-path 1.6s var(--mh-ease-out) var(--d, 0ms);
 }
-.mh .mh-side-spray[data-in] {
+.mh [data-reveal="bloom"]:not([data-in]) .mh-side-spray {
+  clip-path: inset(100% 0 0 0);
+}
+.mh [data-reveal="bloom"][data-in] .mh-side-spray {
   animation: mh-sway 6s ease-in-out 1.4s infinite alternate;
 }
 
@@ -1651,8 +1654,20 @@
   .mh-photo,
   .mh-hero-spray,
   .mh-side-spray,
-  .mh-card::after {
+  .mh-card::after,
+  .mh-hero-name,
+  .mh-line,
+  .mh-shock,
+  .mh-spill,
+  .mh-face.front::before {
     animation: none !important;
+  }
+  .mh-hero-name {
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+  }
+  .mh [data-reveal="bloom"] .mh-side-spray {
+    clip-path: none !important;
   }
   .mh [data-reveal],
   .mh [data-reveal] > *,
