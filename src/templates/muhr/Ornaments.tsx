@@ -67,11 +67,11 @@ export const WaxSeal = memo(function WaxSeal({ initials, className }: { initials
       <circle cx="100" cy="100" r="54" fill="none" stroke={`url(#${g("gold")})`} strokeWidth="1.4" />
       <circle cx="100" cy="100" r="50" fill="none" stroke={`url(#${g("gold")})`} strokeWidth="0.6" strokeDasharray="0.1 4.4" strokeLinecap="round" />
       <g filter={`url(#${g("press")})`} fill={`url(#${g("gold")})`} fontFamily="Corinthia, 'Pinyon Script', cursive" textAnchor="middle">
-        <text x="72" y="118" fontSize="64">
+        <text x="73" y="117" fontSize="58">
           {initials[0]}
         </text>
         <circle cx="100" cy="104" r="2.6" />
-        <text x="128" y="118" fontSize="64">
+        <text x="126" y="117" fontSize="58">
           {initials[1]}
         </text>
       </g>
@@ -393,10 +393,15 @@ export const ArchSky = memo(function ArchSky({ className }: { className?: string
           <stop offset="1" stopColor="#ffefc8" stopOpacity="0" />
         </radialGradient>
         <radialGradient id={g("disc")} cx="0.5" cy="0.5" r="0.5">
-          <stop offset="0" stopColor="#fffdf6" />
-          <stop offset="0.7" stopColor="#fff4d6" />
-          <stop offset="1" stopColor="#ffe9b8" stopOpacity="0" />
+          <stop offset="0" stopColor="#ffffff" />
+          <stop offset="0.34" stopColor="#fffbec" />
+          <stop offset="0.4" stopColor="#ffe9b0" />
+          <stop offset="0.62" stopColor="#ffdc93" stopOpacity="0.55" />
+          <stop offset="1" stopColor="#ffd88a" stopOpacity="0" />
         </radialGradient>
+        <filter id={g("feather")} x="-5%" y="-100%" width="110%" height="300%">
+          <feGaussianBlur stdDeviation="7" />
+        </filter>
         <linearGradient id={g("pool")} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#f9e5bf" />
           <stop offset="0.55" stopColor="#f1d6a2" />
@@ -408,11 +413,11 @@ export const ArchSky = memo(function ArchSky({ className }: { className?: string
           <stop offset="1" stopColor="#fff5df" stopOpacity="0" />
         </linearGradient>
         <linearGradient id={g("fade")} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#fff" stopOpacity="0.9" />
+          <stop offset="0" stopColor="#fff" stopOpacity="1" />
           <stop offset="1" stopColor="#fff" stopOpacity="0" />
         </linearGradient>
         <mask id={g("reflect")}>
-          <rect y={base} width={STAGE_W} height="190" fill={`url(#${g("fade")})`} />
+          <rect y={base} width={STAGE_W} height="230" fill={`url(#${g("fade")})`} />
         </mask>
         <filter id={g("blur")} x="-5%" y="-5%" width="110%" height="110%">
           <feGaussianBlur stdDeviation="3" />
@@ -423,12 +428,12 @@ export const ArchSky = memo(function ArchSky({ className }: { className?: string
       </defs>
       <rect width={STAGE_W} height={STAGE_H} fill={`url(#${g("sky")})`} />
       <rect width={STAGE_W} height={STAGE_H} fill={`url(#${g("sun")})`} />
-      <circle cx="200" cy="500" r="58" fill={`url(#${g("disc")})`} />
+      <circle cx="200" cy="448" r="96" fill={`url(#${g("disc")})`} />
       <Skyline base={base} />
       <rect y={base} width={STAGE_W} height={STAGE_H - base} fill={`url(#${g("pool")})`} />
       <g mask={`url(#${g("reflect")})`}>
-        <g transform={`translate(0 ${base * 2}) scale(1 -1)`} opacity="0.32" filter={`url(#${g("blur")})`}>
-          <circle cx="200" cy="500" r="58" fill={`url(#${g("disc")})`} />
+        <g transform={`translate(0 ${base * 2}) scale(1 -1)`} opacity="0.6" filter={`url(#${g("blur")})`}>
+          <circle cx="200" cy="448" r="96" fill={`url(#${g("disc")})`} />
           <Skyline base={base} />
         </g>
       </g>
@@ -444,6 +449,8 @@ export const ArchSky = memo(function ArchSky({ className }: { className?: string
           <ellipse key={`${cx}${cy}`} cx={cx} cy={cy} rx={rx} ry="1.4" opacity={o} />
         ))}
       </g>
+      {/* feather the skyline's foot into the water */}
+      <rect y={base - 9} width={STAGE_W} height="20" fill="#fff4dc" opacity="0.9" filter={`url(#${g("feather")})`} />
       <rect y={base - 170} width={STAGE_W} height="260" fill={`url(#${g("haze")})`} />
     </svg>
   );

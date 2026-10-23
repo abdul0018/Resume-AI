@@ -721,17 +721,21 @@
   translate: -50% 0;
   width: 112px !important;
 }
+/* lower sprays sit inside the gilt edge, leaning into the corners */
+.mh-panel > .mh-spray-l,
+.mh-panel > .mh-spray-r {
+  width: 96px;
+  bottom: 18px;
+}
 .mh-spray-l {
-  left: 12px;
-  bottom: 12px;
-  rotate: 35deg;
-  transform-origin: 0 100%;
+  left: 16px;
+  rotate: 18deg;
+  transform-origin: 50% 100%;
 }
 .mh-spray-r {
-  right: 12px;
-  bottom: 12px;
-  rotate: -35deg;
-  transform-origin: 100% 100%;
+  right: 16px;
+  rotate: -18deg;
+  transform-origin: 50% 100%;
 }
 
 .mh-big-date {
