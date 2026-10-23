@@ -129,6 +129,12 @@
     0 8px 18px -10px rgba(60, 40, 15, 0.45);
   transition: opacity 0.5s;
 }
+/* On wide screens the arrow waits beside the envelope column, never on it */
+@media (min-width: 600px) {
+  .sc-back {
+    left: calc((100vw - 480px) / 2 - 60px);
+  }
+}
 .sc-back[data-hidden="true"] {
   opacity: 0;
   pointer-events: none;

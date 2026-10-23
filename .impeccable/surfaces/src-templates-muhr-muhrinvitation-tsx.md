@@ -23,7 +23,7 @@ STORY: The guest sees a sealed letter addressed to them, breaks the seal, is wel
 
 FIRST VIEWPORT: Closed: full-bleed envelope, top V-flap meeting the seal at 48% height, bottom flap rising to it, embossed rose medallion above the seal and bouquet below, vine borders on the side flaps; seal 34% of width at centre; one italic line under it, "Muhrni bosing". Open: carved arch filling the viewport, domes and minarets in gold haze inside it, two lanterns hanging, names set large in the arch's sky, music control bottom-right.
 
-FORM: Pinned reference (owner's video), not rolled; candidate 1 of 1. seed: none (unavailable)
+FORM: Owner-pinned reference video governs the direction (a pinned brief beats the roll); roll recorded for the contract, candidate 1 of 1. seed:ed9697efad0cfcc5
 Signature interaction: seal press → glow bloom + canvas gold dust → top flap lifts, side and bottom flaps part on amber light → light bloom → arch scene settles. Motion grammar: slow exponential ease-out, light before movement, one orchestrated moment.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance

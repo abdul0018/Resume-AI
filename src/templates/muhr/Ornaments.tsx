@@ -66,18 +66,18 @@ export const WaxSeal = memo(function WaxSeal({ initials, className }: { initials
       <circle cx="100" cy="100" r="63.5" fill="none" stroke="#fffaf0" strokeOpacity="0.8" strokeWidth="1.2" />
       <circle cx="100" cy="100" r="54" fill="none" stroke={`url(#${g("gold")})`} strokeWidth="1.4" />
       <circle cx="100" cy="100" r="50" fill="none" stroke={`url(#${g("gold")})`} strokeWidth="0.6" strokeDasharray="0.1 4.4" strokeLinecap="round" />
-      <g filter={`url(#${g("press")})`} fill={`url(#${g("gold")})`} fontFamily="Corinthia, 'Pinyon Script', cursive">
-        <text x="78" y="112" fontSize="62" textAnchor="middle">
+      <g filter={`url(#${g("press")})`} fill={`url(#${g("gold")})`} fontFamily="Corinthia, 'Pinyon Script', cursive" textAnchor="middle">
+        <text x="72" y="118" fontSize="64">
           {initials[0]}
         </text>
-        <text x="100" y="118" fontSize="30" textAnchor="middle" fontFamily="'Bodoni Moda', Georgia, serif" fontStyle="italic">
-          &amp;
-        </text>
-        <text x="124" y="128" fontSize="62" textAnchor="middle">
+        <circle cx="100" cy="104" r="2.6" />
+        <text x="128" y="118" fontSize="64">
           {initials[1]}
         </text>
       </g>
-      <ellipse cx="70" cy="58" rx="26" ry="12" transform="rotate(-32 70 58)" fill="#fff" opacity="0.42" filter={`url(#${g("soft")})`} />
+      {/* matte wax: a broad, soft sheen rather than a glossy spot */}
+      <ellipse cx="80" cy="70" rx="46" ry="28" transform="rotate(-30 80 70)" fill="#fffaf0" opacity="0.22" filter={`url(#${g("soft")})`} />
+      <circle cx="100" cy="100" r="66" fill="none" stroke="#a88650" strokeOpacity="0.35" strokeWidth="1" />
     </svg>
   );
 });
@@ -200,14 +200,26 @@ function Bouquet({ x, y, scale, seed, gid, spread = 1 }: { x: number; y: number;
   );
 }
 
+/** Two cream rose bouquets flanking a centre point (around the closing seal). */
+export const RoseSpray = memo(function RoseSpray({ className }: { className?: string }) {
+  const gid = `rs${clean(useId())}`;
+  return (
+    <svg viewBox="0 0 320 120" className={className} aria-hidden="true">
+      <defs>
+        <RoseDefs gid={gid} />
+      </defs>
+      <Bouquet x={74} y={64} scale={30} seed={12} gid={gid} spread={1.15} />
+      <Bouquet x={246} y={64} scale={30} seed={21} gid={gid} spread={1.15} />
+    </svg>
+  );
+});
+
 /* ------------------------------------------------------------------ */
 /* Arch scene layers (shared 400 × 860 coordinate stage)               */
 /* ------------------------------------------------------------------ */
 
 export const STAGE_W = 400;
 export const STAGE_H = 860;
-const OPEN = "M52,860 L52,332 C52,216 140,150 200,116 C260,150 348,216 348,332 L348,860 Z";
-const BAND = "M41,860 L41,330 C41,206 134,136 200,100 C266,136 359,206 359,330 L359,860";
 
 function niche(x: number, y: number, w: number, h: number) {
   return `M${x},${y + h} L${x},${y + h * 0.42} C${x},${y + h * 0.18} ${x + w * 0.36},${y + h * 0.06} ${x + w / 2},${y} C${x + w * 0.64},${y + h * 0.06} ${x + w},${y + h * 0.18} ${x + w},${y + h * 0.42} L${x + w},${y + h}Z`;
@@ -266,9 +278,9 @@ function RibbedDome({ cx, base, r, drum, tone, rib }: { cx: number; base: number
 }
 
 function Skyline({ base }: { base: number }) {
-  const far = "#efd3a4";
-  const mid = "#e2bb7c";
-  const near = "#d7aa64";
+  const far = "#e6c690";
+  const mid = "#d4a65f";
+  const near = "#c4964f";
   return (
     <g>
       <g opacity="0.55">
@@ -298,6 +310,69 @@ function Skyline({ base }: { base: number }) {
   );
 }
 
+/* Arch geometry: the opening's edge sampled into points with outward normals. */
+type Pt = { x: number; y: number; nx: number; ny: number };
+
+function bez(p0: number, p1: number, p2: number, p3: number, t: number) {
+  const u = 1 - t;
+  return u * u * u * p0 + 3 * u * u * t * p1 + 3 * u * t * t * p2 + t * t * t * p3;
+}
+
+function archSamples(): Pt[] {
+  const raw: { x: number; y: number }[] = [];
+  for (let y = 860; y > 332; y -= 4) raw.push({ x: 52, y });
+  for (let i = 0; i <= 80; i++) {
+    const t = i / 80;
+    raw.push({ x: bez(52, 52, 140, 200, t), y: bez(332, 216, 150, 116, t) });
+  }
+  for (let i = 1; i <= 80; i++) {
+    const t = i / 80;
+    raw.push({ x: bez(200, 260, 348, 348, t), y: bez(116, 150, 216, 332, t) });
+  }
+  for (let y = 336; y <= 860; y += 4) raw.push({ x: 348, y });
+  // resample at an even spacing along the edge
+  const out: Pt[] = [];
+  const step = 17;
+  let acc = 0;
+  for (let i = 1; i < raw.length; i++) {
+    const a = raw[i - 1];
+    const b = raw[i];
+    const d = Math.hypot(b.x - a.x, b.y - a.y);
+    acc += d;
+    if (acc >= step || i === 1) {
+      acc = 0;
+      const tx = (b.x - a.x) / (d || 1);
+      const ty = (b.y - a.y) / (d || 1);
+      out.push({ x: b.x, y: b.y, nx: ty, ny: -tx }); // walking up the left side, the outward normal points left
+    }
+  }
+  return out;
+}
+
+const SAMPLES = archSamples();
+const off = (p: Pt, d: number) => `${(p.x + p.nx * d).toFixed(1)},${(p.y + p.ny * d).toFixed(1)}`;
+
+/** Cusped opening: small scallops between edge samples, bulging into the opening. */
+const CUSPED = (() => {
+  let d = `M${off(SAMPLES[0], 0)}`;
+  for (let i = 1; i < SAMPLES.length; i++) {
+    const a = SAMPLES[i - 1];
+    const b = SAMPLES[i];
+    const mx = (a.x + b.x) / 2 - ((a.nx + b.nx) / 2) * 5.5;
+    const my = (a.y + b.y) / 2 - ((a.ny + b.ny) / 2) * 5.5;
+    d += ` Q${mx.toFixed(1)},${my.toFixed(1)} ${off(b, 0)}`;
+  }
+  return `${d} Z`;
+})();
+const outline = (dist: number) => `M${SAMPLES.map((p) => off(p, dist)).join(" L")}`;
+
+/** Y of the opening's edge at a given x on its curved head (for hanging lanterns). */
+export function archEdgeY(x: number) {
+  let best = SAMPLES[0];
+  for (const p of SAMPLES) if (p.y < 332 && Math.abs(p.x - x) < Math.abs(best.x - x)) best = p;
+  return best.y;
+}
+
 /** The sky, skyline and reflecting pool seen through the arch. */
 export const ArchSky = memo(function ArchSky({ className }: { className?: string }) {
   const id = clean(useId());
@@ -307,120 +382,136 @@ export const ArchSky = memo(function ArchSky({ className }: { className?: string
     <svg viewBox={`0 0 ${STAGE_W} ${STAGE_H}`} className={className} aria-hidden="true">
       <defs>
         <linearGradient id={g("sky")} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#f3d7a8" />
-          <stop offset="0.45" stopColor="#fae6c4" />
-          <stop offset="0.7" stopColor="#fff4de" />
-          <stop offset="1" stopColor="#f4dcae" />
+          <stop offset="0" stopColor="#efcf98" />
+          <stop offset="0.42" stopColor="#f9e3bb" />
+          <stop offset="0.68" stopColor="#fff1d6" />
+          <stop offset="1" stopColor="#f1d6a2" />
         </linearGradient>
-        <radialGradient id={g("sun")} cx="0.5" cy="0.62" r="0.42">
-          <stop offset="0" stopColor="#fffaea" />
-          <stop offset="0.4" stopColor="#ffeec7" stopOpacity="0.85" />
-          <stop offset="1" stopColor="#ffeec7" stopOpacity="0" />
+        <radialGradient id={g("sun")} cx="0.5" cy="0.6" r="0.46">
+          <stop offset="0" stopColor="#fffbef" />
+          <stop offset="0.3" stopColor="#ffefc8" stopOpacity="0.9" />
+          <stop offset="1" stopColor="#ffefc8" stopOpacity="0" />
+        </radialGradient>
+        <radialGradient id={g("disc")} cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stopColor="#fffdf6" />
+          <stop offset="0.7" stopColor="#fff4d6" />
+          <stop offset="1" stopColor="#ffe9b8" stopOpacity="0" />
         </radialGradient>
         <linearGradient id={g("pool")} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#fbeacb" />
-          <stop offset="1" stopColor="#ecd09c" />
-        </linearGradient>
-        <linearGradient id={g("mist")} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#fff8ea" stopOpacity="0" />
-          <stop offset="0.5" stopColor="#fff8ea" stopOpacity="0.85" />
-          <stop offset="1" stopColor="#fff8ea" stopOpacity="0" />
+          <stop offset="0" stopColor="#f9e5bf" />
+          <stop offset="0.55" stopColor="#f1d6a2" />
+          <stop offset="1" stopColor="#e6c487" />
         </linearGradient>
         <linearGradient id={g("haze")} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#fff6e2" stopOpacity="0" />
-          <stop offset="1" stopColor="#fff6e2" stopOpacity="0.55" />
+          <stop offset="0" stopColor="#fff5df" stopOpacity="0" />
+          <stop offset="0.62" stopColor="#fff5df" stopOpacity="0.62" />
+          <stop offset="1" stopColor="#fff5df" stopOpacity="0" />
         </linearGradient>
-        <filter id={g("blur")}>
-          <feGaussianBlur stdDeviation="2.5" />
+        <linearGradient id={g("fade")} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#fff" stopOpacity="0.9" />
+          <stop offset="1" stopColor="#fff" stopOpacity="0" />
+        </linearGradient>
+        <mask id={g("reflect")}>
+          <rect y={base} width={STAGE_W} height="190" fill={`url(#${g("fade")})`} />
+        </mask>
+        <filter id={g("blur")} x="-5%" y="-5%" width="110%" height="110%">
+          <feGaussianBlur stdDeviation="3" />
+        </filter>
+        <filter id={g("ripple")} x="-10%" y="-200%" width="120%" height="500%">
+          <feGaussianBlur stdDeviation="1.6" />
         </filter>
       </defs>
       <rect width={STAGE_W} height={STAGE_H} fill={`url(#${g("sky")})`} />
       <rect width={STAGE_W} height={STAGE_H} fill={`url(#${g("sun")})`} />
+      <circle cx="200" cy="500" r="58" fill={`url(#${g("disc")})`} />
       <Skyline base={base} />
-      <rect y={base - 150} width={STAGE_W} height="150" fill={`url(#${g("haze")})`} />
       <rect y={base} width={STAGE_W} height={STAGE_H - base} fill={`url(#${g("pool")})`} />
-      <g transform={`translate(0 ${base * 2}) scale(1 -1)`} opacity="0.22" filter={`url(#${g("blur")})`}>
-        <Skyline base={base} />
+      <g mask={`url(#${g("reflect")})`}>
+        <g transform={`translate(0 ${base * 2}) scale(1 -1)`} opacity="0.32" filter={`url(#${g("blur")})`}>
+          <circle cx="200" cy="500" r="58" fill={`url(#${g("disc")})`} />
+          <Skyline base={base} />
+        </g>
       </g>
-      {[628, 646, 668, 694, 726].map((y, i) => (
-        <line key={y} x1={150 - i * 22} x2={250 + i * 22} y1={y} y2={y} stroke="#fffaf0" strokeOpacity={0.5 - i * 0.07} strokeWidth="1" />
-      ))}
-      <rect y={base - 34} width={STAGE_W} height="64" fill={`url(#${g("mist")})`} />
-      <path d={`M120,860 L196,${base + 6} M280,860 L204,${base + 6}`} stroke="#e9cf9e" strokeWidth="1.2" />
+      <g filter={`url(#${g("ripple")})`} fill="#fffaf0">
+        {[
+          [200, 640, 70, 0.5],
+          [176, 662, 46, 0.35],
+          [232, 676, 52, 0.3],
+          [200, 704, 90, 0.22],
+          [150, 734, 40, 0.18],
+          [262, 748, 44, 0.16],
+        ].map(([cx, cy, rx, o]) => (
+          <ellipse key={`${cx}${cy}`} cx={cx} cy={cy} rx={rx} ry="1.4" opacity={o} />
+        ))}
+      </g>
+      <rect y={base - 170} width={STAGE_W} height="260" fill={`url(#${g("haze")})`} />
     </svg>
   );
 });
 
-/** Carved ganch frame around the arch opening, with gilded edge and roses. */
+/** Carved ganch frame: a thick archivolt with a cusped inner edge, tone-on-tone relief, gilded lines and roses. */
 export const ArchFrame = memo(function ArchFrame({ className }: { className?: string }) {
   const id = clean(useId());
   const g = (n: string) => `${n}${id}`;
+  const relief = "#000";
   const carve: ReactElement[] = [];
-  const relief = "#fdf8ef";
+
+  // archivolt: bead row, running line, diamond chain
+  SAMPLES.forEach((p, i) => {
+    carve.push(<circle key={`b${i}`} cx={p.x + p.nx * 10} cy={p.y + p.ny * 10} r="2.6" fill={relief} fillOpacity="0.5" />);
+    if (i % 2 === 0) {
+      const cx = p.x + p.nx * 22;
+      const cy = p.y + p.ny * 22;
+      const ang = (Math.atan2(p.ny, p.nx) * 180) / Math.PI;
+      carve.push(
+        <path key={`dm${i}`} d="M0,-5.5 L4,0 L0,5.5 L-4,0Z" transform={`translate(${cx.toFixed(1)} ${cy.toFixed(1)}) rotate(${ang.toFixed(0)})`} fill={relief} fillOpacity="0.5" />,
+      );
+    }
+  });
+  carve.push(<path key="l1" d={outline(16)} fill="none" stroke={relief} strokeWidth="1.4" />);
+  carve.push(<path key="l2" d={outline(28)} fill="none" stroke={relief} strokeWidth="1.4" />);
+
   for (const sx of [1, -1]) {
     const X = (x: number) => (sx > 0 ? x : 400 - x);
-    // a carved vine climbing the spandrel beside the arch, leaves alternating
+    // spandrel: a vine carved into the ganch, leaves alternating, rosette in the field
     carve.push(
-      <path
-        key={`v${sx}`}
-        d={`M${X(22)},336 C${X(26)},262 ${X(34)},206 ${X(60)},158 C${X(82)},118 ${X(112)},86 ${X(150)},58`}
-        fill="none"
-        stroke={relief}
-        strokeWidth="2.2"
-        strokeLinecap="round"
-      />,
+      <path key={`v${sx}`} d={`M${X(12)},300 C${X(12)},240 ${X(18)},196 ${X(34)},160 C${X(52)},122 ${X(84)},88 ${X(124)},60`} fill="none" stroke={relief} strokeWidth="2" strokeOpacity="0.6" strokeLinecap="round" />,
     );
-    const along: [number, number, number][] = [
-      [24, 300, -70],
-      [28, 252, -60],
-      [38, 206, -50],
-      [56, 166, -40],
-      [80, 128, -30],
-      [108, 96, -24],
-      [136, 70, -18],
-    ];
-    along.forEach(([x, y, a], i) => {
+    (
+      [
+        [13, 270, -80],
+        [16, 228, -70],
+        [24, 192, -60],
+        [40, 152, -48],
+        [62, 118, -38],
+        [90, 88, -30],
+      ] as const
+    ).forEach(([x, y, a], i) => {
       const out = i % 2 ? 1 : -1;
       carve.push(
-        <path
-          key={`lf${sx}${i}`}
-          d={LEAF}
-          transform={`translate(${X(x)} ${y}) rotate(${sx > 0 ? a + out * 55 : 180 - a - out * 55}) scale(15)`}
-          fill={relief}
-          stroke="#efe3cc"
-          strokeWidth={0.06}
-        />,
+        <path key={`lf${sx}${i}`} d={LEAF} transform={`translate(${X(x)} ${y}) rotate(${sx > 0 ? a + out * 55 : 180 - a - out * 55}) scale(13)`} fill={relief} fillOpacity="0.5" stroke={relief} strokeWidth={0.07} />,
       );
     });
-    // rosette medallion in the open spandrel
-    const rx = X(70);
     carve.push(
-      <g key={`ro${sx}`} transform={`translate(${rx} 236)`} fill={relief} stroke="#efe3cc" strokeWidth="0.8">
-        <circle r="21" fill="none" stroke={relief} strokeWidth="2" />
+      <g key={`ro${sx}`} transform={`translate(${X(34)} 92)`} fill={relief} fillOpacity="0.5" stroke={relief} strokeWidth="0.9">
+        <circle r="17" fill="none" strokeWidth="1.6" />
         {Array.from({ length: 8 }, (_, k) => (
-          <path key={k} d="M0,-4 C5,-8 5,-15 0,-18 C-5,-15 -5,-8 0,-4Z" transform={`rotate(${k * 45})`} />
+          <path key={k} d="M0,-3.5 C4,-7 4,-12 0,-14.5 C-4,-12 -4,-7 0,-3.5Z" transform={`rotate(${k * 45})`} />
         ))}
-        <circle r="3.4" />
+        <circle r="2.8" />
       </g>,
     );
     // pillar: inset panel with a carved diamond lattice
-    const px = sx > 0 ? 9 : 367;
-    carve.push(<rect key={`pf${sx}`} x={px} y={372} width="24" height="476" rx="2" fill="none" stroke={relief} strokeWidth="1.6" />);
+    const px = sx > 0 ? 3 : 373;
+    carve.push(<rect key={`pf${sx}`} x={px} y={384} width="22" height="466" rx="2" fill="none" stroke={relief} strokeWidth="1.4" />);
     for (let i = 0; i < 17; i++) {
-      const cy = 390 + i * 27.5;
       carve.push(
-        <g key={`pd${sx}${i}`} transform={`translate(${px + 12} ${cy})`} fill="none" stroke={relief} strokeWidth="1.5">
-          <path d="M0,-12 L9,0 L0,12 L-9,0Z" />
-          <circle r="2.4" fill={relief} />
+        <g key={`pd${sx}${i}`} transform={`translate(${px + 11} ${400 + i * 27})`} fill="none" stroke={relief} strokeWidth="1.4">
+          <path d="M0,-11 L8,0 L0,11 L-8,0Z" />
+          <circle r="2.2" fill={relief} fillOpacity="0.5" />
         </g>,
       );
     }
-  }
-  // small drilled dots along the top band
-  for (let i = 0; i < 9; i++) {
-    const x = 24 + i * 44;
-    if (x > 140 && x < 260) continue;
-    carve.push(<circle key={`d${i}`} cx={x} cy="22" r="2" fill={relief} />);
   }
 
   return (
@@ -429,7 +520,7 @@ export const ArchFrame = memo(function ArchFrame({ className }: { className?: st
         <linearGradient id={g("ganch")} x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#fbf5ea" />
           <stop offset="0.5" stopColor="#f3e8d4" />
-          <stop offset="1" stopColor="#ead9bb" />
+          <stop offset="1" stopColor="#ebdbbf" />
         </linearGradient>
         <linearGradient id={g("gild")} x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#8f6a2a" />
@@ -438,40 +529,39 @@ export const ArchFrame = memo(function ArchFrame({ className }: { className?: st
           <stop offset="0.8" stopColor="#bf9443" />
           <stop offset="1" stopColor="#8a6426" />
         </linearGradient>
-        <filter id={g("relief")} x="-5%" y="-5%" width="110%" height="110%" colorInterpolationFilters="sRGB">
+        <filter id={g("relief")} x="-2%" y="-2%" width="104%" height="104%" colorInterpolationFilters="sRGB">
           <feGaussianBlur in="SourceAlpha" stdDeviation="0.8" result="b" />
-          <feOffset in="b" dx="-1" dy="-1" result="hl" />
-          <feOffset in="b" dx="1.2" dy="1.4" result="sh" />
-          <feFlood floodColor="#ffffff" floodOpacity="0.95" />
+          <feOffset in="b" dx="1.2" dy="1.4" result="o" />
+          <feComposite in="b" in2="o" operator="arithmetic" k2="1" k3="-1" result="hl" />
+          <feComposite in="o" in2="b" operator="arithmetic" k2="1" k3="-1" result="sh" />
+          <feFlood floodColor="#ffffff" floodOpacity="1" />
           <feComposite in2="hl" operator="in" result="hlc" />
-          <feFlood floodColor="#8a6738" floodOpacity="0.38" />
+          <feFlood floodColor="#7d5a2c" floodOpacity="0.6" />
           <feComposite in2="sh" operator="in" result="shc" />
           <feMerge>
             <feMergeNode in="shc" />
             <feMergeNode in="hlc" />
-            <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
         <filter id={g("depth")} x="-10%" y="-10%" width="120%" height="120%">
           <feGaussianBlur stdDeviation="7" />
         </filter>
         <clipPath id={g("open")}>
-          <path d={OPEN} />
+          <path d={CUSPED} />
         </clipPath>
         <RoseDefs gid={g("r")} />
       </defs>
-      {/* the thickness of the carved opening: a soft shadow just inside its edge */}
+      {/* the depth of the carved opening: a soft shadow just inside its edge */}
       <g clipPath={`url(#${g("open")})`}>
-        <path d={OPEN} fill="none" stroke="#7d5a2a" strokeOpacity="0.4" strokeWidth="16" filter={`url(#${g("depth")})`} />
+        <path d={CUSPED} fill="none" stroke="#7d5a2a" strokeOpacity="0.38" strokeWidth="16" filter={`url(#${g("depth")})`} />
       </g>
-      <path d={`M0,0 H${STAGE_W} V${STAGE_H} H0Z ${OPEN}`} fillRule="evenodd" fill={`url(#${g("ganch")})`} />
+      <path d={`M0,0 H${STAGE_W} V${STAGE_H} H0Z ${CUSPED}`} fillRule="evenodd" fill={`url(#${g("ganch")})`} />
       <g filter={`url(#${g("relief")})`}>{carve}</g>
-      <path d={BAND} fill="none" stroke={`url(#${g("gild")})`} strokeWidth="1.6" />
-      <path d={BAND} fill="none" stroke={`url(#${g("gild")})`} strokeWidth="3" strokeDasharray="0.1 7.5" strokeLinecap="round" transform="translate(0 0)" opacity="0.9" />
-      <path d={OPEN} fill="none" stroke={`url(#${g("gild")})`} strokeWidth="2.2" />
-      <Bouquet x={200} y={70} scale={34} seed={3} gid={g("r")} spread={1.25} />
-      <Bouquet x={30} y={812} scale={40} seed={5} gid={g("r")} />
-      <Bouquet x={370} y={816} scale={40} seed={8} gid={g("r")} />
+      <path d={CUSPED} fill="none" stroke={`url(#${g("gild")})`} strokeWidth="1.6" />
+      <path d={outline(33)} fill="none" stroke={`url(#${g("gild")})`} strokeWidth="1.8" />
+      <Bouquet x={200} y={64} scale={32} seed={3} gid={g("r")} spread={1.25} />
+      <Bouquet x={28} y={812} scale={40} seed={5} gid={g("r")} />
+      <Bouquet x={372} y={816} scale={40} seed={8} gid={g("r")} />
     </svg>
   );
 });

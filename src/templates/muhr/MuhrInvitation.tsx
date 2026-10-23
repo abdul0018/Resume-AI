@@ -1,16 +1,24 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { EVENT_TYPES } from "@shared/constants";
 import type { InviteData } from "@shared/schema";
 import { eventTimestamp, formatDateDots, formatDateLong, formatWeekday, initials, MONTHS, parseDate } from "@shared/format";
 import { useCountdown, useMusic } from "@/lib/hooks";
 import { defaultMessage, mapLinks } from "@/lib/invite";
 import { playSealSounds, unlockAudio } from "@/lib/media";
-import { envelopeArt } from "./envelopeArt";
+import { envelopeArt, PAPER_GRAIN, reliefSpray } from "./envelopeArt";
 import { startGoldDust } from "./goldDust";
-import { ArchFrame, ArchSky, Lantern, STAGE_H, STAGE_W, WaxSeal, archPath } from "./Ornaments";
+import { ArchFrame, ArchSky, Lantern, RoseSpray, STAGE_H, STAGE_W, WaxSeal, archEdgeY, archPath } from "./Ornaments";
 import "./muhr.css";
 
 type Stage = "closed" | "opening" | "scene";
+
+/** Lanterns hung from the arch at staggered drops (stage units; chain = drop below the arch edge). */
+const LANTERNS = [
+  { x: 64, drop: 12, w: 32, cls: "l" },
+  { x: 88, drop: 200, w: 26, cls: "l2" },
+  { x: 336, drop: 26, w: 32, cls: "r" },
+  { x: 312, drop: 182, w: 26, cls: "r2" },
+].map((l) => ({ ...l, chain: Math.round((l.drop * 60) / l.w) })); // chain in the lantern's own 60-wide units
 
 /** "… to our wedding", with the possessive ending each ceremony name takes in Uzbek. */
 const WELCOME: Record<keyof typeof EVENT_TYPES, string> = {
@@ -93,7 +101,7 @@ export function MuhrInvitation({ data, replayToken = 0, endSlot }: Props) {
 
   return (
     <div className="mh">
-      <div className="mh-col">
+      <div className="mh-col" style={{ ["--mh-grain" as string]: `url("${PAPER_GRAIN}")` }}>
         <section ref={heroRef} className="mh-hero" data-stage={stage} aria-label="Taklifnoma">
           {stage === "scene" ? (
             <ArchHero data={data} box={box} />
@@ -247,16 +255,13 @@ function ArchHero({ data, box }: { data: InviteData; box: { w: number; h: number
           </p>
         </div>
         <ArchFrame className="mh-layer" />
-        {[
-          { x: 80, top: 236, chain: 34, w: 40, cls: "l" },
-          { x: 320, top: 236, chain: 58, w: 40, cls: "r" },
-        ].map((l) => (
+        {LANTERNS.map((l) => (
           <div
             key={l.cls}
             className={`mh-lantern ${l.cls}`}
             style={{
               left: `${((l.x - l.w / 2) / STAGE_W) * 100}%`,
-              top: `${(l.top / STAGE_H) * 100}%`,
+              top: `${((archEdgeY(l.x) + 3) / STAGE_H) * 100}%`,
               width: `${(l.w / STAGE_W) * 100}%`,
             }}
           >
@@ -295,8 +300,11 @@ function Rule() {
 }
 
 /** Pointed-arch panel; its gold outline draws itself the first time it scrolls into view. */
+const SPRAY = reliefSpray();
+
 function ArchPanel({ children, className = "" }: { children: ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
+  const gid = `mp${useId().replace(/[^a-zA-Z0-9]/g, "")}`;
   const [size, setSize] = useState({ w: 0, h: 0 });
   const [drawn, setDrawn] = useState(false);
   useLayoutEffect(() => {
@@ -321,11 +329,22 @@ function ArchPanel({ children, className = "" }: { children: ReactNode; classNam
     <div ref={ref} className={`mh-panel ${className}`} data-drawn={drawn}>
       {size.w > 0 && (
         <svg viewBox={`0 0 ${size.w} ${size.h}`} aria-hidden="true">
+          <defs>
+            <linearGradient id={`${gid}g`} x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stopColor="#8f6a2a" />
+              <stop offset="0.45" stopColor="#e9cd86" />
+              <stop offset="0.6" stopColor="#fff1c4" />
+              <stop offset="1" stopColor="#9a7230" />
+            </linearGradient>
+          </defs>
           <path className="fill" d={archPath(size.w, size.h, 1)} />
           <path d={archPath(size.w, size.h, 1)} pathLength={1} strokeWidth={1.3} />
-          <path d={archPath(size.w, size.h, 8)} pathLength={1} strokeWidth={0.6} />
+          <path className="gilt" d={archPath(size.w, size.h, 8)} pathLength={1} strokeWidth={1.6} style={{ stroke: `url(#${gid}g)` }} />
         </svg>
       )}
+      <img className="mh-spray mh-spray-top" src={SPRAY} alt="" />
+      <img className="mh-spray mh-spray-l" src={SPRAY} alt="" />
+      <img className="mh-spray mh-spray-r" src={SPRAY} alt="" />
       {children}
     </div>
   );
@@ -402,7 +421,10 @@ function Sections({ data }: { data: InviteData }) {
       </section>
 
       <section className="mh-sec" style={{ paddingBottom: 40 }}>
-        <WaxSeal initials={initials(data.groom, data.bride).split("") as [string, string]} className="mh-closing-seal" />
+        <div className="mh-closing">
+          <RoseSpray className="mh-closing-spray" />
+          <WaxSeal initials={initials(data.groom, data.bride).split("") as [string, string]} className="mh-closing-seal" />
+        </div>
         <p className="mh-h" style={{ fontStyle: "italic", fontSize: 24 }}>
           Sizni intiqlik bilan kutamiz!
         </p>

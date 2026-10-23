@@ -4,8 +4,10 @@
  * One URI is shared by all four flap faces, so the browser rasterises it once.
  */
 
-const RELIEF = "#fbf6ec";
-const EDGE = "#ece0ca";
+// Only the alpha of these colours matters: the relief filter turns edges into light and shadow
+// and never paints the shapes themselves, so motifs stay exactly the paper's tone.
+const RELIEF = "rgba(0,0,0,0.5)";
+const EDGE = "#000";
 
 const PETAL = "M0,0 C-0.42,-0.16 -0.58,-0.78 -0.24,-0.98 C-0.09,-1.06 0.09,-1.06 0.24,-0.98 C0.58,-0.78 0.42,-0.16 0,0Z";
 const LEAF = "M0,0 C0.24,-0.34 0.68,-0.38 1,0 C0.68,0.38 0.24,0.34 0,0Z";
@@ -63,6 +65,20 @@ function curl(x: number, y: number, s: number, sx = 1) {
   const p = (dx: number, dy: number) => `${f(x + dx * s * sx)},${f(y + dy * s)}`;
   return stroke(`M${p(0, 0)} C${p(0.35, -0.3)} ${p(0.75, -0.25)} ${p(1, 0.05)} C${p(1.2, 0.3)} ${p(0.95, 0.55)} ${p(0.75, 0.4)} C${p(0.6, 0.28)} ${p(0.72, 0.12)} ${p(0.86, 0.2)}`, 1.6);
 }
+
+/**
+ * Blind emboss: light from the top-left. Highlight where the shape's alpha exceeds its
+ * down-right shifted copy (lit edges), shadow where the shifted copy exceeds it (far edges).
+ * Interiors cancel out, so the paper keeps its own tone.
+ */
+export const RELIEF_FILTER_BODY =
+  `<feGaussianBlur in="SourceAlpha" stdDeviation="0.75" result="b"/>` +
+  `<feOffset in="b" dx="1.15" dy="1.3" result="o"/>` +
+  `<feComposite in="b" in2="o" operator="arithmetic" k2="1" k3="-1" result="hl"/>` +
+  `<feComposite in="o" in2="b" operator="arithmetic" k2="1" k3="-1" result="sh"/>` +
+  `<feFlood flood-color="#ffffff" flood-opacity="1"/><feComposite in2="hl" operator="in" result="hlc"/>` +
+  `<feFlood flood-color="#7d5a2c" flood-opacity="0.55"/><feComposite in2="sh" operator="in" result="shc"/>` +
+  `<feMerge><feMergeNode in="shc"/><feMergeNode in="hlc"/></feMerge>`;
 
 export function envelopeArt(W: number, H: number) {
   const rand = rng(41);
@@ -130,28 +146,53 @@ export function envelopeArt(W: number, H: number) {
     }
   }
 
-  // Sprinkled florets on the open paper
-  const spots: [number, number][] = [
-    [0.3, 0.33],
-    [0.7, 0.33],
-    [0.22, 0.58],
-    [0.78, 0.58],
-    [0.36, 0.7],
-    [0.64, 0.7],
-    [0.5, 0.36],
-    [0.5, 0.66],
+  // Inner vines on the side flaps, carrying small roses
+  for (const side of [0, 1]) {
+    const sx = side ? -1 : 1;
+    const x0 = side ? W * 0.83 : W * 0.17;
+    const a = H * 0.3;
+    const z = H * 0.7;
+    parts.push(stroke(`M${f(x0)},${f(a)} C${f(x0 + sx * W * 0.05)},${f(a + (z - a) * 0.3)} ${f(x0 - sx * W * 0.03)},${f(a + (z - a) * 0.66)} ${f(x0 + sx * W * 0.01)},${f(z)}`, 1.4));
+    for (const [ry, rr] of [
+      [0.38, 0.05],
+      [0.62, 0.046],
+    ]) {
+      const rx = x0 + sx * W * 0.02;
+      parts.push(leaf(rx - sx * u * 0.05, H * ry - u * 0.03, u * 0.06, side ? -20 : 200));
+      parts.push(leaf(rx + sx * u * 0.05, H * ry + u * 0.03, u * 0.06, side ? 160 : 20));
+      parts.push(rose(rx, H * ry, u * rr, sx * 25));
+    }
+    for (const ly of [0.33, 0.5, 0.56, 0.68]) parts.push(leaf(x0 + sx * W * 0.01, H * ly, u * 0.04, (side ? 180 : 0) + (ly * 1000) % 60 - 30));
+  }
+
+  // Sprays near the top corners and along the bottom edge
+  for (const sx of [-1, 1]) {
+    const tx = W / 2 + sx * W * 0.24;
+    parts.push(leaf(tx - sx * u * 0.04, H * 0.06, u * 0.05, sx > 0 ? 200 : -20), leaf(tx + sx * u * 0.03, H * 0.065, u * 0.05, sx > 0 ? -15 : 195));
+    parts.push(bud(tx, H * 0.062, u * 0.03, sx * 15), floret(tx + sx * u * 0.09, H * 0.055, u * 0.014));
+    const bx2 = W / 2 + sx * W * 0.2;
+    parts.push(leaf(bx2 - sx * u * 0.05, H * 0.935, u * 0.05, sx > 0 ? 160 : 20), leaf(bx2 + sx * u * 0.04, H * 0.93, u * 0.05, sx > 0 ? 15 : 165));
+    parts.push(rose(bx2, H * 0.935, u * 0.032, sx * 12));
+  }
+
+  // Leaf sprigs scattered on the open paper
+  const spots: [number, number, number][] = [
+    [0.3, 0.33, 20],
+    [0.7, 0.33, -20],
+    [0.36, 0.7, 40],
+    [0.64, 0.7, -40],
+    [0.42, 0.27, -10],
+    [0.58, 0.27, 10],
   ];
-  for (const [x, y] of spots) parts.push(floret(W * x, H * y, u * 0.013));
+  for (const [x, y, r] of spots) {
+    parts.push(leaf(W * x, H * y, u * 0.035, r - 30), leaf(W * x, H * y, u * 0.035, r + 150), floret(W * x, H * y, u * 0.011));
+  }
 
   const svg =
     `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">` +
     `<defs>` +
     `<filter id="e" x="-2%" y="-2%" width="104%" height="104%" color-interpolation-filters="sRGB">` +
-    `<feGaussianBlur in="SourceAlpha" stdDeviation="0.7" result="b"/>` +
-    `<feOffset in="b" dx="-1" dy="-1" result="hl"/><feOffset in="b" dx="1.1" dy="1.3" result="sh"/>` +
-    `<feFlood flood-color="#ffffff" flood-opacity="0.95"/><feComposite in2="hl" operator="in" result="hlc"/>` +
-    `<feFlood flood-color="#8a6738" flood-opacity="0.32"/><feComposite in2="sh" operator="in" result="shc"/>` +
-    `<feMerge><feMergeNode in="shc"/><feMergeNode in="hlc"/><feMergeNode in="SourceGraphic"/></feMerge>` +
+    RELIEF_FILTER_BODY +
     `</filter>` +
     `<filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/>` +
     `<feColorMatrix values="0 0 0 0 0.45  0 0 0 0 0.36  0 0 0 0 0.22  0 0 0 0.07 0"/></filter>` +
@@ -161,3 +202,30 @@ export function envelopeArt(W: number, H: number) {
     `</svg>`;
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }
+
+/** A small blind-embossed spray (rose, leaves, buds) for the corners of section panels. */
+export function reliefSpray() {
+  const W = 160;
+  const H = 110;
+  const u = 120;
+  const parts: string[] = [];
+  parts.push(curl(W / 2 - u * 0.32, H * 0.62, u * 0.16, -1), curl(W / 2 + u * 0.32, H * 0.62, u * 0.16, 1));
+  for (let i = 0; i < 8; i++) {
+    const a = -170 + i * (160 / 7);
+    const rad = (a * Math.PI) / 180;
+    parts.push(leaf(W / 2 + Math.cos(rad) * u * 0.1, H * 0.6 + Math.sin(rad) * u * 0.09, u * 0.15, a));
+  }
+  parts.push(bud(W / 2 - u * 0.22, H * 0.5, u * 0.05, -40), bud(W / 2 + u * 0.22, H * 0.5, u * 0.05, 40));
+  parts.push(rose(W / 2 - u * 0.15, H * 0.66, u * 0.07, -20), rose(W / 2 + u * 0.15, H * 0.66, u * 0.07, 20));
+  parts.push(rose(W / 2, H * 0.6, u * 0.1, 6));
+  const svg =
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">` +
+    `<defs><filter id="e" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">${RELIEF_FILTER_BODY}</filter></defs>` +
+    `<g filter="url(#e)">${parts.join("")}</g></svg>`;
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+}
+
+/** Paper grain for the section ground. */
+export const PAPER_GRAIN = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
+  `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="220"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 0.45  0 0 0 0 0.36  0 0 0 0 0.22  0 0 0 0.075 0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>`,
+)}`;

@@ -107,14 +107,30 @@ function ExampleView({
 }) {
   const { Invitation } = template;
   const [closed, setClosed] = useState(true);
-  // The back arrow shows only on the sealed envelope, so recordings stay clean.
+  const [idle, setIdle] = useState(false);
+  // The back arrow shows only on the sealed envelope, and fades after a moment of stillness
+  // so the first filmed frame is the envelope alone. Any touch or pointer movement brings it back.
   useEffect(() => {
     setClosed(true);
+    setIdle(false);
+    let t = window.setTimeout(() => setIdle(true), 1200);
+    const wake = () => {
+      setIdle(false);
+      window.clearTimeout(t);
+      t = window.setTimeout(() => setIdle(true), 1800);
+    };
     const onClick = (e: MouseEvent) => {
       if ((e.target as HTMLElement).closest(".mh-env")) setClosed(false);
     };
     document.addEventListener("click", onClick);
-    return () => document.removeEventListener("click", onClick);
+    window.addEventListener("pointermove", wake, { passive: true });
+    window.addEventListener("touchstart", wake, { passive: true });
+    return () => {
+      window.clearTimeout(t);
+      document.removeEventListener("click", onClick);
+      window.removeEventListener("pointermove", wake);
+      window.removeEventListener("touchstart", wake);
+    };
   }, [replay]);
 
   return (
@@ -136,7 +152,7 @@ function ExampleView({
           </div>
         }
       />
-      <button type="button" onClick={onBack} aria-label="Barcha namunalar" className="sc-back" data-hidden={!closed}>
+      <button type="button" onClick={onBack} aria-label="Barcha namunalar" className="sc-back" data-hidden={!closed || idle}>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
           <path d="M19 12H5M11 6l-6 6 6 6" />
         </svg>
