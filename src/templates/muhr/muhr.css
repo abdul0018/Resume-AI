@@ -1503,8 +1503,8 @@
   width: calc(100% - 20px);
   max-width: 420px;
   margin: 0 auto;
-  aspect-ratio: 960 / 1624;
-  border-radius: 3px;
+  aspect-ratio: 3 / 5;
+  border-radius: 4px;
   overflow: hidden;
   box-shadow:
     0 1px 2px rgba(80, 56, 24, 0.18),
@@ -1515,13 +1515,15 @@
   inset: 0;
   width: 100%;
   height: 100%;
+  display: block;
 }
+/* inside the arch's inner foil line (x 132–468, below the shoulder, above the foot, of 600 × 1000) */
 .mh-card-text {
   position: absolute;
-  left: 13.5%;
-  width: 62%;
-  top: 19%;
-  bottom: 16%;
+  left: 22%;
+  width: 56%;
+  top: 25%;
+  bottom: 12%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1532,27 +1534,30 @@
 .mh-bismillah {
   margin: 0 0 10px;
   font-family: "Amiri", "Noto Naskh Arabic", serif;
-  font-size: clamp(17px, 9cqi, 24px);
+  font-size: 19px;
+  font-size: clamp(15px, 8.4cqi, 23px);
   color: #9a6e2e;
   line-height: 1.5;
 }
 .mh-caps {
   margin: 0;
-  font-size: clamp(9.5px, 4.6cqi, 12px);
+  font-size: 10px;
+  font-size: clamp(8.5px, 4.4cqi, 11.5px);
   line-height: 1.55;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #5a3d1f;
-  text-wrap: balance;
 }
 .mh-caps-sm {
-  font-size: clamp(9px, 4.2cqi, 11px);
+  font-size: 9px;
+  font-size: clamp(8px, 4cqi, 10.5px);
   color: var(--mh-ink-soft);
 }
 .mh-card-name {
   margin: 8px 0 0;
   font-family: var(--mh-script);
-  font-size: clamp(38px, 21cqi, 58px);
+  font-size: 44px;
+  font-size: clamp(32px, 20cqi, 56px);
   line-height: 1;
   color: #8f6426;
 }
@@ -1568,7 +1573,8 @@
 .mh-card-with {
   margin: 10px 0 -4px;
   font-family: var(--mh-script);
-  font-size: clamp(24px, 12cqi, 32px);
+  font-size: 24px;
+  font-size: clamp(20px, 10.5cqi, 30px);
   color: #9a6e2e;
 }
 
@@ -2021,10 +2027,18 @@
   .mh-hero-spray,
   .mh-side-spray,
   .mh-card::after,
+  .mh-gift-card::after,
+  .mh-touch,
   .mh-hero-name,
   .mh-line,
   .mh-stamp::after {
     animation: none !important;
+  }
+  .mh-touch {
+    display: none;
+  }
+  .mh-env :is(.mh-band, .mh-bow, .bw-tail-l, .bw-tail-r) {
+    transition: none !important;
   }
   .mh-hero-name {
     -webkit-mask-image: none !important;
@@ -2143,4 +2157,9 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+}
+
+/* the invitation line, set as three deliberate lines rather than left to the browser */
+.mh-caps > span {
+  display: block;
 }

@@ -6,6 +6,7 @@ import { useCountdown, useMusic } from "@/lib/hooks";
 import { defaultMessage, mapLinks } from "@/lib/invite";
 import { copyText } from "@/lib/share";
 import { playRibbonSounds, unlockAudio } from "@/lib/media";
+import { ArchCard } from "./ArchCard";
 import { startAmbient } from "./ambient";
 import { startGoldDust } from "./goldDust";
 import { LineArt, type LineArtKind } from "./LineArt";
@@ -17,7 +18,6 @@ import paperUrl from "./assets/paper.jpg";
 import sealUrl from "./assets/seal.png";
 import sprayUrl from "./assets/spray.jpg";
 import ringsUrl from "./assets/rings.jpg";
-import cardUrl from "./assets/card.jpg";
 import "./muhr.css";
 
 type Stage = "closed" | "opening" | "scene";
@@ -37,6 +37,16 @@ const INVITE_LINE: Record<keyof typeof EVENT_TYPES, string> = {
   unashtiruv: "Sizni farzandlarimizning unashtiruv marosimiga taklif etamiz",
   qizbazmi: "Sizni qizimizning bazmiga taklif etamiz",
 };
+
+/** "Sizni farzandlarimizning / nikoh to‘yiga / taklif etamiz": the first two words, then the rest halved by length. */
+function captionLines(text: string) {
+  const words = text.split(" ");
+  const rest = words.slice(2);
+  const total = rest.join(" ").length;
+  let cut = 1;
+  while (cut < rest.length - 1 && rest.slice(0, cut + 1).join(" ").length <= total / 2) cut++;
+  return [words.slice(0, 2).join(" "), rest.slice(0, cut).join(" "), rest.slice(cut).join(" ")].filter(Boolean);
+}
 
 /** Milliseconds from the tap until the scene replaces the envelope (keep in sync with muhr.css). */
 const TO_SCENE = 5100;
@@ -497,14 +507,18 @@ function Sections({ data }: { data: InviteData }) {
 
       <section className="mh-sec mh-sec-card">
         <div className="mh-card" data-reveal="card">
-          <img className="mh-card-art" src={cardUrl} alt="" aria-hidden="true" />
+          <ArchCard />
           <div className="mh-card-text">
             {data.bismillah && (
               <p className="mh-bismillah" lang="ar" dir="rtl">
                 بسم الله الرحمن الرحيم
               </p>
             )}
-            <p className="mh-caps">{INVITE_LINE[data.eventType]}</p>
+            <p className="mh-caps">
+              {captionLines(INVITE_LINE[data.eventType]).map((l) => (
+                <span key={l}>{l}</span>
+              ))}
+            </p>
             <p className="mh-card-name">{data.groom}</p>
             <Divider />
             {data.groomParents && <p className="mh-caps mh-caps-sm">{data.groomParents}</p>}

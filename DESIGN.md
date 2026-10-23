@@ -1,6 +1,6 @@
 ---
 name: Oltin muhr
-description: The phone screen is a gatefold card tied with a silver satin bow; untying it opens the doors onto the evening light and the couple's photograph.
+description: The phone screen is a gatefold card tied with a champagne satin bow; untying it (a tap, or a pull on the ribbon) opens the doors onto the evening light and the couple's photograph.
 colors:
   gold-deep: "#8f6a2a"
   gold: "#b08636"
@@ -9,11 +9,11 @@ colors:
   line-gold: "#b8924a"
   bronze: "#8a6128"
   amber: "#f6c76a"
-  rb1: "#858b94"
-  rb2: "#e2e6ea"
-  rb3: "#c2c8ce"
-  rb4: "#a6adb5"
-  rb5: "#fbfcfd"
+  rb1: "#8c6a3a"
+  rb2: "#efdfbd"
+  rb3: "#dcc493"
+  rb4: "#bf9f66"
+  rb5: "#fffaee"
   ink: "#4a331b"
   ink-soft: "#77604a"
   hero-ink: "#4f2f12"
@@ -93,6 +93,12 @@ typography:
     fontWeight: 500
     lineHeight: 1
     fontFeature: "tnum, lnum"
+  gift-number:
+    fontFamily: "Bodoni Moda, Didot, Bodoni 72, Georgia, serif"
+    fontSize: "clamp(19px, 6.4vw, 24px)"
+    fontWeight: 400
+    letterSpacing: "0.04em"
+    fontFeature: "tnum, lnum"
   scratch-value:
     fontFamily: "Bodoni Moda, Didot, Bodoni 72, Georgia, serif"
     fontSize: "clamp(20px, 6.4vw, 28px)"
@@ -140,6 +146,7 @@ typography:
 rounded:
   card: "3px"
   field: "14px"
+  gift-card: "16px"
   phone: "34px"
   pill: "999px"
 spacing:
@@ -192,6 +199,12 @@ components:
     typography: "{typography.numeral}"
     rounded: "{rounded.field}"
     padding: "14px 4px 11px"
+  gift-card:
+    textColor: "{colors.ink}"
+    typography: "{typography.gift-number}"
+    rounded: "{rounded.gift-card}"
+    padding: "0 22px"
+    width: "340px"
   music-coin:
     backgroundColor: "{colors.gold-pale}"
     textColor: "{colors.ink}"
@@ -201,27 +214,27 @@ components:
 
 # Design System: Oltin muhr
 
-Scope: this file records the first of seven invitation worlds in the examples-only showcase, as shipped in revision 3 (the opening re-made after the owner's ribbon reference video, `.impeccable/review/reference-ribbon-keyframes.jpg`). The showcase gallery now names it **Atlas lenta**; the code keeps the `oltin-muhr` route and the `src/templates/muhr` directory. Everything under Colors through Components belongs to this world alone; a later template brings its own world and must not inherit these tokens, rasters, the satin bow, the seal or the arch card. The parts marked **Showcase shell** are the shared hosting conventions every template plugs into. The legacy app under `src/pages` and `src/components/invitation` is outside this system.
+Scope: this file records the first of seven invitation worlds in the examples-only showcase, as shipped in revision 4 (the opening re-made after the owner's ribbon reference video, `.impeccable/review/reference-ribbon-keyframes.jpg`, then made to answer the guest's finger, with champagne satin and the To‘yana gift card; the sequence is captured in `.impeccable/review/opening-sequence-0-6000ms.jpg`). The showcase gallery now names it **Atlas lenta**; the code keeps the `oltin-muhr` route and the `src/templates/muhr` directory. Everything under Colors through Components belongs to this world alone; a later template brings its own world and must not inherit these tokens, rasters, the satin bow, the seal, the arch card or the gift card. The parts marked **Showcase shell** are the shared hosting conventions every template plugs into. The legacy app under `src/pages` and `src/components/invitation` is outside this system.
 
 ## Overview
 
 **Creative North Star: "The Ribboned Letter at Sunset"**
 
-The phone screen is the closed card, edge to edge: a gatefold of the owner's ivory paper blind-embossed with roses and climbing vines, its two doors meeting at a centre seam, the inner envelope's fold lines showing faintly through toward a point at 56% height. The couple's names are printed across both doors in bronze script at 35% height, a silver satin ribbon crosses the card at 56% and is tied at the centre in a bow, and "Ochish uchun bosing" is set in small spaced capitals near the foot. Closed, the card is alive in the guest's hands: it tilts slowly and the bow swells as if inviting a touch. Untying it is the one orchestrated moment of the page, told in order: the bow tugs and wobbles, its loops pull through and the knot gives, the ribbon and bow drop to the foot of the card and crumple away; the left door swings open, then the right; the inner envelope's four flaps fold back off the photograph; the names and the welcome are written in where they will sit in the hero, and the paper dissolves into a sunset photograph of the couple walking toward a mosque, where petals keep falling and light keeps rising.
+The phone screen is the closed card, edge to edge: a gatefold of the owner's ivory paper blind-embossed with roses and climbing vines, its two doors meeting at a centre seam, the inner envelope's fold lines showing faintly through toward a point at 56% height. The couple's names are printed across both doors in bronze script at 35% height, a champagne satin ribbon crosses the card at 56% and is tied at the centre in a bow, and "Lentani torting" is set in small spaced capitals near the foot. Closed, the card is alive in the guest's hands: it tilts slowly and the bow swells and rocks as if inviting a touch. A fingertip presses softly into the paper where it lands; the guest can tap, or take the ribbon and pull, and the bow and band follow the finger under rubber-band tension and spring back if let go early. Untying it is the one orchestrated moment of the page, told in order: the pulled tail is drawn out and its loop slips through, the knot gives and the other loop follows, the bow rocks free and the satin flutters down, lands and crumples away; the left door is lifted at its edge, swung open with a slight flex and settles, then the right; the inner envelope's four flaps lift and fold back off the photograph, which comes into focus as the camera moves through; the names and the welcome are written in where they will sit in the hero, and the paper dissolves into a sunset photograph of the couple walking toward a mosque, where petals keep falling and light keeps rising.
 
 After the opening the page is ceremonial, and each section arrives once as it scrolls in: one centred phone-width column on cream (#f5ecdf), sepia ink, gold script titles, rose sprays multiplied onto the ground so their white backgrounds vanish, and a gilded arch card that names both families under the Bismillah. The world is built from the owner's own rasters (photograph, paper, seal, roses, rings, arch card), each carrying its generation prompt and post-processing in embedded metadata; code draws only what the rasters do not cover yet (the satin ribbon and bow, the card's fold lines, gold timeline line art, dividers, the venue map, icons).
 
 **Key Characteristics:**
-- Full-bleed embossed gatefold card tied with a silver satin bow as the first viewport; the whole card is the control, and it carries only the printed names and one tap line.
+- Full-bleed embossed gatefold card tied with a champagne satin bow as the first viewport; the whole card is the control (tap or pull), and it carries only the printed names and one hint line.
 - An owner-supplied raster world, each image carrying embedded provenance; nothing generic or stock.
-- Gold is a material (foil, gilt edge, coin, pressed leaf), rendered as gradients from deep antique to pale champagne, never as a flat accent fill and never on text.
+- Gold is a material (foil, gilt edge, coin, pressed leaf, satin), rendered as gradients from deep antique to pale champagne, never as a flat accent fill and never on text.
 - Sepia ink throughout; no black anywhere a guest can see.
 - Three faces with fixed jobs: Corinthia script for names, greetings and section titles; Bodoni Moda for everything set; Amiri for the Arabic Bismillah alone.
-- Slow exponential ease-out; a tied card that breathes in the hand, one choreographed untying and opening, sections that arrive once as the guest scrolls them in, one tactile interaction (scratching the gold-foil date), otherwise only ambient motion (petals, rising light, drifting photograph, swaying roses). Reduced motion shows everything at rest.
+- Slow exponential ease-out; a tied card that breathes in the hand, one choreographed untying and opening, sections that arrive once as the guest scrolls them in, two tactile interactions (pulling the ribbon, scratching the gold-foil date), otherwise only ambient motion (petals, rising light, drifting photograph, swaying roses). Reduced motion shows everything at rest.
 
 ## Colors
 
-A warm palette of cream papers, sepia inks and a gold ramp, with amber reserved for light; the one cool note is the silver satin ribbon on the closed card.
+A warm palette of cream papers, sepia inks and a gold ramp, with amber reserved for light; even the satin ribbon is the lettering's gold softened toward the paper, so there is no cool note anywhere.
 
 ### Primary
 - **Antique Gold Leaf** (gold-deep, #8f6a2a): focus outlines and caret, the scratch-card focus ring, the dark end of gilt gradients.
@@ -232,7 +245,7 @@ A warm palette of cream papers, sepia inks and a gold ramp, with amber reserved 
 - **Bronze** (bronze, #8a6128): revealed scratch values, the hero ampersand and hero divider.
 
 ### Secondary
-- **Silver Satin** (rb1 shadow #858b94, rb2 light #e2e6ea, rb3 mid-light #c2c8ce, rb4 mid #a6adb5, rb5 highlight #fbfcfd; `--rb1`..`--rb5` on the card): the ribbon and bow on the closed card, and nothing else. The band runs a vertical gradient (180deg: rb1, rb3 18%, rb5 40%, rb2 58%, rb4 84%, rb1) so it reads as a rounded satin band; the bow's loops, insides, knot and tails take the same five stops in their own gradients, with rb5 (and white) for the specular streaks along the loop crowns, the knot and the tail creases, and rb1 for the inside of each loop, the rims turning under and the gathered folds at the pinch. Its shadows are cool to match (rgba(50, 52, 60, ...)).
+- **Champagne Satin** (rb1 shadow, rb2 light, rb3 mid-light, rb4 mid, rb5 highlight; `--rb1`..`--rb5` on the card): the gold of the lettering softened toward the paper, for the ribbon and bow on the closed card and nothing else. The band runs a vertical gradient (180deg: rb1, rb3 18%, rb5 40%, rb2 58%, rb4 84%, rb1) so it reads as a rounded satin band; the bow's loops, insides, knot and tails take the same five stops in their own gradients, with rb5 (and white) for the specular streaks along the loop crowns, the knot and the tail creases, and rb1 for the inside of each loop, the rims turning under and the gathered folds at the pinch. Its shadows are warm brown to match (rgba(96, 70, 30, ...)).
 
 ### Tertiary
 - **Lantern Amber** (amber, #f6c76a): light only. The halo around the bow on keyboard focus (rgba(246, 199, 106, 0.85)), the rising motes over the photograph, the gold shower over the scratched dates.
@@ -252,9 +265,9 @@ A warm palette of cream papers, sepia inks and a gold ramp, with amber reserved 
 - **Gallery Linen** (showcase-ground, #efe5d4): the showcase gallery, lit from the top by a pale radial.
 
 ### Named Rules
-**The Sepia Rule.** Ink is brown, never black. Even the showcase phone bezel is dark brown (#241a10). The silver satin is the one cool material, and it stays on the ribbon.
+**The Sepia Rule.** Ink is brown, never black. Even the showcase phone bezel is dark brown (#241a10). Nothing code draws is cool: the satin ribbon is champagne, and its shadows are brown; the only cool notes are in the owner's photograph.
 
-**The Light Is Not Paint Rule.** Amber and the white-gold radials describe light (the focus halo on the bow, the rising motes and the date shower, the glints that cross the foil and the arch card, the sky veil behind the hero names). They never fill a card, a button or text.
+**The Light Is Not Paint Rule.** Amber and the white-gold radials describe light (the focus halo on the bow, the rising motes and the date shower, the glints that cross the foil, the arch card and the gift card, the sky veil behind the hero names). They never fill a card, a button or text.
 
 **The Multiply Rule.** Rasters drawn on white (rose spray, rings) are laid on cream with `mix-blend-mode: multiply` so their ground disappears; the seal's initials are gold (#a77b34, dot #b88c3e) multiplied into the wax so they read as pressed, not printed.
 
@@ -278,11 +291,12 @@ A warm palette of cream papers, sepia inks and a gold ramp, with amber reserved 
 - **Headline** (Bodoni Moda 500, 30px, 1.12, balanced): the venue name. The showcase title uses clamp(34px, 8.5vw, 52px).
 - **Numeral** (Bodoni Moda 500, 32px, tabular lining): countdown tiles, shrinking with the tile (`min(32px, 38cqi)`).
 - **Scratch value** (Bodoni Moda 500, clamp(20px, 6.4vw, 28px), bronze).
+- **Gift number** (Bodoni Moda 400, clamp(19px, 6.4vw, 24px), 0.04em, tabular lining, sepia ink): the card number on the gift card, set as four groups of four spread across the card. The card's network mark (UZCARD or HUMO) is 12px at 0.24em in bronze; the holder 13px uppercase at 0.18em in #6a4f2c.
 - **Body** (Bodoni Moda 400, 18px, 1.62, pretty wrap): the message, max 300px. **Lead** 17px for the hero greeting, timeline titles and gallery lead; **body small** 16px for address and RSVP intro.
 - **Italic line** (15px, 0.02em, ink-soft): the scratch instruction.
 - **Small** (14px): form labels, the closing long date (0.18em), the showcase text link. **Meta** (12.5px, 0.12em): gallery couple and date.
 - **Label** (11px, 0.24em, uppercase, ink-soft): KUN / OY / YIL under the scratch cards.
-- **Tap label** (Bodoni Moda 400, 3% of the card width, 0.32em, uppercase, ink-soft): "Ochish uchun bosing" at 80% height on the closed card, the only instruction it carries.
+- **Tap label** (Bodoni Moda 400, 3% of the card width, 0.32em, uppercase, ink-soft): "Lentani torting" at 80% height on the closed card, the only instruction it carries.
 - **Card caps** (Bodoni Moda uppercase, 0.08em, #5a3d1f): the invitation line and parents' lines inside the arch card, sized to the card with container units.
 
 ### Named Rules
@@ -290,7 +304,7 @@ A warm palette of cream papers, sepia inks and a gold ramp, with amber reserved 
 
 **The Bismillah Only Rule.** Amiri sets the Arabic Bismillah and nothing else, and it is fetched only for those glyphs.
 
-**The Printed Face Rule.** The closed card carries exactly two lines of text, both printed across the doors so they split at the seam: the couple's names in script and the tap line in spaced capitals. Everything else on the paper is the owner's embossing and the fold lines.
+**The Printed Face Rule.** The closed card carries exactly two lines of text, both printed across the doors so they split at the seam: the couple's names in script and the hint line in spaced capitals. Everything else on the paper is the owner's embossing and the fold lines.
 
 ## Layout
 
@@ -298,7 +312,7 @@ One phone-width column, max 480px, centred on the table-linen surround with a so
 
 The hero photograph covers the frame (`object-position: 52% 50%`). A veil lightens the sky behind the lettering (a radial at 50% 22%) and fades the floor into the cream ground from 64% to 99%. The welcome block sits in the sky from 22% to the right edge, 9% from the top plus the safe-area inset, clear of the flowering branch. Rose sprays (46% wide, rotated -12deg, one mirrored) bleed off the bottom corners.
 
-Sections follow on cream in this order: **Sana** (scratch date, then weekday/time and countdown), **arch card** (Bismillah, invitation line, both names with their parents), **message** (with rose sprays at the sides), **To‘y dasturi** (timeline), **To‘yxona** (venue, address, arch map, map buttons), **Javobingizni kutamiz** (RSVP), **closing** (112px seal, closing line, names, long date), then the showcase end slot. Sections pad 72px by 24px, consecutive sections tighten to 24px on top; the message section pads 56px / 72px; the card section narrows sides to 12px. Inner blocks sit in 300-400px measures (scratch row and tiles 360px). Grids use a 10px gap; the scratch row 12px.
+Sections follow on cream in this order: **Sana** (scratch date, then weekday/time and countdown), **arch card** (Bismillah, invitation line, both names with their parents), **message** (with rose sprays at the sides), **To‘y dasturi** (timeline), **To‘yxona** (venue, address, arch map, map buttons), **Javobingizni kutamiz** (RSVP), **To‘yana** (the gift card, only when the couple has given a card number), **closing** (112px seal, closing line, names, long date), then the showcase end slot. Sections pad 72px by 24px, consecutive sections tighten to 24px on top; the message section pads 56px / 72px; the card section narrows sides to 12px. Inner blocks sit in 300-400px measures (scratch row and tiles 360px, gift card 340px). Grids use a 10px gap; the scratch row 12px.
 
 Fixed controls align to the column, not the viewport: `right: max(0px, (100vw - 480px) / 2) + 16px`, and respect safe-area insets.
 
@@ -323,7 +337,9 @@ Depth is physical and photographic: real embossed paper, doors and flaps turning
 - **Door shadow** (`linear-gradient(90deg, rgba(60, 40, 15, 0.34), transparent)` across 55% from the hinge, mirrored for the right door): rises to full at 35% of the door's swing and fades as it completes; the door's front darkens under `rgba(60, 40, 16, 0.42)` as it turns from the light.
 - **Seam** (left door `inset -1px 0 0 rgba(255, 253, 246, 0.7)` with an 8% brown fade at 0.08; right door `inset 1px 0 0 rgba(110, 80, 40, 0.3)` with a 7% fade at 0.14): the lit and shadowed edges where the doors meet.
 - **Fold lines** (a 1.4px rgba(255, 253, 246, 0.95) line offset over a 0.9px rgba(120, 92, 52, 0.42) line, non-scaling): the inner envelope's folds seen through the doors, from the corners to 50% 56%.
-- **Satin** (band `box-shadow: 0 2px 5px -1px rgba(50, 52, 60, 0.35)`; bow `filter: drop-shadow(0 5px 6px rgba(50, 52, 60, 0.3))`): cool, the ribbon only.
+- **Satin** (band `box-shadow: 0 2px 5px -1px rgba(96, 70, 30, 0.32)`; bow `filter: drop-shadow(0 5px 6px rgba(96, 70, 30, 0.28))`): warm brown, the ribbon only.
+- **Fingertip press** (84px `radial-gradient(closest-side, rgba(110, 80, 40, 0.16), rgba(110, 80, 40, 0.06) 55%, transparent)`): a soft dent in the paper where the guest touches the closed card, growing from 0.4 to 1.25 and fading over 760ms.
+- **Gift card** (`inset 0 0 0 1px rgba(176, 134, 54, 0.45), inset 0 0 0 6px rgba(255, 250, 238, 0.35), 0 18px 34px -20px rgba(96, 70, 30, 0.7)`): a gilt edge, a pale inner frame and a soft warm drop; the number carries a 1px pressed light below it (`text-shadow: 0 1px 0 rgba(255, 250, 236, 0.8)`) so it reads as stamped.
 - **Bow focus** (`drop-shadow(0 0 1px #8a6128) drop-shadow(0 0 12px rgba(246, 199, 106, 0.85))`): keyboard focus on the closed card.
 - **Sky halo** (`text-shadow: 0 0 22px rgba(255,243,226,0.9)`): the hero lettering only, a soft light behind it, never a drop.
 - **Field focus** (`0 0 0 4px rgba(239, 217, 160, 0.45)` with a gilt border).
@@ -331,13 +347,13 @@ Depth is physical and photographic: real embossed paper, doors and flaps turning
 - **Petal shade** (canvas `rgba(90, 55, 25, 0.18)`, blur 3, 1.5px down): the falling petals only, so they read as paper-thin objects over the photograph.
 
 ### Named Rules
-**The Real Paper Rule.** The card's relief is the owner's embossed-paper photograph, printed across both doors as one sheet (each door shows its half of a 200%-wide print, so the image runs unbroken across the seam). Code adds only the fold lines, the seam, the printed names and the tap line; no coded relief, flourish or colour ornament. The ribbon lies on the paper; it is not printed on it.
+**The Real Paper Rule.** The card's relief is the owner's embossed-paper photograph, printed across both doors as one sheet (each door shows its half of a 200%-wide print, so the image runs unbroken across the seam). Code adds only the fold lines, the seam, the printed names and the hint line; no coded relief, flourish or colour ornament. The ribbon lies on the paper; it is not printed on it.
 
 **The Wipe, Not Fade Rule.** A multiplied photograph (rose spray, rings) never fades and never sits inside an ancestor that fades or transforms: Chrome drops the blend mid-fade and an ancestor's opacity isolates it, so the white ground flashes. Move the image itself, not its box, and draw it in with a clip-path wipe (`inset(0 100% 0 0)` to none, 1.3s ease-out, mirrored for right-hand art). Its own rotate or scale (the sway) is fine.
 
 ## Shapes
 
-The closed card is a gatefold: two doors, each half the width, hinged at the outer edges and meeting at the centre seam. Beneath them the inner envelope has four triangular flaps over the photograph: top and bottom reach 30% of the height to their points, the side flaps 62% of the width so they overlap, leaving diamond gaps above and below the side flaps' tips. The ribbon is a straight band 6.4% of the card width deep at 56% height; the bow is 72% of the card width, its knot 36% down the drawing and centred on the band: two loops with their darker insides showing, a pinched knot and two creased, forked tails. The arch card is a real card (3px corners, 960:1624) whose cusped Mughal arch and jali pillar are in the raster; text sits inside the arch (13.5% from the left, 62% wide, 19% to 84% high). The venue map is clipped by the pointed `archPath` with a double gilt outline. Controls are pills (999px) or soft rectangles (14px), as are scratch cards and countdown tiles; the seal is the photographed wax disc (the closing stamp only); timeline nodes are six-petal blossoms on the ground colour; dividers are a hairline with two leaf loops around a central diamond.
+The closed card is a gatefold: two doors, each half the width, hinged at the outer edges and meeting at the centre seam. Beneath them the inner envelope has four triangular flaps over the photograph: top and bottom reach 30% of the height to their points, the side flaps 62% of the width so they overlap, leaving diamond gaps above and below the side flaps' tips. The ribbon is a straight band 6.4% of the card width deep at 56% height; the bow is 72% of the card width, its knot 36% down the drawing and centred on the band: two loops with their darker insides showing, a pinched knot and two creased, forked tails. The arch card is a real card (3px corners, 960:1624) whose cusped Mughal arch and jali pillar are in the raster; text sits inside the arch (13.5% from the left, 62% wide, 19% to 84% high). The venue map is clipped by the pointed `archPath` with a double gilt outline. Controls are pills (999px) or soft rectangles (14px), as are scratch cards and countdown tiles; the gift card is a bank card in proportion (1.586:1, 16px corners) with a 38 x 28 chip at 6px; the seal is the photographed wax disc (the closing stamp only); timeline nodes are six-petal blossoms on the ground colour; dividers are a hairline with two leaf loops around a central diamond.
 
 ## Components
 
@@ -361,37 +377,47 @@ Gilded and tactile.
 The owner's wax-seal photograph (keyed to alpha) with the couple's initials in Corinthia at 0.2 of the seal width, separated by a small gold dot, multiplied into the empty centre. It appears only in the closing section, at 112px, stamped onto the page as it scrolls in (see Scroll reveals); the closed card carries no seal.
 
 ### Satin bow (signature)
-An inline SVG drawing (400 x 300 viewBox, knot at 200, 108) coloured entirely from `--rb1`..`--rb5`. Each loop shows its outer face, the darker inside of the ribbon through its opening, a lit far edge, a long specular streak along its crown, the rim turning under and the gathered folds at the pinch; the right loop mirrors the left. The knot is a pinched band with two fold lines and a white streak; the two tails hang in a fork with a light crease along each. Loops, knot and tails are separate groups transformed about the knot, so the untying can take them apart.
+An inline SVG drawing (400 x 300 viewBox, knot at 200, 108) coloured entirely from `--rb1`..`--rb5`. Each loop shows its outer face, the darker inside of the ribbon through its opening, a lit far edge, a long specular streak along its crown, the rim turning under and the gathered folds at the pinch; the right loop mirrors the left. The knot is a pinched band with two fold lines and a white streak; the two tails hang in a fork with a light crease along each. Loops, knot and tails are separate groups transformed about the knot, so the untying can take them apart. Band and bow are each split into an outer layer that follows the finger (individual `translate` / `rotate` / `scale` properties fed by inline variables) and an inner layer that carries the idle swell and the untying keyframes, so a release never jumps.
 
 ### Tied card at rest (signature)
 While it waits for the tap, the card is held, not printed. The whole card is the control (`role="button"`, "Lentani yechib, taklifnomani oching"; Enter or Space opens it).
 - **Hold:** the card tilts in a 1600px perspective around its centre, from rotateX(0.7deg) rotateY(-0.9deg) to rotateX(-0.6deg) rotateY(0.9deg) at scale 1.03, 9s ease-in-out, endlessly.
-- **Bow:** swells from 1 to 1.035 and back every 3.2s after 1.2s, inviting a touch.
-- **Hint:** "Ochish uchun bosing" breathes between 0.55 and 1 opacity on the same 3.2s beat.
+- **Bow:** swells to 1.025 and rocks 0.6deg and back every 3.6s after 1.2s, inviting a touch.
+- **Hint:** "Lentani torting" breathes between 0.55 and 1 opacity on the same 3.6s beat.
+- **Fingertip:** every touch presses a soft dent into the paper where it lands (Fingertip press).
 - **Focus:** keyboard focus rings the bow in a bronze edge and an amber halo (Bow focus).
 
+### Pull to untie (signature)
+The guest can take the ribbon and pull; the satin answers under tension. The card takes no browser panning (`touch-action: none`) and captures the pointer.
+- **Tension:** the bow moves toward the finger with a rubber-band falloff, giving a little and then resisting: displacement eases toward 34px across and 26px down however far the finger travels (`max * (1 - 1 / (|d| / (1.8 * max) + 1))`), and turns 0.22deg per pixel across. Each half of the band pivots on its outer end and lengthens so it stays joined to the knot; the tails turn against the pull (0.5deg per pixel, the far tail 0.6 of that) and stretch by 1 + distance / 160.
+- **Release:** under 10px of travel is a tap and opens; past 56px the knot gives and it opens from the pulled side (left when the finger ended more than 4px left, otherwise right); anything between springs back to the knot over 0.75s with a slight overshoot (`cubic-bezier(0.3, 1.45, 0.5, 1)`).
+- **Keyboard:** Enter or Space opens, as a tap.
+
 ### Opening choreography (signature)
-Times from the tap; the scene replaces the card at `TO_SCENE` 4650ms (kept in sync between the component and the stylesheet's timeline). The photograph and lettering mount under the paper at the tap so the card can dissolve into them.
-- 0ms: a haptic pulse (`navigator.vibrate([10, 60, 14])`), the ribbon sounds and the music start; the hold, bow swell and hint stop, and the tap line fades out (400ms).
-- 0-4600ms: the camera: the card gives under the thumb (scale 1.03 to 1.015 by 3%), is held nearly still while it opens (to 1 by 70%), then moves through it to 1.2, `cubic-bezier(0.33, 0, 0.2, 1)`.
-- 0-760ms: the bow tugs and wobbles about its knot (-6deg at 1.06 by 8%, 5deg by 17%, -3deg by 26%, at rest by 33% of its 2300ms track).
-- 650ms: the tails swing in (±18deg) and stretch to 1.15 (900ms).
-- 700 / 760ms: the left and right loops pull through the knot, turning ∓70deg and shrinking to 0.25 as they fade (520ms, `cubic-bezier(0.5, 0, 0.7, 0.4)`); 820ms: the knot shrinks to 0.4 and fades (420ms ease-in).
-- 690-1660ms: the band's free ends drop first (4deg, 6px), then band and bow fall 38% of the hero height to the foot of the card, turning 7-10deg; they land with a crumple (band 0.9 x 0.5, bow 1.06 x 0.6 settling to 1 x 0.7) and fade out by 2300ms.
-- 2050ms: the left door swings open to rotateY(-172deg) in a 1600px perspective over 1150ms, `cubic-bezier(0.45, 0.05, 0.25, 1)`; its front darkens as it turns from the light and its shadow crosses the paper beside the hinge. 2450ms: the right door, mirrored.
-- 3250ms: the inner flaps' shadows fade (350ms) and the flaps fold back 165deg off the photograph over 850ms with the door ease: left 3250ms, right 3330ms, top 3420ms, bottom 3480ms.
-- 3300ms: the photograph settles from 1.12 to 1.04 over 3000ms, resting enlarged so the drift never shows an edge.
-- 3300ms + 120ms per line (the names are lines 3 and 4, so 3660 and 3780ms): the names are written in left to right by a mask wipe (a 250% wide mask, black to 40% and clear from 60%, sliding from 100% to 0 over 1500ms, `cubic-bezier(0.45, 0, 0.35, 1)`), unblurring over 1200ms; the first ink shows the moment the wipe starts and it ends fully opaque. The names carry 0.2em / 0.3em padding so the script's swashes stay inside the mask.
-- 3600ms + 140ms per line (3600, 3740, 3880ms): the welcome lines and divider unblur from 6px (1500ms each), above the paper at their final hero position.
-- 4100ms: the paper dissolves (opacity 0, 500ms ease-in).
-- 4650ms: scene; the page unlocks, sections mount, the music coin fades in (800ms). The scroll cue fades in from 4300ms, as the paper finishes dissolving.
-- Sound (`playRibbonSounds`, band-passed noise bursts): the tug at 40ms (220ms, 5.2kHz), the satin slipping through at 680ms and 950ms (450ms at 4.3kHz, 750ms at 3kHz), the doors at 2100ms and 2500ms (800ms, 1.1kHz and 950Hz), the inner flaps at 3300ms (600ms, 1.5kHz), then four high bells (2349, 2794, 3136, 3729Hz, 110ms apart) from 3650ms as the paper gives way.
+Times from the tap or the pull's release; the scene replaces the card at `TO_SCENE` 5100ms (kept in sync between the component and the stylesheet's timeline). The photograph and lettering mount under the paper at the start so the card can dissolve into them. The pulled side is mirrored throughout by a direction sign (+1 right, the default; -1 left).
+- 0ms: a light haptic touch and, as the knot gives, a second (`navigator.vibrate([8, 920, 14])`); the ribbon sounds and the music start; the hold, bow swell and hint stop, the hint fades out (400ms) and the card stops taking input.
+- 0-5100ms: the camera: the card gives under the thumb (scale 1.03 to 1.018 by 3%), is held nearly still while it opens (to 1 by 70%), then moves slowly through it to 1.12 (`cubic-bezier(0.45, 0, 0.2, 1)` for the move), overall `cubic-bezier(0.33, 0, 0.2, 1)`.
+- 0-290ms: the bow presses to 0.975 under the fingertip and recovers.
+- 0-1100ms: the pulled tail is drawn out under rising tension (to 16deg and 1.32 long by 810ms), then goes slack the instant the knot gives, overshooting and settling near 2deg at 1.1.
+- 260-960ms: the pulled loop slips through the knot, narrowing along its length toward the centre (rotate 38deg, scale 0.12 x 0.45, fading; `cubic-bezier(0.6, 0, 0.85, 0.3)`). 880-1200ms: the other loop follows fast (320ms, `cubic-bezier(0.5, 0, 0.9, 0.5)`); 900-1260ms: the knot pinches to 0.35 x 0.6 and fades (ease-in).
+- 290-1100ms: the bow rocks toward the pulled side (4deg at 1.01 by 840ms, back -2.5deg, then 1deg), rocked free.
+- 700-2100ms: the free tail swings loose (9deg, -4deg, 3deg) as the bow falls.
+- 1100-2400ms: bow and band fall like light fabric, by drag rather than gravity: each band half goes slack (3deg, skewed 4deg) and ripples down with alternating skew (±5deg, ∓3deg) and a few pixels of sideways drift, the bow rocking 6deg and -2deg, landing 38% of the card height lower at 1920ms; they fold on landing (band 0.92 x 0.5, bow 1.04 x 0.7) and fade out from 2230ms to 2400ms.
+- 2150ms: the left door over 1400ms in a 1600px perspective: its edge is lifted to -9deg with a 0.6deg flex by 15%, a breath to -11deg by 23%, then it swings past to -177deg by 86% (`cubic-bezier(0.4, 0, 0.12, 1)`) and settles back to -172deg. Its front darkens from 2350ms (1200ms ease-in) and its shadow crosses the paper beside the hinge (1400ms ease-in-out). 2550ms: the right door, mirrored.
+- 3650ms: the inner flaps' shadows fade (400ms) and the flaps lift 12deg (18% of 900ms, ease-out), then fold back to 165deg (`cubic-bezier(0.4, 0, 0.15, 1)`): left 3650ms, right 3730ms, top 3820ms, bottom 3880ms.
+- 3700ms: the photograph comes into focus (blur 7px and brightness 1.1 to sharp over 1600ms, `cubic-bezier(0.3, 0, 0.2, 1)`) and settles from 1.12 to 1.04 over 3200ms, resting enlarged so the drift never shows an edge.
+- 3950ms + 120ms per line (the names are lines 3 and 4, so 4310 and 4430ms): the names are written in left to right by a mask wipe (a 250% wide mask, black to 40% and clear from 60%, sliding from 100% to 0 over 1500ms, `cubic-bezier(0.45, 0, 0.35, 1)`), unblurring over 1200ms; the first ink shows the moment the wipe starts and it ends fully opaque. The names carry 0.2em / 0.3em padding so the script's swashes stay inside the mask.
+- 4300ms + 140ms per line (4300, 4440, 4580ms): the welcome lines and divider unblur from 6px (1500ms each), above the paper at their final hero position.
+- 4450ms: the paper dissolves (opacity 0, 600ms ease-in).
+- 4900ms: the scroll cue fades in (1200ms) and the petals begin, as the paper finishes dissolving.
+- 5100ms: scene; the page unlocks, sections mount, the music coin fades in (800ms).
+- Sound (`playRibbonSounds`, band-passed noise bursts): the touch at 50ms (180ms, 5.2kHz), the tail drawn under tension at 300ms (700ms, 4.6kHz), the knot giving at 920ms (300ms, 3.6kHz), the flutter down at 1150ms (900ms, 2.6kHz), the doors at 2450ms and 2850ms (900ms, 1.1kHz and 950Hz), the inner flaps at 3700ms (700ms, 1.5kHz), then four high bells (2349, 2794, 3136, 3729Hz, 110ms apart) from 4400ms as the paper gives way.
 - Reduced motion: no untying, doors or flaps; the card stays still and fades to the scene (400ms ease-in), which arrives at 450ms.
 
 ### Living scene (signature)
 The hero keeps moving after the opening, all of it ambient.
-- **Petals and motes:** a canvas over the photograph (under the lettering) starts 4300ms after the tap, as the paper dissolves: 11 rose petals (three cream-to-blush tints, 5-9.5px, turning over as they fall and sway) drift down, and 16 soft amber motes rise from the lower two-thirds with `lighter` compositing, fading out by 20% height. DPR capped at 2; it pauses when the photograph is off screen or the tab is hidden, and never starts under reduced motion.
-- **Drift:** from 6300ms after the tap the photograph drifts to translate(-1.6%, -1%) and back, 22s ease-in-out.
+- **Petals and motes:** a canvas over the photograph (under the lettering) starts 4900ms after the tap, as the paper dissolves: 11 rose petals (three cream-to-blush tints, 5-9.5px, turning over as they fall and sway) drift down, and 16 soft amber motes rise from the lower two-thirds with `lighter` compositing, fading out by 20% height. DPR capped at 2; it pauses when the photograph is off screen or the tab is hidden, and never starts under reduced motion.
+- **Drift:** from 6900ms after the tap the photograph drifts to translate(-1.6%, -1%) and back, 22s ease-in-out.
 - **Sway:** the hero rose sprays rock ±1.6deg from their foot, 5.5s alternate, the right one half a cycle behind.
 
 ### Scratch date cards (signature)
@@ -417,10 +443,18 @@ Every section arrives once, the first time it scrolls in (12% visible, bottom ma
 - **up:** body lines, the venue name and the map rise 22px from opacity 0 and blur(4px), 1s ease-out.
 - **write:** script headings and the closing names are written in with the same mask wipe as the hero names (1500ms, `cubic-bezier(0.5, 0, 0.3, 1)`).
 - **deal:** the three date cards are dealt from 38px low and tilted (-7deg, 2deg, 8deg), 0.12s apart, with a slight overshoot.
-- **card:** the arch card laid down (see Arch card).
+- **card:** the arch card and the gift card laid down (see Arch card).
 - **bloom:** the message section's rose sprays open from 0.7 scale, then sway ±1.6deg every 6s after 1.4s.
 - **line / step:** the programme hairline drawn down, each moment arriving from its side (see Programme timeline).
 - **stamp:** the closing seal is pressed onto the page from 1.9 scale and blurred, overshooting to 0.94 and 1.03 (900ms), and a line-gold ring leaves it at 480ms; the closing line and names are then written in at 700ms and 1200ms.
+
+### Gift card (To‘yana, signature)
+The couple's card for wedding gifts, shown only when they have given a 16-digit card number (the schema strips everything but digits; the holder's name is optional). Under the script title "To‘yana" and one muted 16px line, a foil-stamped card on cream stock in the invitation's own gold, never a bank's colours.
+- **Card:** 340px max, bank-card proportion (1.586:1), 16px corners, 0 22px padding; a pale radial light from the top-left corner over a 150deg cream-to-gold gradient (#f8eedb, #ecdab6 55%, #e2c993); the gift-card shadow (gilt edge, pale inner frame, warm drop). It is laid down as it scrolls in like the arch card, then a sheen crosses it every 7s after 1.1s.
+- **Chip:** a 38 x 28 gold chip (135deg #f6dfa4, #c99a4c 55%, #e9cc86) with engraved contact lines, 22px from the left at 26% height.
+- **Network:** UZCARD (8600, 5614) or HUMO (9860) detected from the number, set top-right in bronze spaced capitals; omitted for anything else.
+- **Number:** grouped in fours with tabular numerals, spread edge to edge at 52% height (Gift number), read aloud grouped; the holder sits in caps near the foot.
+- **Copy:** a full-width gold button 16px below, with an inline SVG copy icon and "Karta raqamini nusxalash"; on copying it shows a check and "Nusxa olindi" for 2.2s (announced politely) and ticks the phone (`navigator.vibrate(10)`).
 
 ### Music coin
 A 48px gold coin fixed bottom-right of the column after the scene, play/pause drawn as inline SVG, coin shading, gold-deep focus outline.
@@ -436,6 +470,7 @@ A 48px gold coin fixed bottom-right of the column after the scene, play/pause dr
 - **Do** lay white-ground rasters on cream with `mix-blend-mode: multiply`, and press the seal's initials into the wax the same way.
 - **Do** render gold as a gradient material with a highlight and a darker edge (deep antique to pale champagne), not as a flat fill.
 - **Do** time motion with the slow ease-out (`cubic-bezier(0.16, 1, 0.3, 1)`), and tell the opening in order: the bow undone, the ribbon gone, the doors, the inner flaps, then the scene.
+- **Do** let the satin answer the finger: tension that gives and then resists, a spring back with a slight overshoot when let go early, and an untying that starts from the pulled side.
 - **Do** draw icons, sparks, dividers and nodes as inline SVG in line gold or currentColor.
 - **Do** keep fixed controls aligned to the 480px column and clear of safe-area insets.
 - **Do** honour reduced motion: the closed card is still (no hold, bow swell or breathing hint), a tap fades it to the scene in 400ms, the hero lettering, photograph and roses stand at rest, and there are no petals, drift, sway or cue bob; every scroll reveal is shown at rest.
@@ -443,11 +478,11 @@ A 48px gold coin fixed bottom-right of the column after the scene, play/pause dr
 - **Do** draw a multiplied photograph in with a clip-path wipe on the image itself.
 
 ### Don't:
-- **Don't** print colour ornament or extra text on the closed card; it carries the embossed paper, its fold lines, the printed names, one tap line and the satin bow.
-- **Don't** use black ink, or grey for text or surfaces; text is sepia, and the only grey is the silver satin of the ribbon.
+- **Don't** print colour ornament or extra text on the closed card; it carries the embossed paper, its fold lines, the printed names, one hint line and the satin bow.
+- **Don't** use black ink, or grey or cool tones in anything code draws; text is sepia, and even the satin ribbon is champagne.
 - **Don't** fill text with a gradient or clip a gradient to text; gold text is a flat script gold or bronze.
 - **Don't** use emoji or font glyphs as icons.
 - **Don't** add a second automatic sequence after the opening; later motion answers the guest (a section scrolled into view, a date scratched) or is ambient.
 - **Don't** fade a multiplied photograph or fade or transform any ancestor of one; Chrome drops the blend and its white ground shows.
 - **Don't** set instructions, body copy, labels or form text in the script face, or use Amiri for anything but the Bismillah.
-- **Don't** let a later template borrow these tokens, rasters, the satin bow, the seal or the arch card; it shares only the showcase shell.
+- **Don't** let a later template borrow these tokens, rasters, the satin bow, the seal, the arch card or the gift card; it shares only the showcase shell.
