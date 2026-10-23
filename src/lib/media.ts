@@ -79,3 +79,37 @@ export function playOpeningSounds() {
 export function unlockAudio() {
   audio();
 }
+
+function bell(at: number, freq: number, gain: number, decay: number) {
+  const ac = audio();
+  if (!ac) return;
+  const t = ac.currentTime + at;
+  for (const [mult, amp] of [
+    [1, 1],
+    [2.76, 0.35],
+    [5.4, 0.12],
+  ] as const) {
+    const osc = ac.createOscillator();
+    osc.type = "sine";
+    osc.frequency.value = freq * mult;
+    const g = ac.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(gain * amp, t + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + decay / mult);
+    osc.connect(g).connect(ac.destination);
+    osc.start(t);
+    osc.stop(t + decay + 0.1);
+  }
+}
+
+/** Wax seal breaking, a small gold chime, then the paper flaps. */
+export function playSealSounds() {
+  try {
+    noiseBurst(0, 0.12, 700, 0.8, 0.09);
+    [1568, 2093, 2637, 3136].forEach((f, i) => bell(0.12 + i * 0.07, f, 0.022, 1.6));
+    noiseBurst(0.65, 0.7, 1300, 0.6, 0.05);
+    noiseBurst(0.98, 0.8, 1000, 0.6, 0.045);
+  } catch {
+    /* sound is decorative */
+  }
+}

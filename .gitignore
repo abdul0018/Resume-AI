@@ -6,3 +6,8 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Impeccable: engine binary is downloaded on first run; review captures are local evidence
+.claude/skills/impeccable/scripts/bin/
+.claude/settings.local.json
+.impeccable/review/
