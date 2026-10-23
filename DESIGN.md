@@ -1,46 +1,106 @@
 ---
 name: Oltin muhr
-description: The phone screen is the envelope itself; breaking the wax seal lets Samarkand's evening light out.
+description: The phone screen is the envelope itself; breaking the wax seal lets the evening light and the couple's photograph through.
 colors:
   gold-deep: "#8f6a2a"
   gold: "#b08636"
   gold-pale: "#efd9a0"
+  script-gold: "#9a6e2e"
+  line-gold: "#b8924a"
+  bronze: "#8a6128"
   amber: "#f6c76a"
   ink: "#4a331b"
   ink-soft: "#77604a"
+  hero-ink: "#4f2f12"
   name-ink: "#6a4818"
-  ground: "#f6eee1"
+  ground: "#f5ecdf"
   paper: "#f7efe2"
   paper-shade: "#efe4d1"
   lining: "#ead9ba"
   surround: "#e9ddc9"
   field: "#fffcf5"
   gilt-line: "rgba(176, 134, 54, 0.38)"
+  error-brick: "#9b3b22"
+  showcase-ground: "#efe5d4"
 typography:
   display:
     fontFamily: "Corinthia, Pinyon Script, cursive"
-    fontSize: "66px"
+    fontSize: "min(15.7vw, 74px)"
     fontWeight: 400
-    lineHeight: 1
+    lineHeight: 0.95
   script-title:
     fontFamily: "Corinthia, Pinyon Script, cursive"
-    fontSize: "40px"
+    fontSize: "clamp(44px, 12.5vw, 56px)"
+    fontWeight: 400
+    lineHeight: 1.05
+  script-closing:
+    fontFamily: "Corinthia, Pinyon Script, cursive"
+    fontSize: "clamp(46px, 13vw, 60px)"
+    fontWeight: 400
+    lineHeight: 1.05
+  script-name:
+    fontFamily: "Corinthia, Pinyon Script, cursive"
+    fontSize: "clamp(38px, 21cqi, 58px)"
     fontWeight: 400
     lineHeight: 1
-  numeral:
-    fontFamily: "Bodoni Moda, Didot, Bodoni 72, Georgia, serif"
-    fontSize: "92px"
+  script-welcome:
+    fontFamily: "Corinthia, Pinyon Script, cursive"
+    fontSize: "clamp(34px, 10vw, 46px)"
     fontWeight: 400
-    lineHeight: 0.9
+    lineHeight: 1.05
+  script-time:
+    fontFamily: "Corinthia, Pinyon Script, cursive"
+    fontSize: "42px"
+    fontWeight: 400
+    lineHeight: 1
+  script-joiner:
+    fontFamily: "Corinthia, Pinyon Script, cursive"
+    fontSize: "clamp(24px, 12cqi, 32px)"
+    fontWeight: 400
+  script-cue:
+    fontFamily: "Corinthia, Pinyon Script, cursive"
+    fontSize: "24px"
+    fontWeight: 400
+  arabic:
+    fontFamily: "Amiri, Noto Naskh Arabic, serif"
+    fontSize: "clamp(17px, 9cqi, 24px)"
+    fontWeight: 400
+    lineHeight: 1.5
+  showcase-title:
+    fontFamily: "Bodoni Moda, Didot, Georgia, serif"
+    fontSize: "clamp(34px, 8.5vw, 52px)"
+    fontWeight: 500
+    lineHeight: 1.05
+    letterSpacing: "-0.01em"
   headline:
     fontFamily: "Bodoni Moda, Didot, Bodoni 72, Georgia, serif"
     fontSize: "30px"
     fontWeight: 500
     lineHeight: 1.12
     letterSpacing: "-0.005em"
+  numeral:
+    fontFamily: "Bodoni Moda, Didot, Bodoni 72, Georgia, serif"
+    fontSize: "32px"
+    fontWeight: 500
+    lineHeight: 1
+    fontFeature: "tnum, lnum"
+  scratch-value:
+    fontFamily: "Bodoni Moda, Didot, Bodoni 72, Georgia, serif"
+    fontSize: "clamp(20px, 6.4vw, 28px)"
+    fontWeight: 500
   body:
     fontFamily: "Bodoni Moda, Didot, Bodoni 72, Georgia, serif"
     fontSize: "18px"
+    fontWeight: 400
+    lineHeight: 1.62
+  lead:
+    fontFamily: "Bodoni Moda, Didot, Bodoni 72, Georgia, serif"
+    fontSize: "17px"
+    fontWeight: 400
+    lineHeight: 1.35
+  body-small:
+    fontFamily: "Bodoni Moda, Didot, Bodoni 72, Georgia, serif"
+    fontSize: "16px"
     fontWeight: 400
     lineHeight: 1.62
   italic-line:
@@ -49,26 +109,33 @@ typography:
     fontWeight: 400
     lineHeight: 1.4
     letterSpacing: "0.02em"
-  date-line:
+  small:
     fontFamily: "Bodoni Moda, Didot, Bodoni 72, Georgia, serif"
-    fontSize: "15px"
-    fontWeight: 500
-    letterSpacing: "0.32em"
+    fontSize: "14px"
+    fontWeight: 400
+  meta:
+    fontFamily: "Bodoni Moda, Didot, Georgia, serif"
+    fontSize: "12.5px"
+    fontWeight: 400
+    letterSpacing: "0.12em"
   label:
     fontFamily: "Bodoni Moda, Didot, Bodoni 72, Georgia, serif"
     fontSize: "11px"
     fontWeight: 400
-    letterSpacing: "0.12em"
+    letterSpacing: "0.24em"
 rounded:
+  card: "3px"
   field: "14px"
+  phone: "34px"
   pill: "999px"
 spacing:
   gap: "10px"
+  scratch-gap: "12px"
   section-y: "72px"
   section-x: "24px"
   section-stack: "24px"
   rule: "26px"
-  block: "44px"
+  measure: "360px"
   column: "480px"
 components:
   button-primary:
@@ -100,9 +167,15 @@ components:
     textColor: "{colors.ink}"
     rounded: "{rounded.field}"
     height: "52px"
+  scratch-card:
+    backgroundColor: "{colors.field}"
+    textColor: "{colors.bronze}"
+    typography: "{typography.scratch-value}"
+    rounded: "{rounded.field}"
   countdown-tile:
     backgroundColor: "{colors.gold-pale}"
     textColor: "{colors.ink}"
+    typography: "{typography.numeral}"
     rounded: "{rounded.field}"
     padding: "14px 4px 11px"
   music-coin:
@@ -114,170 +187,204 @@ components:
 
 # Design System: Oltin muhr
 
-Scope: this file records the first of seven invitation worlds in the examples-only showcase. Everything under Colors through Elevation, Shapes and the template components belongs to Oltin muhr alone; a later template brings its own world and must not inherit these tokens. The parts marked **Showcase shell** are the shared hosting conventions every template plugs into. The legacy app under `src/pages` and `src/components/invitation` is outside this system.
+Scope: this file records the first of seven invitation worlds in the examples-only showcase, as shipped in revision 2 (owner request: "exactly the same as the video"). Everything under Colors through Components belongs to Oltin muhr alone; a later template brings its own world and must not inherit these tokens, rasters, the seal or the arch card. The parts marked **Showcase shell** are the shared hosting conventions every template plugs into. The legacy app under `src/pages` and `src/components/invitation` is outside this system.
 
 ## Overview
 
-**Creative North Star: "The Sealed Letter at Dusk"**
+**Creative North Star: "The Sealed Letter at Sunset"**
 
-The phone screen is the envelope, edge to edge: ivory paper whose florals exist only as blind-embossed relief, closed with a cream wax seal stamped with a gold-leaf monogram. Breaking the seal is the single orchestrated moment of the page. Light comes before movement: the seal glows, gold dust lifts off it, the flaps part on amber light, a warm bloom washes the screen, and a carved ganch (alabaster) arch settles in with Samarkand's domes and minarets dissolving into gold haze behind the couple's names.
+The phone screen is the envelope, edge to edge: an owner-supplied photograph of ivory paper blind-embossed with roses and climbing vines, folded into four flaps that meet a cream wax seal at 48% height. The couple's initials sit pressed into the seal's empty centre in gold. Breaking the seal is the one orchestrated moment of the page, and light comes before movement: the seal presses and glows, gold dust bursts from it, the flaps part only partway so amber light shows in the wedge-shaped gaps, the names surface through the paper where they will sit in the hero, and the paper dissolves into a sunset photograph of the couple walking toward a mosque.
 
-After the opening the page is calm and devotional: one centred phone-width column on ganch ivory, sepia ink, gilt hairlines, pointed-arch panels whose gold outline draws itself in view. Ornament is relief and light, not colour. Every scene is drawn in code (SVG, CSS, one canvas); there are no photographs, paintings or people.
+After the opening the page is calm and ceremonial: one centred phone-width column on cream (#f5ecdf), sepia ink, gold script titles, rose sprays multiplied onto the ground so their white backgrounds vanish, and a gilded arch card that names both families under the Bismillah. The world is built from the owner's own rasters (photograph, paper, seal, roses, rings, arch card), each carrying its generation prompt and post-processing in embedded metadata; code draws only what the rasters do not cover yet (gold timeline line art, dividers, the venue map, icons).
 
 **Key Characteristics:**
-- Full-bleed envelope as the first viewport; the seal is the only control.
-- Paper-on-paper relief: motifs carry the paper's own tone, shaped by a light/shadow filter.
-- Gold is a material (leaf, gilt edge, coin), rendered as gradients from deep antique to pale champagne, never as a flat accent fill.
+- Full-bleed embossed envelope as the first viewport; the seal is the only control and "Muhrni bosing" the only printed line.
+- An owner-supplied raster world, each image carrying embedded provenance; nothing generic or stock.
+- Gold is a material (foil, gilt edge, coin, pressed leaf), rendered as gradients from deep antique to pale champagne, never as a flat accent fill and never on text.
 - Sepia ink throughout; no black anywhere a guest can see.
-- Two faces: Corinthia script for names and spoken greetings, Bodoni Moda for everything set.
-- Slow exponential ease-out; one choreographed sequence, then only ambient motion (lantern swing, flicker, breathing glow).
+- Three faces with fixed jobs: Corinthia script for names, greetings and section titles; Bodoni Moda for everything set; Amiri for the Arabic Bismillah alone.
+- Slow exponential ease-out; one choreographed opening, one guest-driven interaction (scratching the gold-foil date), otherwise only ambient motion.
 
 ## Colors
 
-A warm, single-temperature palette: ivory papers, sepia inks and a gold ramp, with amber reserved for light.
+A warm, single-temperature palette: cream papers, sepia inks and a gold ramp, with amber reserved for light.
 
 ### Primary
-- **Antique Gold Leaf** (gold-deep): the darkest gilt. Big date numeral, focus outlines, caret, the dark end of every gilt gradient.
-- **Gilt** (gold): hairline rules, arch-panel outlines, the ampersand in the hero, map frame, selected-choice border.
-- **Champagne Gold** (gold-pale): the light face of gold surfaces (buttons, tiles, music coin, selected choice) and the selection highlight. Gold surfaces are always a gradient running from roughly this tone (#f8e4ad) through #dcb466 to #c59a4a.
+- **Antique Gold Leaf** (gold-deep, #8f6a2a): focus outlines and caret, the scratch-card focus ring, the dark end of gilt gradients.
+- **Gilt** (gold, #b08636): selected-choice border, field focus border, map arch outlines, showcase focus underline.
+- **Champagne Gold** (gold-pale, #efd9a0): the light face of gold surfaces (buttons, tiles, coin, selected choice) and the selection highlight. Button gold runs #f8e4ad, #dcb466 60%, #c59a4a at 170deg; tile gold #fbefcf, #ebcd8c 70%, #dcb46a at 165deg.
+- **Script Gold** (script-gold, #9a6e2e): every Corinthia section title, the timeline times, the Bismillah and the card's "va".
+- **Line Gold** (line-gold, #b8924a): coded line art (timeline drawings, ornamental dividers, blossom nodes, hint sparks); matches the owner's rings drawing.
+- **Bronze** (bronze, #8a6128): revealed scratch values, the hero ampersand and hero divider.
 
 ### Tertiary
-- **Lantern Amber** (amber): light only. Seal glow, lantern glow, opening rays and the inside of the envelope. Never a text or surface colour.
+- **Lantern Amber** (amber, #f6c76a): light only. The seal glow, the envelope interior (#fff4d2, #f3cf86, #d9a95a radial) seen in the flap gaps, the gold dust.
 
 ### Neutral
-- **Sepia Ink** (ink): all set text, headlines, icons on gold.
-- **Faded Sepia** (ink-soft): secondary lines, hints, labels, the scroll cue, weekday/time.
-- **Name Ink** (name-ink): the script names and script titles; a slightly warmer, more golden brown than set text.
-- **Ganch Ivory** (ground): the column behind the sections, overlaid with a 220px fractal paper grain.
-- **Envelope Paper** (paper) and **Paper Shade** (paper-shade): the two ends of the envelope face gradient (170deg).
-- **Envelope Lining** (lining): the back of each flap, seen as it opens.
-- **Table Linen** (surround): the page outside the 480px column on wide screens.
-- **Card Stock** (field): inputs, choice buttons, ghost button wash.
-- **Gilt Hairline** (gilt-line): 1px borders on fields and choices, calendar/date rules, the program timeline.
+- **Sepia Ink** (ink, #4a331b): all set text and icons on gold.
+- **Faded Sepia** (ink-soft, #77604a): secondary lines, hints, labels, weekday and time, form labels.
+- **Hero Ink** (hero-ink, #4f2f12): the couple's names set in the photograph's sky, darker so they hold against the sunset; the welcome lines above them use #5a3618.
+- **Name Ink** (name-ink, #6a4818): the closing names, scroll cue, "Rahmat!" and the showcase template name.
+- **Cream Ground** (ground, #f5ecdf): the column behind every section; also the colour the hero photograph fades into at its foot.
+- **Envelope Paper** (paper, #f7efe2) and **Paper Shade** (paper-shade, #efe4d1): the fallback gradient under the paper photograph.
+- **Envelope Lining** (lining, #ead9ba): the back of each flap (to #e1cba3).
+- **Table Linen** (surround, #e9ddc9): the page outside the 480px column on wide screens.
+- **Card Stock** (field, #fffcf5): inputs, choice buttons, ghost wash, the scratch card under its foil (#fffaf0 to #f3e6cd).
+- **Gilt Hairline** (gilt-line): 1px borders on fields and choices.
+- **Brick Sepia** (error-brick, #9b3b22): the single RSVP error line.
+- **Gallery Linen** (showcase-ground, #efe5d4): the showcase gallery, lit from the top by a pale radial.
 
 ### Named Rules
-**The Sepia Rule.** Ink is brown, never black. Black (`#000`, `rgba(0,0,0,.5)`) appears only as an alpha mask inside relief filters, where it is never painted.
+**The Sepia Rule.** Ink is brown, never black. Even the showcase phone bezel is dark brown (#241a10).
 
-**The Light Is Not Paint Rule.** Amber and the white-gold radial blooms describe light sources (seal, lanterns, envelope interior, sun disc). They never fill a card, a button or text.
+**The Light Is Not Paint Rule.** Amber and the white-gold radials describe light (seal glow, envelope interior, gold dust, the sky veil behind the hero names). They never fill a card, a button or text.
+
+**The Multiply Rule.** Rasters drawn on white (rose spray, rings) are laid on cream with `mix-blend-mode: multiply` so their ground disappears; the seal's initials are gold (#a77b34, dot #b88c3e) multiplied into the wax so they read as pressed, not printed.
 
 ## Typography
 
-**Display Font:** Corinthia (with Pinyon Script, cursive)
+**Display / Script Font:** Corinthia (with Pinyon Script, cursive)
 **Body Font:** Bodoni Moda with optical sizing on (with Didot, Bodoni 72, Georgia, serif)
+**Arabic Font:** Amiri (with Noto Naskh Arabic, serif), loaded as a Google Fonts `text=` subset of the Bismillah only
 
-**Character:** a hand-lettered script carries what is spoken or signed (names, greetings, "Rahmat!"); a high-contrast Didone with optical sizes carries everything set. Lining numerals throughout; tabular lining figures for countdowns and program times.
+**Character:** a hand-lettered script carries everything spoken, signed or titled; a high-contrast Didone with optical sizes carries everything set. Lining numerals throughout; tabular lining figures in the countdown.
 
 ### Hierarchy
-- **Display** (Corinthia 400, hero names min(66px, 430px / longest name) times stage scale, line-height 1): the couple's names inside the arch. Closing signature repeats at 58px.
-- **Script title** (Corinthia 400, 40px, 1): month name over the calendar; 46px for the RSVP thank-you; 33px x stage scale for the hero welcome lines.
-- **Numeral** (Bodoni Moda 400, 92px, 0.9, gold-deep): the day of the month in the save-the-date block, flanked by month and year.
-- **Headline** (Bodoni Moda 500, 30px, 1.12, -0.005em, balanced): section titles. 24px italic for the closing line.
-- **Body** (Bodoni Moda 400, 18px, 1.62, pretty wrap): the welcome message; 16-17px for secondary paragraphs.
-- **Italic line** (Bodoni Moda italic, 14-16px, 0.02em, ink-soft): the "Muhrni bosing" hint, scroll cue, weekday and time, sign-offs.
-- **Date line** (Bodoni Moda 500, 15px x stage scale, 0.32em tracking): the hero date in dots.
-- **Label** (Bodoni Moda 400, 11px, 0.12em, uppercase): countdown units and month/year beside the big numeral (15px, 0.28em there).
+- **Display** (Corinthia 400, `min(min(17, 110/L)vw, min(80, 520/L)px)` for the longest name of L letters, 0.95, hero-ink): the couple's names in the photograph's sky, the second name indented 18% after an italic Bodoni ampersand at 0.42em.
+- **Script title** (Corinthia 400, clamp(44px, 12.5vw, 56px), 1.05, script-gold): every section title (Sana, Qadrli do‘stlar va yaqinlar, To‘y dasturi, To‘yxona, Javobingizni kutamiz, the closing line).
+- **Script closing** (clamp(46px, 13vw, 60px), name-ink): the names that sign the page.
+- **Script name** (clamp(38px, 21cqi, 58px), #8f6426): the names on the arch card, sized to the card.
+- **Script welcome** (clamp(34px, 10vw, 46px)): "Nikoh to‘yimizga" in the hero.
+- **Script time** (42px, script-gold): timeline times. **Script joiner** (clamp(24px, 12cqi, 32px)): the card's "va". **Script cue** (24px, name-ink): "Pastga suring".
+- **Arabic** (Amiri 400, clamp(17px, 9cqi, 24px), 1.5, script-gold, `lang="ar" dir="rtl"`): the Bismillah at the head of the arch card.
+- **Headline** (Bodoni Moda 500, 30px, 1.12, balanced): the venue name. The showcase title uses clamp(34px, 8.5vw, 52px).
+- **Numeral** (Bodoni Moda 500, 32px, tabular lining): countdown tiles, shrinking with the tile (`min(32px, 38cqi)`).
+- **Scratch value** (Bodoni Moda 500, clamp(20px, 6.4vw, 28px), bronze).
+- **Body** (Bodoni Moda 400, 18px, 1.62, pretty wrap): the message, max 300px. **Lead** 17px for the hero greeting, timeline titles and gallery lead; **body small** 16px for address and RSVP intro.
+- **Italic line** (15px, 0.02em, ink-soft): "Muhrni bosing", the scratch instruction.
+- **Small** (14px): form labels, the closing long date (0.18em), the showcase text link. **Meta** (12.5px, 0.12em): gallery couple and date.
+- **Label** (11px, 0.24em, uppercase, ink-soft): KUN / OY / YIL under the scratch cards.
+- **Card caps** (Bodoni Moda uppercase, 0.08em, #5a3d1f): the invitation line and parents' lines inside the arch card, sized to the card with container units.
 
 ### Named Rules
-**The Spoken Script Rule.** Corinthia sets only names and words a person would say or sign. Instructions, data and headings are Bodoni Moda.
+**The Spoken Script Rule.** Corinthia sets names, greetings, section titles and the programme times. Instructions, body copy, labels, form text and data are Bodoni Moda.
 
-**The One Line Rule.** The sealed envelope carries exactly one line of text, an italic instruction under the seal. Nothing else is printed on the paper.
+**The Bismillah Only Rule.** Amiri sets the Arabic Bismillah and nothing else, and it is fetched only for those glyphs.
+
+**The One Line Rule.** The sealed envelope carries exactly one line of text, the italic instruction under the seal. Everything else on the paper is the owner's embossing.
 
 ## Layout
 
-One phone-width column, max 480px, centred on the table-linen surround with a soft ambient halo; the envelope and arch fill it edge to edge at 100svh. On a phone the column is the screen.
+One phone-width column, max 480px, centred on the table-linen surround with a soft ambient halo; the envelope and hero photograph fill it edge to edge at 100svh, and the page cannot scroll until the scene is revealed. On a phone the column is the screen.
 
-The hero arch is composed on a fixed 400 x 860 stage scaled by `max(width/400, height/860)` (cover), so the arch, lanterns and text keep their relationships at any phone aspect. Text lines are positioned in stage units and centred horizontally.
+The hero photograph covers the frame (`object-position: 52% 50%`). A veil lightens the sky behind the lettering (a radial at 50% 22%) and fades the floor into the cream ground from 64% to 99%. The welcome block sits in the sky from 22% to the right edge, 9% from the top plus the safe-area inset, clear of the flowering branch. Rose sprays (46% wide, rotated -12deg, one mirrored) bleed off the bottom corners.
 
-Sections follow on ganch ivory, centred, 72px top and bottom with 24px sides; consecutive sections tighten to 24px on top. Inner blocks sit in 320-360px measures. Inside a section, related blocks are spaced 44px apart; gilt rules take 26px above and below. Grids use a 10px gap. The arch panel pads 118px top, 28px sides, 104px bottom to clear its rose sprays.
+Sections follow on cream in this order: **Sana** (scratch date, then weekday/time and countdown), **arch card** (Bismillah, invitation line, both names with their parents), **message** (with rose sprays at the sides), **To‘y dasturi** (timeline), **To‘yxona** (venue, address, arch map, map buttons), **Javobingizni kutamiz** (RSVP), **closing** (112px seal, closing line, names, long date), then the showcase end slot. Sections pad 72px by 24px, consecutive sections tighten to 24px on top; the message section pads 56px / 72px; the card section narrows sides to 12px. Inner blocks sit in 300-400px measures (scratch row and tiles 360px). Grids use a 10px gap; the scratch row 12px.
 
 Fixed controls align to the column, not the viewport: `right: max(0px, (100vw - 480px) / 2) + 16px`, and respect safe-area insets.
 
 ### Showcase shell (shared across templates)
 - Each template is one hash route (`#oltin-muhr`) and plugs in as `{ Invitation, Preview }`. The Invitation accepts `replayToken` (re-seals it) and `endSlot` (rendered after its closing section).
-- The gallery shows each template's closed first viewport inside a 200 x 420 phone frame (34px radius, dark bezel), with the template name in its own script, one descriptive line, and the sample couple and date. Cards lift 6px and tilt -1deg on hover with the 0.7s ease-out.
+- The gallery shows each template's closed first viewport inside a 200 x 420 phone frame (34px radius, dark brown bezel), with the template name in its own script, one descriptive line, and the sample couple and date. Cards lift 6px and tilt -1deg on hover with the 0.7s ease-out.
 - In an example, a 44px round back arrow sits beside the column (inside it below 600px) only while the invitation is closed, and fades after 1.2s of stillness so the first filmed frame is the invitation alone.
 - The end slot offers "Qaytadan ochish" (replay) as the template's own ghost button and "Barcha namunalar" as an underlined text link.
+- The build (`scripts/build-showcase.mjs`) emits one self-contained HTML file with JS, CSS and music inlined; fonts come from Google Fonts (Bodoni Moda with opsz axis, Corinthia, and the Amiri Bismillah subset).
 
 ## Elevation & Depth
 
-Depth is physical and lit: relief, translucent paper, soft cast shadows and glows. There are no hard edges or offset shadows. The envelope is true 3D (perspective 1150px, origin 50% 46%), its flaps stacked a few px apart in Z, with a blurred brown shadow under each upper flap that fades as the flap lifts. Gold objects carry an inner top highlight, an inner gilt ring and a soft warm drop. Lanterns and the seal emit light through drop-shadows and radial glows.
+Depth is physical and photographic: real embossed paper, flaps tilting in perspective, a card lying on the page, wax with a soft drop. There are no hard edges or offset shadows. Each envelope flap tilts in its own 3200px perspective and is painted in document order (inside, sides, bottom, top), so planes never depth-sort against each other; upper flaps cast a blurred brown shadow that fades as they lift. Gold objects carry an inner top highlight, an inner gilt ring and a soft warm drop. Light (glow, dust, the amber interior) is added with `lighter` compositing and radial gradients, never with shadows on text.
 
 ### Shadow Vocabulary
 - **Column halo** (`box-shadow: 0 0 80px -30px rgba(74, 51, 27, 0.35)`): the column on wide screens.
 - **Gold surface** (`inset 0 1px 0 rgba(255,255,255,0.65), inset 0 0 0 1px rgba(143,106,42,0.45), 0 10px 20px -12px rgba(120,84,30,0.7)`): buttons; tiles use the same recipe with a 0.35 gilt ring and a 22px drop.
-- **Flap cast** (`rgba(110, 78, 36, 0.22)` clipped to the flap shape, `blur(5px)`): paper on paper.
-- **Lantern light** (`drop-shadow(0 8px 18px rgba(255,190,80,0.85)) drop-shadow(0 0 6px rgba(255,226,150,0.7))`).
+- **Scratch card** (`inset 0 0 0 1px rgba(184,146,74,0.45), 0 14px 26px -16px rgba(110,76,26,0.65)`).
+- **Card on paper** (`0 1px 2px rgba(80,56,24,0.18), 0 22px 40px -22px rgba(80,56,24,0.55)`): the arch card.
+- **Wax drop** (`filter: drop-shadow(0 6px 10px rgba(80,52,20,0.28))`): the seal wherever it appears.
+- **Flap cast** (`rgba(110, 78, 36, 0.22)` clipped to the flap shape, `blur(5px)`; 0.14 for the bottom flap).
+- **Sky halo** (`text-shadow: 0 0 22px rgba(255,243,226,0.9)`): the hero lettering only, a soft light behind it, never a drop.
 - **Field focus** (`0 0 0 4px rgba(239, 217, 160, 0.45)` with a gilt border).
 
 ### Named Rules
-**The Relief Not Ink Rule.** Embossed motifs (envelope florals, section sprays, ganch carving) are drawn as alpha shapes and turned into light and shadow by a filter; they always end up the tone of the surface they are carved into.
+**The Real Paper Rule.** The envelope's relief is the owner's embossed-paper photograph; no coded relief, flourish or colour ornament is printed on top of it.
 
 ## Shapes
 
-The governing silhouette is the pointed (Timurid) arch: the hero frame, the section panels, the venue map clip all derive from one `archPath`. Envelope geometry is triangular: the top flap meets the seal at 48% height, the bottom flap rises to 54%, the side flaps reach 64% across so they tuck under. Controls are pills (999px) or soft rectangles (14px); the seal is a scalloped wax disc; program markers are 9px gilt diamonds; the gilt rule is two fading hairlines around a four-point star.
+The envelope is triangular: the top flap meets the seal at 48% height, the bottom flap rises to 54%, the side flaps reach 64% across so they tuck under. The arch card is a real card (3px corners, 960:1624) whose cusped Mughal arch and jali pillar are in the raster; text sits inside the arch (13.5% from the left, 62% wide, 19% to 84% high). The venue map is clipped by the pointed `archPath` with a double gilt outline. Controls are pills (999px) or soft rectangles (14px), as are scratch cards and countdown tiles; the seal is the photographed wax disc; timeline nodes are six-petal blossoms on the ground colour; dividers are a hairline with two leaf loops around a central diamond.
 
 ## Components
 
 ### Buttons
 Gilded and tactile.
 - **Shape:** full pill (999px), 50px minimum height.
-- **Primary:** champagne-to-antique gold gradient (170deg, #f8e4ad, #dcb466 60%, #c59a4a) with dark sepia text (#3f2a12), Bodoni Moda 500 15px, 0 22px padding, gold-surface shadow.
+- **Primary:** champagne-to-antique gold gradient (170deg, #f8e4ad, #dcb466 60%, #c59a4a), dark sepia text (#3f2a12), Bodoni Moda 500 15px, 0 22px padding, gold-surface shadow.
 - **Hover / Active / Focus:** shadow deepens on hover; presses to scale 0.97 with the 0.25s ease-out; focus is a 2px gold-deep outline offset 3px. Disabled drops to 0.55 opacity.
-- **Ghost:** card-stock wash at 50%, 1px gilt-hairline inset ring, sepia text, same pill and height.
+- **Ghost:** card-stock wash at 50%, 1px gilt-hairline inset ring, sepia text, same pill and height; also the RSVP stepper (34px round) and the showcase replay control.
 
 ### Choice buttons
 - **Style:** 14px radius, 52px tall, card stock with a gilt hairline border, 15.5px Bodoni.
-- **Selected:** (`aria-pressed`) takes the gold-surface gradient, gilt border, dark sepia text; 0.25s colour transition.
+- **Selected:** (`aria-pressed`) takes the gold gradient, gilt border, dark sepia text; 0.25s colour transition.
 
 ### Inputs / Fields
 - **Style:** card stock, 1px gilt hairline, 14px radius, 52px tall, 14px 16px padding, 16px Bodoni, placeholder #8f7a63, gold-deep caret.
 - **Focus:** border goes to gilt with a 4px champagne halo; no outline.
 - **Error:** a single `role="alert"` line in brick sepia under the form.
 
-### Countdown tiles
-Four gold tiles in a 4-up grid (10px gap, 360px max), 14px radius, 32px tabular numerals, 11px uppercase unit label.
-
-### Arch panel (signature)
-A pointed-arch frame around a section's content: a translucent card-stock fill, a 1.3px gilt outline and an inner 1.6px gilt-gradient line 8px inside. Both outlines draw themselves (dash offset over 2.2s ease-out) the first time 15% of the panel enters view. Embossed rose sprays sit at the crown (112px) and lean into the lower corners (96px, rotated 18deg).
-
 ### Wax seal (signature)
-Cream wax (#fdf7ea to #c7a873), a pressed well, a gold gilt ring with a dotted inner ring, and the couple's initials in Corinthia pressed in gold leaf. It sits on the top flap at 36% of the column width, breathing a soft amber glow (3.4s) while sealed. It returns at 104px over a rose spray to close the page.
+The owner's wax-seal photograph (keyed to alpha) with the couple's initials in Corinthia at 0.2 of the seal width, separated by a small gold dot, multiplied into the empty centre. It sits at 36% of the column width over the flap point at 48% height, breathing a soft amber glow (3.4s, after 1.2s) while sealed; keyboard focus adds a gilt edge and amber halo. It returns at 112px to close the page.
 
 ### Opening choreography (signature)
-Times from the tap; the scene replaces the envelope at 2700ms (kept in sync between the component and the stylesheet).
-- 0ms: seal press (scale 0.94, 1.05, 1 over 520ms), glow blooms to 1.35 over 900ms, hint fades, 150 gold motes burst from the seal with a 3.6s trailing rise (canvas, DPR capped at 2).
-- 600-650ms: flap shadows fade; the envelope's amber core swells over 1300ms.
-- 620ms: top flap lifts to 165deg over 1500ms.
-- 900ms: rays fade in and start a 14s rotation.
-- 1080 / 1110 / 1150ms: left, right, bottom flaps part (82deg, 82deg, 96deg) over 1150ms with the flap ease.
-- 1450ms: names rise out of blur over the light (900ms).
-- 2080ms: white-gold bloom covers the screen (620ms ease-in).
-- 2700ms: scene; bloom clears over 1150ms, the arch stage settles from 1.07 to 1 over 2200ms, text lines unblur in a 120ms stagger starting at 300ms, scroll cue appears at 1400ms, music coin fades in.
-- Reduced motion: flaps open in 400ms, no dust, no rays, no breathing, no lantern swing, panels drawn instantly.
+Times from the tap; the scene replaces the envelope at `TO_SCENE` 2700ms (kept in sync between the component and the stylesheet). The photograph and names mount under the paper at the tap so the envelope can dissolve into them.
+- 0ms: seal press (scale 1, 0.94, 1.05, 1 over 520ms), glow blooms from 0.6 to 1.35 over 900ms, the hint fades, seal sounds and music start, 150 gold motes burst from the seal with a trailing rise of 3 motes per frame (canvas, `lighter`, DPR capped at 2).
+- 560ms: the top flap tilts up to 56deg (3200px perspective) over 1100ms; the seal rides its tip on its own layer (rising 18% and growing to 1.08) while staying flat to the guest.
+- 600-650ms: flap shadows fade (300ms); the amber core swells over 1200ms.
+- 700 / 720 / 760ms: left, right and bottom flaps part partway (-50deg, 50deg, -48deg) over 1050ms with the flap ease, leaving amber wedges between them.
+- 1350ms + 140ms per line: the welcome lines and names unblur from 6px (1500ms each), above the paper at their final hero position, so they emerge through it.
+- 1700ms: the photograph settles from 1.08 to 1 over 3000ms.
+- 1850ms: the envelope dissolves (opacity 0, scale 1.05, 850ms); dust fades from 1900ms over 700ms.
+- 2700ms: scene; the page unlocks, sections mount, the dust stops, the music coin fades in; the scroll cue appears at 1600ms and bobs.
+- Reduced motion: flaps open in 400ms, no dust, no breathing glow, no cue bob.
 
-### Arch scene
-The carved ganch archivolt (bead row, running lines, diamond chain, vine spandrels, rosettes, lattice pilasters) frames a sky of gold haze: sun disc, layered domes and minarets, a reflecting pool with ripples. Four lanterns hang from the arch edge at staggered drops, each swinging 2.6deg on its own 5.2-7.3s period with a flickering glow.
+### Scratch date cards (signature)
+Three square cards (Kun / Oy / Yil) under the script title "Sana" and an italic instruction flanked by two four-point SVG sparks. Each carries a canvas of brushed gold foil (diagonal #b8893a, #f3dc9c, #c99a4c, #f6e4ae, #a77a2c, with grain and a glint) that the guest scratches away with a stroke 30% of the card width; at half cleared the foil fades out (0.7s) and the bronze value stands. Enter or Space reveals at once.
+
+### After-date block
+Collapsed (`grid-template-rows: 0fr`, no margin, transparent) until all three dates are scratched, so the page never holds an empty band; then it opens over 0.9s to the italic weekday and time and the countdown tiles. Its clip is released once open so tile shadows are not cut.
+
+### Countdown tiles
+Four gold tiles in a 4-up grid (10px gap, 360px max), 14px radius, tabular numerals that shrink with the tile (container query), uppercase unit label.
+
+### Arch card (signature)
+The owner's arch-card raster (cusped arch pressed into ivory, gold jali pillar, flowers) lying on the page with the card-on-paper shadow. Inside the arch: the Bismillah in Amiri, the invitation line in card caps, the groom's name in script, a divider, his parents, a script "va", the bride's name, a divider, her parents.
+
+### Programme timeline
+A centred fading gold hairline (#c9a868) with blossom nodes; entries alternate sides, art on one side (max 150px, multiplied) and a script time with a 15px title on the other. The nikoh entry uses the owner's rings drawing; the door, feast and doira entries are coded gold line art.
+
+### Venue map
+A stylised city map in the pointed arch (cream roads, gold pin with a pulsing ring, card-stock label pill), then a gold "Google Maps" button and a ghost "Yandex xarita" button side by side. No iframe.
 
 ### Music coin
-A 48px gold coin fixed bottom-right of the column, play/pause drawn as inline SVG, gold-surface shading, gold-deep focus outline.
+A 48px gold coin fixed bottom-right of the column after the scene, play/pause drawn as inline SVG, coin shading, gold-deep focus outline.
 
-### Program timeline
-Time (20px, 500, tabular) right-aligned, a gilt diamond on a fading vertical hairline, title at 17px.
+### Placeholders awaiting owner assets
+- The door, feast and doira timeline drawings (`LineArt.tsx`) are coded stand-ins matched to the rings drawing; replace them with owner rasters when supplied, multiplied the same way.
+- Music uses the bundled tracks until the owner supplies the template's own.
 
 ## Do's and Don'ts
 
 ### Do:
+- **Do** keep every raster owner-supplied and carrying its prompt and post-processing in embedded metadata.
+- **Do** lay white-ground rasters on cream with `mix-blend-mode: multiply`, and press the seal's initials into the wax the same way.
 - **Do** render gold as a gradient material with a highlight and a darker edge (deep antique to pale champagne), not as a flat fill.
-- **Do** keep every motif paper-on-paper: draw alpha shapes and let the relief filter turn them into light and shadow.
 - **Do** time motion with the slow ease-out (`cubic-bezier(0.16, 1, 0.3, 1)`) and bring light in before movement.
-- **Do** derive arches from the shared pointed-arch path so the hero, panels and map read as one architecture.
+- **Do** draw icons, sparks, dividers and nodes as inline SVG in line gold or currentColor.
 - **Do** keep fixed controls aligned to the 480px column and clear of safe-area insets.
-- **Do** honour reduced motion with the shortened flap opening and static ornaments.
+- **Do** honour reduced motion with the shortened flap opening and no dust or breathing glow.
 
 ### Don't:
-- **Don't** print colour ornament on the envelope; it carries only relief, the seal and one italic line.
+- **Don't** print colour ornament or extra text on the envelope; it carries the embossed paper, the seal and one italic line.
 - **Don't** use black ink or neutral grey anywhere visible; text is sepia.
-- **Don't** add a second orchestrated moment after the opening; later motion stays ambient or reveal-on-view.
-- **Don't** set instructions, data or headings in the script face.
-- **Don't** add photographs, paintings or figures to the scene; it is architecture, light and ornament drawn in code.
-- **Don't** let a later template borrow these tokens, the seal or the arch; it shares only the showcase shell.
+- **Don't** fill text with a gradient or clip a gradient to text; gold text is a flat script gold or bronze.
+- **Don't** use emoji or font glyphs as icons.
+- **Don't** add a second automatic sequence after the opening; later motion is guest-driven (scratching) or ambient.
+- **Don't** set instructions, body copy, labels or form text in the script face, or use Amiri for anything but the Bismillah.
+- **Don't** let a later template borrow these tokens, rasters, the seal or the arch card; it shares only the showcase shell.
