@@ -615,11 +615,11 @@ function Rsvp() {
           <span>Necha kishi bo‘lasiz?</span>
           <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <button type="button" className="mh-ghost" style={{ minHeight: 34, width: 34, padding: 0 }} onClick={() => setGuests((g) => Math.max(1, g - 1))} aria-label="Kamaytirish">
-              −
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M5 12h14" /></svg>
             </button>
             <b style={{ minWidth: 16, textAlign: "center", fontVariantNumeric: "tabular-nums" }}>{guests}</b>
             <button type="button" className="mh-ghost" style={{ minHeight: 34, width: 34, padding: 0 }} onClick={() => setGuests((g) => Math.min(20, g + 1))} aria-label="Ko‘paytirish">
-              +
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
             </button>
           </span>
         </div>

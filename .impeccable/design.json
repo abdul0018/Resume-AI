@@ -1,0 +1,559 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-23T00:00:00Z",
+  "title": "Design System: Oltin muhr",
+  "extensions": {
+    "colorMeta": {
+      "gold-deep": {
+        "role": "primary",
+        "displayName": "Antique Gold Leaf",
+        "canonical": "#8f6a2a",
+        "oklch": "oklch(54.9% 0.093 78.2)",
+        "tonalRamp": [
+          "#130900",
+          "#332000",
+          "#573900",
+          "#7a5611",
+          "#9f793a",
+          "#c59d5f",
+          "#e7c591",
+          "#ffebc6"
+        ]
+      },
+      "gold": {
+        "role": "primary",
+        "displayName": "Gilt",
+        "canonical": "#b08636",
+        "oklch": "oklch(64.6% 0.109 80.6)",
+        "tonalRamp": [
+          "#130900",
+          "#341f00",
+          "#593800",
+          "#7d5500",
+          "#a27826",
+          "#c89d4f",
+          "#eac585",
+          "#ffebbf"
+        ]
+      },
+      "gold-pale": {
+        "role": "primary",
+        "displayName": "Champagne Gold",
+        "canonical": "#efd9a0",
+        "oklch": "oklch(89.0% 0.077 89.4)",
+        "tonalRamp": [
+          "#100a01",
+          "#2d2305",
+          "#4e3e0e",
+          "#6f5b24",
+          "#937e48",
+          "#b8a36b",
+          "#dbc99a",
+          "#faeecd"
+        ]
+      },
+      "amber": {
+        "role": "tertiary",
+        "displayName": "Lantern Amber",
+        "canonical": "#f6c76a",
+        "oklch": "oklch(85.3% 0.123 82.8)",
+        "tonalRamp": [
+          "#140900",
+          "#351f00",
+          "#5a3800",
+          "#7f5500",
+          "#a47800",
+          "#ca9d3d",
+          "#ecc57a",
+          "#ffebb8"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Sepia Ink",
+        "canonical": "#4a331b",
+        "oklch": "oklch(34.2% 0.050 66.0)",
+        "tonalRamp": [
+          "#100a04",
+          "#2e2114",
+          "#4f3b27",
+          "#71583f",
+          "#957b61",
+          "#bb9f84",
+          "#dec6af",
+          "#fdebdb"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Faded Sepia",
+        "canonical": "#77604a",
+        "oklch": "oklch(50.6% 0.045 65.3)",
+        "tonalRamp": [
+          "#100a05",
+          "#2d2116",
+          "#4e3c2a",
+          "#6f5943",
+          "#937b64",
+          "#b99f88",
+          "#dcc6b2",
+          "#fbebdd"
+        ]
+      },
+      "name-ink": {
+        "role": "neutral",
+        "displayName": "Name Ink",
+        "canonical": "#6a4818",
+        "oklch": "oklch(43.0% 0.078 71.9)",
+        "tonalRamp": [
+          "#120901",
+          "#322007",
+          "#553911",
+          "#795627",
+          "#9d794a",
+          "#c39d6e",
+          "#e6c49c",
+          "#ffeace"
+        ]
+      },
+      "ground": {
+        "role": "neutral",
+        "displayName": "Ganch Ivory",
+        "canonical": "#f6eee1",
+        "oklch": "oklch(95.2% 0.019 80.1)",
+        "tonalRamp": [
+          "#0d0b08",
+          "#27231e",
+          "#443f36",
+          "#635d52",
+          "#867f74",
+          "#aba497",
+          "#d0cabf",
+          "#f2eee6"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Envelope Paper",
+        "canonical": "#f7efe2",
+        "oklch": "oklch(95.5% 0.019 80.1)",
+        "tonalRamp": [
+          "#0d0b08",
+          "#27231e",
+          "#443f36",
+          "#635d52",
+          "#867f74",
+          "#aba497",
+          "#d0cabf",
+          "#f2eee6"
+        ]
+      },
+      "paper-shade": {
+        "role": "neutral",
+        "displayName": "Paper Shade",
+        "canonical": "#efe4d1",
+        "oklch": "oklch(92.3% 0.028 81.5)",
+        "tonalRamp": [
+          "#0d0b07",
+          "#28231b",
+          "#463f31",
+          "#665c4c",
+          "#897f6e",
+          "#aea391",
+          "#d2c9ba",
+          "#f4eee3"
+        ]
+      },
+      "lining": {
+        "role": "neutral",
+        "displayName": "Envelope Lining",
+        "canonical": "#ead9ba",
+        "oklch": "oklch(89.1% 0.045 82.6)",
+        "tonalRamp": [
+          "#0e0b05",
+          "#2b2314",
+          "#4a3e27",
+          "#6a5b40",
+          "#8e7e62",
+          "#b3a285",
+          "#d7c9af",
+          "#f7eddb"
+        ]
+      },
+      "surround": {
+        "role": "neutral",
+        "displayName": "Table Linen",
+        "canonical": "#e9ddc9",
+        "oklch": "oklch(90.2% 0.030 80.7)",
+        "tonalRamp": [
+          "#0d0b07",
+          "#29231a",
+          "#473e30",
+          "#665c4b",
+          "#8a7f6c",
+          "#aea390",
+          "#d3c9b9",
+          "#f5eee2"
+        ]
+      },
+      "field": {
+        "role": "neutral",
+        "displayName": "Card Stock",
+        "canonical": "#fffcf5",
+        "oklch": "oklch(99.1% 0.010 87.5)",
+        "tonalRamp": [
+          "#0c0b0a",
+          "#252421",
+          "#42403b",
+          "#605d57",
+          "#83807a",
+          "#a7a49e",
+          "#cdcac5",
+          "#f0eeea"
+        ]
+      },
+      "gilt-line": {
+        "role": "neutral",
+        "displayName": "Gilt Hairline",
+        "canonical": "rgba(176, 134, 54, 0.38)",
+        "tonalRamp": [
+          "#130900",
+          "#341f00",
+          "#593800",
+          "#7d5500",
+          "#a27826",
+          "#c89d4f",
+          "#eac585",
+          "#ffebbf"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The couple's names inside the hero arch; min(66px, 430px / longest name) times the stage scale; 58px at the close."
+      },
+      "script-title": {
+        "displayName": "Script Title",
+        "purpose": "Spoken or signed words: calendar month (40px), Rahmat (46px), hero welcome (33px x stage scale)."
+      },
+      "numeral": {
+        "displayName": "Numeral",
+        "purpose": "The day of the month in the save-the-date block, in gold-deep."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles; 24px italic for the closing line."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Welcome message and paragraphs; 16-17px for secondary text."
+      },
+      "italic-line": {
+        "displayName": "Italic Line",
+        "purpose": "Hint under the seal, scroll cue, weekday and time, sign-offs; ink-soft."
+      },
+      "date-line": {
+        "displayName": "Date Line",
+        "purpose": "Hero date in dots, 15px x stage scale, widely tracked."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Countdown units, uppercase; 15px / 0.28em beside the big numeral."
+      }
+    },
+    "shadows": [
+      {
+        "name": "column-halo",
+        "value": "0 0 80px -30px rgba(74, 51, 27, 0.35)",
+        "purpose": "The 480px column on wide screens."
+      },
+      {
+        "name": "gold-surface",
+        "value": "inset 0 1px 0 rgba(255,255,255,0.65), inset 0 0 0 1px rgba(143,106,42,0.45), 0 10px 20px -12px rgba(120,84,30,0.7)",
+        "purpose": "Gold buttons; tiles use the same recipe with a 0.35 ring and 22px drop."
+      },
+      {
+        "name": "gold-surface-hover",
+        "value": "inset 0 1px 0 rgba(255,255,255,0.75), inset 0 0 0 1px rgba(143,106,42,0.55), 0 14px 26px -12px rgba(120,84,30,0.75)",
+        "purpose": "Gold button hover."
+      },
+      {
+        "name": "gold-coin",
+        "value": "0 6px 16px -6px rgba(74,51,27,0.55), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -2px 4px rgba(120,84,30,0.35)",
+        "purpose": "Music coin."
+      },
+      {
+        "name": "flap-cast",
+        "value": "rgba(110, 78, 36, 0.22) clipped to the flap, filter: blur(5px)",
+        "purpose": "Upper envelope flaps casting on the paper beneath; 0.14 for the bottom flap."
+      },
+      {
+        "name": "lantern-light",
+        "value": "drop-shadow(0 8px 18px rgba(255,190,80,0.85)) drop-shadow(0 0 6px rgba(255,226,150,0.7))",
+        "purpose": "Hanging lanterns emitting light."
+      },
+      {
+        "name": "seal-focus",
+        "value": "drop-shadow(0 0 0.5px #8f6a2a) drop-shadow(0 0 10px rgba(246,199,106,0.9))",
+        "purpose": "Keyboard focus on the sealed envelope."
+      },
+      {
+        "name": "field-focus",
+        "value": "0 0 0 4px rgba(239, 217, 160, 0.45)",
+        "purpose": "Input focus halo with a gilt border."
+      },
+      {
+        "name": "calendar-day",
+        "value": "0 4px 10px -4px rgba(120, 84, 30, 0.7)",
+        "purpose": "The gold disc marking the wedding day."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Default: seal press, glow, names, scene settle, text reveal, panel draw, button press, showcase card lift."
+      },
+      {
+        "name": "ease-flap",
+        "value": "cubic-bezier(0.55, 0.05, 0.25, 1)",
+        "purpose": "Side and bottom flaps parting."
+      },
+      {
+        "name": "ease-top-flap",
+        "value": "cubic-bezier(0.4, 0, 0.3, 1)",
+        "purpose": "Top flap lift."
+      },
+      {
+        "name": "seal-breathe",
+        "value": "3.4s ease-in-out 1.2s infinite",
+        "purpose": "Amber glow breathing under the seal while closed."
+      },
+      {
+        "name": "open-seal-press",
+        "value": "0ms, 520ms",
+        "purpose": "Seal scales 1, 0.94, 1.05, 1; glow blooms to 1.35 over 900ms; 150 gold motes burst, trailing rise for 3.6s."
+      },
+      {
+        "name": "open-shade-fade",
+        "value": "600ms, 300ms",
+        "purpose": "Flap shadows fade."
+      },
+      {
+        "name": "open-top-flap",
+        "value": "620ms, 1500ms",
+        "purpose": "Top flap rotates to 165deg."
+      },
+      {
+        "name": "open-core",
+        "value": "650ms, 1300ms",
+        "purpose": "Amber interior core swells to 1.25."
+      },
+      {
+        "name": "open-rays",
+        "value": "900ms, 900ms in + 14s linear spin",
+        "purpose": "Light rays inside the envelope."
+      },
+      {
+        "name": "open-side-flaps",
+        "value": "1080ms / 1110ms, 1150ms",
+        "purpose": "Left and right flaps rotate 82deg."
+      },
+      {
+        "name": "open-bottom-flap",
+        "value": "1150ms, 1150ms",
+        "purpose": "Bottom flap rotates -96deg."
+      },
+      {
+        "name": "open-names",
+        "value": "1450ms, 900ms",
+        "purpose": "Names rise 12px out of an 8px blur."
+      },
+      {
+        "name": "open-bloom-in",
+        "value": "2080ms, 620ms ease-in",
+        "purpose": "White-gold bloom covers the screen."
+      },
+      {
+        "name": "to-scene",
+        "value": "2700ms",
+        "purpose": "Scene replaces the envelope (constant shared by component and stylesheet)."
+      },
+      {
+        "name": "scene-bloom-out",
+        "value": "1150ms",
+        "purpose": "Bloom clears."
+      },
+      {
+        "name": "scene-settle",
+        "value": "2200ms",
+        "purpose": "Arch stage scales 1.07 to 1."
+      },
+      {
+        "name": "scene-text",
+        "value": "1400ms, delay 300ms + i x 120ms",
+        "purpose": "Hero lines unblur from 6px in sequence."
+      },
+      {
+        "name": "lantern-swing",
+        "value": "5.2s / 6.1s / 6.7s / 7.3s ease-in-out infinite alternate, +/-2.6deg",
+        "purpose": "Each lantern on its own period."
+      },
+      {
+        "name": "lantern-flicker",
+        "value": "2.3s ease-in-out infinite alternate",
+        "purpose": "Lantern glow opacity 0.7-1."
+      },
+      {
+        "name": "panel-draw",
+        "value": "stroke-dashoffset 2.2s ease-out at 15% visibility",
+        "purpose": "Arch-panel gilt outlines drawing in."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "flaps 400ms; no dust, rays, breathing, swing, flicker, bob; panels pre-drawn",
+        "purpose": "prefers-reduced-motion: reduce."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "column",
+        "value": "480px"
+      },
+      {
+        "name": "showcase-back-outside",
+        "value": "600px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Gold Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Primary action: map link, RSVP submit. Gilded pill.",
+      "html": "<div class=\"ds-mh\"><button class=\"ds-mh-btn\">Javobni yuborish</button></div>",
+      "css": ".ds-mh{--mh-ground:#f6eee1;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 22px;border:0;border-radius:999px;font:500 15px/1 \"Bodoni Moda\",Georgia,serif;letter-spacing:.02em;color:#3f2a12;background:linear-gradient(170deg,#f8e4ad,#dcb466 60%,#c59a4a);box-shadow:inset 0 1px 0 rgba(255,255,255,.65),inset 0 0 0 1px rgba(143,106,42,.45),0 10px 20px -12px rgba(120,84,30,.7);transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s;cursor:pointer}.ds-mh-btn:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.75),inset 0 0 0 1px rgba(143,106,42,.55),0 14px 26px -12px rgba(120,84,30,.75)}.ds-mh-btn:active{transform:scale(.97)}.ds-mh-btn:focus-visible{outline:2px solid #8f6a2a;outline-offset:3px}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action beside a gold button; also the showcase replay control.",
+      "html": "<div class=\"ds-mh\"><button class=\"ds-mh-ghost\">Yandex xarita</button></div>",
+      "css": ".ds-mh{--mh-ground:#f6eee1;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-ghost{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 20px;border:0;border-radius:999px;font:15px/1 \"Bodoni Moda\",Georgia,serif;color:#4a331b;background:rgba(255,252,244,.5);box-shadow:inset 0 0 0 1px rgba(176,134,54,.38);cursor:pointer;transition:box-shadow .25s}.ds-mh-ghost:hover{box-shadow:inset 0 0 0 1px #b08636}.ds-mh-ghost:focus-visible{outline:2px solid #8f6a2a;outline-offset:3px}"
+    },
+    {
+      "name": "Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "RSVP text input on card stock with a gilt hairline.",
+      "html": "<div class=\"ds-mh\" style=\"text-align:left\"><label class=\"ds-mh-label\" for=\"ds-n\">Ism va familiyangiz</label><input id=\"ds-n\" class=\"ds-mh-field\" placeholder=\"Ismingiz\"></div>",
+      "css": ".ds-mh{--mh-ground:#f6eee1;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-label{display:block;margin-bottom:8px;font-size:14px;color:#77604a}.ds-mh-field{display:block;width:100%;box-sizing:border-box;min-height:52px;padding:14px 16px;border-radius:14px;border:1px solid rgba(176,134,54,.38);background:#fffcf5;color:#4a331b;font:16px \"Bodoni Moda\",Georgia,serif;caret-color:#8f6a2a;appearance:none}.ds-mh-field::placeholder{color:#8f7a63}.ds-mh-field:focus{outline:none;border-color:#b08636;box-shadow:0 0 0 4px rgba(239,217,160,.45)}"
+    },
+    {
+      "name": "Choice Pair",
+      "kind": "chip",
+      "refersTo": "choice",
+      "description": "Attending / not attending toggles; the pressed one turns gold.",
+      "html": "<div class=\"ds-mh\"><div class=\"ds-mh-pair\"><button class=\"ds-mh-choice\" aria-pressed=\"true\">Albatta kelaman</button><button class=\"ds-mh-choice\" aria-pressed=\"false\">Kela olmayman</button></div></div>",
+      "css": ".ds-mh{--mh-ground:#f6eee1;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ds-mh-choice{min-height:52px;border-radius:14px;border:1px solid rgba(176,134,54,.38);background:#fffcf5;font:15.5px \"Bodoni Moda\",Georgia,serif;color:#4a331b;cursor:pointer;transition:background .25s,color .25s,border-color .25s}.ds-mh-choice[aria-pressed=\"true\"]{background:linear-gradient(170deg,#f8e4ad,#dcb466);border-color:#b08636;color:#3f2a12}.ds-mh-choice:focus-visible{outline:2px solid #8f6a2a;outline-offset:3px}"
+    },
+    {
+      "name": "Countdown Tiles",
+      "kind": "card",
+      "refersTo": "countdown-tile",
+      "description": "Four gold tiles counting to the wedding.",
+      "html": "<div class=\"ds-mh\"><div class=\"ds-mh-tiles\"><div class=\"ds-mh-tile\"><b>42</b><small>kun</small></div><div class=\"ds-mh-tile\"><b>07</b><small>soat</small></div><div class=\"ds-mh-tile\"><b>15</b><small>daqiqa</small></div><div class=\"ds-mh-tile\"><b>30</b><small>soniya</small></div></div></div>",
+      "css": ".ds-mh{--mh-ground:#f6eee1;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;max-width:360px;margin:0 auto}.ds-mh-tile{border-radius:14px;padding:14px 4px 11px;background:linear-gradient(165deg,#fbefcf,#ebcd8c 70%,#dcb46a);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 0 0 1px rgba(176,134,54,.35),0 10px 22px -14px rgba(120,84,30,.6)}.ds-mh-tile b{display:block;font-size:32px;line-height:1;font-weight:500;font-variant-numeric:tabular-nums lining-nums}.ds-mh-tile small{display:block;margin-top:6px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#6a4f2c}"
+    },
+    {
+      "name": "Section Head with Gilt Rule",
+      "kind": "custom",
+      "refersTo": "",
+      "description": "Headline, gilt star rule and body message: the core section rhythm.",
+      "html": "<div class=\"ds-mh\"><h2 class=\"ds-mh-h\">Assalomu alaykum,<br>qadrli mehmon!</h2><div class=\"ds-mh-rule\"><i></i><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\"><path d=\"M8 0 L9.6 6.4 L16 8 L9.6 9.6 L8 16 L6.4 9.6 L0 8 L6.4 6.4Z\" fill=\"currentColor\"/></svg><i></i></div><p class=\"ds-mh-p\">Farzandlarimizning nikoh to‘yiga bag‘ishlangan bazmimizga sizni taklif etamiz.</p></div>",
+      "css": ".ds-mh{--mh-ground:#f6eee1;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-h{font-size:30px;line-height:1.12;font-weight:500;letter-spacing:-.005em;margin:0;text-wrap:balance}.ds-mh-rule{display:flex;align-items:center;justify-content:center;gap:10px;color:#b08636;margin:26px 0}.ds-mh-rule i{width:54px;height:1px;background:linear-gradient(90deg,transparent,currentColor)}.ds-mh-rule i:last-child{background:linear-gradient(270deg,transparent,currentColor)}.ds-mh-p{font-size:18px;line-height:1.62;margin:0;text-wrap:pretty}"
+    },
+    {
+      "name": "Save the Date",
+      "kind": "custom",
+      "refersTo": "",
+      "description": "Month and year flanking the gold-deep day numeral between gilt hairlines.",
+      "html": "<div class=\"ds-mh\"><div class=\"ds-mh-bd\"><span>iyun</span><strong>19</strong><span>2027</span></div><p class=\"ds-mh-it\">Shanba, soat 18:00</p></div>",
+      "css": ".ds-mh{--mh-ground:#f6eee1;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-bd{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px;max-width:320px;margin:0 auto 6px}.ds-mh-bd span{font-size:15px;letter-spacing:.28em;text-transform:uppercase;padding:8px 0;border-block:1px solid rgba(176,134,54,.38)}.ds-mh-bd strong{font-size:92px;line-height:.9;font-weight:400;color:#8f6a2a}.ds-mh-it{font-style:italic;font-size:16px;color:#77604a;margin:0}"
+    },
+    {
+      "name": "Script Names",
+      "kind": "custom",
+      "refersTo": "",
+      "description": "The couple's names in Corinthia, as signed at the close of the page.",
+      "html": "<div class=\"ds-mh\"><p class=\"ds-mh-names\">Sardor &amp; Mohinur</p><p class=\"ds-mh-dl\">19 iyun 2027</p></div>",
+      "css": ".ds-mh{--mh-ground:#f6eee1;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-names{font-family:Corinthia,\"Pinyon Script\",cursive;font-size:58px;line-height:1.05;color:#6a4818;margin:0}.ds-mh-dl{margin:10px 0 0;font-size:14px;letter-spacing:.18em;color:#77604a}"
+    },
+    {
+      "name": "Music Coin",
+      "kind": "button",
+      "refersTo": "music-coin",
+      "description": "Fixed gold coin, bottom-right of the column, toggling background music.",
+      "html": "<div class=\"ds-mh\"><button class=\"ds-mh-coin\" aria-label=\"Musiqani yoqish\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M8 5.5v13l10-6.5z\" fill=\"currentColor\"/></svg></button></div>",
+      "css": ".ds-mh{--mh-ground:#f6eee1;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-coin{width:48px;height:48px;border:0;border-radius:50%;display:inline-grid;place-items:center;color:#4a331b;background:radial-gradient(circle at 35% 30%,#fff3c8,#e7c77c 55%,#b48a3e);box-shadow:0 6px 16px -6px rgba(74,51,27,.55),inset 0 1px 0 rgba(255,255,255,.6),inset 0 -2px 4px rgba(120,84,30,.35);cursor:pointer}.ds-mh-coin:focus-visible{outline:2px solid #8f6a2a;outline-offset:3px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Sealed Letter at Dusk",
+    "overview": "The phone screen is the envelope, edge to edge: ivory paper whose florals exist only as blind-embossed relief, closed with a cream wax seal stamped with a gold-leaf monogram. Breaking the seal is the single orchestrated moment of the page. Light comes before movement: the seal glows, gold dust lifts off it, the flaps part on amber light, a warm bloom washes the screen, and a carved ganch (alabaster) arch settles in with Samarkand's domes and minarets dissolving into gold haze behind the couple's names.\n\nAfter the opening the page is calm and devotional: one centred phone-width column on ganch ivory, sepia ink, gilt hairlines, pointed-arch panels whose gold outline draws itself in view. Ornament is relief and light, not colour. Every scene is drawn in code (SVG, CSS, one canvas); there are no photographs, paintings or people.",
+    "keyCharacteristics": [
+      "Full-bleed envelope as the first viewport; the seal is the only control.",
+      "Paper-on-paper relief: motifs carry the paper's own tone, shaped by a light/shadow filter.",
+      "Gold is a material (leaf, gilt edge, coin), rendered as gradients from deep antique to pale champagne, never as a flat accent fill.",
+      "Sepia ink throughout; no black anywhere a guest can see.",
+      "Two faces: Corinthia script for names and spoken greetings, Bodoni Moda for everything set.",
+      "Slow exponential ease-out; one choreographed sequence, then only ambient motion (lantern swing, flicker, breathing glow)."
+    ],
+    "rules": [
+      {
+        "name": "The Sepia Rule",
+        "body": "Ink is brown, never black. Black (`#000`, `rgba(0,0,0,.5)`) appears only as an alpha mask inside relief filters, where it is never painted.",
+        "section": "colors"
+      },
+      {
+        "name": "The Light Is Not Paint Rule",
+        "body": "Amber and the white-gold radial blooms describe light sources (seal, lanterns, envelope interior, sun disc). They never fill a card, a button or text.",
+        "section": "colors"
+      },
+      {
+        "name": "The Spoken Script Rule",
+        "body": "Corinthia sets only names and words a person would say or sign. Instructions, data and headings are Bodoni Moda.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Line Rule",
+        "body": "The sealed envelope carries exactly one line of text, an italic instruction under the seal. Nothing else is printed on the paper.",
+        "section": "typography"
+      },
+      {
+        "name": "The Relief Not Ink Rule",
+        "body": "Embossed motifs (envelope florals, section sprays, ganch carving) are drawn as alpha shapes and turned into light and shadow by a filter; they always end up the tone of the surface they are carved into.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do render gold as a gradient material with a highlight and a darker edge (deep antique to pale champagne), not as a flat fill.",
+      "Do keep every motif paper-on-paper: draw alpha shapes and let the relief filter turn them into light and shadow.",
+      "Do time motion with the slow ease-out (`cubic-bezier(0.16, 1, 0.3, 1)`) and bring light in before movement.",
+      "Do derive arches from the shared pointed-arch path so the hero, panels and map read as one architecture.",
+      "Do keep fixed controls aligned to the 480px column and clear of safe-area insets.",
+      "Do honour reduced motion with the shortened flap opening and static ornaments."
+    ],
+    "donts": [
+      "Don't print colour ornament on the envelope; it carries only relief, the seal and one italic line.",
+      "Don't use black ink or neutral grey anywhere visible; text is sepia.",
+      "Don't add a second orchestrated moment after the opening; later motion stays ambient or reveal-on-view.",
+      "Don't set instructions, data or headings in the script face.",
+      "Don't add photographs, paintings or figures to the scene; it is architecture, light and ornament drawn in code.",
+      "Don't let a later template borrow these tokens, the seal or the arch; it shares only the showcase shell."
+    ]
+  }
+}
