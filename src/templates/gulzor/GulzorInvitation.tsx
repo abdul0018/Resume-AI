@@ -168,6 +168,7 @@ export function GulzorInvitation({ data, replayToken = 0, endSlot }: Props) {
               <Film
                 spec={film}
                 names={names}
+                sub={formatDateDots(data.date)}
                 nameSize={Math.min(box.w * 0.12, (box.w * 1.9) / Math.max(names.length, 8))}
                 box={box}
                 state={stage}
@@ -222,6 +223,11 @@ export function GulzorClosed({ data, box }: { data: InviteData; box: { w: number
       <p className="film-names" style={{ top: `${(film.names ?? 0.3) * 100}%`, fontSize: Math.min(box.w * 0.12, (box.w * 1.9) / Math.max(names.length, 8)) }}>
         {names}
       </p>
+      {film.sub !== undefined && (
+        <p className="film-sub" style={{ top: `${film.sub * 100}%`, fontSize: Math.max(8, box.w * 0.043) }}>
+          {formatDateDots(data.date)}
+        </p>
+      )}
     </div>
   );
 }
@@ -559,6 +565,7 @@ function Sections({ data }: { data: InviteData }) {
 
       {/* the day: date, place, programme and what to wear */}
       <section className="gz-panel gz-day">
+        <Wave d={WAVES[3]} />
         <Blossoms edge="top" seed={3} />
         <p className="gz-kick" data-reveal="up">
           Eng muhimi

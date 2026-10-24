@@ -28,8 +28,9 @@
   --film-focus: var(--gz-sage-deep);
   --film-script: var(--gz-script);
   --film-names: #5d6b52;
-  --film-hint: #4c5843;
-  --film-hint-glow: #eef0e6;
+  --film-serif: var(--gz-serif);
+  --film-hint: #fdfcf6;
+  --film-hint-glow: rgba(46, 56, 38, 0.55);
 
   /* the showcase's buttons under the last panel */
   --sc-ink: var(--gz-ink);
@@ -598,7 +599,7 @@
   inset: 0;
   background:
     linear-gradient(180deg, rgba(28, 36, 26, 0.34) 0%, rgba(28, 36, 26, 0) 20%),
-    radial-gradient(80% 36% at 50% 42%, rgba(30, 40, 28, 0.36), rgba(30, 40, 28, 0) 72%),
+    radial-gradient(95% 34% at 50% 40%, rgba(30, 40, 28, 0.46), rgba(30, 40, 28, 0) 74%),
     linear-gradient(180deg, rgba(28, 36, 26, 0) 66%, rgba(28, 36, 26, 0.3) 100%);
   opacity: 0;
 }
@@ -647,7 +648,9 @@
   font-family: var(--gz-script);
   font-weight: 400;
   line-height: 0.92;
-  text-shadow: 0 2px 22px rgba(22, 30, 20, 0.4);
+  text-shadow:
+    0 1px 3px rgba(22, 30, 20, 0.35),
+    0 2px 24px rgba(22, 30, 20, 0.55);
 }
 .gz-hn {
   /* room for the script's swashes inside the handwriting mask */
@@ -801,7 +804,12 @@
   padding-bottom: 0;
 }
 .gz-day {
+  z-index: 5;
   padding-top: 0;
+}
+/* the day rises over the foot of the bouquet */
+.gz-day > .gz-wave + .gz-blossoms-top {
+  margin-top: -6px;
 }
 .gz-way {
   padding-top: 26px;
@@ -907,9 +915,8 @@
 .gz-bouquet {
   display: block;
   width: 100%;
-  aspect-ratio: 5 / 4;
+  aspect-ratio: 1;
   object-fit: cover;
-  object-position: 50% 70%;
   -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 34%);
   mask-image: linear-gradient(180deg, transparent 0%, #000 34%);
 }
@@ -928,8 +935,7 @@
 .gz-blossoms img {
   display: block;
   width: 100%;
-  aspect-ratio: 3 / 1.25;
-  object-fit: cover;
+  height: auto;
   mix-blend-mode: multiply;
 }
 .gz-blossoms-top img {
@@ -1190,7 +1196,11 @@
 /* --- a line about love ------------------------------------------------- */
 .gz-quote {
   position: relative;
-  background: var(--gz-ground);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 400px;
+  background: var(--gz-paper);
   padding: 70px 28px 80px;
   text-align: left;
   overflow: hidden;
@@ -1199,7 +1209,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 64%;
+  width: 54%;
   pointer-events: none;
 }
 .gz-roses-img {
@@ -1282,6 +1292,8 @@
 .gz-map {
   position: relative;
   display: block;
+  --pin-x: 50%;
+  --pin-y: 51%;
   width: min(100%, 340px);
   aspect-ratio: 1;
   margin: 30px auto 0;
@@ -1303,10 +1315,16 @@
   height: 100%;
   object-fit: cover;
 }
+/* the owner's painted map is taller, its house a little above the middle */
+.gz-map[data-painted] {
+  --pin-x: 51.5%;
+  --pin-y: 43%;
+  aspect-ratio: 4 / 5;
+}
 .gz-map-pin {
   position: absolute;
-  left: 50%;
-  top: 51%;
+  left: var(--pin-x);
+  top: var(--pin-y);
   translate: -50% -100%;
   line-height: 0;
   filter: drop-shadow(0 4px 4px rgba(40, 50, 32, 0.3));
@@ -1740,10 +1758,10 @@
   transition: clip-path 1700ms cubic-bezier(0.5, 0, 0.2, 1);
 }
 .gz-map:not([data-in]) .gz-map-shape {
-  clip-path: circle(0% at 50% 51%);
+  clip-path: circle(0% at var(--pin-x) var(--pin-y));
 }
 .gz-map[data-in] .gz-map-shape {
-  clip-path: circle(75% at 50% 51%);
+  clip-path: circle(80% at var(--pin-x) var(--pin-y));
 }
 .gz-map[data-in] .gz-map-pin {
   animation: gz-drop 900ms cubic-bezier(0.3, 1.4, 0.5, 1) 1000ms both;

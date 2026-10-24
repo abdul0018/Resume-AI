@@ -18,6 +18,8 @@ export interface FilmSpec {
   /** Heights of the printed names and the hint on the closed card, as fractions of the frame. */
   names?: number;
   hint?: number;
+  /** Height of an optional line set under the flowers (the date), as a fraction of the frame. */
+  sub?: number;
   /** When things happen in the film (seconds), so the sounds land on them. */
   cues?: FilmCues;
   /** For end "scene": where the photograph and its roses lie in the film's last frame (frame pixels), so the
@@ -88,6 +90,7 @@ export function Film({
   spec,
   names,
   nameSize,
+  sub,
   box,
   state,
   onOpen,
@@ -98,6 +101,8 @@ export function Film({
   spec: FilmSpec;
   names: string;
   nameSize: number;
+  /** A line set lower on the closed card, at `spec.sub` (the date). */
+  sub?: string;
   box: { w: number; h: number };
   state: "closed" | "opening";
   /** Called inside the tap, so music and sound may start with it. */
@@ -235,6 +240,11 @@ export function Film({
       <p className="film-names" style={{ top: `${(spec.names ?? 0.35) * 100}%`, fontSize: nameSize }} aria-hidden="true">
         {names}
       </p>
+      {sub && spec.sub !== undefined && (
+        <p className="film-sub" style={{ top: `${spec.sub * 100}%` }} aria-hidden="true">
+          {sub}
+        </p>
+      )}
       <p className="film-hint" style={{ top: `${(spec.hint ?? 0.8) * 100}%` }} aria-hidden="true">
         Ochish uchun bosing
       </p>

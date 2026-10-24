@@ -86,8 +86,19 @@ with a sage silk bow.
 During the camera move, the photograph inside grows with the card, locked to its edges: both use the same
 curve about the same point (scale 0.86 to 1.10, then a settle to 1.04).
 
-**Film.** Where `public/film/gulzor/` holds a film, it plays instead and melts into the hero. The lettering is
-written in once the film has gone.
+**Film.** The owner's film (`public/film/gulzor/`, 10 s, 720 x 1280, 2.6 MB) plays instead. The closed card is
+its first frame, with the names at 24.5% and the date at 66.5% of the frame set over it, and the hint on the
+linen at 84.5%. The film ends on the garden arch. The hero photograph is that very last frame, so the film
+melts into it without a seam (1.2 s), and the lettering is written in after. Its sounds land on the film's own
+moments:
+
+| cue | s |
+| --- | --- |
+| bow | 1.4 |
+| flowers part | 2.3 |
+| doors | 4.1, 5.3 |
+| camera | 6.2 |
+| bells | 9.4 |
 
 **Reduced motion.** The card fades away in 450 ms onto a still hero.
 
@@ -109,6 +120,10 @@ Each element is revealed once, as it scrolls into view:
 The photographed flowers are multiplied onto the paper, so they are wiped in and never faded.
 
 ## Photographs
+
+The owner's pictures are in place. The hero is the film's last frame; the others are cropped to their
+flowers: the bouquet square, the blossom borders to their flowered strip, the roses to their right-hand
+spray, and the map to 4:5 with the manor house at 51.5%, 43%.
 
 The template reads any file in `src/templates/gulzor/assets` by name: `hero`, `bouquet`, `blossoms-top`,
 `blossoms-bottom`, `roses`, `table` and `map` (jpg, png or webp). Until one is supplied, its place is drawn:

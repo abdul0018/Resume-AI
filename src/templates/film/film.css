@@ -4,7 +4,7 @@
  *   --film-ground   behind the film while it loads
  *   --film-focus    the keyboard focus ring
  *   --film-script   the couple's names
- *   --film-names    the names' colour
+ *   --film-names    the names' colour (and the line under the flowers, set in --film-serif)
  *   --film-hint     the hint's colour, and --film-hint-glow its halo
  */
 
@@ -57,6 +57,19 @@
   color: var(--film-names, #8a6128);
   transition: opacity 0.7s ease;
 }
+.film-sub {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0;
+  text-align: center;
+  font-family: var(--film-serif, Georgia, serif);
+  font-size: 17px;
+  letter-spacing: 0.3em;
+  padding-left: 0.3em;
+  color: var(--film-names, #8a6128);
+  transition: opacity 0.7s ease;
+}
 .film-hint {
   position: absolute;
   left: 0;
@@ -85,6 +98,7 @@
   }
 }
 .film[data-state="opening"] .film-names,
+.film[data-state="opening"] .film-sub,
 .film[data-state="opening"] .film-hint {
   opacity: 0;
   animation: none;

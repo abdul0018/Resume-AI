@@ -2,15 +2,23 @@ import { useId } from "react";
 
 /**
  * The way to the venue as an illustrated garden map in a soft organic shape, the venue's house pinned at its
- * centre. With `src` (the owner's watercolour map) the picture is used; otherwise the garden is drawn here in
- * watercolour washes.
+ * centre. With `src` (the owner's watercolour map, 4:5, its manor house at 51.5%, 43%) the picture is used;
+ * otherwise the garden is drawn here in watercolour washes.
  */
 export function GardenMap({ venue, src, href }: { venue: string; src?: string; href: string }) {
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
   const id = (n: string) => `gzm-${n}-${uid}`;
   const label = venue.length > 26 ? `${venue.slice(0, 25)}…` : venue;
   return (
-    <a className="gz-map" href={href} target="_blank" rel="noopener noreferrer" aria-label={`Xaritada ochish: ${venue}`} data-reveal="map">
+    <a
+      className="gz-map"
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Xaritada ochish: ${venue}`}
+      data-reveal="map"
+      data-painted={src ? "" : undefined}
+    >
       <div className="gz-map-shape">
         {src ? <img className="gz-map-img" src={src} alt="" loading="lazy" decoding="async" /> : <DrawnGarden id={id} />}
       </div>
