@@ -49,6 +49,12 @@ export const inviteDataSchema = z.object({
     .refine((v) => v === "" || v.length === 16, "Karta raqami 16 ta raqamdan iborat bo‘lishi kerak")
     .optional(),
   giftCardHolder: trimmed(80).optional(),
+  /** A number guests may call or message with questions (phone, Telegram, WhatsApp). */
+  contactPhone: z
+    .string()
+    .trim()
+    .refine((v) => v === "" || /^\+?[\d\s()-]{9,20}$/.test(v), "Telefon raqamini to‘g‘ri kiriting")
+    .optional(),
   message: trimmed(900).default(""),
   bismillah: z.boolean().default(false),
   program: z.array(programItemSchema).max(8).default([]),

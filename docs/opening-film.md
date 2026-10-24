@@ -1,7 +1,8 @@
-# Opening film (Atlas lenta template)
+# Opening films
 
-The invitation can open with a pre-rendered film instead of the drawn envelope: the satin bow unties and
-the doors and inner flaps open. The couple's names are set over the film's first frame in type, so one film
+Each template can open with a pre-rendered film instead of its drawn opening. Atlas lenta's film (below):
+the satin bow unties and the doors and inner flaps open. Gulzor's film (prompts in `docs/gulzor-images.md`):
+the line of fresh flowers parts, the doors open and the camera moves down into the garden. The couple's names are set over the film's first frame in type, so one film
 serves every couple. The film ends one of two ways (`end` in opening.json):
 
 - `"scene"` (the current film): the film plays its own dissolve into the photo scene; its last frame then
@@ -9,12 +10,15 @@ serves every couple. The film ends one of two ways (`end` in opening.json):
   film before any baked-in text appears, and give `scene` (below) so the live scene lands on the film.
 - `"card"`: the camera moves into the card lying in its last frame until it fills the screen.
 
+For tests, `window.__FILM_OVERRIDE__ = { muhr: spec }` set before the page loads replaces the built film.
+
 Without a film, or if a phone cannot play it (nothing moving 2.5 s after the tap), the drawn envelope plays
 instead. A film that stalls part-way for 3 s hands over where it is.
 
 ## Files
 
-Put these in `public/film/` and run `npm run build:showcase`:
+Put these in `public/film/<template>/` (`muhr` for Atlas lenta, `gulzor` for Gulzor) and run
+`npm run build:showcase`:
 
 | file | what |
 | --- | --- |
@@ -36,8 +40,8 @@ Encode a generated film:
 
 ```sh
 ffmpeg -i generated.mp4 -t 8.25 -an -vf "scale=720:1280:force_original_aspect_ratio=increase,crop=720:1280" \
-  -c:v libx264 -profile:v high -crf 23 -preset slow -pix_fmt yuv420p -movflags +faststart -an public/film/opening.mp4
-ffmpeg -i public/film/opening.mp4 -frames:v 1 -q:v 2 public/film/opening.jpg
+  -c:v libx264 -profile:v high -crf 23 -preset slow -pix_fmt yuv420p -movflags +faststart -an public/film/muhr/opening.mp4
+ffmpeg -i public/film/muhr/opening.mp4 -frames:v 1 -q:v 2 public/film/muhr/opening.jpg
 ```
 
 ## Generating it

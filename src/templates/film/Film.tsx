@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import "./film.css";
 
 /**
  * A pre-rendered opening film: the satin bow untied, the doors and the inner envelope opened. Closed, the
@@ -52,10 +53,15 @@ export interface FilmCues {
   end: number;
 }
 
-/** A film supplied by the build (showcase) or, for tests, set on the window before the page loads. */
-export function filmSpec(): FilmSpec | null {
-  const w = window as { __MUHR_FILM__?: FilmSpec; __VISOL_FILM__?: FilmSpec };
-  return w.__MUHR_FILM__ ?? w.__VISOL_FILM__ ?? null;
+type Films = Record<string, FilmSpec | null | undefined>;
+
+/** A template's film, supplied by the build (showcase) or, for tests, set on the window before the page loads. */
+export function filmSpec(template: string): FilmSpec | null {
+  if (typeof window === "undefined") return null;
+  const w = window as { __FILM_OVERRIDE__?: Films; __VISOL_FILMS__?: Films };
+  const override = w.__FILM_OVERRIDE__;
+  if (override && template in override) return override[template] ?? null;
+  return w.__VISOL_FILMS__?.[template] ?? null;
 }
 
 /** iOS will not play a <video> from a data: URI, but it will from a blob: URL made of the same bytes. */
@@ -192,10 +198,11 @@ export function Film({
 
   return (
     <div
-      className="mh-film"
+      className="film"
       data-state={state}
       data-end={spec.end ?? "scene"}
       data-handover={handover || undefined}
+      data-opener=""
       role={state === "closed" ? "button" : undefined}
       tabIndex={state === "closed" ? 0 : undefined}
       aria-label={state === "closed" ? "Taklifnomani ochish" : undefined}
@@ -209,7 +216,7 @@ export function Film({
     >
       <video
         ref={video}
-        className="mh-film-video"
+        className="film-video"
         src={src}
         poster={spec.poster}
         muted
@@ -225,10 +232,10 @@ export function Film({
         style={zoom ?? undefined}
         data-zoom={zoom ? "" : undefined}
       />
-      <p className="mh-film-names" style={{ top: `${(spec.names ?? 0.35) * 100}%`, fontSize: nameSize }} aria-hidden="true">
+      <p className="film-names" style={{ top: `${(spec.names ?? 0.35) * 100}%`, fontSize: nameSize }} aria-hidden="true">
         {names}
       </p>
-      <p className="mh-film-hint" style={{ top: `${(spec.hint ?? 0.8) * 100}%` }} aria-hidden="true">
+      <p className="film-hint" style={{ top: `${(spec.hint ?? 0.8) * 100}%` }} aria-hidden="true">
         Ochish uchun bosing
       </p>
     </div>

@@ -11,7 +11,7 @@ import { startGoldDust } from "./goldDust";
 import { LineArt, type LineArtKind } from "./LineArt";
 import { archPath } from "./Ornaments";
 import { SatinBow } from "./SatinBow";
-import { Film, filmSpec, frameToScreen, type FilmScene, type FilmSpec } from "./Film";
+import { Film, filmSpec, frameToScreen, type FilmScene, type FilmSpec } from "../film/Film";
 import { ScratchCard } from "./ScratchCard";
 import heroUrl from "./assets/hero.jpg";
 import paperUrl from "./assets/paper.jpg";
@@ -90,7 +90,7 @@ export function MuhrInvitation({ data, replayToken = 0, endSlot }: Props) {
   const music = useMusic(data.music);
   // the rendered opening film, when one is supplied and motion is welcome; otherwise the drawn envelope
   const [film, setFilm] = useState<FilmSpec | null>(() =>
-    typeof window === "undefined" || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ? null : filmSpec(),
+    typeof window === "undefined" || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ? null : filmSpec("muhr"),
   );
   const heroRef = useRef<HTMLElement>(null);
   const timers = useRef<number[]>([]);
@@ -240,13 +240,13 @@ export function MuhrInvitation({ data, replayToken = 0, endSlot }: Props) {
 
 /** The closed invitation as a thumbnail: the opening film's first frame with the names set on it, or the drawn envelope. */
 export function ClosedCard({ data, box }: { data: InviteData; box: { w: number; h: number } }) {
-  const film = typeof window === "undefined" ? null : filmSpec();
+  const film = filmSpec("muhr");
   if (!film) return <Envelope data={data} box={box} state="closed" interactive={false} />;
   const names = `${data.groom} & ${data.bride}`;
   return (
-    <div className="mh-film" aria-hidden="true">
-      <img className="mh-film-video" src={film.poster} alt="" />
-      <p className="mh-film-names" style={{ top: `${(film.names ?? 0.35) * 100}%`, fontSize: Math.min(box.w * 0.13, (box.w * 2.1) / Math.max(names.length, 8)) }}>
+    <div className="film" aria-hidden="true">
+      <img className="film-video" src={film.poster} alt="" />
+      <p className="film-names" style={{ top: `${(film.names ?? 0.35) * 100}%`, fontSize: Math.min(box.w * 0.13, (box.w * 2.1) / Math.max(names.length, 8)) }}>
         {names}
       </p>
     </div>
@@ -399,6 +399,7 @@ export function Envelope({
     <div
       ref={root}
       className="mh-env"
+      data-opener=""
       data-state={state}
       data-pull={pull}
       style={{

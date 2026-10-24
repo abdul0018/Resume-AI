@@ -1,4 +1,7 @@
-/** Rose petals drifting down over the photograph, with soft motes of sunset light rising through it. */
+/**
+ * Rose petals drifting down over the photograph, with soft motes of sunset light rising through it.
+ * Templates may pass their own petal colours, leave out the motes, or change how many petals fall.
+ */
 
 interface Petal {
   x: number;
@@ -22,7 +25,7 @@ interface Mote {
   phase: number;
 }
 
-const TINTS = [
+const TINTS: [string, string][] = [
   ["#fff6ea", "#f1d9c2"],
   ["#fbe9dc", "#e9c3a8"],
   ["#fdf1e1", "#e6caa0"],
@@ -41,8 +44,15 @@ function moteSprite() {
   return c;
 }
 
-function drawPetal(ctx: CanvasRenderingContext2D, p: Petal) {
-  const [light, deep] = TINTS[p.tint];
+export interface AmbientOptions {
+  /** [light, deep] gradient pairs, one picked per petal */
+  tints?: [string, string][];
+  motes?: boolean;
+  count?: number;
+}
+
+function drawPetal(ctx: CanvasRenderingContext2D, p: Petal, tints: string[][]) {
+  const [light, deep] = tints[p.tint];
   ctx.save();
   ctx.translate(p.x, p.y);
   ctx.rotate(p.angle);
@@ -64,7 +74,7 @@ function drawPetal(ctx: CanvasRenderingContext2D, p: Petal) {
   ctx.restore();
 }
 
-export function startAmbient(canvas: HTMLCanvasElement) {
+export function startAmbient(canvas: HTMLCanvasElement, { tints = TINTS, motes: withMotes = true, count = 11 }: AmbientOptions = {}) {
   const ctx = canvas.getContext("2d");
   if (!ctx) return () => undefined;
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -91,13 +101,13 @@ export function startAmbient(canvas: HTMLCanvasElement) {
     angle: rand(0, Math.PI * 2),
     flip: rand(0, Math.PI * 2),
     size: rand(5, 9.5),
-    tint: Math.floor(rand(0, TINTS.length)),
+    tint: Math.floor(rand(0, tints.length)),
   });
   const mote = (): Mote => ({ x: rand(0, w), y: rand(h * 0.35, h), vy: rand(0.12, 0.35), r: rand(6, 16), phase: rand(0, Math.PI * 2) });
 
   // the first petals are already in the air when the scene appears
-  const petals = Array.from({ length: 11 }, (_, i) => petal(i > 4));
-  const motes = Array.from({ length: 16 }, mote);
+  const petals = Array.from({ length: count }, (_, i) => petal(i > count * 0.4));
+  const motes = withMotes ? Array.from({ length: 16 }, mote) : [];
   const glow = moteSprite();
 
   let raf = 0;
@@ -127,7 +137,7 @@ export function startAmbient(canvas: HTMLCanvasElement) {
       p.angle += p.spin * k;
       p.flip += 0.03 * k;
       if (p.y > h + 20) Object.assign(p, petal(true));
-      drawPetal(ctx, p);
+      drawPetal(ctx, p, tints);
     }
     ctx.globalAlpha = 1;
     if (running) raf = requestAnimationFrame(frame);

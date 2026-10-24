@@ -19,6 +19,16 @@
 
   --mh-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
+  --film-ground: var(--mh-paper);
+  --film-focus: var(--mh-gold-deep);
+  --film-script: var(--mh-script);
+
+  /* the showcase's buttons under the last section */
+  --sc-ink: var(--mh-ink);
+  --sc-line: var(--mh-line);
+  --sc-font: var(--mh-serif);
+  --sc-focus: var(--mh-gold-deep);
+
   background: var(--mh-surround);
   color: var(--mh-ink);
   font-family: var(--mh-serif);
@@ -2371,82 +2381,4 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-}
-
-
-/* ------------------------------------------------------------------ */
-/* The opening film: played on the tap, then the camera moves in       */
-/* ------------------------------------------------------------------ */
-
-.mh-film {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  overflow: hidden;
-  background: var(--mh-paper);
-  -webkit-tap-highlight-color: transparent;
-}
-.mh-film[data-state="closed"] {
-  cursor: pointer;
-}
-.mh-film:focus-visible {
-  outline: 2px solid var(--mh-gold-deep);
-  outline-offset: -4px;
-}
-.mh-film-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  pointer-events: none;
-}
-/* the move into the card: slow to leave, slow to arrive */
-.mh-film-video[data-zoom] {
-  transition: transform 1500ms cubic-bezier(0.62, 0, 0.18, 1);
-}
-/* the live page shows through: quickly as the camera arrives at a card, slowly as the film dissolves into
-   the scene, which comes into focus beneath it */
-.mh-film[data-handover] {
-  opacity: 0;
-  transition: opacity 450ms ease-in;
-}
-.mh-film[data-end="scene"][data-handover] {
-  transition: opacity 1000ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-/* the couple's names and the hint, set on the closed card in type so one film serves every couple */
-.mh-film-names {
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: 0;
-  text-align: center;
-  font-family: var(--mh-script);
-  line-height: 1;
-  color: #8a6128;
-  transition: opacity 0.7s ease;
-}
-.mh-film-hint {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 80%;
-  margin: 0;
-  text-align: center;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: #6a5236;
-  text-shadow:
-    0 0 3px #fbf6ec,
-    0 0 9px #fbf6ec;
-  animation: mh-hint 3.6s ease-in-out 1.2s infinite;
-  transition: opacity 0.4s ease;
-}
-.mh-film[data-state="opening"] .mh-film-names,
-.mh-film[data-state="opening"] .mh-film-hint {
-  opacity: 0;
-  animation: none;
 }

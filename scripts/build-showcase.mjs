@@ -23,16 +23,25 @@ const music = Object.fromEntries(
   ["toylar"].map((id) => [id, `data:audio/mpeg;base64,${fs.readFileSync(`public/music/${id}.mp3`).toString("base64")}`]),
 );
 
-// The opening film, when one has been prepared: public/film/opening.mp4 (H.264), its first frame
-// opening.jpg, and opening.json { "card": { x, y, w, h }, "names"?: 0.35 } locating the card in the last frame.
-const filmDir = "public/film";
-const film = fs.existsSync(`${filmDir}/opening.mp4`)
-  ? {
-      src: `data:video/mp4;base64,${fs.readFileSync(`${filmDir}/opening.mp4`).toString("base64")}`,
-      poster: `data:image/jpeg;base64,${fs.readFileSync(`${filmDir}/opening.jpg`).toString("base64")}`,
-      ...JSON.parse(fs.readFileSync(`${filmDir}/opening.json`, "utf8")),
-    }
-  : null;
+// Each template's opening film, when one has been prepared in public/film/<template>/: opening.mp4 (H.264),
+// its first frame opening.jpg, and opening.json (see docs/opening-film.md).
+const filmRoot = "public/film";
+const films = Object.fromEntries(
+  fs
+    .readdirSync(filmRoot)
+    .filter((id) => fs.existsSync(`${filmRoot}/${id}/opening.mp4`))
+    .map((id) => {
+      const dir = `${filmRoot}/${id}`;
+      return [
+        id,
+        {
+          src: `data:video/mp4;base64,${fs.readFileSync(`${dir}/opening.mp4`).toString("base64")}`,
+          poster: `data:image/jpeg;base64,${fs.readFileSync(`${dir}/opening.jpg`).toString("base64")}`,
+          ...JSON.parse(fs.readFileSync(`${dir}/opening.json`, "utf8")),
+        },
+      ];
+    }),
+);
 
 // A page fragment: the host wraps it in <!doctype html><head>…<body>.
 const page = `<title>Taklifnoma namunalari</title>
@@ -41,13 +50,13 @@ const page = `<title>Taklifnoma namunalari</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri&text=${encodeURIComponent("بسم الله الرحمن الرحيم")}&display=swap" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Corinthia:wght@400;700&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Corinthia:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Great+Vibes&display=swap" />
 <style>
 ${css}
 html, body { background: #f8f5ef; color: #141414; }
 </style>
 <div id="root"></div>
-<script>window.__VISOL_MUSIC__ = ${JSON.stringify(music)};${film ? ` window.__VISOL_FILM__ = ${JSON.stringify(film)};` : ""}</script>
+<script>window.__VISOL_MUSIC__ = ${JSON.stringify(music)}; window.__VISOL_FILMS__ = ${JSON.stringify(films)};</script>
 <script type="module">
 ${safeScript(js)}
 </script>
