@@ -1,19 +1,129 @@
 {
- "video": "video.mp4", "voice": "voice.wav", "sfx": true, "end": 13.4,
+ "video": "video.mp4",
+ "voice": "voice.wav",
+ "sfx": false,
+ "end": 13.4,
  "steps": [
-  {"score": "5.0", "scoreAt": 0.25, "icon": "owl", "iconAt": 1.75, "out": 2.9},
-  {"score": "6.0", "scoreAt": 3.2, "icon": "engnovate", "iconAt": 4.8, "out": 6.05},
-  {"score": "7.0", "scoreAt": 6.4, "icon": "liz", "iconAt": 7.8, "out": 8.9}
+  {
+   "score": "5.0",
+   "scoreAt": 0.25,
+   "icon": "owl",
+   "iconAt": 1.75,
+   "out": 2.9
+  },
+  {
+   "score": "6.0",
+   "scoreAt": 3.2,
+   "icon": "engnovate",
+   "iconAt": 4.8,
+   "out": 6.05
+  },
+  {
+   "score": "7.0",
+   "scoreAt": 6.4,
+   "icon": "liz",
+   "iconAt": 7.8,
+   "out": 8.9
+  }
  ],
  "captions": [
-  {"text": "Agar bu kerak bo‘lsa,", "start": 0.1, "end": 1.3},
-  {"text": "bundan foydalaning.", "start": 1.6, "end": 2.75},
-  {"text": "Agar bu kerak bo‘lsa,", "start": 3.1, "end": 4.4},
-  {"text": "bundan foydalaning.", "start": 4.75, "end": 5.95},
-  {"text": "Agar bu kerak bo‘lsa,", "start": 6.4, "end": 7.5},
-  {"text": "bundan foydalaning.", "start": 7.75, "end": 8.8},
-  {"text": "Agar IELTSdan 8 olmoqchi bo‘lsangiz", "start": 9.15, "end": 10.85, "y": 1250},
-  {"text": "Goprep.gg dan", "start": 11.15, "end": 13.4, "y": 1020, "below": {"text": "foydalaning.", "start": 11.75, "y": 1545}}
+  {
+   "text": "Agar bu kerak bo‘lsa,",
+   "start": 0.1,
+   "end": 1.3
+  },
+  {
+   "text": "bundan foydalaning.",
+   "start": 1.6,
+   "end": 2.75
+  },
+  {
+   "text": "Agar bu kerak bo‘lsa,",
+   "start": 3.1,
+   "end": 4.4
+  },
+  {
+   "text": "bundan foydalaning.",
+   "start": 4.75,
+   "end": 5.95
+  },
+  {
+   "text": "Agar bu kerak bo‘lsa,",
+   "start": 6.4,
+   "end": 7.5
+  },
+  {
+   "text": "bundan foydalaning.",
+   "start": 7.75,
+   "end": 8.8
+  },
+  {
+   "text": "Agar IELTSdan 8 olmoqchi bo‘lsangiz",
+   "start": 9.15,
+   "end": 10.85,
+   "y": 1250
+  },
+  {
+   "text": "Goprep.gg dan",
+   "start": 11.15,
+   "end": 13.4,
+   "y": 1020,
+   "below": {
+    "text": "foydalaning.",
+    "start": 11.75,
+    "y": 1545
+   }
+  }
  ],
- "finale": {"score": "8.0", "scoreAt": 9.85, "icon": "goprep", "iconAt": 11.12, "hit": "hit.wav"}
+ "finale": {
+  "score": "8.0",
+  "scoreAt": 9.85,
+  "icon": "goprep",
+  "iconAt": 11.12
+ },
+ "voiceVolume": 0.76,
+ "music": "v_bed.wav",
+ "musicVolume": 1.0,
+ "cues": [
+  {
+   "file": "v_click.wav",
+   "at": 0.22,
+   "vol": 1.0
+  },
+  {
+   "file": "v_ding.wav",
+   "at": 1.73,
+   "vol": 1.0
+  },
+  {
+   "file": "v_click.wav",
+   "at": 3.1700000000000004,
+   "vol": 1.0
+  },
+  {
+   "file": "v_ding.wav",
+   "at": 4.78,
+   "vol": 1.0
+  },
+  {
+   "file": "v_click.wav",
+   "at": 6.37,
+   "vol": 1.0
+  },
+  {
+   "file": "v_ding.wav",
+   "at": 7.78,
+   "vol": 1.0
+  },
+  {
+   "file": "v_click.wav",
+   "at": 9.82,
+   "vol": 1.0
+  },
+  {
+   "file": "v_ding_big.wav",
+   "at": 11.1,
+   "vol": 1.0
+  }
+ ]
 }

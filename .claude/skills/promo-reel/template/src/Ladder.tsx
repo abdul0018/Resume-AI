@@ -80,6 +80,8 @@ export type LadderProps = {
   video: string; voice?: string; voiceVolume?: number; music?: string; musicVolume?: number; sfx?: boolean;
   steps: Step[]; captions: Cap[];
   finale: {score: string; scoreAt: number; icon: string; iconAt: number; hit?: string};
+  /** Explicit sound cues (e.g. one-shots lifted from a reference): file in public/, time in s, volume. */
+  cues?: {file: string; at: number; vol?: number}[];
   end: number;
 };
 
@@ -162,6 +164,7 @@ export const LadderReel: React.FC<LadderProps> = (p) => {
       {p.voice && <Audio src={src(p.voice)} volume={p.voiceVolume ?? 1} />}
       {p.music && <Audio src={staticFile(p.music)} volume={p.musicVolume ?? 0.3} />}
       {fin.hit && <Sequence from={s(fin.iconAt)} durationInFrames={30} layout="none"><Audio src={staticFile(fin.hit)} volume={1} /></Sequence>}
+      {(p.cues ?? []).map((c, i) => <Sequence key={`c${i}`} from={Math.max(0, s(c.at))} durationInFrames={45} layout="none"><Audio src={staticFile(c.file)} volume={c.vol ?? 1} /></Sequence>)}
       {sfx.map((e, i) => <Sequence key={i} from={Math.max(0, e.f)} durationInFrames={20} layout="none"><Audio src={staticFile(e.file)} volume={e.vol} /></Sequence>)}
     </AbsoluteFill>
   );

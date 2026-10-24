@@ -348,3 +348,10 @@ Reference: the "Agar bu kerak bo'lsa → bundan foydalaning" reel.
 - Voice cleanup for phone takes: `highpass=f=90,afftdn=nf=-30,acompressor,loudnorm`.
 
 Example: `examples/ielts-ladder.props.json`.
+
+**Copying a viral reference's sound design** (proven on the ladder reel):
+1. Run `tools/separate_music.py` on the reference. The `_music` stem is SFX + bed without the voice.
+2. Map onsets to the on-screen events. Score cards had a sharp double click (−16 dB). Resource icons had a bright bell ding with a low tone (−10 dB, louder). Under everything was a 43–54 Hz sub pulse about every 0.8 s, plus ~300 Hz slides.
+3. Lift one-shots from the cleanest instances: `-ss <onset-0.02> -t 0.6–0.8 -af highpass=f=350,afade…`. Make the bed from the stem: `lowpass=f=500` twice, which keeps the sub and the slides but drops the dings' 700 Hz tone so they don't play at the reference's times.
+4. Place them with `cues[{file, at, vol}]` on your own event times (≈20–30 ms before the visual pop). Set `music` to the bed.
+5. Match the reference's voice-to-SFX ratio. Measure LUFS of its vocal and music stems, set `voiceVolume` so your voice sits at the same offset, keep SFX at 1.0 (they're near full scale), and loudnorm the final mix.
