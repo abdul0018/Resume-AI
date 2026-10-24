@@ -7,6 +7,7 @@ import {StoryReel, StoryProps, storyDuration} from './Story';
 import {IllustratedReel, IllustratedProps, illustratedDuration} from './Illustrated';
 import {FurnitureReel, FurnitureProps, furnitureDuration} from './Furniture';
 import {ResourcesReel, ResourcesProps, resourcesDuration} from './Resources';
+import {ScoreTableReel, ScoreTableProps, scoreTableDuration} from './ScoreTable';
 
 const FPS = 30;
 
@@ -90,6 +91,17 @@ export const RemotionRoot: React.FC = () => (
       durationInFrames={403}
       defaultProps={{video: '', segs: [], title: '', levels: ['', ''], sections: [], cta: {at: 0, line1: '', line2: ''}, end: 10} as ResourcesProps}
       calculateMetadata={({props}: {props: ResourcesProps}) => ({durationInFrames: resourcesDuration(props, FPS)})}
+    />
+    {/* Style H: "8+ resource table" over a talking head: rows glow as named, resources pop in. */}
+    <Composition
+      id="ScoreTableReel"
+      component={ScoreTableReel}
+      width={1080}
+      height={1920}
+      fps={FPS}
+      durationInFrames={240}
+      defaultProps={{video: '', rows: [], end: 8} as ScoreTableProps}
+      calculateMetadata={({props}: {props: ScoreTableProps}) => ({durationInFrames: scoreTableDuration(props, FPS)})}
     />
   </>
 );

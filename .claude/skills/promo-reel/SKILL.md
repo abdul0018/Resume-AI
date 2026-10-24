@@ -1,6 +1,6 @@
 ---
 name: promo-reel
-description: Make vertical (9:16) promo reels in Remotion. Style A (`PromoReel`) is a 30-second reel in the style of the "Izohda LINK deb yozib qoldiring" reference reel. Style B (`ChecklistReel`) is a 10-second "handwritten checklist" reel: a paper sheet with a serif title and a list of 3D pill icons, where a red pen writes each answer and then the brand. Use Style B for "best time to… / daily plan / list"-type reels. Style C (`HabitsReel`) edits the user's own talking-head video into an "N habits" reel: a glowing pill hook, a pin board of numbered cards the camera flies between, product clips, and a CTA pill that types the comment keyword. Use Style C when the user sends their own recording plus a reference edit to copy. Style D (`StoryReel`) is a narrated story drawn as white line-art stick figures on charcoal with orange accents. It draws on stroke by stroke in time with a TTS or recorded voiceover, and ends on a title card plus a speech bubble. Use Style D when the user gives a story script. Style E (`IllustratedReel`) tells a story with flat vector illustrations (teal palette, warm light) drawn in code. It adds parallax and a slow push-in, soft dissolves, a logo on top, and karaoke subtitles in a dark lower third. Use Style E when the reference is an illustrated narrated explainer. Style F (`FurnitureReel`) edits real product footage (furniture, interiors, retail) with 3D kinetic typography, whip and zoom-blur cuts on the beat, tracked callouts, colour swatches, a warm grade, an original music bed and a location-pin CTA. Style G (`ResourcesReel`) is a talking-head "resources by level" reel: the speaker points left or right and a resource icon pops on that side, with a section word per skill. The footage stays ungraded. The style uses an orange hero shot with year-tag pills, kinetic word-by-word text, full-bleed photo beats with a "KOMPUTER"-style punch word, an off-white grid board with a browser mockup, a screen-recording demo, and a comment-bait "LINK" ending. Use when the user asks for "this type of video", "the LINK video", a promo or Instagram/TikTok reel, or a Remotion video for a product or site.
+description: Make vertical (9:16) promo reels in Remotion. Style A (`PromoReel`) is a 30-second reel in the style of the "Izohda LINK deb yozib qoldiring" reference reel. Style B (`ChecklistReel`) is a 10-second "handwritten checklist" reel: a paper sheet with a serif title and a list of 3D pill icons, where a red pen writes each answer and then the brand. Use Style B for "best time to… / daily plan / list"-type reels. Style C (`HabitsReel`) edits the user's own talking-head video into an "N habits" reel: a glowing pill hook, a pin board of numbered cards the camera flies between, product clips, and a CTA pill that types the comment keyword. Use Style C when the user sends their own recording plus a reference edit to copy. Style D (`StoryReel`) is a narrated story drawn as white line-art stick figures on charcoal with orange accents. It draws on stroke by stroke in time with a TTS or recorded voiceover, and ends on a title card plus a speech bubble. Use Style D when the user gives a story script. Style E (`IllustratedReel`) tells a story with flat vector illustrations (teal palette, warm light) drawn in code. It adds parallax and a slow push-in, soft dissolves, a logo on top, and karaoke subtitles in a dark lower third. Use Style E when the reference is an illustrated narrated explainer. Style F (`FurnitureReel`) edits real product footage (furniture, interiors, retail) with 3D kinetic typography, whip and zoom-blur cuts on the beat, tracked callouts, colour swatches, a warm grade, an original music bed and a location-pin CTA. Style G (`ResourcesReel`) is a talking-head "resources by level" reel: the speaker points left or right and a resource icon pops on that side, with a section word per skill. The footage stays ungraded. Style H (`ScoreTableReel`) is an "8+ resource table" over a talking head: a row glows when the speaker names its skill, and the resource pops into the third column. The style uses an orange hero shot with year-tag pills, kinetic word-by-word text, full-bleed photo beats with a "KOMPUTER"-style punch word, an off-white grid board with a browser mockup, a screen-recording demo, and a comment-bait "LINK" ending. Use when the user asks for "this type of video", "the LINK video", a promo or Instagram/TikTok reel, or a Remotion video for a product or site.
 ---
 
 # Promo reel (orange hero / grid board / "LINK" CTA)
@@ -300,3 +300,29 @@ Reference: the "IELTSga tayyorgarlik — Band 5.5–6.5 / Band 7.0–9.0" reel.
 - Music: when the user asks for the reference's own music, extract its audio track (`-vn`) and keep it at its level.
 
 Example: `examples/ielts-resources.props.json`.
+
+## 12. Style H: "8+ resource table" (`ScoreTableReel`)
+
+Reference: the Speaking / Listening / Reading / Writing "8+" table reel.
+- Frosted mint rows with three cells: skill icon and name, an 8+ pill, and the resource.
+- The rows build in on frame 0. That is the hook.
+- When the speaker names a skill, its row lifts and gets a green glow, its icon wobbles and its pill turns solid green.
+- When they name the resource, it springs into the third cell with a small sparkle burst.
+- The footage is untouched. The only addition is the cards' drop shadow.
+
+**Props:** `rows[{skill, label, badge?, at, resource{at, tile? | text, sub?, caption?}}]` and `top`.
+- `skill` is one of listening / vocabulary / reading / speaking / writing.
+- `tile` is youtube or preppy. All icons are original SVG in `SKILL_ICONS` / `RESOURCE_TILES`.
+- Take the times from the transcript: `at` = when the skill word starts, resource `at` = when the resource word starts.
+
+**"Same music as the reference" when the reference also has a voice:** separate the stems with `tools/separate_music.py <ref44.wav> <outprefix>`.
+- Setup: `pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu && pip install demucs`, run with `SSL_CERT_FILE=/root/.ccr/ca-bundle.crt`.
+- The script runs htdemucs and writes the drums+bass+other stem as `_music.wav`.
+- Verify the stem is voice-free (transcribe it: no words).
+- Mix with the user's voice normalized to −15 LUFS and the music to −23 LUFS, then loudnorm −14 for the final mix.
+
+**Phone clips with rotation metadata:** Remotion's `OffthreadVideo` applies the rotation, so don't pre-rotate.
+
+**Quality check:** compare frame-aligned frames decoded from the start of both files, not `-ss` seeks (seeking lands on different frames). Expect ≥38 dB.
+
+Example: `examples/ielts-8plus-table.props.json`.

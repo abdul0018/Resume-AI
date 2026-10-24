@@ -1,0 +1,9 @@
+{
+ "video": "video.mp4", "voice": "voice.wav", "music": "music.wav", "musicVolume": 1.0, "sfx": true, "end": 8.0, "top": 1000,
+ "rows": [
+  {"skill": "listening", "label": "Listening", "at": 0.0, "resource": {"at": 0.9, "tile": "youtube"}},
+  {"skill": "vocabulary", "label": "Vocabulary", "at": 1.85, "resource": {"at": 2.7, "text": "IELTS Runner", "sub": "(goprep.gg)"}},
+  {"skill": "reading", "label": "Reading", "at": 3.42, "resource": {"at": 4.85, "text": "goprep.gg"}},
+  {"skill": "speaking", "label": "Speaking", "at": 5.65, "resource": {"at": 6.55, "tile": "preppy", "caption": "Preppy AI"}}
+ ]
+}
