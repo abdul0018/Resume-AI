@@ -1548,23 +1548,15 @@
   opacity: 0;
 }
 
-/* a real card lying on the paper */
+/* the invitation card: shared by the first screen and its miniature in the envelope */
 .mh-card {
   position: relative;
-  width: calc(100% - 20px);
-  max-width: 420px;
-  margin: 0 auto;
-  aspect-ratio: 3 / 5;
-  border-radius: 4px;
   container-type: inline-size;
   display: flex;
   flex-direction: column;
   /* clip, not hidden: a clipped box keeps its content-based minimum height, so the card can grow */
   overflow: hidden;
   overflow: clip;
-  box-shadow:
-    0 1px 2px rgba(80, 56, 24, 0.18),
-    0 22px 40px -22px rgba(80, 56, 24, 0.55);
 }
 .mh-card-art {
   position: absolute;
@@ -1622,10 +1614,6 @@
   min-height: 100vh;
   min-height: 100svh;
   width: 100%;
-  max-width: none;
-  aspect-ratio: auto;
-  border-radius: 0;
-  box-shadow: none;
 }
 /* the same card in miniature, lying on the envelope's lining: 72% of the screen, centred */
 .mh-tray {
@@ -1640,10 +1628,6 @@
 .mh-card--tray {
   position: absolute;
   inset: 0;
-  width: 100%;
-  max-width: none;
-  aspect-ratio: auto;
-  border-radius: 0;
   scale: 0.72;
   box-shadow:
     0 1px 2px rgba(80, 56, 24, 0.2),
