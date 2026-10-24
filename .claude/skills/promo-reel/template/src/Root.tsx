@@ -6,6 +6,7 @@ import {HabitsReel, HabitsProps, habitsDefaults, habitsDuration} from './Habits'
 import {StoryReel, StoryProps, storyDuration} from './Story';
 import {IllustratedReel, IllustratedProps, illustratedDuration} from './Illustrated';
 import {FurnitureReel, FurnitureProps, furnitureDuration} from './Furniture';
+import {ResourcesReel, ResourcesProps, resourcesDuration} from './Resources';
 
 const FPS = 30;
 
@@ -78,6 +79,17 @@ export const RemotionRoot: React.FC = () => (
       durationInFrames={690}
       defaultProps={{shots: [], titles: [], end: 10} as FurnitureProps}
       calculateMetadata={({props}: {props: FurnitureProps}) => ({durationInFrames: furnitureDuration(props, FPS)})}
+    />
+    {/* Style G: "resources by level" talking head: icons pop on the pointing side, section word per skill. */}
+    <Composition
+      id="ResourcesReel"
+      component={ResourcesReel}
+      width={1080}
+      height={1920}
+      fps={FPS}
+      durationInFrames={403}
+      defaultProps={{video: '', segs: [], title: '', levels: ['', ''], sections: [], cta: {at: 0, line1: '', line2: ''}, end: 10} as ResourcesProps}
+      calculateMetadata={({props}: {props: ResourcesProps}) => ({durationInFrames: resourcesDuration(props, FPS)})}
     />
   </>
 );

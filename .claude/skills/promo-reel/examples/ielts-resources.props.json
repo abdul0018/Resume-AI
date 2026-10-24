@@ -1,0 +1,18 @@
+{
+ "video": "video.mp4", "music": "music.wav", "musicVolume": 1.0, "sfx": true, "end": 13.43,
+ "title": "IELTSga tayyorgarlik", "levels": ["Band 5.5–6.5", "Band 7.0–9.0"],
+ "segs": [
+  {"srcFrom": 0.05, "srcTo": 2.95},
+  {"srcFrom": 3.5, "srcTo": 6.44},
+  {"srcFrom": 6.9, "srcTo": 9.66},
+  {"srcFrom": 0.05, "srcTo": 3.05, "scale": 1.06, "origin": "50% 35%"},
+  {"srcFrom": 10.35, "srcTo": 12.18}
+ ],
+ "sections": [
+  {"start": 0.0, "word": "READING", "left": {"icons": ["cambridge19"], "label": "Cambridge IELTS 19", "at": 0.45}, "right": {"icons": ["engnovate"], "label": "Engnovate", "at": 2.2}},
+  {"start": 2.9, "word": "LISTENING", "left": {"icons": ["iot"], "label": "IELTS Online Tests", "at": 3.4}, "right": {"icons": ["engnovate", "dmono"], "at": 4.9}},
+  {"start": 5.84, "word": "WRITING", "left": {"icons": ["chatgpt"], "label": "ChatGPT", "at": 6.19}, "right": {"icons": ["goprep"], "label": "goprep.gg", "at": 7.94}},
+  {"start": 8.6, "word": "SPEAKING", "left": {"icons": ["speakpractice"], "label": "Speaking Practice", "at": 9.05}, "right": {"icons": ["goprep"], "label": "goprep.gg", "at": 10.8}}
+ ],
+ "cta": {"at": 11.6, "line1": "Hammasini olish uchun", "line2": "izohda + qoldiring"}
+}

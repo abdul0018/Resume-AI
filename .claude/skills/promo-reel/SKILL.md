@@ -1,6 +1,6 @@
 ---
 name: promo-reel
-description: Make vertical (9:16) promo reels in Remotion. Style A (`PromoReel`) is a 30-second reel in the style of the "Izohda LINK deb yozib qoldiring" reference reel. Style B (`ChecklistReel`) is a 10-second "handwritten checklist" reel: a paper sheet with a serif title and a list of 3D pill icons, where a red pen writes each answer and then the brand. Use Style B for "best time to… / daily plan / list"-type reels. Style C (`HabitsReel`) edits the user's own talking-head video into an "N habits" reel: a glowing pill hook, a pin board of numbered cards the camera flies between, product clips, and a CTA pill that types the comment keyword. Use Style C when the user sends their own recording plus a reference edit to copy. Style D (`StoryReel`) is a narrated story drawn as white line-art stick figures on charcoal with orange accents. It draws on stroke by stroke in time with a TTS or recorded voiceover, and ends on a title card plus a speech bubble. Use Style D when the user gives a story script. Style E (`IllustratedReel`) tells a story with flat vector illustrations (teal palette, warm light) drawn in code. It adds parallax and a slow push-in, soft dissolves, a logo on top, and karaoke subtitles in a dark lower third. Use Style E when the reference is an illustrated narrated explainer. Style F (`FurnitureReel`) edits real product footage (furniture, interiors, retail) with 3D kinetic typography, whip and zoom-blur cuts on the beat, tracked callouts, colour swatches, a warm grade, an original music bed and a location-pin CTA. The style uses an orange hero shot with year-tag pills, kinetic word-by-word text, full-bleed photo beats with a "KOMPUTER"-style punch word, an off-white grid board with a browser mockup, a screen-recording demo, and a comment-bait "LINK" ending. Use when the user asks for "this type of video", "the LINK video", a promo or Instagram/TikTok reel, or a Remotion video for a product or site.
+description: Make vertical (9:16) promo reels in Remotion. Style A (`PromoReel`) is a 30-second reel in the style of the "Izohda LINK deb yozib qoldiring" reference reel. Style B (`ChecklistReel`) is a 10-second "handwritten checklist" reel: a paper sheet with a serif title and a list of 3D pill icons, where a red pen writes each answer and then the brand. Use Style B for "best time to… / daily plan / list"-type reels. Style C (`HabitsReel`) edits the user's own talking-head video into an "N habits" reel: a glowing pill hook, a pin board of numbered cards the camera flies between, product clips, and a CTA pill that types the comment keyword. Use Style C when the user sends their own recording plus a reference edit to copy. Style D (`StoryReel`) is a narrated story drawn as white line-art stick figures on charcoal with orange accents. It draws on stroke by stroke in time with a TTS or recorded voiceover, and ends on a title card plus a speech bubble. Use Style D when the user gives a story script. Style E (`IllustratedReel`) tells a story with flat vector illustrations (teal palette, warm light) drawn in code. It adds parallax and a slow push-in, soft dissolves, a logo on top, and karaoke subtitles in a dark lower third. Use Style E when the reference is an illustrated narrated explainer. Style F (`FurnitureReel`) edits real product footage (furniture, interiors, retail) with 3D kinetic typography, whip and zoom-blur cuts on the beat, tracked callouts, colour swatches, a warm grade, an original music bed and a location-pin CTA. Style G (`ResourcesReel`) is a talking-head "resources by level" reel: the speaker points left or right and a resource icon pops on that side, with a section word per skill. The footage stays ungraded. The style uses an orange hero shot with year-tag pills, kinetic word-by-word text, full-bleed photo beats with a "KOMPUTER"-style punch word, an off-white grid board with a browser mockup, a screen-recording demo, and a comment-bait "LINK" ending. Use when the user asks for "this type of video", "the LINK video", a promo or Instagram/TikTok reel, or a Remotion video for a product or site.
 ---
 
 # Promo reel (orange hero / grid board / "LINK" CTA)
@@ -277,3 +277,26 @@ Motion language comes from the "5 ta viral Reels" reference (3D kinetic type, wh
 - Keep type minimal (one `small`, one `serif`). Close on a frozen frame with the `cta`.
 
 Example: `examples/mebel-showroom.props.json`.
+
+## 11. Style G: "resources by level" talking head (`ResourcesReel`)
+
+Reference: the "IELTSga tayyorgarlik — Band 5.5–6.5 / Band 7.0–9.0" reel.
+- A white title and a red section word (white outline) that re-animates per section.
+- Level pills on the left and right.
+- When the speaker raises the left hand, the lower-level resource icon pops on the left. When they raise the right hand, the higher-level one pops on the right. Both clear just before the next cut.
+- CTA: "Hammasini olish uchun izohda + qoldiring", with a pulsing + badge and a bouncing arrow.
+
+**Don't touch the footage.** Users notice quality loss. No grade, brightness or contrast change; only the soft top gradient behind the type.
+- Render with `--image-format=png --crf=12 --x264-preset=slow --pixel-format=yuv420p`.
+- Then tag the stream with `-c copy -bsf:v h264_metadata=video_full_range_flag=0:colour_primaries=1:transfer_characteristics=1:matrix_coefficients=1`.
+- Verify the match with a PSNR / mean-RGB check against the source in an overlay-free area (≥40 dB and about 1 level).
+
+**Building it:**
+- Find the hand raises from a 4 fps strip of the hands.
+- `segs[{srcFrom, srcTo, scale?}]` reorder or trim the single take into sections that match the music's accents.
+- A section can reuse a gesture pair. Give the repeat a small punch-in (`scale` 1.06) so it reads as a new angle.
+- Put icons at finger-up: `sections[{start, word, left{icons[], label, at}, right{…}}]`.
+- Icons are original vector tiles in `ICONS` (cambridge19, engnovate, iot, dmono, chatgpt, goprep, speakpractice). Add new ones there rather than pasting third-party logo images.
+- Music: when the user asks for the reference's own music, extract its audio track (`-vn`) and keep it at its level.
+
+Example: `examples/ielts-resources.props.json`.
