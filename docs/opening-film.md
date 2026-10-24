@@ -64,6 +64,7 @@ Negative prompt: hands, fingers, text, letters, logo, watermark, camera shake, z
 
 ## Publishing on GitHub Pages
 
-`npm run build:pages` builds the showcase and copies it to `docs/index.html`; commit and push it. Pages serves
-the branch's `docs` folder (Settings → Pages → Deploy from a branch → this branch, `/docs`), with Jekyll off
-(`docs/.nojekyll`), at https://abdul0018.github.io/Resume-AI/ (`#oltin-muhr`, `#gulzor` for each template).
+The live site, https://abdul0018.github.io/Resume-AI/ (`#oltin-muhr`, `#gulzor` for each template), is served
+from the `gh-pages` branch, which holds only `index.html` and `.nojekyll`. To update it, run
+`npm run build:pages` (it builds the showcase into `docs/index.html`), commit that, then copy the same file to
+the root of `gh-pages` and push that branch.
