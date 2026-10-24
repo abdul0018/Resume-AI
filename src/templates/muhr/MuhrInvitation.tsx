@@ -11,6 +11,7 @@ import { startGoldDust } from "./goldDust";
 import { LineArt, type LineArtKind } from "./LineArt";
 import { archPath } from "./Ornaments";
 import { SatinBow } from "./SatinBow";
+import { Film, filmSpec, type FilmSpec } from "./Film";
 import { ScratchCard } from "./ScratchCard";
 import heroUrl from "./assets/hero.jpg";
 import paperUrl from "./assets/paper.jpg";
@@ -69,8 +70,8 @@ function CardSprig({ flip = false, className = "mh-card-sprig", style }: { flip?
 }
 
 
-/** Milliseconds from the tap until the scene replaces the envelope (keep in sync with muhr.css). */
-const TO_SCENE = 5100;
+/** Milliseconds from the tap until the card has the screen (keep in sync with muhr.css). */
+const TO_SCENE = 6650;
 
 interface Props {
   data: InviteData;
@@ -83,6 +84,10 @@ interface Props {
 export function MuhrInvitation({ data, replayToken = 0, endSlot }: Props) {
   const [stage, setStage] = useState<Stage>("closed");
   const music = useMusic(data.music);
+  // the rendered opening film, when one is supplied and motion is welcome; otherwise the drawn envelope
+  const [film, setFilm] = useState<FilmSpec | null>(() =>
+    typeof window === "undefined" || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ? null : filmSpec(),
+  );
   const heroRef = useRef<HTMLElement>(null);
   const timers = useRef<number[]>([]);
   const [box, setBox] = useState({ w: 390, h: 844 });
@@ -135,25 +140,53 @@ export function MuhrInvitation({ data, replayToken = 0, endSlot }: Props) {
     };
   }, [stage]);
 
-  const open = () => {
-    if (stage !== "closed") return;
-    unlockAudio();
+  /** The drawn envelope's opening: sounds and the hand-over are timed to its choreography. */
+  const runDrawnOpening = () => {
     playRibbonSounds();
     // a light touch, then the give of the knot as it slips
     navigator.vibrate?.([8, 920, 14]);
-    music.play();
-    setStage("opening");
     const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
     timers.current = [window.setTimeout(() => setStage("scene"), reduce ? 450 : TO_SCENE)];
   };
+
+  const open = () => {
+    if (stage !== "closed") return;
+    unlockAudio();
+    music.play();
+    setStage("opening");
+    if (film) navigator.vibrate?.(8);
+    else runDrawnOpening();
+  };
+
+  /** The film will not play here: the drawn envelope takes over from its first beat. */
+  const filmFailed = () => {
+    setFilm(null);
+    runDrawnOpening();
+  };
+
+  const names = `${data.groom} & ${data.bride}`;
 
   return (
     <div className="mh">
       <div className="mh-col">
         <section ref={heroRef} className="mh-hero" data-stage={stage} aria-label="Taklifnoma">
-          {/* the scene waits under the paper, so the envelope can dissolve into it */}
-          {stage !== "closed" && <PhotoHero data={data} />}
-          {stage !== "scene" && <Envelope data={data} box={box} state={stage} onOpen={open} />}
+          {/* the card waits under the opening, which ends by moving into it */}
+          {stage !== "closed" && <CardHero data={data} shown={stage === "scene"} />}
+          {stage !== "scene" &&
+            (film ? (
+              <Film
+                spec={film}
+                names={names}
+                nameSize={Math.min(box.w * 0.13, (box.w * 2.1) / Math.max(names.length, 8))}
+                box={box}
+                state={stage}
+                onOpen={open}
+                onFail={filmFailed}
+                onDone={() => setStage("scene")}
+              />
+            ) : (
+              <Envelope data={data} box={box} state={stage} onOpen={open} />
+            ))}
         </section>
 
         {stage === "scene" && (
@@ -351,7 +384,9 @@ export function Envelope({
       {...handlers}
     >
       <div className="mh-env-3d">
-        {/* the inner envelope over the photograph: diamond gaps above and below the side flaps' tips */}
+        {/* inside: the card in miniature on the envelope's lining; the camera ends by moving into it */}
+        <TrayCard />
+        {/* the inner envelope over the card: diamond gaps above and below the side flaps' tips */}
         <div className="mh-inner">
           {shade("t")}
           {shade("b")}
@@ -387,26 +422,126 @@ export function Envelope({
 }
 
 /* ================================================================== */
+/* The invitation card                                                 */
+/* ================================================================== */
+
+/** The card's stock: the envelope's embossed paper with the scene's roses in two corners. */
+function CardStock() {
+  return (
+    <>
+      <img className="mh-card-spray tl" src={sprayUrl} alt="" aria-hidden="true" />
+      <img className="mh-card-spray br" src={sprayUrl} alt="" aria-hidden="true" />
+    </>
+  );
+}
+
+const cardArt = { ["--mh-art" as string]: `url("${paperUrl}")` };
+
+/**
+ * The card that was inside the envelope, filling the first screen once the camera has moved into it.
+ * Its lines are written in when `shown` turns on, as the opening hands over to it.
+ */
+function CardHero({ data, shown }: { data: InviteData; shown: boolean }) {
+  const { d, m, y } = parseDate(data.date);
+  const month = MONTHS[m - 1];
+  return (
+    <div className="mh-card mh-card--hero" data-shown={shown || undefined} style={cardArt}>
+      <CardStock />
+      <div className="mh-card-text">
+        {data.bismillah && (
+          <p className="mh-bismillah" lang="ar" dir="rtl" style={line(0)}>
+            بسم الله الرحمن الرحيم
+          </p>
+        )}
+        <p className="mh-verse" style={line(1)}>
+          <span>Va Uning alomatlaridan biri —</span>
+          <span>sizlar uchun o‘zingizdan</span>
+          <span>juftlar yaratgani, toki ular</span>
+          <span>bilan orom topgaysiz.</span>
+          <span className="mh-verse-ref">Rum surasi, 21-oyat</span>
+        </p>
+        <Divider className="mh-card-rule" i={2} />
+        <p className="mh-card-caps" style={line(3)}>
+          {captionLines(data.hosts || "Ota-onalari duosi bilan", 0).map((l) => (
+            <span key={l}>{l}</span>
+          ))}
+        </p>
+        <h1 className="mh-card-name" style={line(4)}>
+          {data.groom}
+        </h1>
+        <p className="mh-card-with" style={line(5)}>
+          <CardSprig />
+          va
+          <CardSprig flip />
+        </p>
+        <p className="mh-card-name" style={line(6)}>
+          {data.bride}
+        </p>
+        <p className="mh-card-caps mh-card-invite" style={line(7)}>
+          {captionLines(INVITE_LINE[data.eventType], 0).map((l) => (
+            <span key={l}>{l}</span>
+          ))}
+        </p>
+        <Divider className="mh-card-rule" i={8} />
+        <div className="mh-card-date" style={line(9)}>
+          <span className="mh-cd-small">{formatWeekday(data.date)}</span>
+          <span className="mh-cd-row">
+            <span>{month}</span>
+            <b>{d}</b>
+            <span>{y}</span>
+          </span>
+          <span className="mh-cd-small">soat {data.time}</span>
+        </div>
+        <Divider className="mh-card-rule" i={10} />
+        <p className="mh-card-venue" style={line(11)}>
+          {data.venue}
+        </p>
+        {data.address && (
+          <p className="mh-card-addr" style={line(12)}>
+            {captionLines(data.address, 0).map((l) => (
+              <span key={l}>{l}</span>
+            ))}
+          </p>
+        )}
+      </div>
+      <div className="mh-cue" aria-hidden="true">
+        <span>Pastga suring</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+/** The same card in miniature, blank, lying in the opened envelope: the camera moves into it. */
+function TrayCard() {
+  return (
+    <div className="mh-tray" aria-hidden="true">
+      <div className="mh-card mh-card--tray" style={cardArt}>
+        <CardStock />
+      </div>
+    </div>
+  );
+}
+
+/* ================================================================== */
 /* Hero: the owner's photograph with the welcome set in its sky        */
 /* ================================================================== */
 
-function PhotoHero({ data }: { data: InviteData }) {
+/** The couple's photograph, full screen, with the welcome in its sky; it comes into focus as it scrolls in. */
+function PhotoSection({ data }: { data: InviteData }) {
   const petals = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     const c = petals.current;
     if (!c || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
-    let stop = () => undefined as void;
-    // petals start drifting once the paper has dissolved
-    const t = window.setTimeout(() => (stop = startAmbient(c)), 4900);
-    return () => {
-      window.clearTimeout(t);
-      stop();
-    };
+    // the petals only move while the photograph is on screen (ambient.ts pauses them otherwise)
+    return startAmbient(c);
   }, []);
   const longest = Math.max(data.groom.length, data.bride.length, 5);
   const nameSize = `min(${Math.min(17, 110 / longest).toFixed(1)}vw, ${Math.min(80, 520 / longest).toFixed(0)}px)`;
   return (
-    <>
+    <section className="mh-photo-sec" data-reveal="photo">
       <img className="mh-photo" src={heroUrl} alt={`${data.groom} va ${data.bride}`} />
       <div className="mh-photo-veil" aria-hidden="true" />
       <canvas ref={petals} className="mh-petals" aria-hidden="true" />
@@ -418,22 +553,16 @@ function PhotoHero({ data }: { data: InviteData }) {
           {WELCOME[data.eventType]}
         </p>
         <Divider className="mh-line" i={2} />
-        <h1 className="mh-line mh-hero-name" style={{ ["--i" as string]: 3, fontSize: nameSize }}>
+        <p className="mh-line mh-hero-name" style={{ ["--i" as string]: 3, fontSize: nameSize }}>
           {data.groom}
-        </h1>
+        </p>
         <p className="mh-line mh-hero-name mh-hero-name-2" style={{ ["--i" as string]: 4, fontSize: nameSize }}>
           <span className="mh-amp">&amp;</span> {data.bride}
         </p>
       </div>
       <img className="mh-hero-spray l" src={sprayUrl} alt="" aria-hidden="true" />
       <img className="mh-hero-spray r" src={sprayUrl} alt="" aria-hidden="true" />
-      <div className="mh-cue" aria-hidden="true">
-        <span>Pastga suring</span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-          <path d="M6 9l6 6 6-6" />
-        </svg>
-      </div>
-    </>
+    </section>
   );
 }
 
@@ -520,6 +649,7 @@ function Sections({ data }: { data: InviteData }) {
 
   return (
     <div ref={root}>
+      <PhotoSection data={data} />
       <section className="mh-sec mh-sec-date">
         <canvas ref={burst} className="mh-date-dust" aria-hidden="true" />
         <h2 className="mh-script-h" data-reveal="write">
@@ -543,70 +673,6 @@ function Sections({ data }: { data: InviteData }) {
         </div>
       </section>
 
-      <section className="mh-sec mh-sec-card">
-        {/* the card that was inside the envelope: the same embossed stock, the same roses as the scene */}
-        <div className="mh-card" data-reveal="card" style={{ ["--mh-art" as string]: `url("${paperUrl}")` }}>
-          <img className="mh-card-spray tl" src={sprayUrl} alt="" aria-hidden="true" />
-          <img className="mh-card-spray br" src={sprayUrl} alt="" aria-hidden="true" />
-          <div className="mh-card-text">
-            {data.bismillah && (
-              <p className="mh-bismillah" lang="ar" dir="rtl" style={line(0)}>
-                بسم الله الرحمن الرحيم
-              </p>
-            )}
-            <p className="mh-verse" style={line(1)}>
-              <span>Va Uning alomatlaridan biri —</span>
-              <span>sizlar uchun o‘zingizdan</span>
-              <span>juftlar yaratgani, toki ular</span>
-              <span>bilan orom topgaysiz.</span>
-              <span className="mh-verse-ref">Rum surasi, 21-oyat</span>
-            </p>
-            <Divider className="mh-card-rule" i={2} />
-            <p className="mh-card-caps" style={line(3)}>
-              {captionLines(data.hosts || "Ota-onalari duosi bilan", 0).map((l) => (
-                <span key={l}>{l}</span>
-              ))}
-            </p>
-            <p className="mh-card-name" style={line(4)}>
-              {data.groom}
-            </p>
-            <p className="mh-card-with" style={line(5)}>
-              <CardSprig />
-              va
-              <CardSprig flip />
-            </p>
-            <p className="mh-card-name" style={line(6)}>
-              {data.bride}
-            </p>
-            <p className="mh-card-caps mh-card-invite" style={line(7)}>
-              {captionLines(INVITE_LINE[data.eventType], 0).map((l) => (
-                <span key={l}>{l}</span>
-              ))}
-            </p>
-            <Divider className="mh-card-rule" i={8} />
-            <div className="mh-card-date" style={line(9)}>
-              <span className="mh-cd-small">{formatWeekday(data.date)}</span>
-              <span className="mh-cd-row">
-                <span>{month}</span>
-                <b>{d}</b>
-                <span>{y}</span>
-              </span>
-              <span className="mh-cd-small">soat {data.time}</span>
-            </div>
-            <Divider className="mh-card-rule" i={10} />
-            <p className="mh-card-venue" style={line(11)}>
-              {data.venue}
-            </p>
-            {data.address && (
-              <p className="mh-card-addr" style={line(12)}>
-                {captionLines(data.address, 0).map((l) => (
-                  <span key={l}>{l}</span>
-                ))}
-              </p>
-            )}
-          </div>
-        </div>
-      </section>
 
       {/* the section, not the roses, is observed: a fully clipped image never reports as visible */}
       <section className="mh-sec mh-sec-message" data-reveal="bloom">

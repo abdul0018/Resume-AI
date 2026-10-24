@@ -23,6 +23,17 @@ const music = Object.fromEntries(
   ["toylar"].map((id) => [id, `data:audio/mpeg;base64,${fs.readFileSync(`public/music/${id}.mp3`).toString("base64")}`]),
 );
 
+// The opening film, when one has been prepared: public/film/opening.mp4 (H.264), its first frame
+// opening.jpg, and opening.json { "card": { x, y, w, h }, "names"?: 0.35 } locating the card in the last frame.
+const filmDir = "public/film";
+const film = fs.existsSync(`${filmDir}/opening.mp4`)
+  ? {
+      src: `data:video/mp4;base64,${fs.readFileSync(`${filmDir}/opening.mp4`).toString("base64")}`,
+      poster: `data:image/jpeg;base64,${fs.readFileSync(`${filmDir}/opening.jpg`).toString("base64")}`,
+      ...JSON.parse(fs.readFileSync(`${filmDir}/opening.json`, "utf8")),
+    }
+  : null;
+
 // A page fragment: the host wraps it in <!doctype html><head>…<body>.
 const page = `<title>Taklifnoma namunalari</title>
 <meta name="description" content="Qo‘lda ochiladigan premium to‘y taklifnomalari namunalari." />
@@ -36,7 +47,7 @@ ${css}
 html, body { background: #f8f5ef; color: #141414; }
 </style>
 <div id="root"></div>
-<script>window.__VISOL_MUSIC__ = ${JSON.stringify(music)};</script>
+<script>window.__VISOL_MUSIC__ = ${JSON.stringify(music)};${film ? ` window.__VISOL_FILM__ = ${JSON.stringify(film)};` : ""}</script>
 <script type="module">
 ${safeScript(js)}
 </script>
