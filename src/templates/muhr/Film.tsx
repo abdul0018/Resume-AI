@@ -19,6 +19,24 @@ export interface FilmSpec {
   hint?: number;
   /** When things happen in the film (seconds), so the sounds land on them. */
   cues?: FilmCues;
+  /** For end "scene": where the photograph and its roses lie in the film's last frame (frame pixels), so the
+      live scene can be laid exactly over it and the film melt away without a seam. */
+  scene?: FilmScene;
+}
+
+export interface FilmScene {
+  frame: [number, number];
+  photo: { x: number; y: number; w: number; h: number };
+  sprays?: { w: number; l: [number, number]; r: [number, number] };
+}
+
+/** Maps a point and a length in the film's frame onto the screen, as the film is drawn (object-fit: cover). */
+export function frameToScreen(scene: FilmScene, box: { w: number; h: number }) {
+  const [fw, fh] = scene.frame;
+  const s = Math.max(box.w / fw, box.h / fh);
+  const ox = (box.w - fw * s) / 2;
+  const oy = (box.h - fh * s) / 2;
+  return { x: (x: number) => ox + x * s, y: (y: number) => oy + y * s, len: (l: number) => l * s };
 }
 
 export interface FilmCues {
@@ -53,8 +71,8 @@ function playableSrc(src: string) {
 /** Time the camera takes to move into the card, and when the live card starts to show through. */
 const ZOOM_MS = 1500;
 const HANDOVER_MS = 1050;
-/** Time the film takes to dissolve into the live scene. */
-const DISSOLVE_MS = 1000;
+/** Time the film's last frame takes to melt into the live scene laid exactly beneath it. */
+const DISSOLVE_MS = 1200;
 /** If the film has not visibly started this long after the tap, the drawn envelope takes over. */
 const START_GRACE_MS = 2500;
 /** If the film stops moving this long part-way, it hands over where it is. */

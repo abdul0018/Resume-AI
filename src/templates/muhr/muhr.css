@@ -1906,8 +1906,33 @@
   transform-origin: 50% 100%;
   animation: mh-sway 5.5s ease-in-out infinite alternate;
 }
-.mh-hero-spray.r {
+.mh-hero:not([data-film]) .mh-hero-spray.r {
   animation-delay: -2.7s !important;
+}
+/* laid exactly under a film's last frame: no entrance (the film provides it), and the drift and sway begin
+   from rest once the film has melted away, so the first live frame matches the film's last */
+.mh-hero[data-film][data-play] .mh-photo {
+  scale: none;
+  filter: none;
+  animation: mh-drift 24s ease-in-out 1.4s infinite alternate;
+}
+.mh-hero[data-film][data-play] .mh-hero-spray {
+  animation: mh-sway-rest 6s ease-in-out 1.4s infinite;
+}
+.mh-hero[data-film][data-play] .mh-hero-spray.r {
+  animation-delay: 2.2s;
+}
+@keyframes mh-sway-rest {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  25% {
+    rotate: 1.6deg;
+  }
+  75% {
+    rotate: -1.6deg;
+  }
 }
 @keyframes mh-sway {
   from {

@@ -11,7 +11,7 @@ import { startGoldDust } from "./goldDust";
 import { LineArt, type LineArtKind } from "./LineArt";
 import { archPath } from "./Ornaments";
 import { SatinBow } from "./SatinBow";
-import { Film, filmSpec, type FilmSpec } from "./Film";
+import { Film, filmSpec, frameToScreen, type FilmScene, type FilmSpec } from "./Film";
 import { ScratchCard } from "./ScratchCard";
 import heroUrl from "./assets/hero.jpg";
 import paperUrl from "./assets/paper.jpg";
@@ -182,11 +182,14 @@ export function MuhrInvitation({ data, replayToken = 0, endSlot }: Props) {
           className="mh-hero"
           data-stage={stage}
           data-play={play || undefined}
+          data-film={film?.scene ? "" : undefined}
           style={{ ["--t0" as string]: `${film ? 0 : DRAWN_T0}ms` }}
           aria-label="Taklifnoma"
         >
           {/* the scene waits under the opening, which dissolves into it */}
-          {stage !== "closed" && <PhotoHero data={data} play={play} t0={film ? 0 : DRAWN_T0} />}
+          {stage !== "closed" && (
+            <PhotoHero data={data} play={play} t0={film ? 0 : DRAWN_T0} fit={film?.scene ? { scene: film.scene, box } : undefined} />
+          )}
           {stage !== "scene" &&
             (film ? (
               <Film
@@ -537,26 +540,62 @@ function InvitationCard({ data }: { data: InviteData }) {
 }
 
 /**
+ * Where the photograph and its two roses lie when a film's last frame shows the scene: the live scene is laid
+ * exactly over the film so the film can melt away without a seam (sprays turn about their foot by ±12deg).
+ */
+function sceneLayout(scene: FilmScene, box: { w: number; h: number }) {
+  const m = frameToScreen(scene, box);
+  const p = scene.photo;
+  // images are capped at their container's width by the base styles; these are laid wider on purpose
+  const at = { right: "auto", bottom: "auto", maxWidth: "none" } as const;
+  const photo: CSSProperties = { ...at, left: m.x(p.x), top: m.y(p.y), width: m.len(p.w), height: m.len(p.h) };
+  if (!scene.sprays) return { photo };
+  const w = m.len(scene.sprays.w);
+  const h = (w * 1360) / 760;
+  const place = ([cx, cy]: [number, number], deg: number): CSSProperties => {
+    const t = (deg * Math.PI) / 180;
+    const footX = m.x(cx) - (h / 2) * Math.sin(t);
+    const footY = m.y(cy) + (h / 2) * Math.cos(t);
+    return { ...at, left: footX - w / 2, top: footY - h, width: w };
+  };
+  return { photo, sprayL: place(scene.sprays.l, 12), sprayR: place(scene.sprays.r, -12) };
+}
+
+/**
  * The couple's photograph with the welcome set in its sky: the first screen once the card is open. It waits
  * under the opening; when `play` turns on, it comes into focus `t0` ms later and its lines are written in.
+ * With `fit`, it is laid exactly where a film's last frame shows it, and needs no entrance of its own.
  */
-function PhotoHero({ data, play, t0 }: { data: InviteData; play: boolean; t0: number }) {
+function PhotoHero({
+  data,
+  play,
+  t0,
+  fit,
+}: {
+  data: InviteData;
+  play: boolean;
+  t0: number;
+  fit?: { scene: FilmScene; box: { w: number; h: number } };
+}) {
+  const layout = fit ? sceneLayout(fit.scene, fit.box) : null;
   const petals = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     const c = petals.current;
     if (!play || !c || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
     let stop = () => undefined as void;
-    const t = window.setTimeout(() => (stop = startAmbient(c)), t0 + 1200);
+    // with a film, the live petals take over from the film's own as it melts away
+    const t = window.setTimeout(() => (stop = startAmbient(c)), t0 + (fit ? 300 : 1200));
     return () => {
       window.clearTimeout(t);
       stop();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [play, t0]);
   const longest = Math.max(data.groom.length, data.bride.length, 5);
   const nameSize = `min(${Math.min(17, 110 / longest).toFixed(1)}vw, ${Math.min(80, 520 / longest).toFixed(0)}px)`;
   return (
     <>
-      <img className="mh-photo" src={heroUrl} alt={`${data.groom} va ${data.bride}`} />
+      <img className="mh-photo" src={heroUrl} alt={`${data.groom} va ${data.bride}`} style={layout?.photo} />
       <div className="mh-photo-veil" aria-hidden="true" />
       <canvas ref={petals} className="mh-petals" aria-hidden="true" />
       <div className="mh-welcome-block">
@@ -574,8 +613,8 @@ function PhotoHero({ data, play, t0 }: { data: InviteData; play: boolean; t0: nu
           <span className="mh-amp">&amp;</span> {data.bride}
         </p>
       </div>
-      <img className="mh-hero-spray l" src={sprayUrl} alt="" aria-hidden="true" />
-      <img className="mh-hero-spray r" src={sprayUrl} alt="" aria-hidden="true" />
+      <img className="mh-hero-spray l" src={sprayUrl} alt="" aria-hidden="true" style={layout?.sprayL} />
+      <img className="mh-hero-spray r" src={sprayUrl} alt="" aria-hidden="true" style={layout?.sprayR} />
       <div className="mh-cue" aria-hidden="true">
         <span>Pastga suring</span>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
