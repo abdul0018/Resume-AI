@@ -8,6 +8,7 @@ import {IllustratedReel, IllustratedProps, illustratedDuration} from './Illustra
 import {FurnitureReel, FurnitureProps, furnitureDuration} from './Furniture';
 import {ResourcesReel, ResourcesProps, resourcesDuration} from './Resources';
 import {ScoreTableReel, ScoreTableProps, scoreTableDuration} from './ScoreTable';
+import {LadderReel, LadderProps, ladderDuration} from './Ladder';
 
 const FPS = 30;
 
@@ -102,6 +103,17 @@ export const RemotionRoot: React.FC = () => (
       durationInFrames={240}
       defaultProps={{video: '', rows: [], end: 8} as ScoreTableProps}
       calculateMetadata={({props}: {props: ScoreTableProps}) => ({durationInFrames: scoreTableDuration(props, FPS)})}
+    />
+    {/* Style I: "level ladder" talking head: score card left hand, resource right hand, hero finale. */}
+    <Composition
+      id="LadderReel"
+      component={LadderReel}
+      width={1080}
+      height={1920}
+      fps={FPS}
+      durationInFrames={400}
+      defaultProps={{video: '', steps: [], captions: [], finale: {score: '8.0', scoreAt: 0, icon: 'goprep', iconAt: 1}, end: 10} as LadderProps}
+      calculateMetadata={({props}: {props: LadderProps}) => ({durationInFrames: ladderDuration(props, FPS)})}
     />
   </>
 );
