@@ -20,7 +20,7 @@ const css = [...html.matchAll(/<link rel="stylesheet"[^>]*href="([^"]+)"[^>]*>/g
 const js = [...html.matchAll(/<script type="module"[^>]*src="([^"]+)"[^>]*><\/script>/g)].map((m) => read(m[1])).join("\n");
 
 const music = Object.fromEntries(
-  ["toylar"].map((id) => [id, `data:audio/mpeg;base64,${fs.readFileSync(`public/music/${id}.mp3`).toString("base64")}`]),
+  ["toylar", "nashid"].map((id) => [id, `data:audio/mpeg;base64,${fs.readFileSync(`public/music/${id}.mp3`).toString("base64")}`]),
 );
 
 // Each template's opening film, when one has been prepared in public/film/<template>/: opening.mp4 (H.264),
@@ -49,7 +49,7 @@ const page = `<title>Taklifnoma namunalari</title>
 <meta name="theme-color" content="#f8f5ef" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri&text=${encodeURIComponent("بسم الله الرحمن الرحيم")}&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Corinthia:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Great+Vibes&display=swap" />
 <style>
 ${css}

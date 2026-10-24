@@ -63,7 +63,7 @@ const TEMPLATES: ShowcaseTemplate[] = [
   {
     id: "gulzor",
     name: "Gulzor",
-    line: "Oq gullar bilan bog‘langan karta va bog‘ ravog‘idagi bahoriy to‘y",
+    line: "Bismillah bilan ochiladigan, oq gullar va nashida bilan bog‘dagi nikoh to‘yi",
     data: {
       eventType: "nikoh",
       groom: "Jasur",
@@ -78,19 +78,19 @@ const TEMPLATES: ShowcaseTemplate[] = [
       giftCardHolder: "Malika Rahimova",
       contactPhone: "+998 90 123 45 67",
       message:
-        "Hayotimizning eng baxtli kuni — to‘yimizni siz bilan birga nishonlashni istaymiz. Muhabbat, quvonch va iliq duolarga to‘la bu kunda yonimizda bo‘lishingiz biz uchun katta baxt.",
-      bismillah: false,
+        "Alloh taoloning marhamati bilan hayotimizning eng muborak kuni — nikoh to‘yimizni siz bilan birga nishonlashni istaymiz. Duolaringiz va yonimizda bo‘lishingiz biz uchun eng katta sovg‘a.",
+      bismillah: true,
       program: [
         { time: "16:00", title: "Mehmonlarni kutib olish" },
-        { time: "17:00", title: "Nikoh marosimi" },
-        { time: "18:00", title: "Fotosessiya" },
-        { time: "19:00", title: "To‘y ziyofati" },
-        { time: "22:00", title: "To‘y torti" },
-        { time: "23:00", title: "Raqs va bazm" },
+        { time: "16:30", title: "Nikoh o‘qilishi" },
+        { time: "17:30", title: "Fotosessiya" },
+        { time: "18:30", title: "To‘y ziyofati" },
+        { time: "20:00", title: "To‘y torti" },
+        { time: "20:30", title: "Duo va oq fotiha" },
       ],
       photos: [],
-      music: "toylar",
-      dressCode: "",
+      music: "nashid",
+      dressCode: "Ayollar uchun yopiq, nafis liboslar; bahoriy yumshoq ranglar ma’qul",
     },
     Invitation: GulzorInvitation,
     Preview: ({ data, w, h }) => (

@@ -107,6 +107,7 @@ export const BUILTIN_MUSIC = {
   nafis: "Nafis — musiqa qutisi",
   sokin: "Sokin — fortepiano",
   toylar: "Bojalar — To‘ylar muborak",
+  nashid: "Muhammad al-Muqit — To‘y nashidasi",
 } as const;
 
 export const ORDER_STATUSES = {

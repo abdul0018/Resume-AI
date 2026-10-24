@@ -598,7 +598,9 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(28, 36, 26, 0.34) 0%, rgba(28, 36, 26, 0) 20%),
+    radial-gradient(62% 13% at 50% 10%, rgba(28, 36, 26, 0.42), rgba(28, 36, 26, 0) 100%),
+    radial-gradient(48% 10% at 78% 84%, rgba(28, 36, 26, 0.4), rgba(28, 36, 26, 0) 100%),
+    linear-gradient(180deg, rgba(28, 36, 26, 0.55) 0%, rgba(28, 36, 26, 0.3) 14%, rgba(28, 36, 26, 0) 28%),
     radial-gradient(95% 34% at 50% 40%, rgba(30, 40, 28, 0.46), rgba(30, 40, 28, 0) 74%),
     linear-gradient(180deg, rgba(28, 36, 26, 0) 66%, rgba(28, 36, 26, 0.3) 100%);
   opacity: 0;
@@ -633,6 +635,13 @@
   color: #fffef9;
   text-shadow: 0 1px 14px rgba(22, 30, 20, 0.38);
 }
+.gz-hero-bismillah {
+  margin: 0 0 14px;
+  font-family: "Amiri", serif;
+  font-size: 23px;
+  line-height: 1.6;
+  text-shadow: 0 1px 14px rgba(22, 30, 20, 0.5);
+}
 .gz-kick-light {
   margin: 0;
   font-size: 12px;
@@ -641,8 +650,8 @@
   text-transform: uppercase;
 }
 .gz-hero-names {
-  margin: 13vh 0 0;
-  margin: 13svh 0 0;
+  margin: 10vh 0 0;
+  margin: 10svh 0 0;
   width: 100%;
   display: grid;
   font-family: var(--gz-script);
@@ -821,6 +830,25 @@
 .gz-gift-sec,
 .gz-close-wave {
   padding-top: 30px;
+}
+/* the prayer for the couple */
+.gz-dua {
+  padding-top: 26px;
+  padding-bottom: 34px;
+}
+.gz-dua-kick {
+  margin-top: 18px;
+}
+.gz-dua-ar {
+  max-width: 330px;
+  margin: 14px auto 0;
+  font-family: "Amiri", serif;
+  font-size: 28px;
+  line-height: 2;
+  color: var(--gz-ink);
+}
+.gz-dua-uz {
+  font-style: italic;
 }
 .gz-close {
   padding-top: 8px;
@@ -1163,17 +1191,37 @@
     0 4px 10px -6px rgba(60, 70, 50, 0.55);
 }
 
-/* the table, framed in a garden arch */
+/* the table, framed in a pointed arch drawn twice in hairline */
 .gz-arch {
+  position: relative;
   width: min(76%, 290px);
   margin: 34px auto 0;
 }
 .gz-arch-in {
   aspect-ratio: 4 / 5;
-  border-radius: 999px 999px 8px 8px;
   overflow: hidden;
   background: var(--gz-wash);
-  box-shadow: 0 22px 40px -28px rgba(50, 60, 40, 0.6);
+  clip-path: url(#gz-arch-clip);
+}
+.gz-arch-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.gz-arch-frame path {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+.gz-arch-frame path:first-of-type {
+  stroke: var(--gz-sage-deep);
+  stroke-width: 1.2;
+}
+.gz-arch-frame path:last-of-type {
+  stroke: rgba(255, 255, 255, 0.75);
+  stroke-width: 1;
 }
 .gz-arch-img {
   display: block;
@@ -1225,7 +1273,7 @@
 .gz-quote-text {
   position: relative;
   margin: 0;
-  max-width: 56%;
+  max-width: 60%;
   display: grid;
   justify-items: center;
   text-align: center;
@@ -1233,6 +1281,31 @@
   font-style: italic;
   line-height: 1.45;
   color: var(--gz-ink);
+}
+.gz-ayah {
+  font-family: "Amiri", serif;
+  font-style: normal;
+  font-size: 25px;
+  line-height: 1.9;
+  color: var(--gz-ink);
+}
+.gz-ayah-uz {
+  margin-top: 8px;
+  font-size: 18px;
+  line-height: 1.45;
+}
+.gz-quote-text cite,
+.gz-dua-cite {
+  display: block;
+  margin-top: 10px;
+  font-size: 11.5px;
+  font-style: normal;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gz-soft);
+}
+.gz-star {
+  color: var(--gz-sage-deep);
 }
 .gz-quote .gz-heart {
   max-width: 56%;
@@ -1693,16 +1766,16 @@
 }
 
 /* the arch opens from its foot; the table inside comes forward a little */
-.gz-arch .gz-arch-in {
+.gz-arch {
   transition: clip-path 1200ms cubic-bezier(0.6, 0, 0.2, 1);
 }
-.gz-arch:not([data-in]) .gz-arch-in {
+.gz-arch-wrap:not([data-in]) .gz-arch {
   clip-path: inset(100% 0 0 0);
 }
 .gz-arch-in > * {
   transition: scale 2400ms var(--gz-ease);
 }
-.gz-arch:not([data-in]) .gz-arch-in > * {
+.gz-arch-wrap:not([data-in]) .gz-arch-in > * {
   scale: 1.12;
 }
 

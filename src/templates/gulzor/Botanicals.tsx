@@ -23,7 +23,8 @@ export type IconKind =
   | "telegram"
   | "whatsapp"
   | "arrow"
-  | "clock";
+  | "clock"
+  | "crescent";
 
 /** Every stroke is measured as 1, so CSS can draw it in with a dash offset. */
 const P = ({ d }: { d: string }) => <path d={d} pathLength={1} />;
@@ -108,6 +109,12 @@ const ICONS: Record<IconKind, ReactNode> = {
     </>
   ),
   arrow: <P d="M4 12h15M14.2 7.2L19 12l-4.8 4.8" />,
+  crescent: (
+    <>
+      <P d="M14.6 4.2a8 8 0 1 0 5.2 13.6A6.6 6.6 0 0 1 14.6 4.2z" />
+      <P d="M17.6 7.2l.7 1.5 1.6.2-1.2 1.1.3 1.6-1.4-.8-1.4.8.3-1.6-1.2-1.1 1.6-.2z" />
+    </>
+  ),
   clock: (
     <>
       <P d="M12 3.6a8.4 8.4 0 1 1 0 16.8 8.4 8.4 0 0 1 0-16.8z" />
@@ -139,6 +146,7 @@ export function Icon({ kind, size = 24, className = "gz-ico", style }: { kind: I
 /** Chooses a programme icon from the event's wording, cycling through the set when nothing matches. */
 export function iconFor(title: string, index: number): IconKind {
   const t = title.toLowerCase();
+  if (/duo|fotiha|namoz|qur.?on|xatm/.test(t)) return "crescent";
   if (/nikoh|fotiha|unashtiruv|marosim|ahd/.test(t)) return "rings";
   if (/kutib|kelish|yig‘il|yig'il|xush/.test(t)) return "bouquet";
   if (/foto|surat|kadr/.test(t)) return "camera";
@@ -186,14 +194,31 @@ export function Sprig({ className = "gz-sprig", style }: { className?: string; s
   );
 }
 
-/** Two hairlines with a small heart between: the closing divider. */
-export function HeartRule({ className = "gz-heart-rule" }: { className?: string }) {
+/** An eight-pointed star of two interlaced squares (the khatam), in outline with a filled heart. */
+export function StarMark({ size = 14 }: { size?: number }) {
+  return (
+    <svg viewBox="-12 -12 24 24" width={size} height={size} aria-hidden="true">
+      <g fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinejoin="round">
+        <rect x="-7.4" y="-7.4" width="14.8" height="14.8" />
+        <rect x="-7.4" y="-7.4" width="14.8" height="14.8" transform="rotate(45)" />
+      </g>
+      <circle r="2.6" fill="currentColor" />
+    </svg>
+  );
+}
+
+/** Two hairlines with a small mark between: the closing divider. */
+export function HeartRule({ className = "gz-heart-rule", star = false }: { className?: string; star?: boolean }) {
   return (
     <div className={className} aria-hidden="true">
       <i />
-      <svg viewBox="0 0 24 24" width="13" height="13">
-        <path d="M12 20s-7.2-4.5-7.2-9.8A4 4 0 0 1 12 8a4 4 0 0 1 7.2 2.2C19.2 15.5 12 20 12 20z" fill="currentColor" />
-      </svg>
+      {star ? (
+        <StarMark size={15} />
+      ) : (
+        <svg viewBox="0 0 24 24" width="13" height="13">
+          <path d="M12 20s-7.2-4.5-7.2-9.8A4 4 0 0 1 12 8a4 4 0 0 1 7.2 2.2C19.2 15.5 12 20 12 20z" fill="currentColor" />
+        </svg>
+      )}
       <i />
     </div>
   );

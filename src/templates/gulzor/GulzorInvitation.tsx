@@ -8,7 +8,7 @@ import { copyText } from "@/lib/share";
 import { playFilmSounds, unlockAudio } from "@/lib/media";
 import { startAmbient } from "../muhr/ambient";
 import { Film, filmCues, filmSpec, frameToScreen, type FilmScene, type FilmSpec } from "../film/Film";
-import { BlossomMark, FlowerLine, FlowerSpray, HeartRule, Icon, iconFor, SilkBow, Sprig } from "./Botanicals";
+import { BlossomMark, FlowerLine, FlowerSpray, HeartRule, Icon, iconFor, SilkBow, Sprig, StarMark } from "./Botanicals";
 import { GardenMap } from "./GardenMap";
 import "./gulzor.css";
 
@@ -29,7 +29,7 @@ const art = (name: string) => Object.entries(FILES).find(([p]) => p.slice(p.last
 
 /** The closed card's title and the hero's invitation line, per ceremony. */
 const KICKER: Record<keyof typeof EVENT_TYPES, [string, string]> = {
-  nikoh: ["To‘yga", "taklifnoma"],
+  nikoh: ["Nikoh to‘yiga", "taklifnoma"],
   fotiha: ["Fotiha to‘yiga", "taklifnoma"],
   unashtiruv: ["Unashtiruvga", "taklifnoma"],
   qizbazmi: ["Qiz bazmiga", "taklifnoma"],
@@ -387,6 +387,11 @@ function GardenHero({
       <div className="gz-photo-veil" aria-hidden="true" />
       <canvas ref={petals} className="gz-petals" aria-hidden="true" />
       <div className="gz-hero-text">
+        {data.bismillah && (
+          <p className="gz-l gz-hero-bismillah" lang="ar" dir="rtl" style={at(0)}>
+            {BISMILLAH}
+          </p>
+        )}
         <p className="gz-l gz-kick-light" style={at(0)}>
           {k1}
           <br />
@@ -413,20 +418,20 @@ function GardenHero({
         </p>
         <div className="gz-l gz-hero-mark" style={at(6)} aria-hidden="true">
           <i />
-          <BlossomMark size={13} />
+          <StarMark size={14} />
           <i />
         </div>
       </div>
       <p className="gz-l gz-motto" style={at(7)}>
-        Ikki qalb
+        Alloh qovushtirgan
         <br />
-        bir taqdir
-        <br />
-        yangi boshlanish
+        ikki qalb
       </p>
     </>
   );
 }
+
+const BISMILLAH = "بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ";
 
 /** White and blush petals for the garden. */
 const PETALS: [string, string][] = [
@@ -511,6 +516,9 @@ function Blossoms({ edge, seed }: { edge: "top" | "bottom"; seed: number }) {
   );
 }
 
+/** A pointed arch in the unit square, for clipping the table photograph. */
+const ARCH_UNIT = "M0,1 V0.352 C0,0.208 0.3,0.096 0.5,0 C0.7,0.096 1,0.208 1,0.352 V1 Z";
+
 /** Two weeks before the day: the date replies are asked for by, e.g. "1-may". */
 function replyBy(date: string) {
   const { y, m, d } = parseDate(date);
@@ -538,13 +546,8 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
       {/* the welcome note, its wave laid over the foot of the photograph */}
       <section className="gz-panel gz-welcome">
         <Wave d={WAVES[0]} />
-        {data.bismillah && (
-          <p className="gz-bismillah" lang="ar" dir="rtl" data-reveal="up">
-            بسم الله الرحمن الرحيم
-          </p>
-        )}
         <h2 className="gz-script-h" data-reveal="write">
-          Aziz mehmonlar!
+          Assalomu alaykum!
         </h2>
         <p className="gz-p" data-reveal="up" style={delay(250)}>
           {message}
@@ -568,7 +571,7 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
         {/* the blossoms hang out of the mist the bouquet fades into */}
         <Blossoms edge="top" seed={3} />
         <p className="gz-kick" data-reveal="up">
-          Eng muhimi
+          Alloh nasib etsa
         </p>
         <h2 className="gz-h" data-reveal="caps">
           Sana va vaqt
@@ -624,7 +627,7 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
           Kiyinish uslubi
         </h2>
         <p className="gz-p gz-narrow" data-reveal="up">
-          {data.dressCode || "Sizni bahor ranglaridan ilhomlangan, yengil va nafis liboslarda ko‘rishdan xursand bo‘lamiz"}
+          {data.dressCode || "Sizni yopiq va nafis, bahoriy yumshoq ranglardagi liboslarda ko‘rishdan xursand bo‘lamiz"}
         </p>
         <ul className="gz-swatches" data-reveal="pop" aria-label="Tavsiya etilgan ranglar">
           {PALETTE.map(([c, name], i) => (
@@ -632,16 +635,29 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
           ))}
         </ul>
 
-        <figure className="gz-arch" data-reveal="arch">
+        {/* the wrapper is watched: a fully clipped element never reports itself in view */}
+        <div className="gz-arch-wrap" data-reveal="arch">
+        <figure className="gz-arch">
           <div className="gz-arch-in">
             <Photo name="table" className="gz-arch-img" fallback={<DrawnTable />} />
           </div>
+          {/* a pointed arch, its frame drawn twice in hairline */}
+          <svg className="gz-arch-frame" viewBox="0 0 100 125" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <clipPath id="gz-arch-clip" clipPathUnits="objectBoundingBox">
+                <path d={ARCH_UNIT} />
+              </clipPath>
+            </defs>
+            <path d="M0.5,124.5 V44 C0.5,26 30,12 50,0.8 C70,12 99.5,26 99.5,44 V124.5 Z" />
+            <path d="M5,120 V45 C5,29 32,16.5 50,6 C68,16.5 95,29 95,45 V120 Z" />
+          </svg>
         </figure>
+        </div>
         <p className="gz-script-s" data-reveal="write">
           Sizni kutib qolamiz!
         </p>
-        <div className="gz-heart" data-reveal="draw" style={delay(300)}>
-          <Icon kind="heart" size={16} />
+        <div className="gz-heart gz-star" data-reveal="up" style={delay(300)}>
+          <StarMark size={16} />
         </div>
       </section>
 
@@ -651,12 +667,14 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
           <Photo name="roses" className="gz-roses-img" fallback={<DrawnRoses />} />
         </div>
         <blockquote className="gz-quote-text" data-reveal="up">
-          <span>Muhabbat —</span>
-          <span>qalbda gullaydigan</span>
-          <span>eng go‘zal gul</span>
+          <span className="gz-ayah" lang="ar" dir="rtl">
+            وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً
+          </span>
+          <span className="gz-ayah-uz">«…va oralaringizda muhabbat va rahmat paydo qildi»</span>
+          <cite>Rum surasi, 21-oyat</cite>
         </blockquote>
-        <div className="gz-heart" data-reveal="draw" style={delay(400)}>
-          <Icon kind="heart" size={16} />
+        <div className="gz-heart gz-star" data-reveal="up" style={delay(400)}>
+          <StarMark size={16} />
         </div>
       </section>
 
@@ -727,9 +745,26 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
         </section>
       )}
 
-      {/* the last word */}
-      <section className={`gz-panel gz-close${hasGift ? "" : " gz-close-wave"}`}>
+      {/* the Prophet's ﷺ prayer for a couple on their marriage */}
+      <section className={`gz-panel gz-dua${hasGift ? "" : " gz-close-wave"}`}>
         {!hasGift && <Wave d={WAVES[3]} />}
+        <HeartRule star />
+        <p className="gz-kick gz-dua-kick" data-reveal="up">
+          Kelin-kuyovga duo
+        </p>
+        <p className="gz-dua-ar" lang="ar" dir="rtl" data-reveal="up" style={delay(150)}>
+          بَارَكَ ٱللَّٰهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ
+        </p>
+        <p className="gz-p gz-dua-uz" data-reveal="up" style={delay(300)}>
+          «Alloh sizlarga baraka bersin, ustingizga barakalar yog‘dirsin va ikkingizni yaxshilikda jamlasin»
+        </p>
+        <cite className="gz-dua-cite" data-reveal="up" style={delay(400)}>
+          Abu Dovud, Termiziy rivoyati
+        </cite>
+      </section>
+
+      {/* the last word */}
+      <section className="gz-panel gz-close">
         {phone && (
           <p className="gz-p gz-contact" data-reveal="up">
             Savollaringiz bo‘lsa, biz doim aloqadamiz:
@@ -739,7 +774,7 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
         <p className="gz-script-s" data-reveal="write" style={delay(200)}>
           Sizni intiqlik bilan kutamiz!
         </p>
-        <HeartRule />
+        <HeartRule star />
         {endSlot && <div className="gz-end">{endSlot}</div>}
         {/* the garden grows up from the foot of the page */}
         <Blossoms edge="bottom" seed={17} />

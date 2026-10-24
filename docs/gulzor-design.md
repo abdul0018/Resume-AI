@@ -133,3 +133,21 @@ The template reads any file in `src/templates/gulzor/assets` by name: `hero`, `b
 - **map:** a watercolour garden map in SVG.
 
 The prompts are in `docs/gulzor-images.md`.
+
+## Islamic character
+
+The invitation is a nikoh, so the page speaks as one:
+
+- **Hero:** the Bismillah opens it in Amiri (with `bismillah` on), under the title "Nikoh to‘yiga taklifnoma";
+  the line at its foot reads "Alloh qovushtirgan ikki qalb".
+- **Welcome:** it greets with "Assalomu alaykum!", and the day's section is headed "Alloh nasib etsa".
+- **Quote:** ar-Rum 30:21 ("…and He placed between you affection and mercy") in Arabic, with its Uzbek
+  meaning and the reference.
+- **Dua:** before the closing, the Prophet's ﷺ prayer for a married couple (Abu Dovud, Termiziy) in Arabic
+  and Uzbek.
+- **Ornaments:** the table sits in a pointed arch with a double hairline frame. Eight-pointed stars (two
+  interlaced squares) mark the hero and the dividers. The programme's prayer moments take a crescent-and-star
+  icon.
+- **Music:** the sample plays Muhammad al-Muqit's wedding nasheed (`nashid`, its first 112 s with a fade,
+  loudness-matched, 96 kb/s).
+- **Arabic type:** Amiri is loaded whole (400, 700); the browser downloads only its Arabic subset.
