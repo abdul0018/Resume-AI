@@ -106,6 +106,7 @@ export type EventType = keyof typeof EVENT_TYPES;
 export const BUILTIN_MUSIC = {
   nafis: "Nafis — musiqa qutisi",
   sokin: "Sokin — fortepiano",
+  toylar: "Bojalar — To‘ylar muborak",
 } as const;
 
 export const ORDER_STATUSES = {

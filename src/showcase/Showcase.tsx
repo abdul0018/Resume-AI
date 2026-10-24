@@ -46,7 +46,7 @@ const TEMPLATES: ShowcaseTemplate[] = [
         { time: "22:30", title: "Kelin-kuyov raqsi" },
       ],
       photos: [],
-      music: "nafis",
+      music: "toylar",
       dressCode: "",
     },
     Invitation: MuhrInvitation,

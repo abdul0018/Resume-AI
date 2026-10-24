@@ -1,6 +1,6 @@
 /**
  * Builds the examples-only showcase as ONE self-contained HTML file:
- * JS, CSS and both music tracks are inlined, so it can be hosted anywhere
+ * JS, CSS and the example's music are inlined, so it can be hosted anywhere
  * (or published as a claude.ai Artifact) without other files.
  *
  * Output: dist/showcase/taklifnoma-namunalari.html
@@ -20,7 +20,7 @@ const css = [...html.matchAll(/<link rel="stylesheet"[^>]*href="([^"]+)"[^>]*>/g
 const js = [...html.matchAll(/<script type="module"[^>]*src="([^"]+)"[^>]*><\/script>/g)].map((m) => read(m[1])).join("\n");
 
 const music = Object.fromEntries(
-  ["nafis", "sokin"].map((id) => [id, `data:audio/mpeg;base64,${fs.readFileSync(`public/music/${id}.mp3`).toString("base64")}`]),
+  ["toylar"].map((id) => [id, `data:audio/mpeg;base64,${fs.readFileSync(`public/music/${id}.mp3`).toString("base64")}`]),
 );
 
 // A page fragment: the host wraps it in <!doctype html><head>…<body>.
