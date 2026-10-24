@@ -2215,6 +2215,10 @@
   .mh-touch {
     display: none;
   }
+  .mh-hero[data-play] .mh-cue {
+    animation: none !important;
+    opacity: 1;
+  }
   .mh-card[data-in] .mh-card-text > *,
   .mh-card[data-in] .mh-card-name {
     animation: none !important;

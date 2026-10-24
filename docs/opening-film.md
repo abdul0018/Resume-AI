@@ -22,7 +22,8 @@ Put these in `public/film/` and run `npm run build:showcase`:
 | `opening.json` | `end`, `names` and `hint` (heights on the closed card, as fractions of the frame), `cues` (seconds: `knot`, `ribbon`, `doors` [left, right], `flaps`, `end`) so the sounds land on the film's moments, and for `end: "card"` the `card` rectangle in the last frame |
 
 The current film: `Wedding_invitation_ribbon_unties` (10 s, 1080×1920) cut at 7.30 s, before the dissolve shows
-the baked-in names and music button, encoded to 720×1280, 1.4 MB.
+the baked-in names and music button, encoded to 720×1280, 1.4 MB. Its satin is silver; the prompt below asks
+for champagne gold, to match the drawn envelope, should it be generated again.
 
 Encode a generated film:
 

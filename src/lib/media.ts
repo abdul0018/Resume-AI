@@ -127,8 +127,8 @@ export function playRibbonSounds() {
     noiseBurst(2.45, 0.9, 1100, 0.6, 0.05);
     noiseBurst(2.85, 0.9, 950, 0.6, 0.045);
     noiseBurst(3.7, 0.7, 1500, 0.7, 0.028);
-    // the chime as the camera arrives at the card
-    [2349, 2794, 3136, 3729].forEach((f, i) => bell(6.2 + i * 0.11, f, 0.011, 2.4));
+    // the chime as the paper gives way to the scene
+    [2349, 2794, 3136, 3729].forEach((f, i) => bell(4.4 + i * 0.11, f, 0.011, 2.4));
   } catch {
     /* sound is decorative */
   }
