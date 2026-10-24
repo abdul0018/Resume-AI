@@ -84,44 +84,44 @@
  "voiceVolume": 0.76,
  "cues": [
   {
-   "file": "v_click.wav",
+   "file": "click.wav",
    "at": 0.22,
-   "vol": 1.0
+   "vol": 0.55
   },
   {
-   "file": "v_ding.wav",
+   "file": "ding.wav",
    "at": 1.73,
-   "vol": 1.0
+   "vol": 0.6
   },
   {
-   "file": "v_click.wav",
+   "file": "click.wav",
    "at": 3.1700000000000004,
-   "vol": 1.0
+   "vol": 0.55
   },
   {
-   "file": "v_ding.wav",
+   "file": "ding.wav",
    "at": 4.78,
-   "vol": 1.0
+   "vol": 0.6
   },
   {
-   "file": "v_click.wav",
+   "file": "click.wav",
    "at": 6.37,
-   "vol": 1.0
+   "vol": 0.55
   },
   {
-   "file": "v_ding.wav",
+   "file": "ding.wav",
    "at": 7.78,
-   "vol": 1.0
+   "vol": 0.6
   },
   {
-   "file": "v_click.wav",
+   "file": "click.wav",
    "at": 9.82,
-   "vol": 1.0
+   "vol": 0.55
   },
   {
-   "file": "v_ding_big.wav",
+   "file": "ding_big.wav",
    "at": 11.1,
-   "vol": 1.0
+   "vol": 0.75
   }
  ]
 }
