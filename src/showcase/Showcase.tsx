@@ -1,7 +1,7 @@
 import { useEffect, useState, type ComponentType, type ReactNode } from "react";
 import type { InviteData } from "@shared/schema";
 import { formatDateDots } from "@shared/format";
-import { Envelope, MuhrInvitation } from "@/templates/muhr/MuhrInvitation";
+import { ClosedCard, MuhrInvitation } from "@/templates/muhr/MuhrInvitation";
 
 /**
  * Examples-only site: a gallery of sample invitations, each opening full-screen.
@@ -52,7 +52,7 @@ const TEMPLATES: ShowcaseTemplate[] = [
     Invitation: MuhrInvitation,
     Preview: ({ data, w, h }) => (
       <div className="mh mh-thumb" style={{ position: "relative", width: w, height: h }}>
-        <Envelope data={data} box={{ w, h }} state="closed" interactive={false} />
+        <ClosedCard data={data} box={{ w, h }} />
       </div>
     ),
   },
@@ -124,7 +124,7 @@ function ExampleView({
       t = window.setTimeout(() => setIdle(true), 1800);
     };
     const onClick = (e: MouseEvent) => {
-      if ((e.target as HTMLElement).closest(".mh-env")) setClosed(false);
+      if ((e.target as HTMLElement).closest(".mh-env, .mh-film")) setClosed(false);
     };
     document.addEventListener("click", onClick);
     window.addEventListener("pointermove", wake, { passive: true });

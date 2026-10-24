@@ -1,10 +1,15 @@
 # Opening film (Atlas lenta template)
 
-The invitation can open with a pre-rendered film instead of the drawn envelope: the satin bow unties, the
-doors and inner flaps open, and the film ends on the card lying in the open envelope. When it ends, the
-camera moves into that card until it fills the screen and the live card (names, date, venue as real text)
-takes over. Without a film, or if a phone cannot play it, the drawn envelope plays instead and ends the
-same way.
+The invitation can open with a pre-rendered film instead of the drawn envelope: the satin bow unties and
+the doors and inner flaps open. The couple's names are set over the film's first frame in type, so one film
+serves every couple. The film ends one of two ways (`end` in opening.json):
+
+- `"scene"` (the current film): it dissolves into the live photo scene, which comes into focus while its
+  welcome and names are written in. Cut the film before any baked-in text or buttons appear.
+- `"card"`: the camera moves into the card lying in its last frame until it fills the screen.
+
+Without a film, or if a phone cannot play it (nothing moving 2.5 s after the tap), the drawn envelope plays
+instead. A film that stalls part-way for 3 s hands over where it is.
 
 ## Files
 
@@ -14,12 +19,15 @@ Put these in `public/film/` and run `npm run build:showcase`:
 | --- | --- |
 | `opening.mp4` | the film: H.264, 9:16, 720×1280, 4–7 s, no text, `+faststart` |
 | `opening.jpg` | its first frame (the closed card), shown before the tap |
-| `opening.json` | `{ "card": { "x": 0.14, "y": 0.14, "w": 0.72, "h": 0.72 }, "names": 0.35 }` — where the card lies in the last frame (fractions of the frame), and the height at which the couple's names are set on the closed card |
+| `opening.json` | `end`, `names` and `hint` (heights on the closed card, as fractions of the frame), `cues` (seconds: `knot`, `ribbon`, `doors` [left, right], `flaps`, `end`) so the sounds land on the film's moments, and for `end: "card"` the `card` rectangle in the last frame |
+
+The current film: `Wedding_invitation_ribbon_unties` (10 s, 1080×1920) cut at 7.30 s, before the dissolve shows
+the baked-in names and music button, encoded to 720×1280, 1.4 MB.
 
 Encode a generated film:
 
 ```sh
-ffmpeg -i generated.mp4 -vf "scale=720:1280:force_original_aspect_ratio=increase,crop=720:1280" \
+ffmpeg -i generated.mp4 -t 7.30 -an -vf "scale=720:1280:force_original_aspect_ratio=increase,crop=720:1280" \
   -c:v libx264 -profile:v high -crf 23 -preset slow -pix_fmt yuv420p -movflags +faststart -an public/film/opening.mp4
 ffmpeg -i public/film/opening.mp4 -frames:v 1 -q:v 2 public/film/opening.jpg
 ```

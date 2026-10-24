@@ -489,10 +489,10 @@
 }
 .mh-env[data-state="opening"] {
   pointer-events: none;
-  animation: mh-dissolve 450ms ease-in 6200ms both;
+  animation: mh-dissolve 600ms ease-in 4450ms both;
 }
 .mh-env[data-state="opening"] .mh-env-3d {
-  animation: mh-camera 6650ms both;
+  animation: mh-camera 5100ms both;
 }
 .mh-env[data-state="opening"] .mh-bow-in {
   animation: mh-untie 2400ms both;
@@ -920,27 +920,22 @@
     opacity: 0;
   }
 }
-/* a small give under the thumb, the card held still while it opens, a breath, then the camera moves into
-   the card until it fills the screen: 1 / 0.72 undoes the tray card's scale exactly, so the live card under
-   the envelope matches it pixel for pixel when the paper dissolves */
+/* a small give under the thumb, the card held still while it opens, then a slow move through it */
 @keyframes mh-camera {
   0% {
     transform: perspective(1600px) scale(1.03);
     animation-timing-function: cubic-bezier(0.33, 0, 0.2, 1);
   }
-  2% {
+  3% {
     transform: perspective(1600px) scale(1.018);
     animation-timing-function: cubic-bezier(0.33, 0, 0.2, 1);
   }
-  54% {
+  70% {
     transform: perspective(1600px) scale(1);
-  }
-  74% {
-    transform: perspective(1600px) scale(1);
-    animation-timing-function: cubic-bezier(0.62, 0, 0.18, 1);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.2, 1);
   }
   100% {
-    transform: perspective(1600px) scale(1.388889);
+    transform: perspective(1600px) scale(1.12);
   }
 }
 @keyframes mh-dissolve {
@@ -981,21 +976,17 @@
   object-fit: cover;
   object-position: 52% 50%;
 }
-.mh-photo-sec {
-  position: relative;
-  height: 100vh;
-  height: 100svh;
-  overflow: hidden;
-}
-.mh-photo-sec:not([data-in]) .mh-photo {
+/* --t0 on the hero is when the photograph starts to come through: 3700ms into the drawn envelope, or the
+   moment a film hands over */
+.mh-hero:not([data-play]) .mh-photo {
   scale: 1.12;
   filter: blur(7px) brightness(1.1);
 }
-.mh-photo-sec[data-in] .mh-photo {
+.mh-hero[data-play] .mh-photo {
   animation:
-    mh-settle 3200ms var(--mh-ease-out) both,
-    mh-focus 1600ms cubic-bezier(0.3, 0, 0.2, 1) both,
-    mh-drift 22s ease-in-out 3200ms infinite alternate;
+    mh-settle 3200ms var(--mh-ease-out) var(--t0) both,
+    mh-focus 1600ms cubic-bezier(0.3, 0, 0.2, 1) var(--t0) both,
+    mh-drift 22s ease-in-out calc(var(--t0) + 3200ms) infinite alternate;
 }
 /* rests slightly enlarged so the slow drift never shows an edge */
 @keyframes mh-settle {
@@ -1077,12 +1068,12 @@
   color: #8a6128;
   vertical-align: 0.35em;
 }
-.mh-photo-sec:not([data-in]) .mh-line {
+.mh-hero:not([data-play]) .mh-line {
   opacity: 0;
 }
-.mh-photo-sec[data-in] .mh-line {
+.mh-hero[data-play] .mh-line {
   animation: mh-text 1500ms var(--mh-ease-out) both;
-  animation-delay: calc(350ms + var(--i, 0) * 140ms);
+  animation-delay: calc(var(--t0) + 600ms + var(--i, 0) * 140ms);
 }
 @keyframes mh-text {
   from {
@@ -1127,16 +1118,8 @@
   z-index: 3;
   opacity: 0;
 }
-.mh-card--hero[data-shown] .mh-cue {
-  animation: mh-text 1200ms var(--mh-ease-out) 1900ms both;
-}
-/* room at the foot for the scroll cue; a little tighter so a common phone holds the whole card */
-.mh-card--hero .mh-card-text {
-  padding-top: 8%;
-  padding-bottom: calc(4% + 58px);
-}
-.mh-card--hero .mh-card-rule {
-  margin: 2.8cqi 0;
+.mh-hero[data-play] .mh-cue {
+  animation: mh-text 1200ms var(--mh-ease-out) calc(var(--t0) + 1200ms) both;
 }
 .mh-cue svg {
   animation: mh-bob 2s ease-in-out infinite;
@@ -1602,39 +1585,19 @@
   rotate: 188deg;
 }
 
-/* the first screen: the card filling it, edge to edge; on a short phone it grows past the screen rather than
-   cutting its last lines */
-.mh-hero[data-stage="scene"] {
-  height: auto;
-  min-height: 100vh;
-  min-height: 100svh;
-  overflow: visible;
+/* a real card lying on the page */
+.mh-sec-card {
+  padding-inline: 12px;
 }
-.mh-card--hero {
-  min-height: 100vh;
-  min-height: 100svh;
-  width: 100%;
-}
-/* the same card in miniature, lying on the envelope's lining: 72% of the screen, centred */
-.mh-tray {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(180deg, rgba(226, 212, 186, 0.72), rgba(214, 196, 164, 0.72)),
-    var(--mh-art) center / cover,
-    #e6d7bd;
-  box-shadow: inset 0 0 40px rgba(96, 70, 30, 0.22);
-}
-.mh-card--tray {
-  position: absolute;
-  inset: 0;
-  scale: 0.72;
+.mh-card--section {
+  width: calc(100% - 20px);
+  max-width: 420px;
+  margin: 0 auto;
+  aspect-ratio: 3 / 5;
+  border-radius: 4px;
   box-shadow:
-    0 1px 2px rgba(80, 56, 24, 0.2),
-    0 18px 34px -16px rgba(80, 56, 24, 0.5);
-}
-.mh-card--tray::after {
-  display: none;
+    0 1px 2px rgba(80, 56, 24, 0.18),
+    0 22px 40px -22px rgba(80, 56, 24, 0.55);
 }
 
 /* the type, centred between the two sprays. Sizes are shares of the card's width (1cqi = 6 units of 600)
@@ -1913,11 +1876,11 @@
   -webkit-mask-position: 0 0;
   mask-position: 0 0;
 }
-.mh-photo-sec[data-in] .mh-hero-name {
+.mh-hero[data-play] .mh-hero-name {
   animation:
     mh-write 1500ms cubic-bezier(0.45, 0, 0.35, 1) both,
     mh-text 1200ms var(--mh-ease-out) both;
-  animation-delay: calc(300ms + var(--i, 0) * 120ms);
+  animation-delay: calc(var(--t0) + 250ms + var(--i, 0) * 120ms);
 }
 @keyframes mh-write {
   from {
@@ -1939,7 +1902,7 @@
   z-index: 1;
   pointer-events: none;
 }
-.mh-photo-sec .mh-hero-spray {
+.mh-hero[data-play] .mh-hero-spray {
   transform-origin: 50% 100%;
   animation: mh-sway 5.5s ease-in-out infinite alternate;
 }
@@ -2064,8 +2027,8 @@
   background-size: 300% 100%;
   background-position: 130% 0;
 }
-.mh-card[data-shown]::after {
-  animation: mh-card-sheen 9s ease-in-out 3.2s infinite;
+.mh-card[data-in]::after {
+  animation: mh-card-sheen 9s ease-in-out 2.4s infinite;
 }
 @keyframes mh-card-sheen {
   0% {
@@ -2076,15 +2039,15 @@
     background-position: -30% 0;
   }
 }
-/* the card's lines arrive once the camera has settled on it; the names are written in */
-.mh-card--hero .mh-card-text > * {
+/* the card's lines arrive once it has been laid down; the names are written in */
+.mh-card[data-reveal] .mh-card-text > * {
   opacity: 0;
 }
-.mh-card--hero[data-shown] .mh-card-text > * {
+.mh-card[data-in] .mh-card-text > * {
   animation: mh-text 1100ms var(--mh-ease-out) both;
-  animation-delay: calc(0.15s + var(--i, 0) * 0.1s);
+  animation-delay: calc(0.55s + var(--i, 0) * 0.09s);
 }
-.mh-card--hero .mh-card-name {
+.mh-card[data-reveal] .mh-card-name {
   margin-inline: -0.3em !important;
   padding: 0.12em 0.3em;
   -webkit-mask-image: linear-gradient(90deg, #000 40%, transparent 60%);
@@ -2096,11 +2059,11 @@
   -webkit-mask-position: 100% 0;
   mask-position: 100% 0;
 }
-.mh-card--hero[data-shown] .mh-card-name {
+.mh-card[data-in] .mh-card-name {
   animation:
     mh-write 1500ms cubic-bezier(0.45, 0, 0.35, 1) both,
     mh-text 1100ms var(--mh-ease-out) both;
-  animation-delay: calc(0.15s + var(--i, 0) * 0.1s);
+  animation-delay: calc(0.55s + var(--i, 0) * 0.09s);
 }
 
 /* roses open out from the edges, then move in the air */
@@ -2252,9 +2215,8 @@
   .mh-touch {
     display: none;
   }
-  .mh-card--hero[data-shown] .mh-card-text > *,
-  .mh-card--hero[data-shown] .mh-card-name,
-  .mh-card--hero[data-shown] .mh-cue {
+  .mh-card[data-in] .mh-card-text > *,
+  .mh-card[data-in] .mh-card-name {
     animation: none !important;
     opacity: 1;
     -webkit-mask-image: none;
@@ -2415,10 +2377,14 @@
 .mh-film-video[data-zoom] {
   transition: transform 1500ms cubic-bezier(0.62, 0, 0.18, 1);
 }
-/* the live card shows through as the camera arrives */
+/* the live page shows through: quickly as the camera arrives at a card, slowly as the film dissolves into
+   the scene, which comes into focus beneath it */
 .mh-film[data-handover] {
   opacity: 0;
   transition: opacity 450ms ease-in;
+}
+.mh-film[data-end="scene"][data-handover] {
+  transition: opacity 1000ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 /* the couple's names and the hint, set on the closed card in type so one film serves every couple */
 .mh-film-names {

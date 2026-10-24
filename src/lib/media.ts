@@ -75,6 +75,21 @@ export function playOpeningSounds() {
   }
 }
 
+/** The same sounds, placed on an opening film's own moments (seconds into the film). */
+export function playFilmSounds(c: { knot: number; ribbon: number; doors: [number, number]; flaps: number; end: number }) {
+  try {
+    noiseBurst(0.05, 0.18, 5200, 0.8, 0.02);
+    noiseBurst(Math.max(0.2, c.knot - 0.7), 0.8, 4600, 0.6, 0.035);
+    noiseBurst(c.knot, 0.3, 3600, 0.8, 0.045);
+    noiseBurst(c.ribbon, 0.8, 2600, 0.5, 0.022);
+    c.doors.forEach((t, i) => noiseBurst(t, 0.9, i ? 950 : 1100, 0.6, 0.05));
+    noiseBurst(c.flaps, 0.8, 1500, 0.7, 0.03);
+    [2349, 2794, 3136, 3729].forEach((f, i) => bell(c.end + i * 0.11, f, 0.011, 2.4));
+  } catch {
+    /* sound is decorative */
+  }
+}
+
 /** Must be called synchronously inside a user gesture to unlock audio on iOS. */
 export function unlockAudio() {
   audio();

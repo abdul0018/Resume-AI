@@ -1,20 +1,37 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 /**
- * A pre-rendered opening film: the satin bow untied, the doors and the inner envelope opened, ending on the
- * card lying in the open envelope. When it ends, the camera moves into that card until it fills the screen,
- * and the live card (CardHero) takes over under it. Closed, the film's first frame is the poster, with the
- * couple's names set on it in type, so one film serves every couple.
+ * A pre-rendered opening film: the satin bow untied, the doors and the inner envelope opened. Closed, the
+ * film's first frame is the poster, with the couple's names set on it in type, so one film serves every
+ * couple. It ends one of two ways: it dissolves into the live scene waiting under it ("scene"), or the
+ * camera moves into the card lying in its last frame until it fills the screen ("card").
  */
 export interface FilmSpec {
   /** MP4 (H.264) — as a data: URI in the single-file showcase, or a URL. */
   src: string;
   /** The film's first frame. */
   poster: string;
-  /** Where the card lies in the film's last frame, as fractions of the frame. */
-  card: { x: number; y: number; w: number; h: number };
-  /** Height of the printed names on the closed card, as a fraction of the frame (default 0.35). */
+  end?: "scene" | "card";
+  /** For end "card": where the card lies in the film's last frame, as fractions of the frame. */
+  card?: { x: number; y: number; w: number; h: number };
+  /** Heights of the printed names and the hint on the closed card, as fractions of the frame. */
   names?: number;
+  hint?: number;
+  /** When things happen in the film (seconds), so the sounds land on them. */
+  cues?: FilmCues;
+}
+
+export interface FilmCues {
+  /** the knot gives */
+  knot: number;
+  /** the ribbon slides away */
+  ribbon: number;
+  /** each door swings */
+  doors: [number, number];
+  /** the inner flaps fold back */
+  flaps: number;
+  /** the film hands over */
+  end: number;
 }
 
 /** A film supplied by the build (showcase) or, for tests, set on the window before the page loads. */
@@ -36,6 +53,12 @@ function playableSrc(src: string) {
 /** Time the camera takes to move into the card, and when the live card starts to show through. */
 const ZOOM_MS = 1500;
 const HANDOVER_MS = 1050;
+/** Time the film takes to dissolve into the live scene. */
+const DISSOLVE_MS = 1000;
+/** If the film has not visibly started this long after the tap, the drawn envelope takes over. */
+const START_GRACE_MS = 2500;
+/** If the film stops moving this long part-way, it hands over where it is. */
+const STALL_MS = 3000;
 
 export function Film({
   spec,
@@ -45,6 +68,7 @@ export function Film({
   state,
   onOpen,
   onFail,
+  onHandover,
   onDone,
 }: {
   spec: FilmSpec;
@@ -56,7 +80,9 @@ export function Film({
   onOpen: () => void;
   /** The film cannot play here: the caller falls back to the drawn opening. */
   onFail: () => void;
-  /** The camera has arrived at the card. */
+  /** The live page beneath starts to show through. */
+  onHandover: () => void;
+  /** The film is gone; the live page has the screen. */
   onDone: () => void;
 }) {
   const video = useRef<HTMLVideoElement>(null);
@@ -73,8 +99,21 @@ export function Film({
     [src],
   );
 
+  const ended = useRef(false);
+  const finish = () => {
+    if (ended.current) return;
+    ended.current = true;
+    if (spec.end === "card" && spec.card) moveIn(spec.card);
+    else {
+      // the film dissolves into the live scene beneath it
+      onHandover();
+      setHandover(true);
+      timers.current.push(window.setTimeout(onDone, DISSOLVE_MS));
+    }
+  };
+
   /** Moves the camera so the card in the last frame fills the screen. */
-  const moveIn = () => {
+  const moveIn = (c: NonNullable<FilmSpec["card"]>) => {
     const v = video.current;
     if (!v || zoom) return;
     const vw = v.videoWidth || 1080;
@@ -83,7 +122,6 @@ export function Film({
     const s = Math.max(box.w / vw, box.h / vh);
     const ox = (box.w - vw * s) / 2;
     const oy = (box.h - vh * s) / 2;
-    const c = spec.card;
     const cw = c.w * vw * s;
     const ch = c.h * vh * s;
     const cx = ox + (c.x * vw + (c.w * vw) / 2) * s;
@@ -94,29 +132,51 @@ export function Film({
       transform: `translate(${box.w / 2 - cx}px, ${box.h / 2 - cy}px) scale(${z})`,
     });
     timers.current.push(
-      window.setTimeout(() => setHandover(true), HANDOVER_MS),
+      window.setTimeout(() => {
+        onHandover();
+        setHandover(true);
+      }, HANDOVER_MS),
       window.setTimeout(onDone, ZOOM_MS),
     );
+  };
+
+  const started = useRef(false);
+  const lastMove = useRef(0);
+  const failed = useRef(false);
+  const fail = () => {
+    if (failed.current || started.current) return;
+    failed.current = true;
+    onFail();
   };
 
   const start = () => {
     const v = video.current;
     if (!v || state !== "closed") return;
     onOpen();
-    v.play().then(
-      () => {
-        // if "ended" never arrives (a stalled stream), move in anyway
-        const ms = Number.isFinite(v.duration) ? v.duration * 1000 + 2500 : 15000;
-        timers.current.push(window.setTimeout(moveIn, ms));
-      },
-      onFail,
-    );
+    // some browsers neither play nor refuse (a codec they lack): give the film a moment, then hand back
+    timers.current.push(window.setTimeout(fail, START_GRACE_MS));
+    v.play().then(() => {
+      // if "ended" never arrives, hand over anyway
+      const ms = Number.isFinite(v.duration) ? v.duration * 1000 + 2500 : 15000;
+      timers.current.push(window.setTimeout(finish, ms));
+    }, fail);
   };
+
+  // a film that stops part-way (a starved connection) hands over where it is rather than holding the guest
+  useEffect(() => {
+    if (state !== "opening") return;
+    const id = window.setInterval(() => {
+      if (started.current && !ended.current && performance.now() - lastMove.current > STALL_MS) finish();
+    }, 500);
+    return () => window.clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
 
   return (
     <div
       className="mh-film"
       data-state={state}
+      data-end={spec.end ?? "scene"}
       data-handover={handover || undefined}
       role={state === "closed" ? "button" : undefined}
       tabIndex={state === "closed" ? 0 : undefined}
@@ -138,15 +198,19 @@ export function Film({
         playsInline
         preload="auto"
         disablePictureInPicture
-        onEnded={moveIn}
-        onError={() => state === "opening" && onFail()}
+        onEnded={finish}
+        onTimeUpdate={(e) => {
+          if (e.currentTarget.currentTime > 0.05) started.current = true;
+          lastMove.current = performance.now();
+        }}
+        onError={() => state === "opening" && fail()}
         style={zoom ?? undefined}
         data-zoom={zoom ? "" : undefined}
       />
       <p className="mh-film-names" style={{ top: `${(spec.names ?? 0.35) * 100}%`, fontSize: nameSize }} aria-hidden="true">
         {names}
       </p>
-      <p className="mh-film-hint" aria-hidden="true">
+      <p className="mh-film-hint" style={{ top: `${(spec.hint ?? 0.8) * 100}%` }} aria-hidden="true">
         Ochish uchun bosing
       </p>
     </div>
