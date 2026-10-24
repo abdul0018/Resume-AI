@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-23T22:30:00Z",
+  "generatedAt": "2026-10-24T02:10:00Z",
   "title": "Design System: Oltin muhr",
   "extensions": {
     "colorMeta": {
@@ -386,134 +386,6 @@
           "#dad0bf",
           "#f7eddc"
         ]
-      },
-      "card-stock": {
-        "role": "neutral",
-        "displayName": "Card Stock (floral card)",
-        "canonical": "#fbf4ea",
-        "oklch": "oklch(97.0% 0.015 77.1)",
-        "tonalRamp": [
-          "#0f0a05",
-          "#28231c",
-          "#443f37",
-          "#635d54",
-          "#857f76",
-          "#a7a097",
-          "#cdc6bd",
-          "#f4ede3"
-        ]
-      },
-      "card-ink": {
-        "role": "neutral",
-        "displayName": "Card Ink",
-        "canonical": "#5c5341",
-        "oklch": "oklch(50.6% 0.030 84.5)",
-        "tonalRamp": [
-          "#110a00",
-          "#2b2313",
-          "#473f2e",
-          "#655d4b",
-          "#887f6c",
-          "#aaa08d",
-          "#d0c6b2",
-          "#f8edd9"
-        ]
-      },
-      "card-ink-soft": {
-        "role": "neutral",
-        "displayName": "Card Ink Soft",
-        "canonical": "#625947",
-        "oklch": "oklch(54.9% 0.032 84.5)",
-        "tonalRamp": [
-          "#110a00",
-          "#2b2311",
-          "#483f2c",
-          "#665c49",
-          "#897f6b",
-          "#aba08b",
-          "#d1c6b0",
-          "#f9edd7"
-        ]
-      },
-      "sage-ink": {
-        "role": "neutral",
-        "displayName": "Sage Ink",
-        "canonical": "#4b5846",
-        "oklch": "oklch(44.4% 0.033 137.0)",
-        "tonalRamp": [
-          "#050e02",
-          "#1c2818",
-          "#384433",
-          "#556250",
-          "#778572",
-          "#98a793",
-          "#becdb8",
-          "#e4f4de"
-        ]
-      },
-      "paint-butter": {
-        "role": "secondary",
-        "displayName": "Butter Paint",
-        "canonical": "#e6c977",
-        "oklch": "oklch(84.3% 0.107 90.5)",
-        "tonalRamp": [
-          "#100a00",
-          "#2e2300",
-          "#4f3d01",
-          "#725b03",
-          "#987d27",
-          "#bb9f4d",
-          "#e2c573",
-          "#ffeebd"
-        ]
-      },
-      "paint-ivory": {
-        "role": "secondary",
-        "displayName": "Ivory Paint",
-        "canonical": "#e9e0d0",
-        "oklch": "oklch(91.0% 0.024 82.1)",
-        "tonalRamp": [
-          "#100a02",
-          "#2a2317",
-          "#463f32",
-          "#645d4f",
-          "#877f71",
-          "#a9a091",
-          "#cfc6b7",
-          "#f6eddd"
-        ]
-      },
-      "paint-blush": {
-        "role": "secondary",
-        "displayName": "Blush Paint",
-        "canonical": "#e6b2a5",
-        "oklch": "oklch(80.7% 0.064 34.4)",
-        "tonalRamp": [
-          "#1d0100",
-          "#3d160d",
-          "#5d3328",
-          "#7d5045",
-          "#a37367",
-          "#c69487",
-          "#eeb9ac",
-          "#fee9e4"
-        ]
-      },
-      "paint-sage": {
-        "role": "secondary",
-        "displayName": "Sage Paint",
-        "canonical": "#7f8e72",
-        "oklch": "oklch(62.7% 0.044 130.6)",
-        "tonalRamp": [
-          "#050e00",
-          "#1c2810",
-          "#38452c",
-          "#556349",
-          "#77866a",
-          "#98a88b",
-          "#beceb0",
-          "#e4f5d6"
-        ]
       }
     },
     "typographyMeta": {
@@ -531,7 +403,7 @@
       },
       "script-name": {
         "displayName": "Script Name",
-        "purpose": "The names on the floral card: 10.5cqi of the card (40px fallback), 1.08, sage ink #4b5846."
+        "purpose": "The names on the invitation card: max(34px, 11.5cqi) (42px fallback), 1.02, hero ink #4f2f12."
       },
       "script-welcome": {
         "displayName": "Script Welcome",
@@ -543,7 +415,7 @@
       },
       "script-joiner": {
         "displayName": "Script Joiner",
-        "purpose": "The floral card's 'va' between two mirrored gold sprigs: 6cqi (22px fallback), gilt #b08636."
+        "purpose": "The invitation card's 'va' between two mirrored leaf sprigs (8.5cqi, line gold): max(20px, 6.6cqi) (24px fallback), script gold."
       },
       "script-cue": {
         "displayName": "Script Cue",
@@ -555,7 +427,7 @@
       },
       "arabic": {
         "displayName": "Arabic",
-        "purpose": "The Bismillah at the head of the floral card (3.8cqi, #a17a35), when the couple asks for it; Amiri, loaded as a text= subset of those glyphs only."
+        "purpose": "The Bismillah at the head of the invitation card (max(13px, 4cqi), 1.4, script gold), only when the couple asks for it; Amiri, loaded as a text= subset of those glyphs only."
       },
       "showcase-title": {
         "displayName": "Showcase Title",
@@ -607,19 +479,23 @@
       },
       "tap-label": {
         "displayName": "Tap Label",
-        "purpose": "'Lentani torting' at 80% height on the closed card: 3% of the card width, 0.32em, uppercase, ink-soft."
+        "purpose": "'Lentani torting' at 80% height on the closed card: 3.1% of the card width, weight 500, 0.32em, uppercase, #6a5236 on the hint glow."
       },
       "card-caps": {
         "displayName": "Card Caps",
-        "purpose": "Floral card: the families and the invitation line in balanced uppercase lines, 2.45cqi, 1.75, 0.14em, card ink; the address at 2.4cqi. The verse (Rum 30:21) is 2.4cqi, 1.8, 0.1em in card ink soft; weekday and time 2.45cqi at 0.22em; month and year 2.6cqi at 0.2em."
+        "purpose": "Invitation card: the families and the invitation line in balanced uppercase lines, max(9px, 2.4cqi), 1.75, 0.16em, ink-soft; weekday and time the same size at 0.22em; month and year max(9.5px, 2.7cqi) at 0.2em in ink."
+      },
+      "card-verse": {
+        "displayName": "Card Verse",
+        "purpose": "Rum 30:21 in Uzbek on the invitation card, italic, four lines, ink-soft; its reference upright caps at max(8.5px, 2.2cqi), 0.18em, #9a7a48. The address uses the same italic at max(9.5px, 2.6cqi), 1.5."
       },
       "card-venue": {
         "displayName": "Card Venue",
-        "purpose": "The venue name on the floral card, uppercase, sage ink."
+        "purpose": "The venue name on the invitation card, sentence case, ink."
       },
       "card-day": {
         "displayName": "Card Day",
-        "purpose": "The day numeral in the floral card's date row, lining, sage ink, between gold hairlines."
+        "purpose": "The day numeral in the invitation card's date row, lining, hero ink, between gold hairlines rgba(184, 146, 74, 0.75)."
       }
     },
     "shadows": [
@@ -656,17 +532,7 @@
       {
         "name": "card-on-paper",
         "value": "0 1px 2px rgba(80,56,24,0.18), 0 22px 40px -22px rgba(80,56,24,0.55)",
-        "purpose": "The floral invitation card lying on the page."
-      },
-      {
-        "name": "impasto-relief",
-        "value": "SVG fc-impasto: height = 0.8 x fractalNoise(0.17 0.022) + SourceAlpha blurred 8; feDiffuseLighting and feSpecularLighting (surfaceScale 3.8, azimuth 225, elevation 56/46); feDropShadow dx 2 dy 4 std 6 #9a7a50 0.2",
-        "purpose": "The floral card's petals and leaves only: thick paint lit from the upper left."
-      },
-      {
-        "name": "watercolour-wash",
-        "value": "SVG fc-wash: fractalNoise 0.011 displacing by 70, blur 14, group opacity 0.46; stock grain fractalNoise 0.85 tinted warm brown at 0.07",
-        "purpose": "The floral card's paper: soft bleeding washes and a fine grain."
+        "purpose": "The invitation card lying on the page."
       },
       {
         "name": "gift-card",
@@ -716,7 +582,12 @@
       {
         "name": "sky-halo",
         "value": "text-shadow: 0 0 22px rgba(255,243,226,0.9)",
-        "purpose": "Hero lettering only: light behind it, never a drop."
+        "purpose": "Hero lettering: light behind it, never a drop."
+      },
+      {
+        "name": "hint-glow",
+        "value": "text-shadow: 0 0 3px #fbf6ec, 0 0 9px #fbf6ec, 0 0 16px rgba(251, 246, 236, 0.9)",
+        "purpose": "The closed card's hint line only, lifting it off the embossed roses beneath it."
       },
       {
         "name": "field-focus",
@@ -846,6 +717,11 @@
         "purpose": "TO_SCENE: sections mount, scroll unlocks, music coin fades in (800ms); shared between the component and the stylesheet's timeline comment."
       },
       {
+        "name": "coin-scrolling",
+        "value": "opacity and scale 0.35s; data-scrolling cleared 650ms after the last scroll",
+        "purpose": "While the page scrolls the music coin steps back (opacity 0.4, scale 0.86) from the content beneath it."
+      },
+      {
         "name": "scroll-cue",
         "value": "4900ms after the tap, 1200ms; bob 2s infinite",
         "purpose": "Mounted with the photograph, so it fades in beneath the paper and is first seen as the paper dissolves; chevron bobs 5px."
@@ -892,8 +768,8 @@
       },
       {
         "name": "reveal-card",
-        "value": "1.4s cubic-bezier(0.2, 0.8, 0.2, 1); lines 0.5s + --i x 0.09s (i 0-13), 1100ms ease-out each; sheen 8s after 1.3s",
-        "purpose": "Floral card laid down from perspective(1100px) rotateX(16deg) translateY(50px) scale(0.96), pivoting on its foot, then its lines rise in by --i. The gift card is laid down the same way; its sheen crosses every 7s after 1.1s."
+        "value": "1.4s cubic-bezier(0.2, 0.8, 0.2, 1); sprays clip-path 1.6s ease-out after 0.9s; lines 0.5s + --i x 0.09s (i 0-12), 1100ms ease-out each; sheen 8s after 1.3s",
+        "purpose": "Invitation card laid down from perspective(1100px) rotateX(16deg) translateY(50px) scale(0.96), pivoting on its foot; its rose sprays wipe in (top-left from the top, bottom-right from the bottom); then its lines rise in by --i. The gift card is laid down the same way; its sheen crosses every 7s after 1.1s."
       },
       {
         "name": "reveal-bloom",
@@ -985,9 +861,9 @@
       "name": "Music Coin",
       "kind": "button",
       "refersTo": "music-coin",
-      "description": "Fixed gold coin, bottom-right of the column, toggling background music.",
+      "description": "Fixed gold coin, bottom-right of the column, toggling background music; steps back (opacity 0.4, scale 0.86) while the page scrolls.",
       "html": "<div class=\"ds-mh\"><button class=\"ds-mh-coin\" aria-label=\"Musiqani yoqish\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M8 5.5v13l10-6.5z\" fill=\"currentColor\"/></svg></button></div>",
-      "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-coin{width:48px;height:48px;border:0;border-radius:50%;display:inline-grid;place-items:center;color:#4a331b;background:radial-gradient(circle at 35% 30%,#fff3c8,#e7c77c 55%,#b48a3e);box-shadow:0 6px 16px -6px rgba(74,51,27,.55),inset 0 1px 0 rgba(255,255,255,.6),inset 0 -2px 4px rgba(120,84,30,.35);cursor:pointer}.ds-mh-coin:focus-visible{outline:2px solid #8f6a2a;outline-offset:3px}"
+      "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-coin{width:48px;height:48px;border:0;border-radius:50%;display:inline-grid;place-items:center;color:#4a331b;background:radial-gradient(circle at 35% 30%,#fff3c8,#e7c77c 55%,#b48a3e);box-shadow:0 6px 16px -6px rgba(74,51,27,.55),inset 0 1px 0 rgba(255,255,255,.6),inset 0 -2px 4px rgba(120,84,30,.35);cursor:pointer;transition:opacity .35s ease,scale .35s cubic-bezier(.16,1,.3,1)}.ds-mh-coin[data-scrolling]{opacity:.4;scale:.86}.ds-mh-coin:focus-visible{outline:2px solid #8f6a2a;outline-offset:3px}"
     },
     {
       "name": "Script Section Head",
@@ -1014,12 +890,12 @@
       "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-card{--rb1:#8c6a3a;--rb2:#efdfbd;--rb3:#dcc493;--rb4:#bf9f66;--rb5:#fffaee;--bw:200px;position:relative;width:200px;height:420px;margin:0 auto;overflow:hidden;cursor:pointer;background:linear-gradient(170deg,#fbf6ec,#efe4d1);outline:none}.ds-mh-folds{position:absolute;inset:0;width:100%;height:100%}.ds-mh-seam{position:absolute;top:0;bottom:0;left:50%;width:1px;background:rgba(110,80,40,.3);box-shadow:-1px 0 0 rgba(255,253,246,.7)}.ds-mh-names{position:absolute;left:0;right:0;top:35%;margin:0;font-family:Corinthia,\"Pinyon Script\",cursive;font-size:24px;line-height:1;color:#8a6128}.ds-mh-tap{position:absolute;left:0;right:0;top:80%;margin:0;font-size:calc(var(--bw)*.03);letter-spacing:.32em;text-transform:uppercase;color:var(--mh-ink-soft);animation:ds-mh-hint 3.6s ease-in-out 1.2s infinite}.ds-mh-band{position:absolute;left:0;right:0;top:56%;height:calc(var(--bw)*.064);margin-top:calc(var(--bw)*-.032);background:linear-gradient(180deg,var(--rb1),var(--rb3) 18%,var(--rb5) 40%,var(--rb2) 58%,var(--rb4) 84%,var(--rb1));box-shadow:0 2px 5px -1px rgba(96,70,30,.32)}.ds-mh-bow{position:absolute;left:14%;width:72%;top:calc(56% - var(--bw)*.194);transform-origin:50% 36%;filter:drop-shadow(0 5px 6px rgba(96,70,30,.28));animation:ds-mh-bow 3.6s ease-in-out 1.2s infinite}.ds-mh-bow svg{display:block;width:100%;height:auto;overflow:visible}.ds-mh-card:focus-visible .ds-mh-bow{filter:drop-shadow(0 0 1px #8a6128) drop-shadow(0 0 12px rgba(246,199,106,.85))}@keyframes ds-mh-bow{50%{scale:1.025;rotate:.6deg}}@keyframes ds-mh-hint{0%,100%{opacity:.55}50%{opacity:1}}@media (prefers-reduced-motion:reduce){.ds-mh-bow,.ds-mh-tap{animation:none}}"
     },
     {
-      "name": "Floral Invitation Card",
+      "name": "Invitation Card",
       "kind": "card",
       "refersTo": "invitation-card",
-      "description": "The invitation card drawn after the owner's pastel watercolour reference: cream stock, washes, a fine gold rule and, in the build, impasto flowers (FloralCard.tsx SVG with lighting filters) along the left edge and lower right; here soft radial washes stand in for the painting. The type column sits right of the stem; every size is cqi of the card. Names, day and venue in sage ink.",
-      "html": "<div class=\"ds-mh\"><div class=\"ds-fc\"><div class=\"ds-fc-text\"><p class=\"ds-fc-ar\" lang=\"ar\" dir=\"rtl\">بسم الله الرحمن الرحيم</p><p class=\"ds-fc-verse\"><span>Va Uning alomatlaridan biri —</span><span>sizlar uchun o‘zingizdan</span><span>juftlar yaratgani, toki</span><span>ular bilan orom topgaysiz.</span><span class=\"ds-fc-ref\">— Rum surasi, 21</span></p><svg class=\"ds-fc-rule\" viewBox=\"0 0 120 8\" aria-hidden=\"true\"><path d=\"M0,4 H52 M68,4 H120\" stroke=\"currentColor\" stroke-width=\"0.7\"/><path d=\"M60,0.5 L63.5,4 L60,7.5 L56.5,4Z\" fill=\"currentColor\"/></svg><p class=\"ds-fc-caps\"><span>Karimovlar va</span><span>Yusupovlar oilasi</span></p><p class=\"ds-fc-name\">Sardor</p><p class=\"ds-fc-with\"><svg class=\"ds-fc-sprig\" viewBox=\"0 0 40 20\" aria-hidden=\"true\"><g fill=\"currentColor\"><path d=\"M2,10 C12,10 24,10 38,10\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.9\"/><path d=\"M0,0 C2,-3 6,-4 9,-3 C6,0 3,1 0,0Z\" transform=\"translate(10 10) rotate(-24)\"/><path d=\"M0,0 C2,3 6,4 9,3 C6,0 3,-1 0,0Z\" transform=\"translate(13 10) rotate(24)\"/><path d=\"M0,0 C2,-3 6,-4 9,-3 C6,0 3,1 0,0Z\" transform=\"translate(18 10) rotate(-20)\"/><path d=\"M0,0 C2,3 6,4 9,3 C6,0 3,-1 0,0Z\" transform=\"translate(21 10) rotate(20)\"/><circle cx=\"38\" cy=\"10\" r=\"1.3\"/></g></svg>va<svg class=\"ds-fc-sprig\" viewBox=\"0 0 40 20\" style=\"transform:scaleX(-1)\" aria-hidden=\"true\"><g fill=\"currentColor\"><path d=\"M2,10 C12,10 24,10 38,10\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.9\"/><path d=\"M0,0 C2,-3 6,-4 9,-3 C6,0 3,1 0,0Z\" transform=\"translate(10 10) rotate(-24)\"/><path d=\"M0,0 C2,3 6,4 9,3 C6,0 3,-1 0,0Z\" transform=\"translate(13 10) rotate(24)\"/><path d=\"M0,0 C2,-3 6,-4 9,-3 C6,0 3,1 0,0Z\" transform=\"translate(18 10) rotate(-20)\"/><path d=\"M0,0 C2,3 6,4 9,3 C6,0 3,-1 0,0Z\" transform=\"translate(21 10) rotate(20)\"/><circle cx=\"38\" cy=\"10\" r=\"1.3\"/></g></svg></p><p class=\"ds-fc-name\">Mohinur</p><p class=\"ds-fc-caps\"><span>Sizni farzandlarimizning</span><span>nikoh to‘yiga taklif etamiz</span></p><svg class=\"ds-fc-rule\" viewBox=\"0 0 120 8\" aria-hidden=\"true\"><path d=\"M0,4 H52 M68,4 H120\" stroke=\"currentColor\" stroke-width=\"0.7\"/><path d=\"M60,0.5 L63.5,4 L60,7.5 L56.5,4Z\" fill=\"currentColor\"/></svg><div class=\"ds-fc-date\"><span class=\"ds-fc-small\">Shanba</span><span class=\"ds-fc-row\"><span>Iyun</span><b>19</b><span>2027</span></span><span class=\"ds-fc-small\">soat 18:00</span></div><svg class=\"ds-fc-rule\" viewBox=\"0 0 120 8\" aria-hidden=\"true\"><path d=\"M0,4 H52 M68,4 H120\" stroke=\"currentColor\" stroke-width=\"0.7\"/><path d=\"M60,0.5 L63.5,4 L60,7.5 L56.5,4Z\" fill=\"currentColor\"/></svg><p class=\"ds-fc-venue\">Oltin saroy to‘yxonasi</p><svg class=\"ds-fc-heart\" viewBox=\"0 0 24 22\" aria-hidden=\"true\"><path d=\"M12,21 C5,15.5 1,11.5 1,7 C1,3.5 3.6,1 6.8,1 C9,1 10.8,2.2 12,4 C13.2,2.2 15,1 17.2,1 C20.4,1 23,3.5 23,7 C23,11.5 19,15.5 12,21Z\" fill=\"currentColor\"/></svg></div></div></div>",
-      "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-fc{position:relative;width:260px;margin:0 auto;aspect-ratio:3/5;border-radius:4px;overflow:hidden;container-type:inline-size;background:radial-gradient(40% 30% at 5% 25%,rgba(242,220,192,.7),transparent),radial-gradient(35% 25% at 2% 58%,rgba(217,223,200,.7),transparent),radial-gradient(40% 30% at 95% 80%,rgba(241,208,196,.7),transparent),linear-gradient(170deg,#fbf4ea,#f5ebdd);box-shadow:0 1px 2px rgba(80,56,24,.18),0 22px 40px -22px rgba(80,56,24,.55)}.ds-fc::before{content:\"\";position:absolute;inset:2.7cqi;border:1px solid #c9a65a;pointer-events:none}.ds-fc-text{position:absolute;left:31%;right:5.5%;top:7%;bottom:6%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#5c5341}.ds-fc-text>*{margin:0}.ds-fc-ar{margin-bottom:1.4cqi;font-family:Amiri,\"Noto Naskh Arabic\",serif;font-size:3.8cqi;line-height:1.5;color:#a17a35}.ds-fc-verse{font-size:2.4cqi;line-height:1.8;letter-spacing:.1em;text-transform:uppercase;color:#625947}.ds-fc-verse span,.ds-fc-caps span{display:block}.ds-fc-ref{margin-top:.5em;letter-spacing:.16em}.ds-fc-rule{width:22cqi;margin:3cqi 0;color:#b8924a;overflow:visible}.ds-fc-caps{font-size:2.45cqi;line-height:1.75;letter-spacing:.14em;text-transform:uppercase}.ds-fc-name{margin-top:1.4cqi!important;font-family:Corinthia,\"Pinyon Script\",cursive;font-size:10.5cqi;line-height:1.08;color:#4b5846}.ds-fc-name+.ds-fc-caps{margin-top:2cqi}.ds-fc-with{display:flex;align-items:center;gap:2.6cqi;margin:.4cqi 0!important;font-family:Corinthia,\"Pinyon Script\",cursive;font-size:6cqi;line-height:1;color:#b08636}.ds-fc-sprig{width:9cqi;color:#c09a52}.ds-fc-date{display:grid;justify-items:center;gap:1cqi}.ds-fc-small{font-size:2.45cqi;letter-spacing:.22em;text-transform:uppercase;color:#625947}.ds-fc-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;width:46cqi;font-size:2.6cqi;letter-spacing:.2em;text-transform:uppercase}.ds-fc-row>span:first-child{text-align:right}.ds-fc-row>span:last-child{text-align:left}.ds-fc-row b{margin:0 3cqi;padding:0 3cqi;font-weight:400;font-size:7.4cqi;line-height:1.1;letter-spacing:.02em;font-variant-numeric:lining-nums;color:#4b5846;border-inline:1px solid rgba(184,146,74,.7)}.ds-fc-venue{font-size:2.95cqi;letter-spacing:.15em;text-transform:uppercase;color:#4b5846}.ds-fc-heart{width:3.2cqi;margin-top:2.8cqi!important;color:#c39a4c}"
+      "description": "The card that was inside the envelope: in the build, the envelope's embossed paper (paper.jpg via --mh-art) under a radial cream veil, a gold double rule, and the scene's rose spray (spray.jpg) multiplied into the top-left and bottom-right corners; here soft radials stand in for the rasters. Sepia script names, Bodoni italic verse and address, the template's divider, a date block; every size max(px floor, cqi), and the card grows taller on narrow phones.",
+      "html": "<div class=\"ds-mh\"><div class=\"ds-ic\"><div class=\"ds-ic-text\"><p class=\"ds-ic-ar\" lang=\"ar\" dir=\"rtl\">بسم الله الرحمن الرحيم</p><p class=\"ds-ic-verse\"><span>Va Uning alomatlaridan biri —</span><span>sizlar uchun o‘zingizdan</span><span>juftlar yaratgani, toki ular</span><span>bilan orom topgaysiz.</span><span class=\"ds-ic-ref\">Rum surasi, 21-oyat</span></p><svg class=\"ds-ic-rule\" viewBox=\"0 0 220 20\" aria-hidden=\"true\"><path d=\"M6,10 H86 M134,10 H214\" stroke=\"currentColor\" stroke-width=\"0.9\"/><path d=\"M86,10 C94,4 100,4 104,10 C100,16 94,16 86,10Z M134,10 C126,4 120,4 116,10 C120,16 126,16 134,10Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.9\"/><path d=\"M110,3 L113,10 L110,17 L107,10Z\" fill=\"currentColor\"/><circle cx=\"4\" cy=\"10\" r=\"1.6\" fill=\"currentColor\"/><circle cx=\"216\" cy=\"10\" r=\"1.6\" fill=\"currentColor\"/></svg><p class=\"ds-ic-caps\"><span>Karimovlar va</span><span>Yusupovlar oilasi</span></p><p class=\"ds-ic-name\">Sardor</p><p class=\"ds-ic-with\"><svg class=\"ds-ic-sprig\" viewBox=\"0 0 40 20\" aria-hidden=\"true\"><g fill=\"currentColor\"><path d=\"M2,10 C12,10 24,10 38,10\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.9\"/><path d=\"M0,0 C2,-3 6,-4 9,-3 C6,0 3,1 0,0Z\" transform=\"translate(10 10) rotate(-24)\"/><path d=\"M0,0 C2,3 6,4 9,3 C6,0 3,-1 0,0Z\" transform=\"translate(13 10) rotate(24)\"/><path d=\"M0,0 C2,-3 6,-4 9,-3 C6,0 3,1 0,0Z\" transform=\"translate(18 10) rotate(-20)\"/><path d=\"M0,0 C2,3 6,4 9,3 C6,0 3,-1 0,0Z\" transform=\"translate(21 10) rotate(20)\"/><path d=\"M0,0 C2,-3 6,-4 9,-3 C6,0 3,1 0,0Z\" transform=\"translate(26 10) rotate(-16)\"/><path d=\"M0,0 C2,3 6,4 9,3 C6,0 3,-1 0,0Z\" transform=\"translate(29 10) rotate(16)\"/><circle cx=\"38\" cy=\"10\" r=\"1.3\"/></g></svg>va<svg class=\"ds-ic-sprig\" viewBox=\"0 0 40 20\" style=\"transform:scaleX(-1)\" aria-hidden=\"true\"><g fill=\"currentColor\"><path d=\"M2,10 C12,10 24,10 38,10\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.9\"/><path d=\"M0,0 C2,-3 6,-4 9,-3 C6,0 3,1 0,0Z\" transform=\"translate(10 10) rotate(-24)\"/><path d=\"M0,0 C2,3 6,4 9,3 C6,0 3,-1 0,0Z\" transform=\"translate(13 10) rotate(24)\"/><path d=\"M0,0 C2,-3 6,-4 9,-3 C6,0 3,1 0,0Z\" transform=\"translate(18 10) rotate(-20)\"/><path d=\"M0,0 C2,3 6,4 9,3 C6,0 3,-1 0,0Z\" transform=\"translate(21 10) rotate(20)\"/><path d=\"M0,0 C2,-3 6,-4 9,-3 C6,0 3,1 0,0Z\" transform=\"translate(26 10) rotate(-16)\"/><path d=\"M0,0 C2,3 6,4 9,3 C6,0 3,-1 0,0Z\" transform=\"translate(29 10) rotate(16)\"/><circle cx=\"38\" cy=\"10\" r=\"1.3\"/></g></svg></p><p class=\"ds-ic-name\">Mohinur</p><p class=\"ds-ic-caps\"><span>Sizni farzandlarimizning</span><span>nikoh to‘yiga taklif etamiz</span></p><svg class=\"ds-ic-rule\" viewBox=\"0 0 220 20\" aria-hidden=\"true\"><path d=\"M6,10 H86 M134,10 H214\" stroke=\"currentColor\" stroke-width=\"0.9\"/><path d=\"M86,10 C94,4 100,4 104,10 C100,16 94,16 86,10Z M134,10 C126,4 120,4 116,10 C120,16 126,16 134,10Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.9\"/><path d=\"M110,3 L113,10 L110,17 L107,10Z\" fill=\"currentColor\"/><circle cx=\"4\" cy=\"10\" r=\"1.6\" fill=\"currentColor\"/><circle cx=\"216\" cy=\"10\" r=\"1.6\" fill=\"currentColor\"/></svg><div class=\"ds-ic-date\"><span class=\"ds-ic-small\">Shanba</span><span class=\"ds-ic-row\"><span>Iyun</span><b>19</b><span>2027</span></span><span class=\"ds-ic-small\">soat 18:00</span></div><svg class=\"ds-ic-rule\" viewBox=\"0 0 220 20\" aria-hidden=\"true\"><path d=\"M6,10 H86 M134,10 H214\" stroke=\"currentColor\" stroke-width=\"0.9\"/><path d=\"M86,10 C94,4 100,4 104,10 C100,16 94,16 86,10Z M134,10 C126,4 120,4 116,10 C120,16 126,16 134,10Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.9\"/><path d=\"M110,3 L113,10 L110,17 L107,10Z\" fill=\"currentColor\"/><circle cx=\"4\" cy=\"10\" r=\"1.6\" fill=\"currentColor\"/><circle cx=\"216\" cy=\"10\" r=\"1.6\" fill=\"currentColor\"/></svg><p class=\"ds-ic-venue\">Oltin saroy to‘yxonasi</p><p class=\"ds-ic-addr\"><span>Samarqand sh.,</span><span>Registon ko‘chasi, 15</span></p></div></div></div>",
+      "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-ic{position:relative;width:300px;margin:0 auto;aspect-ratio:3/5;border-radius:4px;overflow:clip;container-type:inline-size;display:flex;flex-direction:column;background:radial-gradient(60% 56% at 50% 50%,rgba(252,248,240,.93),rgba(252,248,240,.72) 70%,rgba(252,248,240,.3) 100%),radial-gradient(45% 30% at 0% 0%,rgba(222,190,140,.45),transparent),radial-gradient(45% 30% at 100% 100%,rgba(222,190,140,.45),transparent),#f7efe2;box-shadow:0 1px 2px rgba(80,56,24,.18),0 22px 40px -22px rgba(80,56,24,.55)}.ds-ic::before{content:\"\";position:absolute;inset:3.4cqi;border:1px solid rgba(176,134,54,.75);outline:.5px solid rgba(176,134,54,.55);outline-offset:-1.3cqi;pointer-events:none}.ds-ic-text{position:relative;margin-block:auto;padding:11% 16% 10%;display:flex;flex-direction:column;align-items:center;text-align:center;color:#77604a}.ds-ic-text>*{margin:0}.ds-ic-ar{margin-bottom:1.6cqi;font-family:Amiri,\"Noto Naskh Arabic\",serif;font-size:max(13px,4cqi);line-height:1.4;color:#9a6e2e}.ds-ic-verse{font-style:italic;font-size:max(10px,2.8cqi);line-height:1.55}.ds-ic-verse span,.ds-ic-caps span,.ds-ic-addr span{display:block}.ds-ic-ref{margin-top:.7em;font-style:normal;font-size:max(8.5px,2.2cqi);letter-spacing:.18em;text-transform:uppercase;color:#9a7a48}.ds-ic-rule{width:34cqi;height:auto;margin:3.4cqi 0;color:#b8924a}.ds-ic-caps{font-size:max(9px,2.4cqi);line-height:1.75;letter-spacing:.16em;text-transform:uppercase}.ds-ic-name{margin-top:1.2cqi!important;font-family:Corinthia,\"Pinyon Script\",cursive;font-size:max(34px,11.5cqi);line-height:1.02;color:#4f2f12}.ds-ic-name+.ds-ic-caps{margin-top:2.4cqi!important}.ds-ic-with{display:flex;align-items:center;gap:2.6cqi;margin:.2cqi 0!important;font-family:Corinthia,\"Pinyon Script\",cursive;font-size:max(20px,6.6cqi);line-height:1;color:#9a6e2e}.ds-ic-sprig{width:8.5cqi;color:#b8924a}.ds-ic-date{display:grid;justify-items:center;gap:1.1cqi}.ds-ic-small{font-size:max(9px,2.4cqi);letter-spacing:.22em;text-transform:uppercase}.ds-ic-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;width:max(170px,50cqi);font-size:max(9.5px,2.7cqi);letter-spacing:.2em;text-transform:uppercase;color:#4a331b}.ds-ic-row>span:first-child{text-align:right}.ds-ic-row>span:last-child{text-align:left}.ds-ic-row b{margin:0 3.2cqi;padding:0 3.2cqi;font-weight:400;font-size:max(26px,8.4cqi);line-height:1.1;font-variant-numeric:lining-nums;color:#4f2f12;border-inline:1px solid rgba(184,146,74,.75)}.ds-ic-venue{font-size:max(12.5px,3.7cqi);line-height:1.3;color:#4a331b}.ds-ic-addr{margin-top:1cqi!important;font-style:italic;font-size:max(9.5px,2.6cqi);line-height:1.5}"
     },
     {
       "name": "Gift Card",
@@ -1032,29 +908,29 @@
   ],
   "narrative": {
     "northStar": "The Ribboned Letter at Sunset",
-    "overview": "The phone screen is the closed card, edge to edge: a gatefold of the owner's ivory paper blind-embossed with roses and climbing vines, its two doors meeting at a centre seam, the inner envelope's fold lines showing faintly through toward a point at 56% height. The couple's names are printed across both doors in bronze script at 35% height, a champagne satin ribbon crosses the card at 56% and is tied at the centre in a bow, and \"Lentani torting\" is set in small spaced capitals near the foot. Closed, the card is alive in the guest's hands: it tilts slowly and the bow swells and rocks as if inviting a touch. A fingertip presses softly into the paper where it lands; the guest can tap, or take the ribbon and pull, and the bow and band follow the finger under rubber-band tension and spring back if let go early. Untying it is the one orchestrated moment of the page, told in order: the pulled tail is drawn out and its loop slips through, the knot gives and the other loop follows, the bow rocks free and the satin flutters down, lands and crumples away; the left door is lifted at its edge, swung open with a slight flex and settles, then the right; the inner envelope's four flaps lift and fold back off the photograph, which comes into focus as the camera moves through; the names and the welcome are written in where they will sit in the hero, and the paper dissolves into a sunset photograph of the couple walking toward a mosque, where petals keep falling and light keeps rising.\n\nAfter the opening the page is ceremonial, and each section arrives once as it scrolls in: one centred phone-width column on cream (#f5ecdf), sepia ink, gold script titles, rose sprays multiplied onto the ground so their white backgrounds vanish, and a painted invitation card (cream stock under watercolour washes, a fine gold rule, impasto flowers in butter, ivory and blush with sage leaves and beaded gold sprigs) that sets the Bismillah, the Rum 30:21 verse, the families, the names in sage ink, the date and the venue. The world is built from the owner's own rasters (photograph, paper, seal, roses, rings), each carrying its generation prompt and post-processing in embedded metadata; code draws what the rasters do not cover (the satin ribbon and bow, the card's fold lines, the floral invitation card after the owner's watercolour reference, gold timeline line art, dividers, the venue map, icons).",
+    "overview": "The phone screen is the closed card, edge to edge: a gatefold of the owner's ivory paper blind-embossed with roses and climbing vines, its two doors meeting at a centre seam, the inner envelope's fold lines showing faintly through toward a point at 56% height. The couple's names are printed across both doors in bronze script at 35% height, a champagne satin ribbon crosses the card at 56% and is tied at the centre in a bow, and \"Lentani torting\" is set in small spaced capitals near the foot. Closed, the card is alive in the guest's hands: it tilts slowly and the bow swells and rocks as if inviting a touch. A fingertip presses softly into the paper where it lands; the guest can tap, or take the ribbon and pull, and the bow and band follow the finger under rubber-band tension and spring back if let go early. Untying it is the one orchestrated moment of the page, told in order: the pulled tail is drawn out and its loop slips through, the knot gives and the other loop follows, the bow rocks free and the satin flutters down, lands and crumples away; the left door is lifted at its edge, swung open with a slight flex and settles, then the right; the inner envelope's four flaps lift and fold back off the photograph, which comes into focus as the camera moves through; the names and the welcome are written in where they will sit in the hero, and the paper dissolves into a sunset photograph of the couple walking toward a mosque, where petals keep falling and light keeps rising.\n\nAfter the opening the page is ceremonial, and each section arrives once as it scrolls in: one centred phone-width column on cream (#f5ecdf), sepia ink, gold script titles, rose sprays multiplied onto the ground so their white backgrounds vanish, and an invitation card cut from the envelope's own embossed paper (quietened under a cream veil where the type sits, framed by a gold double rule, the scene's roses multiplied into two corners) that sets the Bismillah, the Rum 30:21 verse, the families, the names in sepia script, the date and the venue. The world is built from the owner's own rasters (photograph, paper, seal, roses, rings), each carrying its generation prompt and post-processing in embedded metadata; code draws what the rasters do not cover (the satin ribbon and bow, the card's fold lines, the invitation card's rules and type, gold timeline line art, dividers, the venue map, icons).",
     "keyCharacteristics": [
       "Full-bleed embossed gatefold card tied with a champagne satin bow as the first viewport; the whole card is the control (tap or pull), and it carries only the printed names and one hint line.",
-      "An owner-supplied raster world, each image carrying embedded provenance; nothing generic or stock. Where code draws instead (the floral card), it follows a reference the owner chose.",
+      "An owner-supplied raster world, each image carrying embedded provenance; nothing generic or stock. The invitation card reuses the same rasters (paper and rose spray) rather than bringing its own.",
       "Gold is a material (foil, gilt edge, coin, pressed leaf, satin), rendered as gradients from deep antique to pale champagne, never as a flat accent fill and never on text.",
-      "Sepia ink throughout, save the sage names on the floral card; no black anywhere a guest can see.",
+      "Sepia ink throughout; no black anywhere a guest can see.",
       "Three faces with fixed jobs: Corinthia script for names, greetings and section titles; Bodoni Moda for everything set; Amiri for the Arabic Bismillah alone.",
       "Slow exponential ease-out; a tied card that breathes in the hand, one choreographed untying and opening, sections that arrive once as the guest scrolls them in, two tactile interactions (pulling the ribbon, scratching the gold-foil date), otherwise only ambient motion (petals, rising light, drifting photograph, swaying roses). Reduced motion shows everything at rest."
     ],
     "rules": [
       {
         "name": "The Sepia Rule",
-        "body": "Ink is brown, never black. Even the showcase phone bezel is dark brown (#241a10). Nothing code draws is cool: the satin ribbon is champagne, and its shadows are brown; the cool notes are in the owner's photograph, with one deliberate exception: the sage of the floral invitation card (the leaves, the sage wash, and the sage ink of the names, day and venue), which follows the owner's watercolour reference and stays on that card.",
+        "body": "Ink is brown, never black. Even the showcase phone bezel is dark brown (#241a10). Nothing code draws is cool: the satin ribbon is champagne, and its shadows are brown; the cool notes are in the owner's photograph.",
         "section": "colors"
       },
       {
         "name": "The Light Is Not Paint Rule",
-        "body": "Amber and the white-gold radials describe light (the focus halo on the bow, the rising motes and the date shower, the glints that cross the foil, the floral card and the gift card, the sky veil behind the hero names). They never fill a card, a button or text.",
+        "body": "Amber and the white-gold radials describe light (the focus halo on the bow, the rising motes and the date shower, the glints that cross the foil, the invitation card and the gift card, the sky veil behind the hero names, the cream glow behind the closed card's hint). They never fill a card, a button or text.",
         "section": "colors"
       },
       {
         "name": "The Multiply Rule",
-        "body": "Rasters drawn on white (rose spray, rings) are laid on cream with `mix-blend-mode: multiply` so their ground disappears; the seal's initials are gold (#a77b34, dot #b88c3e) multiplied into the wax so they read as pressed, not printed.",
+        "body": "Rasters drawn on white (rose spray, rings) are laid on cream with `mix-blend-mode: multiply` so their ground disappears, on the page and on the invitation card's paper alike; the seal's initials are gold (#a77b34, dot #b88c3e) multiplied into the wax so they read as pressed, not printed.",
         "section": "colors"
       },
       {
@@ -1069,7 +945,7 @@
       },
       {
         "name": "The Shares of the Card Rule",
-        "body": "Everything on the floral card (type, rules, sprigs, heart, gaps) is a share of the card's width in `cqi` (1cqi is 6 of its 600 drawing units), so the card scales whole on any phone like a printed one; nothing inside it is sized in px or vw.",
+        "body": "Everything on the invitation card (type, rules, sprigs, gaps, the double rule's inset) is a share of the card's width in `cqi`, so the card scales whole like a printed one; each type size has a legible px floor (`max(px, cqi)`, nothing under 8.5px), and on the narrowest phones the card grows taller (its 3:5 ratio yields to content under `overflow: clip`) rather than letting the type shrink. Nothing inside it is sized in vw.",
         "section": "typography"
       },
       {
@@ -1079,12 +955,12 @@
       },
       {
         "name": "The Real Paper Rule",
-        "body": "The closed card's relief is the owner's embossed-paper photograph, printed across both doors as one sheet (each door shows its half of a 200%-wide print, so the image runs unbroken across the seam). Code adds only the fold lines, the seam, the printed names and the hint line; no coded relief, flourish or colour ornament. The ribbon lies on the paper; it is not printed on it.",
+        "body": "The closed card's relief is the owner's embossed-paper photograph, printed across both doors as one sheet (each door shows its half of a 200%-wide print, so the image runs unbroken across the seam). The inner envelope's flap faces are cut from the same print, multiplied over their paper gradients at 0.45 so their relief is fainter. Code adds only the fold lines, the seam, the printed names and the hint line; no coded relief, flourish or colour ornament. The ribbon lies on the paper; it is not printed on it.",
         "section": "elevation"
       },
       {
         "name": "The Wipe, Not Fade Rule",
-        "body": "A multiplied photograph (rose spray, rings) never fades and never sits inside an ancestor that fades or transforms: Chrome drops the blend mid-fade and an ancestor's opacity isolates it, so the white ground flashes. Move the image itself, not its box, and draw it in with a clip-path wipe (`inset(0 100% 0 0)` to none, 1.3s ease-out, mirrored for right-hand art). Its own rotate or scale (the sway) is fine.",
+        "body": "A multiplied photograph (rose spray, rings) never fades and never sits inside an ancestor that fades or transforms: Chrome drops the blend mid-fade and an ancestor's opacity isolates it, so the white ground flashes. Move the image itself, not its box, and draw it in with a clip-path wipe (`inset(0 100% 0 0)` to none, 1.3s ease-out, mirrored for right-hand art). Its own rotate or scale (the sway) is fine. The invitation card is the one allowed case: its sprays multiply onto the card's own paper, inside the card's group, so the card may be laid down with opacity and transform; the sprays still wipe in (top-left from the top, bottom-right from the bottom, 1.6s after 0.9s).",
         "section": "elevation"
       }
     ],
@@ -1096,20 +972,20 @@
       "Do let the satin answer the finger: tension that gives and then resists, a spring back with a slight overshoot when let go early, and an untying that starts from the pulled side.",
       "Do draw icons, sparks, dividers and nodes as inline SVG in line gold or currentColor.",
       "Do keep fixed controls aligned to the 480px column and clear of safe-area insets.",
-      "Do size everything inside the floral card in `cqi` of the card, with a px fallback, so it scales whole.",
+      "Do size everything inside the invitation card in `cqi` of the card with a legible px floor (`max(px, cqi)`), and let the card grow taller rather than shrink its type.",
       "Do honour reduced motion: the closed card is still (no hold, bow swell or breathing hint), a tap fades it to the scene in 400ms, the hero lettering, photograph and roses stand at rest, and there are no petals, drift, sway or cue bob; every scroll reveal is shown at rest.",
       "Do bring each section in once, as the guest scrolls to it, and leave it in place.",
       "Do draw a multiplied photograph in with a clip-path wipe on the image itself."
     ],
     "donts": [
       "Don't print colour ornament or extra text on the closed card; it carries the embossed paper, its fold lines, the printed names, one hint line and the satin bow.",
-      "Don't use black ink, or grey or cool tones in anything code draws; text is sepia, and even the satin ribbon is champagne. The floral card's sage is the single exception, and it does not leave that card.",
+      "Don't use black ink, or grey or cool tones in anything code draws; text is sepia, and even the satin ribbon is champagne.",
       "Don't fill text with a gradient or clip a gradient to text; gold text is a flat script gold or bronze.",
       "Don't use emoji or font glyphs as icons.",
       "Don't add a second automatic sequence after the opening; later motion answers the guest (a section scrolled into view, a date scratched) or is ambient.",
-      "Don't fade a multiplied photograph or fade or transform any ancestor of one; Chrome drops the blend and its white ground shows.",
+      "Don't fade a multiplied photograph or fade or transform any ancestor of one whose backdrop lies outside it; Chrome drops the blend and its white ground shows.",
       "Don't set instructions, body copy, labels or form text in the script face, or use Amiri for anything but the Bismillah.",
-      "Don't let a later template borrow these tokens, rasters, the satin bow, the seal, the floral card or the gift card; it shares only the showcase shell."
+      "Don't let a later template borrow these tokens, rasters, the satin bow, the seal, the invitation card or the gift card; it shares only the showcase shell."
     ]
   }
 }
