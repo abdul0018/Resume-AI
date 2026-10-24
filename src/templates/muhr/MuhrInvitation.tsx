@@ -6,7 +6,6 @@ import { useCountdown, useMusic } from "@/lib/hooks";
 import { defaultMessage, mapLinks } from "@/lib/invite";
 import { copyText } from "@/lib/share";
 import { playRibbonSounds, unlockAudio } from "@/lib/media";
-import { FloralCard } from "./FloralCard";
 import { startAmbient } from "./ambient";
 import { startGoldDust } from "./goldDust";
 import { LineArt, type LineArtKind } from "./LineArt";
@@ -69,14 +68,6 @@ function CardSprig({ flip = false, className = "mh-card-sprig", style }: { flip?
   );
 }
 
-function CardRule({ style }: { style?: CSSProperties }) {
-  return (
-    <svg className="mh-card-rule" viewBox="0 0 120 8" style={style} aria-hidden="true">
-      <path d="M0,4 H52 M68,4 H120" stroke="currentColor" strokeWidth="0.7" />
-      <path d="M60,0.5 L63.5,4 L60,7.5 L56.5,4Z" fill="currentColor" />
-    </svg>
-  );
-}
 
 /** Milliseconds from the tap until the scene replaces the envelope (keep in sync with muhr.css). */
 const TO_SCENE = 5100;
@@ -127,6 +118,23 @@ export function MuhrInvitation({ data, replayToken = 0, endSlot }: Props) {
 
   useEffect(() => () => timers.current.forEach(clearTimeout), []);
 
+  // the music coin steps back while the page moves under it
+  const coin = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (stage !== "scene") return;
+    let t = 0;
+    const onScroll = () => {
+      coin.current?.setAttribute("data-scrolling", "");
+      window.clearTimeout(t);
+      t = window.setTimeout(() => coin.current?.removeAttribute("data-scrolling"), 650);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.clearTimeout(t);
+    };
+  }, [stage]);
+
   const open = () => {
     if (stage !== "closed") return;
     unlockAudio();
@@ -157,7 +165,7 @@ export function MuhrInvitation({ data, replayToken = 0, endSlot }: Props) {
       </div>
 
       {music.available && stage === "scene" && (
-        <button type="button" className="mh-music" onClick={music.toggle} aria-label={music.playing ? "Musiqani to‘xtatish" : "Musiqani yoqish"}>
+        <button type="button" ref={coin} className="mh-music" onClick={music.toggle} aria-label={music.playing ? "Musiqani to‘xtatish" : "Musiqani yoqish"}>
           {music.playing ? (
             <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
               <rect x="6.5" y="5" width="3.6" height="14" rx="1.2" fill="currentColor" />
@@ -536,24 +544,24 @@ function Sections({ data }: { data: InviteData }) {
       </section>
 
       <section className="mh-sec mh-sec-card">
-        <div className="mh-card" data-reveal="card">
-          <FloralCard />
+        {/* the card that was inside the envelope: the same embossed stock, the same roses as the scene */}
+        <div className="mh-card" data-reveal="card" style={{ ["--mh-art" as string]: `url("${paperUrl}")` }}>
+          <img className="mh-card-spray tl" src={sprayUrl} alt="" aria-hidden="true" />
+          <img className="mh-card-spray br" src={sprayUrl} alt="" aria-hidden="true" />
           <div className="mh-card-text">
-            {data.bismillah ? (
+            {data.bismillah && (
               <p className="mh-bismillah" lang="ar" dir="rtl" style={line(0)}>
                 بسم الله الرحمن الرحيم
               </p>
-            ) : (
-              <CardSprig className="mh-card-mark" style={line(0)} />
             )}
             <p className="mh-verse" style={line(1)}>
               <span>Va Uning alomatlaridan biri —</span>
               <span>sizlar uchun o‘zingizdan</span>
-              <span>juftlar yaratgani, toki</span>
-              <span>ular bilan orom topgaysiz.</span>
-              <span className="mh-verse-ref">— Rum surasi, 21</span>
+              <span>juftlar yaratgani, toki ular</span>
+              <span>bilan orom topgaysiz.</span>
+              <span className="mh-verse-ref">Rum surasi, 21-oyat</span>
             </p>
-            <CardRule style={line(2)} />
+            <Divider className="mh-card-rule" i={2} />
             <p className="mh-card-caps" style={line(3)}>
               {captionLines(data.hosts || "Ota-onalari duosi bilan", 0).map((l) => (
                 <span key={l}>{l}</span>
@@ -570,12 +578,12 @@ function Sections({ data }: { data: InviteData }) {
             <p className="mh-card-name" style={line(6)}>
               {data.bride}
             </p>
-            <p className="mh-card-caps" style={line(7)}>
+            <p className="mh-card-caps mh-card-invite" style={line(7)}>
               {captionLines(INVITE_LINE[data.eventType], 0).map((l) => (
                 <span key={l}>{l}</span>
               ))}
             </p>
-            <CardRule style={line(8)} />
+            <Divider className="mh-card-rule" i={8} />
             <div className="mh-card-date" style={line(9)}>
               <span className="mh-cd-small">{formatWeekday(data.date)}</span>
               <span className="mh-cd-row">
@@ -585,20 +593,17 @@ function Sections({ data }: { data: InviteData }) {
               </span>
               <span className="mh-cd-small">soat {data.time}</span>
             </div>
-            <CardRule style={line(10)} />
+            <Divider className="mh-card-rule" i={10} />
             <p className="mh-card-venue" style={line(11)}>
               {data.venue}
             </p>
             {data.address && (
-              <p className="mh-card-caps mh-card-addr" style={line(12)}>
+              <p className="mh-card-addr" style={line(12)}>
                 {captionLines(data.address, 0).map((l) => (
                   <span key={l}>{l}</span>
                 ))}
               </p>
             )}
-            <svg className="mh-card-heart" viewBox="0 0 24 22" style={line(13)} aria-hidden="true">
-              <path d="M12,21 C5,15.5 1,11.5 1,7 C1,3.5 3.6,1 6.8,1 C9,1 10.8,2.2 12,4 C13.2,2.2 15,1 17.2,1 C20.4,1 23,3.5 23,7 C23,11.5 19,15.5 12,21Z" fill="currentColor" />
-            </svg>
           </div>
         </div>
       </section>
