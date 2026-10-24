@@ -61,3 +61,9 @@ Video prompt:
 > No hands, no text, no camera movement, no zoom.
 
 Negative prompt: hands, fingers, text, letters, logo, watermark, camera shake, zoom, people.
+
+## Publishing on GitHub Pages
+
+`npm run build:pages` builds the showcase and copies it to `docs/index.html`; commit and push it. Pages serves
+the branch's `docs` folder (Settings → Pages → Deploy from a branch → this branch, `/docs`), with Jekyll off
+(`docs/.nojekyll`), at https://abdul0018.github.io/Resume-AI/ (`#oltin-muhr`, `#gulzor` for each template).

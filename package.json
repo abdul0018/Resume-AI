@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Visol \u2014 premium raqamli to\u2018y taklifnomalari",
+  "description": "Visol — premium raqamli to‘y taklifnomalari",
   "engines": {
     "node": ">=22.13"
   },
@@ -13,7 +13,8 @@
     "start": "NODE_ENV=production node --disable-warning=ExperimentalWarning dist/server.js",
     "lint": "tsc --noEmit",
     "test:e2e": "node scripts/e2e.mjs",
-    "build:showcase": "node scripts/build-showcase.mjs"
+    "build:showcase": "node scripts/build-showcase.mjs",
+    "build:pages": "node scripts/build-showcase.mjs && cp dist/showcase/index.html docs/index.html"
   },
   "dependencies": {
     "express": "^4.21.2",
