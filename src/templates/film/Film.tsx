@@ -22,6 +22,8 @@ export interface FilmSpec {
   sub?: number;
   /** When things happen in the film (seconds), so the sounds land on them. */
   cues?: FilmCues;
+  /** Playback speed: the films are generated slow and played a little faster (default 1). */
+  rate?: number;
   /** For end "scene": where the photograph and its roses lie in the film's last frame (frame pixels), so the
       live scene can be laid exactly over it and the film melt away without a seam. */
   scene?: FilmScene;
@@ -57,6 +59,14 @@ export interface FilmCues {
 
 type Films = Record<string, FilmSpec | null | undefined>;
 
+/** The film's cues on the clock, at the speed it is played. */
+export function filmCues(spec: FilmSpec): FilmCues | null {
+  const c = spec.cues;
+  if (!c) return null;
+  const k = 1 / (spec.rate ?? 1);
+  return { knot: c.knot * k, ribbon: c.ribbon * k, doors: [c.doors[0] * k, c.doors[1] * k], flaps: c.flaps * k, end: c.end * k };
+}
+
 /** A template's film, supplied by the build (showcase) or, for tests, set on the window before the page loads. */
 export function filmSpec(template: string): FilmSpec | null {
   if (typeof window === "undefined") return null;
@@ -80,7 +90,7 @@ function playableSrc(src: string) {
 const ZOOM_MS = 1500;
 const HANDOVER_MS = 1050;
 /** Time the film's last frame takes to melt into the live scene laid exactly beneath it. */
-const DISSOLVE_MS = 1200;
+const DISSOLVE_MS = 900;
 /** If the film has not visibly started this long after the tap, the drawn envelope takes over. */
 const START_GRACE_MS = 2500;
 /** If the film stops moving this long part-way, it hands over where it is. */
@@ -184,9 +194,12 @@ export function Film({
     onOpen();
     // some browsers neither play nor refuse (a codec they lack): give the film a moment, then hand back
     timers.current.push(window.setTimeout(fail, START_GRACE_MS));
+    const rate = spec.rate ?? 1;
+    v.defaultPlaybackRate = rate;
+    v.playbackRate = rate;
     v.play().then(() => {
       // if "ended" never arrives, hand over anyway
-      const ms = Number.isFinite(v.duration) ? v.duration * 1000 + 2500 : 15000;
+      const ms = Number.isFinite(v.duration) ? (v.duration * 1000) / rate + 2500 : 15000;
       timers.current.push(window.setTimeout(finish, ms));
     }, fail);
   };

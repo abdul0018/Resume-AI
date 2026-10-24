@@ -604,7 +604,7 @@
   opacity: 0;
 }
 .gz-hero[data-play] .gz-photo-veil {
-  animation: gz-in 1400ms ease-out calc(var(--t0) + 700ms) both;
+  animation: gz-in 1000ms ease-out calc(var(--t0) + 300ms) both;
 }
 @keyframes gz-in {
   to {
@@ -710,7 +710,7 @@
   opacity: 0;
 }
 .gz-hero[data-play] .gz-l {
-  animation: gz-text 1400ms var(--gz-ease) calc(var(--t0) + 1100ms + var(--i, 0) * 150ms) both;
+  animation: gz-text 1100ms var(--gz-ease) calc(var(--t0) + 550ms + var(--i, 0) * 110ms) both;
 }
 .gz-hero[data-play] .gz-hn {
   -webkit-mask-image: linear-gradient(90deg, #000 40%, transparent 60%);
@@ -719,7 +719,7 @@
   mask-size: 250% 100%;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  animation: gz-write 1700ms cubic-bezier(0.4, 0, 0.3, 1) calc(var(--t0) + 1100ms + var(--i, 0) * 150ms) both;
+  animation: gz-write 1300ms cubic-bezier(0.4, 0, 0.3, 1) calc(var(--t0) + 550ms + var(--i, 0) * 110ms) both;
 }
 @keyframes gz-text {
   from {
@@ -1592,9 +1592,9 @@
 
 .gz-sections [data-reveal="up"] {
   transition:
-    opacity 900ms var(--gz-ease) var(--d, 0ms),
-    translate 900ms var(--gz-ease) var(--d, 0ms),
-    filter 900ms var(--gz-ease) var(--d, 0ms);
+    opacity 700ms var(--gz-ease) var(--d, 0ms),
+    translate 700ms var(--gz-ease) var(--d, 0ms),
+    filter 700ms var(--gz-ease) var(--d, 0ms);
 }
 .gz-sections [data-reveal="up"]:not([data-in]) {
   opacity: 0;
@@ -1605,9 +1605,9 @@
 /* headings settle as their letters draw together */
 .gz-sections [data-reveal="caps"] {
   transition:
-    opacity 1100ms var(--gz-ease) var(--d, 0ms),
-    letter-spacing 1400ms var(--gz-ease) var(--d, 0ms),
-    filter 1100ms var(--gz-ease) var(--d, 0ms);
+    opacity 850ms var(--gz-ease) var(--d, 0ms),
+    letter-spacing 1100ms var(--gz-ease) var(--d, 0ms),
+    filter 850ms var(--gz-ease) var(--d, 0ms);
 }
 .gz-sections [data-reveal="caps"]:not([data-in]) {
   opacity: 0;
@@ -1630,7 +1630,7 @@
   mask-position: 100% 0;
 }
 .gz-sections [data-reveal="write"][data-in] {
-  animation: gz-write 1700ms cubic-bezier(0.4, 0, 0.3, 1) var(--d, 0ms) forwards;
+  animation: gz-write 1300ms cubic-bezier(0.4, 0, 0.3, 1) var(--d, 0ms) forwards;
 }
 
 /* line icons are drawn */
@@ -1638,7 +1638,7 @@
 .gz-timeline path {
   stroke-dasharray: 1;
   stroke-dashoffset: 0;
-  transition: stroke-dashoffset 1600ms cubic-bezier(0.45, 0, 0.2, 1) var(--d, 0ms);
+  transition: stroke-dashoffset 1200ms cubic-bezier(0.45, 0, 0.2, 1) var(--d, 0ms);
 }
 .gz-sections [data-reveal="draw"]:not([data-in]) path {
   stroke-dashoffset: 1;
@@ -1661,22 +1661,22 @@
 
 /* the day's thread runs down, and each moment arrives on it */
 .gz-timeline::before {
-  transition: scale 2000ms cubic-bezier(0.45, 0, 0.2, 1);
+  transition: scale 1500ms cubic-bezier(0.45, 0, 0.2, 1);
 }
 .gz-timeline:not([data-in])::before {
   scale: 1 0;
 }
 .gz-timeline li {
   transition:
-    opacity 800ms var(--gz-ease) calc(250ms + var(--i) * 180ms),
-    translate 800ms var(--gz-ease) calc(250ms + var(--i) * 180ms);
+    opacity 800ms var(--gz-ease) calc(200ms + var(--i) * 130ms),
+    translate 800ms var(--gz-ease) calc(200ms + var(--i) * 130ms);
 }
 .gz-timeline:not([data-in]) li {
   opacity: 0;
   translate: 0 10px;
 }
 .gz-timeline path {
-  transition-delay: calc(350ms + var(--i) * 180ms);
+  transition-delay: calc(280ms + var(--i) * 130ms);
 }
 .gz-timeline:not([data-in]) path {
   stroke-dashoffset: 1;
@@ -1694,7 +1694,7 @@
 
 /* the arch opens from its foot; the table inside comes forward a little */
 .gz-arch .gz-arch-in {
-  transition: clip-path 1500ms cubic-bezier(0.6, 0, 0.2, 1);
+  transition: clip-path 1200ms cubic-bezier(0.6, 0, 0.2, 1);
 }
 .gz-arch:not([data-in]) .gz-arch-in {
   clip-path: inset(100% 0 0 0);
@@ -1708,7 +1708,7 @@
 
 /* the photographed flowers are wiped in, never faded: they are multiplied onto the paper */
 .gz-blossoms img {
-  transition: clip-path 1700ms cubic-bezier(0.5, 0, 0.2, 1);
+  transition: clip-path 1300ms cubic-bezier(0.5, 0, 0.2, 1);
 }
 .gz-blossoms-top:not([data-in]) img {
   clip-path: inset(0 0 100% 0);
@@ -1733,7 +1733,7 @@
   animation: gz-stir 8s ease-in-out 1.6s infinite;
 }
 .gz-quote .gz-roses-img {
-  transition: clip-path 1800ms cubic-bezier(0.5, 0, 0.2, 1);
+  transition: clip-path 1300ms cubic-bezier(0.5, 0, 0.2, 1);
 }
 .gz-quote:not([data-in]) .gz-roses-img {
   clip-path: inset(0 0 0 100%);
@@ -1757,7 +1757,7 @@
 
 /* the map is painted out from the house; the pin drops onto it */
 .gz-map .gz-map-shape {
-  transition: clip-path 1700ms cubic-bezier(0.5, 0, 0.2, 1);
+  transition: clip-path 1300ms cubic-bezier(0.5, 0, 0.2, 1);
 }
 .gz-map:not([data-in]) .gz-map-shape {
   clip-path: circle(0% at var(--pin-x) var(--pin-y));
@@ -1766,7 +1766,7 @@
   clip-path: circle(80% at var(--pin-x) var(--pin-y));
 }
 .gz-map[data-in] .gz-map-pin {
-  animation: gz-drop 900ms cubic-bezier(0.3, 1.4, 0.5, 1) 1000ms both;
+  animation: gz-drop 800ms cubic-bezier(0.3, 1.4, 0.5, 1) 700ms both;
 }
 .gz-map:not([data-in]) .gz-map-pin,
 .gz-map:not([data-in]) .gz-map-label {

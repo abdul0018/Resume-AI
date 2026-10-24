@@ -1,5 +1,6 @@
 {
   "end": "scene",
+  "rate": 1.35,
   "names": 0.2,
   "hint": 0.86,
   "cues": { "knot": 2.6, "ribbon": 2.95, "doors": [3.8, 4.85], "flaps": 6.1, "end": 8.25 },

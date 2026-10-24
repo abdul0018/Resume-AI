@@ -1083,7 +1083,7 @@
 }
 .mh-hero[data-play] .mh-line {
   animation: mh-text 1500ms var(--mh-ease-out) both;
-  animation-delay: calc(var(--t0) + 600ms + var(--i, 0) * 140ms);
+  animation-delay: calc(var(--t0) + 400ms + var(--i, 0) * 110ms);
 }
 @keyframes mh-text {
   from {
@@ -1129,7 +1129,7 @@
   opacity: 0;
 }
 .mh-hero[data-play] .mh-cue {
-  animation: mh-text 1200ms var(--mh-ease-out) calc(var(--t0) + 1200ms) both;
+  animation: mh-text 1000ms var(--mh-ease-out) calc(var(--t0) + 900ms) both;
 }
 .mh-cue svg {
   animation: mh-bob 2s ease-in-out infinite;
@@ -1959,11 +1959,11 @@
 
 .mh [data-reveal] {
   transition:
-    opacity 1s var(--mh-ease-out) var(--d, 0ms),
-    translate 1s var(--mh-ease-out) var(--d, 0ms),
-    scale 1.4s var(--mh-ease-out) var(--d, 0ms),
-    filter 1s var(--mh-ease-out) var(--d, 0ms),
-    transform 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0ms);
+    opacity 0.8s var(--mh-ease-out) var(--d, 0ms),
+    translate 0.8s var(--mh-ease-out) var(--d, 0ms),
+    scale 1.1s var(--mh-ease-out) var(--d, 0ms),
+    filter 0.8s var(--mh-ease-out) var(--d, 0ms),
+    transform 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0ms);
 }
 .mh [data-reveal="up"]:not([data-in]) {
   opacity: 0;
@@ -1979,7 +1979,7 @@
   mask-position: 100% 0;
 }
 .mh [data-reveal="write"][data-in] {
-  animation: mh-write 1500ms cubic-bezier(0.5, 0, 0.3, 1) var(--d, 0ms) both;
+  animation: mh-write 1200ms cubic-bezier(0.5, 0, 0.3, 1) var(--d, 0ms) both;
 }
 
 /* the three date cards are dealt onto the paper */
@@ -2079,8 +2079,8 @@
   opacity: 0;
 }
 .mh-card[data-in] .mh-card-text > * {
-  animation: mh-text 1100ms var(--mh-ease-out) both;
-  animation-delay: calc(0.55s + var(--i, 0) * 0.09s);
+  animation: mh-text 900ms var(--mh-ease-out) both;
+  animation-delay: calc(0.4s + var(--i, 0) * 0.07s);
 }
 .mh-card[data-reveal] .mh-card-name {
   margin-inline: -0.3em !important;
@@ -2117,7 +2117,7 @@
 .mh-timeline[data-reveal]::before {
   transform-origin: 50% 0;
   scale: 1 0;
-  transition: scale 2.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: scale 2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .mh-timeline[data-in]::before {
   scale: 1 1;

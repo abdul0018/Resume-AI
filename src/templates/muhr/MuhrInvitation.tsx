@@ -11,7 +11,7 @@ import { startGoldDust } from "./goldDust";
 import { LineArt, type LineArtKind } from "./LineArt";
 import { archPath } from "./Ornaments";
 import { SatinBow } from "./SatinBow";
-import { Film, filmSpec, frameToScreen, type FilmScene, type FilmSpec } from "../film/Film";
+import { Film, filmCues, filmSpec, frameToScreen, type FilmScene, type FilmSpec } from "../film/Film";
 import { ScratchCard } from "./ScratchCard";
 import heroUrl from "./assets/hero.jpg";
 import paperUrl from "./assets/paper.jpg";
@@ -162,7 +162,8 @@ export function MuhrInvitation({ data, replayToken = 0, endSlot }: Props) {
     setStage("opening");
     if (film) {
       navigator.vibrate?.(8);
-      if (film.cues) playFilmSounds(film.cues);
+      const cues = filmCues(film);
+      if (cues) playFilmSounds(cues);
     } else runDrawnOpening();
   };
 

@@ -7,7 +7,7 @@ import { defaultMessage, mapLinks } from "@/lib/invite";
 import { copyText } from "@/lib/share";
 import { playFilmSounds, unlockAudio } from "@/lib/media";
 import { startAmbient } from "../muhr/ambient";
-import { Film, filmSpec, frameToScreen, type FilmScene, type FilmSpec } from "../film/Film";
+import { Film, filmCues, filmSpec, frameToScreen, type FilmScene, type FilmSpec } from "../film/Film";
 import { BlossomMark, FlowerLine, FlowerSpray, HeartRule, Icon, iconFor, SilkBow, Sprig } from "./Botanicals";
 import { GardenMap } from "./GardenMap";
 import "./gulzor.css";
@@ -139,7 +139,8 @@ export function GulzorInvitation({ data, replayToken = 0, endSlot }: Props) {
     setStage("opening");
     if (film) {
       navigator.vibrate?.(8);
-      if (film.cues) playFilmSounds(film.cues);
+      const cues = filmCues(film);
+      if (cues) playFilmSounds(cues);
     } else runDrawnOpening();
   };
 
