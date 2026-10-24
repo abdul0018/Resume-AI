@@ -807,9 +807,9 @@
   z-index: 5;
   padding-top: 0;
 }
-/* the day rises over the foot of the bouquet */
-.gz-day > .gz-wave + .gz-blossoms-top {
-  margin-top: -6px;
+/* the hanging blossoms overlap the bouquet's foot: both fade to the paper there, so one dissolves into the other */
+.gz-day > .gz-blossoms-top:first-child {
+  margin-top: -44px;
 }
 .gz-way {
   padding-top: 26px;
@@ -823,6 +823,7 @@
   padding-top: 30px;
 }
 .gz-close {
+  padding-top: 8px;
   padding-bottom: 0;
 }
 
@@ -917,8 +918,8 @@
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 34%);
-  mask-image: linear-gradient(180deg, transparent 0%, #000 34%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 26%, #000 52%, transparent 85%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 26%, #000 52%, transparent 85%);
 }
 .gz-drawn-bouquet {
   width: 78%;
@@ -936,7 +937,6 @@
   display: block;
   width: 100%;
   height: auto;
-  mix-blend-mode: multiply;
 }
 .gz-blossoms-top img {
   object-position: 50% 0;
@@ -948,7 +948,7 @@
   margin-bottom: 4px;
 }
 .gz-blossoms-bottom {
-  margin-top: 30px;
+  margin-top: 10px;
 }
 /* drawn stand-ins: two sprays leaning in from the corners */
 .gz-spray {
@@ -1215,7 +1215,6 @@
 .gz-roses-img {
   display: block;
   width: 100%;
-  mix-blend-mode: multiply;
 }
 .gz-drawn-roses {
   padding: 4px 0 0 30%;
@@ -1581,7 +1580,10 @@
   background: var(--gz-line);
 }
 .gz-end {
-  background: var(--gz-paper);
+  margin: 26px -28px 0;
+}
+.gz-end .sc-end {
+  padding-bottom: 0;
 }
 
 /* ------------------------------------------------------------------ */

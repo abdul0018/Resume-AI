@@ -184,8 +184,7 @@ export function GulzorInvitation({ data, replayToken = 0, endSlot }: Props) {
 
         {stage === "scene" && (
           <>
-            <Sections data={data} />
-            {endSlot && <div className="gz-end">{endSlot}</div>}
+            <Sections data={data} endSlot={endSlot} />
           </>
         )}
       </div>
@@ -524,7 +523,7 @@ function dialable(phone: string) {
   return digits.length === 9 ? `998${digits}` : digits;
 }
 
-function Sections({ data }: { data: InviteData }) {
+function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) {
   const root = useReveal();
   const { d, m, y } = parseDate(data.date);
   const message = data.message || defaultMessage(data);
@@ -565,7 +564,7 @@ function Sections({ data }: { data: InviteData }) {
 
       {/* the day: date, place, programme and what to wear */}
       <section className="gz-panel gz-day">
-        <Wave d={WAVES[3]} />
+        {/* the blossoms hang out of the mist the bouquet fades into */}
         <Blossoms edge="top" seed={3} />
         <p className="gz-kick" data-reveal="up">
           Eng muhimi
@@ -643,7 +642,6 @@ function Sections({ data }: { data: InviteData }) {
         <div className="gz-heart" data-reveal="draw" style={delay(300)}>
           <Icon kind="heart" size={16} />
         </div>
-        <Blossoms edge="bottom" seed={9} />
       </section>
 
       {/* a line about love, under blush roses */}
@@ -741,6 +739,8 @@ function Sections({ data }: { data: InviteData }) {
           Sizni intiqlik bilan kutamiz!
         </p>
         <HeartRule />
+        {endSlot && <div className="gz-end">{endSlot}</div>}
+        {/* the garden grows up from the foot of the page */}
         <Blossoms edge="bottom" seed={17} />
       </section>
     </div>
