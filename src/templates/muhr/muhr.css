@@ -1,0 +1,2384 @@
+/*
+ * Oltin muhr — the phone screen is the envelope itself; breaking the seal lets Samarkand's evening light out.
+ * Layout: one phone-width column (max 480px) — the envelope and arch fill it edge to edge; sections follow on ganch ivory.
+ */
+
+.mh {
+  --mh-ground: #f5ecdf;
+  --mh-paper: #f7efe2;
+  --mh-ink: #4a331b;
+  --mh-ink-soft: #77604a;
+  --mh-gold-deep: #8f6a2a;
+  --mh-gold: #b08636;
+  --mh-gold-pale: #efd9a0;
+  --mh-line: rgba(176, 134, 54, 0.38);
+  --mh-surround: #e9ddc9;
+
+  --mh-script: "Corinthia", "Pinyon Script", cursive;
+  --mh-serif: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+
+  --mh-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --film-ground: var(--mh-paper);
+  --film-focus: var(--mh-gold-deep);
+  --film-script: var(--mh-script);
+
+  /* the showcase's buttons under the last section */
+  --sc-ink: var(--mh-ink);
+  --sc-line: var(--mh-line);
+  --sc-font: var(--mh-serif);
+  --sc-focus: var(--mh-gold-deep);
+
+  background: var(--mh-surround);
+  color: var(--mh-ink);
+  font-family: var(--mh-serif);
+  font-optical-sizing: auto;
+  font-variant-numeric: lining-nums;
+  min-height: 100vh;
+  min-height: 100svh;
+}
+.mh.mh-thumb {
+  min-height: 0;
+  background: none;
+}
+.mh ::selection {
+  background: rgba(239, 217, 160, 0.7);
+  color: var(--mh-ink);
+}
+.mh input,
+.mh textarea {
+  caret-color: var(--mh-gold-deep);
+}
+
+.mh-col {
+  position: relative;
+  max-width: 480px;
+  margin: 0 auto;
+  background: var(--mh-ground);
+  overflow: hidden;
+  box-shadow: 0 0 80px -30px rgba(74, 51, 27, 0.35);
+}
+
+.mh-hero {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--mh-paper);
+}
+
+/* ------------------------------------------------------------------ */
+/* Envelope: a gatefold card tied with a satin bow                    */
+/* ------------------------------------------------------------------ */
+
+.mh-env {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  /* champagne satin, darkest to brightest: shadow, light, mid-light, mid, highlight —
+     the gold of the lettering, softened toward the paper */
+  --rb1: #8c6a3a;
+  --rb2: #efdfbd;
+  --rb3: #dcc493;
+  --rb4: #bf9f66;
+  --rb5: #fffaee;
+  touch-action: none;
+}
+.mh-env[data-state="closed"] {
+  cursor: pointer;
+}
+.mh-env:focus-visible {
+  outline: none;
+}
+.mh-env:focus-visible .mh-bow {
+  filter: drop-shadow(0 0 1px #8a6128) drop-shadow(0 0 12px rgba(246, 199, 106, 0.85));
+}
+/* flat on purpose: each door and flap tilts in its own perspective and paints in document order */
+.mh-env-3d {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50%;
+}
+
+/* --- inner envelope ------------------------------------------------ */
+.mh-inner {
+  position: absolute;
+  inset: 0;
+}
+.mh-iflap {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+.mh-iface {
+  position: absolute;
+  inset: 0;
+  display: block;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: linear-gradient(170deg, #fbf6ec, #efe4d1);
+}
+.mh-iface.back {
+  background: linear-gradient(170deg, #f3e9d7, #e6d7bd);
+}
+/* the inner envelope is cut from the same embossed stock as the doors, its relief fainter */
+.mh-iface::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--mh-art) center / cover;
+  mix-blend-mode: multiply;
+  opacity: 0.45;
+}
+.mh-iflap-t {
+  transform-origin: 50% 0;
+}
+.mh-iflap-t .front {
+  clip-path: polygon(0 0, 100% 0, 50% 30%);
+}
+.mh-iflap-t .back {
+  transform: rotateX(180deg);
+  clip-path: polygon(0 100%, 100% 100%, 50% 70%);
+}
+.mh-iflap-b {
+  transform-origin: 50% 100%;
+}
+.mh-iflap-b .front {
+  clip-path: polygon(0 100%, 100% 100%, 50% 70%);
+  background: linear-gradient(0deg, #f6eee0, #ebdfc9);
+}
+.mh-iflap-b .back {
+  transform: rotateX(180deg);
+  clip-path: polygon(0 0, 100% 0, 50% 30%);
+}
+.mh-iflap-l {
+  transform-origin: 0 50%;
+}
+.mh-iflap-l .front {
+  clip-path: polygon(0 0, 62% 50%, 0 100%);
+  background: linear-gradient(90deg, #f0e6d2, #fbf6ec);
+}
+.mh-iflap-l .back {
+  transform: rotateY(180deg);
+  clip-path: polygon(100% 0, 38% 50%, 100% 100%);
+}
+.mh-iflap-r {
+  transform-origin: 100% 50%;
+}
+.mh-iflap-r .front {
+  clip-path: polygon(100% 0, 38% 50%, 100% 100%);
+  background: linear-gradient(270deg, #eee3cf, #faf4e9);
+}
+.mh-iflap-r .back {
+  transform: rotateY(180deg);
+  clip-path: polygon(0 0, 62% 50%, 0 100%);
+}
+/* the soft shadow each flap lays on what is beneath it (blur outside, clip inside, so the edge stays soft) */
+.mh-ishade {
+  position: absolute;
+  inset: 0;
+  filter: blur(4px);
+  pointer-events: none;
+}
+.mh-ishade i {
+  position: absolute;
+  inset: 0;
+  background: rgba(90, 62, 26, 0.2);
+}
+.mh-ishade-t {
+  translate: 0 4px;
+}
+.mh-ishade-t i {
+  clip-path: polygon(0 0, 100% 0, 50% 30%);
+}
+.mh-ishade-b {
+  translate: 0 -3px;
+}
+.mh-ishade-b i {
+  clip-path: polygon(0 100%, 100% 100%, 50% 70%);
+}
+.mh-ishade-l {
+  translate: 4px 2px;
+}
+.mh-ishade-l i {
+  clip-path: polygon(0 0, 62% 50%, 0 100%);
+}
+.mh-ishade-r {
+  translate: -3px 2px;
+}
+.mh-ishade-r i {
+  clip-path: polygon(100% 0, 38% 50%, 100% 100%);
+}
+/* a door swinging out darkens the paper beside its hinge */
+.mh-dshadow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 55%;
+  display: block;
+  opacity: 0;
+  pointer-events: none;
+}
+.mh-dshadow-l {
+  left: 0;
+  background: linear-gradient(90deg, rgba(60, 40, 15, 0.34), rgba(60, 40, 15, 0));
+}
+.mh-dshadow-r {
+  right: 0;
+  background: linear-gradient(270deg, rgba(60, 40, 15, 0.34), rgba(60, 40, 15, 0));
+}
+
+/* --- the two doors ------------------------------------------------- */
+.mh-door {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+.mh-door-l {
+  left: 0;
+  transform-origin: 0 50%;
+}
+.mh-door-r {
+  right: 0;
+  transform-origin: 100% 50%;
+}
+.mh-dface {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.mh-dface.back {
+  transform: rotateY(180deg);
+  background: linear-gradient(90deg, #e9ddc7, #f8f2e6 55%, #eee3cf);
+}
+/* the seam where the doors meet: a lit edge on the left door, a shadowed one on the right */
+.mh-dface.front::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.mh-door-l .front::after {
+  box-shadow: inset -1px 0 0 rgba(255, 253, 246, 0.7);
+  background: linear-gradient(270deg, rgba(110, 80, 40, 0.08), rgba(110, 80, 40, 0) 8%);
+}
+.mh-door-r .front::after {
+  box-shadow: inset 1px 0 0 rgba(110, 80, 40, 0.3);
+  background: linear-gradient(90deg, rgba(110, 80, 40, 0.14), rgba(110, 80, 40, 0) 7%);
+}
+/* turning away from the light */
+.mh-dface.front::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: rgba(60, 40, 16, 0.42);
+  opacity: 0;
+  pointer-events: none;
+}
+.mh-print {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 200%;
+  background: var(--mh-art) center / cover, var(--mh-paper);
+}
+.mh-door-l .mh-print {
+  left: 0;
+}
+.mh-door-r .mh-print {
+  right: 0;
+}
+.mh-creases {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.mh-print-names {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 35%;
+  margin: 0;
+  text-align: center;
+  font-family: var(--mh-script);
+  line-height: 1;
+  color: #8a6128;
+}
+.mh-print-tap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 80%;
+  margin: 0;
+  text-align: center;
+  font-size: calc(var(--bw) * 0.031);
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #6a5236;
+  /* lifted off the embossed roses beneath it */
+  text-shadow:
+    0 0 3px #fbf6ec,
+    0 0 9px #fbf6ec,
+    0 0 16px rgba(251, 246, 236, 0.9);
+}
+
+/* --- ribbon and bow -------------------------------------------------- */
+.mh-ribbon {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+/* outer layers follow the finger (inline --px … from the pull); inner layers carry the untying */
+.mh-band {
+  position: absolute;
+  top: 56%;
+  width: 50%;
+  height: calc(var(--bw) * 0.064);
+  margin-top: calc(var(--bw) * -0.032);
+}
+.mh-band i {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transform-origin: inherit;
+  background: linear-gradient(180deg, var(--rb1), var(--rb3) 18%, var(--rb5) 40%, var(--rb2) 58%, var(--rb4) 84%, var(--rb1));
+  box-shadow: 0 2px 5px -1px rgba(96, 70, 30, 0.32);
+}
+.mh-band-l {
+  left: 0;
+  transform-origin: 0 50%;
+  rotate: var(--bl, 0deg);
+  scale: var(--bls, 1) 1;
+}
+.mh-band-r {
+  right: 0;
+  transform-origin: 100% 50%;
+  rotate: var(--br, 0deg);
+  scale: var(--brs, 1) 1;
+}
+/* 72% wide (so 54% of the width tall); the knot sits 36% down the drawing, centred on the band */
+.mh-bow {
+  position: absolute;
+  left: 14%;
+  width: 72%;
+  top: calc(56% - var(--bw) * 0.194);
+  transform-origin: 50% 36%;
+  translate: var(--px, 0px) var(--py, 0px);
+  rotate: var(--pr, 0deg);
+  filter: drop-shadow(0 5px 6px rgba(96, 70, 30, 0.28));
+}
+.mh-bow-in {
+  transform-origin: 50% 36%;
+}
+.mh-bow svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.mh-bow .bw-loop-l,
+.mh-bow .bw-loop-r,
+.mh-bow .bw-knot,
+.mh-bow .bw-tail-l,
+.mh-bow .bw-tail-r {
+  transform-box: view-box;
+  transform-origin: 200px 108px;
+}
+/* the tails stretch toward a pulling finger */
+.mh-env[data-state="closed"] .bw-tail-r {
+  transform: rotate(var(--tail, 0deg)) scale(1, var(--tails, 1));
+}
+.mh-env[data-state="closed"] .bw-tail-l {
+  transform: rotate(calc(var(--tail, 0deg) * 0.6)) scale(1, var(--tails, 1));
+}
+/* let go: the satin springs back to the knot */
+.mh-env:not([data-drag]) :is(.mh-band, .mh-bow) {
+  transition:
+    rotate 0.75s cubic-bezier(0.3, 1.45, 0.5, 1),
+    translate 0.75s cubic-bezier(0.3, 1.45, 0.5, 1),
+    scale 0.75s cubic-bezier(0.3, 1.45, 0.5, 1);
+}
+.mh-env:not([data-drag]) :is(.bw-tail-l, .bw-tail-r) {
+  transition: transform 0.75s cubic-bezier(0.3, 1.45, 0.5, 1);
+}
+
+/* the fingertip: a soft press into the paper where the guest touched */
+.mh-touch {
+  position: absolute;
+  width: 84px;
+  height: 84px;
+  margin: -42px 0 0 -42px;
+  border-radius: 50%;
+  display: block;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(110, 80, 40, 0.16), rgba(110, 80, 40, 0.06) 55%, rgba(110, 80, 40, 0) 100%);
+  animation: mh-touch 760ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+@keyframes mh-touch {
+  0% {
+    opacity: 0;
+    scale: 0.4;
+  }
+  18% {
+    opacity: 1;
+    scale: 0.7;
+  }
+  100% {
+    opacity: 0;
+    scale: 1.25;
+  }
+}
+
+/* --- at rest: held in the hand, the bow inviting a touch ------------ */
+.mh-env[data-state="closed"] .mh-env-3d {
+  animation: mh-hold 9s ease-in-out infinite;
+}
+@keyframes mh-hold {
+  0%,
+  100% {
+    transform: perspective(1600px) rotateX(0.7deg) rotateY(-0.9deg) scale(1.03);
+  }
+  50% {
+    transform: perspective(1600px) rotateX(-0.6deg) rotateY(0.9deg) scale(1.03);
+  }
+}
+.mh-env[data-state="closed"] .mh-bow-in {
+  animation: mh-bow-idle 3.6s ease-in-out 1.2s infinite;
+}
+@keyframes mh-bow-idle {
+  0%,
+  100% {
+    scale: 1;
+    rotate: 0deg;
+  }
+  50% {
+    scale: 1.025;
+    rotate: 0.6deg;
+  }
+}
+.mh-env[data-state="closed"] .mh-print-tap {
+  animation: mh-hint 3.6s ease-in-out 1.2s infinite;
+}
+@keyframes mh-hint {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* --- Opening (ms after the tap or the pull) --------------------------
+   0-150      the fingertip presses; the bow gives a little
+   150-850    one tail is drawn out, its loop slips through under tension
+   850-1200   the knot gives: the other loop follows, the bow rocks free
+   1100-2300  the satin flutters down, lands and crumples away
+   2150-3550  the left door is lifted at its edge, swung open, settles
+   2550-3950  the right door                3650-4780 the inner flaps
+   3700-5300  the photograph comes into focus as the camera moves through
+   4450-5050  the paper dissolves; the scene arrives at 5100
+   The pulled side is data-pull ("r" by default; "l" when pulled left): --dir mirrors it. */
+.mh-env[data-pull="r"] {
+  --dir: 1;
+}
+.mh-env[data-pull="l"] {
+  --dir: -1;
+}
+.mh-env[data-state="opening"] {
+  pointer-events: none;
+  animation: mh-dissolve 600ms ease-in 4450ms both;
+}
+.mh-env[data-state="opening"] .mh-env-3d {
+  animation: mh-camera 5100ms both;
+}
+.mh-env[data-state="opening"] .mh-bow-in {
+  animation: mh-untie 2400ms both;
+}
+.mh-env[data-state="opening"] .mh-band-l i {
+  animation: mh-band-fall-l 2400ms both;
+}
+.mh-env[data-state="opening"] .mh-band-r i {
+  animation: mh-band-fall-r 2400ms both;
+}
+/* the pulled side goes first and slowly; the other loop follows fast once the knot gives */
+.mh-env[data-state="opening"][data-pull="r"] .bw-loop-r,
+.mh-env[data-state="opening"][data-pull="l"] .bw-loop-l {
+  animation: var(--first-loop) 700ms cubic-bezier(0.6, 0, 0.85, 0.3) 260ms both;
+}
+.mh-env[data-state="opening"][data-pull="r"] .bw-loop-l,
+.mh-env[data-state="opening"][data-pull="l"] .bw-loop-r {
+  animation: var(--second-loop) 320ms cubic-bezier(0.5, 0, 0.9, 0.5) 880ms both;
+}
+.mh-env[data-pull="r"] {
+  --first-loop: mh-slip-r;
+  --second-loop: mh-slip-l;
+}
+.mh-env[data-pull="l"] {
+  --first-loop: mh-slip-l;
+  --second-loop: mh-slip-r;
+}
+.mh-env[data-state="opening"] .bw-knot {
+  animation: mh-knot 360ms ease-in 900ms both;
+}
+.mh-env[data-state="opening"][data-pull="r"] .bw-tail-r {
+  animation: mh-tail-drawn-r 1100ms both;
+}
+.mh-env[data-state="opening"][data-pull="r"] .bw-tail-l {
+  animation: mh-tail-free-l 1400ms ease-in-out 700ms both;
+}
+.mh-env[data-state="opening"][data-pull="l"] .bw-tail-l {
+  animation: mh-tail-drawn-l 1100ms both;
+}
+.mh-env[data-state="opening"][data-pull="l"] .bw-tail-r {
+  animation: mh-tail-free-r 1400ms ease-in-out 700ms both;
+}
+.mh-env[data-state="opening"] .mh-print-tap {
+  transition: opacity 0.4s;
+  opacity: 0;
+}
+.mh-env[data-state="opening"] .mh-door-l {
+  animation: mh-door-l 1400ms 2150ms both;
+}
+.mh-env[data-state="opening"] .mh-door-r {
+  animation: mh-door-r 1400ms 2550ms both;
+}
+.mh-env[data-state="opening"] .mh-door-l .front::before {
+  animation: mh-appear 1200ms ease-in 2350ms both;
+}
+.mh-env[data-state="opening"] .mh-door-r .front::before {
+  animation: mh-appear 1200ms ease-in 2750ms both;
+}
+.mh-env[data-state="opening"] .mh-dshadow-l {
+  animation: mh-dshadow 1400ms ease-in-out 2150ms both;
+}
+.mh-env[data-state="opening"] .mh-dshadow-r {
+  animation: mh-dshadow 1400ms ease-in-out 2550ms both;
+}
+.mh-env[data-state="opening"] .mh-ishade {
+  animation: mh-fade 400ms ease-out 3650ms both;
+}
+.mh-env[data-state="opening"] .mh-iflap-l {
+  animation: mh-if-l 900ms 3650ms both;
+}
+.mh-env[data-state="opening"] .mh-iflap-r {
+  animation: mh-if-r 900ms 3730ms both;
+}
+.mh-env[data-state="opening"] .mh-iflap-t {
+  animation: mh-if-t 900ms 3820ms both;
+}
+.mh-env[data-state="opening"] .mh-iflap-b {
+  animation: mh-if-b 900ms 3880ms both;
+}
+
+/* the bow under the thumb, rocked by the pull, then let go to fall like light fabric (drag, not gravity) */
+@keyframes mh-untie {
+  0% {
+    scale: 1;
+    rotate: 0deg;
+    translate: 0 0;
+    opacity: 1;
+    animation-timing-function: ease-out;
+  }
+  6% {
+    scale: 0.975;
+    animation-timing-function: ease-in-out;
+  }
+  12% {
+    scale: 1;
+    rotate: 0deg;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.7, 0.4);
+  }
+  35% {
+    rotate: calc(4deg * var(--dir));
+    scale: 1.01;
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+  41% {
+    rotate: calc(-2.5deg * var(--dir));
+    scale: 1;
+  }
+  46% {
+    rotate: calc(1deg * var(--dir));
+    translate: 0 0;
+    animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+  }
+  60% {
+    rotate: calc(6deg * var(--dir));
+    translate: calc(-4px * var(--dir)) calc(var(--fall) * 0.34);
+  }
+  70% {
+    rotate: calc(-2deg * var(--dir));
+    translate: calc(3px * var(--dir)) calc(var(--fall) * 0.7);
+    animation-timing-function: cubic-bezier(0.3, 0.2, 0.5, 1);
+  }
+  80% {
+    rotate: calc(4deg * var(--dir));
+    translate: 0 var(--fall);
+    scale: 1;
+    animation-timing-function: ease-out;
+  }
+  86% {
+    scale: 1.04 0.7;
+  }
+  93% {
+    opacity: 1;
+  }
+  100% {
+    rotate: calc(4deg * var(--dir));
+    translate: 0 var(--fall);
+    scale: 1 0.72;
+    opacity: 0;
+  }
+}
+/* a loop slipping through the knot: it narrows along its length toward the centre */
+@keyframes mh-slip-r {
+  to {
+    transform: rotate(-38deg) scale(0.12, 0.45);
+    opacity: 0;
+  }
+}
+@keyframes mh-slip-l {
+  to {
+    transform: rotate(38deg) scale(0.12, 0.45);
+    opacity: 0;
+  }
+}
+@keyframes mh-knot {
+  to {
+    transform: scale(0.35, 0.6);
+    opacity: 0;
+  }
+}
+/* the drawn tail: pulled out under rising tension, then slack the instant the knot gives */
+@keyframes mh-tail-drawn-r {
+  0% {
+    transform: rotate(0deg) scale(1, 1);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.75, 0.5);
+  }
+  74% {
+    transform: rotate(-16deg) scale(1, 1.32);
+    animation-timing-function: cubic-bezier(0.2, 0.8, 0.3, 1);
+  }
+  88% {
+    transform: rotate(5deg) scale(1, 1.08);
+  }
+  100% {
+    transform: rotate(2deg) scale(1, 1.1);
+  }
+}
+@keyframes mh-tail-drawn-l {
+  0% {
+    transform: rotate(0deg) scale(1, 1);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.75, 0.5);
+  }
+  74% {
+    transform: rotate(16deg) scale(1, 1.32);
+    animation-timing-function: cubic-bezier(0.2, 0.8, 0.3, 1);
+  }
+  88% {
+    transform: rotate(-5deg) scale(1, 1.08);
+  }
+  100% {
+    transform: rotate(-2deg) scale(1, 1.1);
+  }
+}
+/* the free tail swings loose as the bow falls */
+@keyframes mh-tail-free-l {
+  35% {
+    transform: rotate(9deg) scale(1, 1.06);
+  }
+  70% {
+    transform: rotate(-4deg) scale(1, 1.1);
+  }
+  100% {
+    transform: rotate(3deg) scale(1, 1.12);
+  }
+}
+@keyframes mh-tail-free-r {
+  35% {
+    transform: rotate(-9deg) scale(1, 1.06);
+  }
+  70% {
+    transform: rotate(4deg) scale(1, 1.1);
+  }
+  100% {
+    transform: rotate(-3deg) scale(1, 1.12);
+  }
+}
+/* each half of the band goes slack, ripples as it drifts down, and folds on landing */
+@keyframes mh-band-fall-l {
+  0%,
+  35% {
+    rotate: 0deg;
+    translate: 0 0;
+    scale: 1;
+    transform: skewX(0deg);
+    opacity: 1;
+    animation-timing-function: ease-in;
+  }
+  41% {
+    rotate: 3deg;
+    translate: 0 2px;
+    transform: skewX(-4deg);
+  }
+  46% {
+    rotate: 2deg;
+    translate: 0 6px;
+    animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+  }
+  60% {
+    rotate: 6deg;
+    translate: -3px calc(var(--fall) * 0.34);
+    transform: skewX(5deg);
+  }
+  70% {
+    rotate: 4deg;
+    translate: 2px calc(var(--fall) * 0.7);
+    transform: skewX(-3deg);
+    animation-timing-function: cubic-bezier(0.3, 0.2, 0.5, 1);
+  }
+  80% {
+    rotate: 7deg;
+    translate: 0 var(--fall);
+    scale: 1;
+    transform: skewX(2deg);
+    animation-timing-function: ease-out;
+  }
+  86% {
+    scale: 0.92 0.5;
+  }
+  93% {
+    opacity: 1;
+  }
+  100% {
+    rotate: 7deg;
+    translate: 0 var(--fall);
+    scale: 0.9 0.5;
+    transform: skewX(0deg);
+    opacity: 0;
+  }
+}
+@keyframes mh-band-fall-r {
+  0%,
+  35% {
+    rotate: 0deg;
+    translate: 0 0;
+    scale: 1;
+    transform: skewX(0deg);
+    opacity: 1;
+    animation-timing-function: ease-in;
+  }
+  41% {
+    rotate: -3deg;
+    translate: 0 2px;
+    transform: skewX(4deg);
+  }
+  46% {
+    rotate: -2deg;
+    translate: 0 6px;
+    animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+  }
+  60% {
+    rotate: -6deg;
+    translate: 3px calc(var(--fall) * 0.34);
+    transform: skewX(-5deg);
+  }
+  70% {
+    rotate: -4deg;
+    translate: -2px calc(var(--fall) * 0.7);
+    transform: skewX(3deg);
+    animation-timing-function: cubic-bezier(0.3, 0.2, 0.5, 1);
+  }
+  80% {
+    rotate: -7deg;
+    translate: 0 var(--fall);
+    scale: 1;
+    transform: skewX(-2deg);
+    animation-timing-function: ease-out;
+  }
+  86% {
+    scale: 0.92 0.5;
+  }
+  93% {
+    opacity: 1;
+  }
+  100% {
+    rotate: -7deg;
+    translate: 0 var(--fall);
+    scale: 0.9 0.5;
+    transform: skewX(0deg);
+    opacity: 0;
+  }
+}
+/* a door: the fingertip lifts its edge, a breath, then it swings with a slight flex and settles back */
+@keyframes mh-door-l {
+  0% {
+    transform: perspective(1600px) rotateY(0deg) skewY(0deg);
+    animation-timing-function: cubic-bezier(0.3, 0, 0.4, 1);
+  }
+  15% {
+    transform: perspective(1600px) rotateY(-9deg) skewY(0.6deg);
+    animation-timing-function: ease-in-out;
+  }
+  23% {
+    transform: perspective(1600px) rotateY(-11deg) skewY(0.8deg);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.12, 1);
+  }
+  86% {
+    transform: perspective(1600px) rotateY(-177deg) skewY(-0.4deg);
+    animation-timing-function: ease-in-out;
+  }
+  100% {
+    transform: perspective(1600px) rotateY(-172deg) skewY(0deg);
+  }
+}
+@keyframes mh-door-r {
+  0% {
+    transform: perspective(1600px) rotateY(0deg) skewY(0deg);
+    animation-timing-function: cubic-bezier(0.3, 0, 0.4, 1);
+  }
+  15% {
+    transform: perspective(1600px) rotateY(9deg) skewY(-0.6deg);
+    animation-timing-function: ease-in-out;
+  }
+  23% {
+    transform: perspective(1600px) rotateY(11deg) skewY(-0.8deg);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.12, 1);
+  }
+  86% {
+    transform: perspective(1600px) rotateY(177deg) skewY(0.4deg);
+    animation-timing-function: ease-in-out;
+  }
+  100% {
+    transform: perspective(1600px) rotateY(172deg) skewY(0deg);
+  }
+}
+/* inner flaps: a small lift, then folded back */
+@keyframes mh-if-l {
+  0% {
+    transform: perspective(1600px) rotateY(0deg);
+    animation-timing-function: ease-out;
+  }
+  18% {
+    transform: perspective(1600px) rotateY(-12deg);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.15, 1);
+  }
+  100% {
+    transform: perspective(1600px) rotateY(-165deg);
+  }
+}
+@keyframes mh-if-r {
+  0% {
+    transform: perspective(1600px) rotateY(0deg);
+    animation-timing-function: ease-out;
+  }
+  18% {
+    transform: perspective(1600px) rotateY(12deg);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.15, 1);
+  }
+  100% {
+    transform: perspective(1600px) rotateY(165deg);
+  }
+}
+@keyframes mh-if-t {
+  0% {
+    transform: perspective(1600px) rotateX(0deg);
+    animation-timing-function: ease-out;
+  }
+  18% {
+    transform: perspective(1600px) rotateX(12deg);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.15, 1);
+  }
+  100% {
+    transform: perspective(1600px) rotateX(165deg);
+  }
+}
+@keyframes mh-if-b {
+  0% {
+    transform: perspective(1600px) rotateX(0deg);
+    animation-timing-function: ease-out;
+  }
+  18% {
+    transform: perspective(1600px) rotateX(-12deg);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.15, 1);
+  }
+  100% {
+    transform: perspective(1600px) rotateX(-165deg);
+  }
+}
+@keyframes mh-dshadow {
+  0% {
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+/* a small give under the thumb, the card held still while it opens, then a slow move through it */
+@keyframes mh-camera {
+  0% {
+    transform: perspective(1600px) scale(1.03);
+    animation-timing-function: cubic-bezier(0.33, 0, 0.2, 1);
+  }
+  3% {
+    transform: perspective(1600px) scale(1.018);
+    animation-timing-function: cubic-bezier(0.33, 0, 0.2, 1);
+  }
+  70% {
+    transform: perspective(1600px) scale(1);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.2, 1);
+  }
+  100% {
+    transform: perspective(1600px) scale(1.12);
+  }
+}
+@keyframes mh-dissolve {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes mh-fade {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes mh-appear {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes mh-shock {
+  0% {
+    opacity: 0.95;
+    scale: 0.7;
+  }
+  100% {
+    opacity: 0;
+    scale: 2.8;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Hero: the owner's photograph, welcome set in its sky                */
+/* ------------------------------------------------------------------ */
+
+.mh-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 52% 50%;
+}
+/* --t0 on the hero is when the photograph starts to come through: 3700ms into the drawn envelope, or the
+   moment a film hands over */
+.mh-hero:not([data-play]) .mh-photo {
+  scale: 1.12;
+  filter: blur(7px) brightness(1.1);
+}
+.mh-hero[data-play] .mh-photo {
+  animation:
+    mh-settle 3200ms var(--mh-ease-out) var(--t0) both,
+    mh-focus 1600ms cubic-bezier(0.3, 0, 0.2, 1) var(--t0) both,
+    mh-drift 22s ease-in-out calc(var(--t0) + 3200ms) infinite alternate;
+}
+/* rests slightly enlarged so the slow drift never shows an edge */
+@keyframes mh-settle {
+  from {
+    scale: 1.12;
+  }
+  to {
+    scale: 1.04;
+  }
+}
+/* the photograph comes into focus as the paper leaves it */
+@keyframes mh-focus {
+  from {
+    filter: blur(7px) brightness(1.1);
+  }
+  to {
+    filter: blur(0) brightness(1);
+  }
+}
+@keyframes mh-drift {
+  to {
+    translate: -1.6% -1%;
+  }
+}
+/* light in the sky for the lettering, and a long fade of the floor into the page */
+.mh-photo-veil {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(70% 34% at 50% 22%, rgba(255, 244, 228, 0.62), rgba(255, 244, 228, 0) 70%),
+    linear-gradient(180deg, rgba(245, 236, 223, 0) 64%, rgba(245, 236, 223, 0.85) 86%, var(--mh-ground) 99%);
+}
+
+.mh-welcome-block {
+  position: absolute;
+  z-index: 3;
+  left: 22%;
+  right: 0;
+  top: calc(9% + env(safe-area-inset-top, 0px));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #5a3618;
+  text-shadow: 0 0 22px rgba(255, 243, 226, 0.9);
+}
+.mh-welcome-small {
+  margin: 0;
+  font-style: italic;
+  font-size: 17px;
+  letter-spacing: 0.04em;
+}
+.mh-welcome-script {
+  margin: 2px 0 0;
+  font-family: var(--mh-script);
+  font-size: clamp(34px, 10vw, 46px);
+  line-height: 1.05;
+}
+.mh-welcome-block .mh-divider {
+  margin: 6px 0 2px;
+  color: #8a6128;
+}
+.mh-hero-name {
+  /* room for the script's swashes inside the handwriting mask */
+  margin: -0.2em -0.3em;
+  padding: 0.2em 0.3em;
+  font-family: var(--mh-script);
+  font-weight: 400;
+  line-height: 0.95;
+  color: #4f2f12;
+}
+.mh-hero-name-2 {
+  margin-left: calc(18% - 0.3em);
+}
+.mh-amp {
+  font-family: var(--mh-serif);
+  font-style: italic;
+  font-size: 0.42em;
+  color: #8a6128;
+  vertical-align: 0.35em;
+}
+.mh-hero:not([data-play]) .mh-line {
+  opacity: 0;
+}
+.mh-hero[data-play] .mh-line {
+  animation: mh-text 1500ms var(--mh-ease-out) both;
+  animation-delay: calc(var(--t0) + 400ms + var(--i, 0) * 110ms);
+}
+@keyframes mh-text {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+.mh-hero-spray {
+  position: absolute;
+  bottom: -2%;
+  width: 46%;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+.mh-hero-spray.l {
+  left: -10%;
+  transform: scaleX(-1) rotate(-12deg);
+}
+.mh-hero-spray.r {
+  right: -10%;
+  transform: rotate(-12deg);
+}
+
+.mh-cue {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: max(20px, env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-family: var(--mh-script);
+  font-size: 24px;
+  color: #6a4818;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+}
+.mh-hero[data-play] .mh-cue {
+  animation: mh-text 1000ms var(--mh-ease-out) calc(var(--t0) + 900ms) both;
+}
+.mh-cue svg {
+  animation: mh-bob 2s ease-in-out infinite;
+}
+@keyframes mh-bob {
+  50% {
+    translate: 0 5px;
+  }
+}
+
+/* Music: a gold coin at the bottom-right of the column */
+.mh-music {
+  position: fixed;
+  z-index: 20;
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  right: calc(max(0px, (100vw - 480px) / 2) + 16px);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #4a331b;
+  background: radial-gradient(circle at 35% 30%, #fff3c8, #e7c77c 55%, #b48a3e);
+  box-shadow:
+    0 6px 16px -6px rgba(74, 51, 27, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -2px 4px rgba(120, 84, 30, 0.35);
+  animation: mh-text 800ms var(--mh-ease-out) both;
+  transition:
+    opacity 0.35s ease,
+    scale 0.35s var(--mh-ease-out);
+}
+/* while the guest scrolls, the coin steps back from the content beneath it */
+.mh-music[data-scrolling] {
+  opacity: 0.4;
+  scale: 0.86;
+}
+.mh-music:focus-visible {
+  outline: 2px solid var(--mh-gold-deep);
+  outline-offset: 3px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Sections                                                            */
+/* ------------------------------------------------------------------ */
+
+.mh-sec {
+  position: relative;
+  padding: 72px 24px;
+  text-align: center;
+}
+.mh-sec + .mh-sec {
+  padding-top: 24px;
+}
+
+.mh-h {
+  font-size: 30px;
+  line-height: 1.12;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+  margin: 0;
+}
+.mh-p {
+  font-size: 18px;
+  line-height: 1.62;
+  color: var(--mh-ink);
+  margin: 0;
+  text-wrap: pretty;
+}
+.mh-muted {
+  color: var(--mh-ink-soft);
+}
+
+.mh-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--mh-gold);
+  margin: 26px 0;
+}
+.mh-rule i {
+  width: 54px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, currentColor);
+}
+.mh-rule i:last-child {
+  background: linear-gradient(270deg, transparent, currentColor);
+}
+
+/* Pointed-arch panel whose gold outline draws itself in view */
+.mh-spray-top {
+  left: 50%;
+  top: 18px;
+  translate: -50% 0;
+  width: 112px !important;
+}
+/* lower sprays sit inside the gilt edge, leaning into the corners */
+.mh-spray-l {
+  left: 16px;
+  rotate: 18deg;
+  transform-origin: 50% 100%;
+}
+.mh-spray-r {
+  right: 16px;
+  rotate: -18deg;
+  transform-origin: 50% 100%;
+}
+
+.mh-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%; /* size-contained tiles have no intrinsic width to shrink-wrap */
+  max-width: 360px;
+  margin: 0 auto;
+}
+.mh-tile {
+  container-type: inline-size;
+  border-radius: 14px;
+  padding: 14px 4px 11px;
+  background: linear-gradient(165deg, #fbefcf, #ebcd8c 70%, #dcb46a);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 0 0 1px rgba(176, 134, 54, 0.35),
+    0 10px 22px -14px rgba(120, 84, 30, 0.6);
+}
+.mh-tile b {
+  display: block;
+  font-size: min(32px, 38cqi);
+  line-height: 1;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--mh-ink);
+}
+.mh-tile small {
+  display: block;
+  margin-top: 6px;
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #6a4f2c;
+}
+
+.mh-map {
+  display: block;
+  width: 100%;
+  max-width: 330px;
+  margin: 30px auto 0;
+  height: auto;
+}
+
+.mh-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 50px;
+  padding: 0 22px;
+  border-radius: 999px;
+  font-family: var(--mh-serif);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #3f2a12;
+  background: linear-gradient(170deg, #f8e4ad, #dcb466 60%, #c59a4a);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    inset 0 0 0 1px rgba(143, 106, 42, 0.45),
+    0 10px 20px -12px rgba(120, 84, 30, 0.7);
+  transition:
+    transform 0.25s var(--mh-ease-out),
+    box-shadow 0.25s;
+}
+.mh-btn:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 0 0 1px rgba(143, 106, 42, 0.55),
+    0 14px 26px -12px rgba(120, 84, 30, 0.75);
+}
+.mh-btn:active {
+  transform: scale(0.97);
+}
+.mh-btn:disabled {
+  opacity: 0.55;
+}
+.mh-btn:focus-visible,
+.mh-ghost:focus-visible,
+.mh-choice:focus-visible {
+  outline: 2px solid var(--mh-gold-deep);
+  outline-offset: 3px;
+}
+.mh-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 50px;
+  padding: 0 20px;
+  border-radius: 999px;
+  font-family: var(--mh-serif);
+  font-size: 15px;
+  color: var(--mh-ink);
+  box-shadow: inset 0 0 0 1px var(--mh-line);
+  background: rgba(255, 252, 244, 0.5);
+}
+
+.mh-field {
+  display: block;
+  width: 100%;
+  min-height: 52px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--mh-line);
+  background: #fffcf5;
+  color: var(--mh-ink);
+  font-family: var(--mh-serif);
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.mh-field::placeholder {
+  color: #8f7a63;
+}
+.mh-field:focus {
+  outline: none;
+  border-color: var(--mh-gold);
+  box-shadow: 0 0 0 4px rgba(239, 217, 160, 0.45);
+}
+.mh-choice {
+  min-height: 52px;
+  border-radius: 14px;
+  border: 1px solid var(--mh-line);
+  background: #fffcf5;
+  font-family: var(--mh-serif);
+  font-size: 15.5px;
+  color: var(--mh-ink);
+  transition:
+    background 0.25s,
+    color 0.25s,
+    border-color 0.25s;
+}
+.mh-choice[aria-pressed="true"] {
+  background: linear-gradient(170deg, #f8e4ad, #dcb466);
+  border-color: var(--mh-gold);
+  color: #3f2a12;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* the card simply fades to the scene */
+  .mh-env[data-state="opening"] * {
+    animation: none !important;
+  }
+  .mh-env[data-state="opening"] {
+    animation: mh-dissolve 400ms ease-in both !important;
+  }
+  .mh-cue svg {
+    animation: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Wax seal photograph with pressed initials                           */
+/* ------------------------------------------------------------------ */
+
+.mh-wax {
+  position: relative;
+  display: block;
+  filter: drop-shadow(0 6px 10px rgba(80, 52, 20, 0.28));
+}
+.mh-wax img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.mh-wax-mono {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  display: flex;
+  align-items: center;
+  gap: 0.18em;
+  font-family: var(--mh-script);
+  line-height: 1;
+  max-width: 44%;
+  justify-content: center;
+  /* gold leaf in the impression, multiplied into the wax so it reads as pressed, not printed */
+  color: #a77b34;
+  mix-blend-mode: multiply;
+}
+.mh-wax-mono i {
+  width: 0.12em;
+  height: 0.12em;
+  border-radius: 50%;
+  background: #b88c3e;
+}
+.mh-closing-seal {
+  margin: 0 auto;
+}
+
+/* ------------------------------------------------------------------ */
+/* Sections in the reference's order                                   */
+/* ------------------------------------------------------------------ */
+
+.mh-script-h {
+  margin: 0;
+  font-family: var(--mh-script);
+  font-weight: 400;
+  font-size: clamp(44px, 12.5vw, 56px);
+  line-height: 1.05;
+  color: #9a6e2e;
+  text-wrap: balance;
+}
+.mh-hint-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 8px 0 0;
+  font-size: 15px;
+  color: var(--mh-ink-soft);
+}
+.mh-hint-line svg {
+  color: #b8924a;
+}
+
+.mh-scratch-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 360px;
+  margin: 28px auto 0;
+}
+.mh-scratch {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+}
+.mh-scratch-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 14px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(160deg, #fffaf0, #f3e6cd);
+  box-shadow:
+    inset 0 0 0 1px rgba(184, 146, 74, 0.45),
+    0 14px 26px -16px rgba(110, 76, 26, 0.65);
+  outline: none;
+}
+.mh-scratch-card:focus-visible {
+  box-shadow:
+    0 0 0 2px var(--mh-ground),
+    0 0 0 4px var(--mh-gold-deep);
+}
+.mh-scratch-value {
+  font-size: clamp(20px, 6.4vw, 28px);
+  font-weight: 500;
+  color: #8a6128;
+}
+.mh-scratch-foil {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: grab;
+  transition: opacity 0.7s var(--mh-ease-out);
+}
+.mh-scratch-card[data-revealed="true"] .mh-scratch-foil {
+  opacity: 0;
+  pointer-events: none;
+}
+.mh-scratch-label {
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--mh-ink-soft);
+}
+/* collapsed until all three dates are scratched, so the page holds no empty band */
+.mh-after-date {
+  display: grid;
+  grid-template-rows: 1fr;
+  margin-top: 26px;
+  transition:
+    grid-template-rows 0.9s var(--mh-ease-out),
+    margin-top 0.9s var(--mh-ease-out),
+    opacity 0.9s var(--mh-ease-out) 0.2s;
+}
+.mh-after-date-inner {
+  display: grid;
+  gap: 18px;
+  min-height: 0;
+  overflow: hidden;
+  padding-bottom: 18px;
+}
+.mh-after-date[data-shown="true"] .mh-after-date-inner {
+  overflow: visible; /* the clip only serves the collapse; open, it would cut the tiles' shadows */
+}
+.mh-after-date[data-shown="false"] {
+  grid-template-rows: 0fr;
+  margin-top: 0;
+  opacity: 0;
+}
+
+/* the invitation card: shared by the first screen and its miniature in the envelope */
+.mh-card {
+  position: relative;
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  /* clip, not hidden: a clipped box keeps its content-based minimum height, so the card can grow */
+  overflow: hidden;
+  overflow: clip;
+}
+.mh-card-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+/* the card's paper: the envelope's own embossed stock, quietened where the type sits */
+.mh-card {
+  background:
+    radial-gradient(60% 56% at 50% 50%, rgba(252, 248, 240, 0.93), rgba(252, 248, 240, 0.72) 70%, rgba(252, 248, 240, 0.3) 100%),
+    var(--mh-art) center / cover,
+    var(--mh-paper);
+}
+/* a gold double rule, as on the closed card's seam and the map's arch */
+.mh-card::before {
+  content: "";
+  position: absolute;
+  inset: 3.4cqi;
+  border: 1px solid rgba(176, 134, 54, 0.75);
+  outline: 0.5px solid rgba(176, 134, 54, 0.55);
+  outline-offset: -1.3cqi;
+  pointer-events: none;
+  z-index: 1;
+}
+/* the scene's roses, tucked into two corners; multiplied onto the card's own paper */
+.mh-card-spray {
+  position: absolute;
+  width: 40%;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  transition: clip-path 1.6s var(--mh-ease-out) 0.9s;
+}
+.mh-card-spray.tl {
+  left: -9%;
+  top: -8%;
+  rotate: 8deg;
+}
+.mh-card-spray.br {
+  right: -9%;
+  bottom: -8%;
+  rotate: 188deg;
+}
+
+/* a real card lying on the page */
+.mh-sec-card {
+  padding-inline: 12px;
+}
+.mh-card--section {
+  width: calc(100% - 20px);
+  max-width: 420px;
+  margin: 0 auto;
+  aspect-ratio: 3 / 5;
+  border-radius: 4px;
+  box-shadow:
+    0 1px 2px rgba(80, 56, 24, 0.18),
+    0 22px 40px -22px rgba(80, 56, 24, 0.55);
+}
+
+/* the type, centred between the two sprays. Sizes are shares of the card's width (1cqi = 6 units of 600)
+   with a legible floor; on the narrowest phones the card grows taller (aspect-ratio yields to content)
+   rather than letting the type shrink */
+.mh-card-text {
+  position: relative;
+  margin-block: auto;
+  padding: 11% 16% 10%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--mh-ink-soft);
+}
+.mh-card-text > * {
+  margin: 0;
+}
+.mh-card .mh-bismillah {
+  margin-bottom: 1.6cqi;
+  font-family: "Amiri", "Noto Naskh Arabic", serif;
+  font-size: 15px;
+  font-size: max(13px, 4cqi);
+  line-height: 1.4;
+  color: #9a6e2e;
+}
+.mh-verse {
+  font-style: italic;
+  font-size: 10.5px;
+  font-size: max(10px, 2.8cqi);
+  line-height: 1.55;
+  color: var(--mh-ink-soft);
+}
+.mh-verse span,
+.mh-card-caps span,
+.mh-card-addr span {
+  display: block;
+}
+.mh-verse .mh-verse-ref {
+  margin-top: 0.7em;
+  font-style: normal;
+  font-size: max(8.5px, 2.2cqi);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #9a7a48;
+}
+.mh-card .mh-card-rule {
+  width: 34cqi;
+  margin: 3.4cqi 0;
+  color: #b8924a;
+}
+.mh-card .mh-card-rule svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.mh-card-caps {
+  font-size: 9px;
+  font-size: max(9px, 2.4cqi);
+  line-height: 1.75;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mh-ink-soft);
+}
+.mh-card-name {
+  margin-top: 1.2cqi !important;
+  font-family: var(--mh-script);
+  font-size: 42px;
+  font-size: max(34px, 11.5cqi);
+  line-height: 1.02;
+  color: #4f2f12;
+}
+.mh-card-with {
+  display: flex;
+  align-items: center;
+  gap: 2.6cqi;
+  margin: 0.2cqi 0 !important;
+  font-family: var(--mh-script);
+  font-size: 24px;
+  font-size: max(20px, 6.6cqi);
+  line-height: 1;
+  color: #9a6e2e;
+}
+.mh-card-sprig {
+  width: 8.5cqi;
+  color: #b8924a;
+}
+.mh-card-invite {
+  margin-top: 2.4cqi !important;
+}
+.mh-card-date {
+  display: grid;
+  justify-items: center;
+  gap: 1.1cqi;
+}
+.mh-cd-small {
+  font-size: 9px;
+  font-size: max(9px, 2.4cqi);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--mh-ink-soft);
+}
+.mh-cd-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  width: max(170px, 50cqi);
+  font-size: 10px;
+  font-size: max(9.5px, 2.7cqi);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--mh-ink);
+}
+.mh-cd-row > span:first-child {
+  text-align: right;
+}
+.mh-cd-row > span:last-child {
+  text-align: left;
+}
+.mh-cd-row b {
+  margin: 0 3.2cqi;
+  padding: 0 3.2cqi;
+  font-weight: 400;
+  font-size: 30px;
+  font-size: max(26px, 8.4cqi);
+  line-height: 1.1;
+  font-variant-numeric: lining-nums;
+  color: #4f2f12;
+  border-inline: 1px solid rgba(184, 146, 74, 0.75);
+}
+.mh-card-venue {
+  font-size: 13px;
+  font-size: max(12.5px, 3.7cqi);
+  line-height: 1.3;
+  color: var(--mh-ink);
+}
+.mh-card-addr {
+  margin-top: 1cqi !important;
+  font-style: italic;
+  font-size: 9.5px;
+  font-size: max(9.5px, 2.6cqi);
+  line-height: 1.5;
+  color: var(--mh-ink-soft);
+}
+
+.mh-sec-message {
+  overflow: hidden;
+  padding-block: 56px 72px;
+}
+.mh-message {
+  max-width: 300px;
+  margin: 14px auto 0;
+}
+.mh-side-spray {
+  position: absolute;
+  width: 34%;
+  max-width: 170px;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  opacity: 0.9;
+}
+.mh-side-spray.l {
+  left: -15%;
+  top: 30%;
+  transform: scaleX(-1) rotate(10deg);
+}
+.mh-side-spray.r {
+  right: -15%;
+  bottom: -6%;
+  transform: rotate(10deg);
+}
+
+.mh-divider {
+  display: flex;
+  justify-content: center;
+  color: #b8924a;
+}
+.mh-divider svg {
+  max-width: 220px;
+  width: 64%;
+  height: auto;
+}
+.mh-sec-time .mh-divider {
+  margin-top: 4px;
+}
+
+.mh-timeline {
+  list-style: none;
+  margin: 26px auto 0;
+  padding: 0 0 0;
+  max-width: 400px;
+  position: relative;
+}
+.mh-timeline::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, #c9a868 6%, #c9a868 94%, transparent);
+}
+.mh-timeline li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 36px minmax(0, 1fr);
+  align-items: center;
+  padding: 10px 0;
+}
+.mh-timeline li[data-side="r"] .mh-tl-art {
+  order: 3;
+}
+.mh-timeline li[data-side="r"] .mh-tl-node {
+  order: 2;
+}
+.mh-timeline li[data-side="r"] .mh-tl-text {
+  order: 1;
+  text-align: right;
+}
+.mh-tl-art {
+  display: grid;
+  place-items: center;
+}
+.mh-tl-art img,
+.mh-tl-art svg {
+  width: 100%;
+  max-width: 150px;
+  height: auto;
+  mix-blend-mode: multiply;
+}
+.mh-tl-node {
+  display: grid;
+  place-items: center;
+  position: relative;
+  z-index: 1;
+}
+.mh-tl-node svg {
+  background: var(--mh-ground);
+  border-radius: 50%;
+}
+.mh-tl-text {
+  display: grid;
+  gap: 4px;
+  text-align: left;
+}
+.mh-tl-text time {
+  font-family: var(--mh-script);
+  font-size: 42px;
+  line-height: 1;
+  color: #9a6e2e;
+}
+.mh-tl-text span {
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.mh-closing-names {
+  margin: 8px 0 0;
+  font-family: var(--mh-script);
+  font-size: clamp(46px, 13vw, 60px);
+  line-height: 1.05;
+  color: #6a4818;
+}
+
+/* the names are written in, left to right, as the paper gives way */
+.mh-hero-name,
+.mh [data-reveal="write"] {
+  /* 250% wide, black to 40%: the first ink shows the moment the wipe starts, and it ends fully opaque */
+  -webkit-mask-image: linear-gradient(90deg, #000 40%, transparent 60%);
+  mask-image: linear-gradient(90deg, #000 40%, transparent 60%);
+  -webkit-mask-size: 250% 100%;
+  mask-size: 250% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: 0 0;
+  mask-position: 0 0;
+}
+.mh-hero[data-play] .mh-hero-name {
+  animation:
+    mh-write 1500ms cubic-bezier(0.45, 0, 0.35, 1) both,
+    mh-text 1200ms var(--mh-ease-out) both;
+  animation-delay: calc(var(--t0) + 250ms + var(--i, 0) * 120ms);
+}
+@keyframes mh-write {
+  from {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+  to {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+}
+
+/* the scene keeps living: petals, drifting light, roses moving in the air */
+.mh-petals {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+.mh-hero[data-play] .mh-hero-spray {
+  transform-origin: 50% 100%;
+  animation: mh-sway 5.5s ease-in-out infinite alternate;
+}
+.mh-hero:not([data-film]) .mh-hero-spray.r {
+  animation-delay: -2.7s !important;
+}
+/* laid exactly under a film's last frame: no entrance (the film provides it), and the drift and sway begin
+   from rest once the film has melted away, so the first live frame matches the film's last */
+.mh-hero[data-film][data-play] .mh-photo {
+  scale: none;
+  filter: none;
+  animation: mh-drift 24s ease-in-out 1.4s infinite alternate;
+}
+.mh-hero[data-film][data-play] .mh-hero-spray {
+  animation: mh-sway-rest 6s ease-in-out 1.4s infinite;
+}
+.mh-hero[data-film][data-play] .mh-hero-spray.r {
+  animation-delay: 2.2s;
+}
+@keyframes mh-sway-rest {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  25% {
+    rotate: 1.6deg;
+  }
+  75% {
+    rotate: -1.6deg;
+  }
+}
+@keyframes mh-sway {
+  from {
+    rotate: -1.6deg;
+  }
+  to {
+    rotate: 1.6deg;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Sections arrive as they scroll in                                   */
+/* ------------------------------------------------------------------ */
+
+.mh [data-reveal] {
+  transition:
+    opacity 0.8s var(--mh-ease-out) var(--d, 0ms),
+    translate 0.8s var(--mh-ease-out) var(--d, 0ms),
+    scale 1.1s var(--mh-ease-out) var(--d, 0ms),
+    filter 0.8s var(--mh-ease-out) var(--d, 0ms),
+    transform 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0ms);
+}
+.mh [data-reveal="up"]:not([data-in]) {
+  opacity: 0;
+  translate: 0 22px;
+  filter: blur(4px);
+}
+
+/* script headings are written in like the names */
+.mh [data-reveal="write"] {
+  padding-block: 0.18em;
+  margin-block: -0.18em;
+  -webkit-mask-position: 100% 0;
+  mask-position: 100% 0;
+}
+.mh [data-reveal="write"][data-in] {
+  animation: mh-write 1200ms cubic-bezier(0.5, 0, 0.3, 1) var(--d, 0ms) both;
+}
+
+/* the three date cards are dealt onto the paper */
+.mh [data-reveal="deal"] > * {
+  transition:
+    opacity 0.8s var(--mh-ease-out),
+    translate 1s cubic-bezier(0.3, 1.35, 0.5, 1),
+    rotate 1s cubic-bezier(0.3, 1.35, 0.5, 1);
+}
+.mh [data-reveal="deal"]:not([data-in]) > * {
+  opacity: 0;
+  translate: 0 38px;
+  rotate: -7deg;
+}
+.mh [data-reveal="deal"]:not([data-in]) > :nth-child(2) {
+  rotate: 2deg;
+}
+.mh [data-reveal="deal"]:not([data-in]) > :nth-child(3) {
+  rotate: 8deg;
+}
+.mh [data-reveal="deal"] > :nth-child(2) {
+  transition-delay: 0.12s;
+}
+.mh [data-reveal="deal"] > :nth-child(3) {
+  transition-delay: 0.24s;
+}
+
+/* scratched clear: the value pops and a glint crosses the card */
+.mh-scratch-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, rgba(255, 250, 230, 0) 35%, rgba(255, 250, 230, 0.85) 50%, rgba(255, 250, 230, 0) 65%);
+  background-size: 300% 100%;
+  background-position: 150% 0;
+}
+.mh-scratch-card[data-revealed="true"]::after {
+  animation: mh-glint 1100ms ease-out 150ms both;
+}
+.mh-scratch-card[data-revealed="true"] .mh-scratch-value {
+  animation: mh-pop 700ms cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+@keyframes mh-glint {
+  to {
+    background-position: -50% 0;
+  }
+}
+@keyframes mh-pop {
+  from {
+    scale: 0.82;
+  }
+  to {
+    scale: 1;
+  }
+}
+.mh-date-dust {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* the invitation card is laid down on the paper, then its foil catches the light */
+.mh [data-reveal="card"] {
+  transform-origin: 50% 100%;
+}
+.mh [data-reveal="card"]:not([data-in]) {
+  opacity: 0;
+  transform: perspective(1100px) rotateX(16deg) translateY(50px) scale(0.96);
+}
+.mh-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(105deg, rgba(255, 246, 220, 0) 40%, rgba(255, 246, 220, 0.5) 50%, rgba(255, 246, 220, 0) 60%);
+  background-size: 300% 100%;
+  background-position: 130% 0;
+}
+.mh-card[data-in]::after {
+  animation: mh-card-sheen 9s ease-in-out 2.4s infinite;
+}
+@keyframes mh-card-sheen {
+  0% {
+    background-position: 130% 0;
+  }
+  22%,
+  100% {
+    background-position: -30% 0;
+  }
+}
+/* the card's lines arrive once it has been laid down; the names are written in */
+.mh-card[data-reveal] .mh-card-text > * {
+  opacity: 0;
+}
+.mh-card[data-in] .mh-card-text > * {
+  animation: mh-text 900ms var(--mh-ease-out) both;
+  animation-delay: calc(0.4s + var(--i, 0) * 0.07s);
+}
+.mh-card[data-reveal] .mh-card-name {
+  margin-inline: -0.3em !important;
+  padding: 0.12em 0.3em;
+  -webkit-mask-image: linear-gradient(90deg, #000 40%, transparent 60%);
+  mask-image: linear-gradient(90deg, #000 40%, transparent 60%);
+  -webkit-mask-size: 250% 100%;
+  mask-size: 250% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: 100% 0;
+  mask-position: 100% 0;
+}
+.mh-card[data-in] .mh-card-name {
+  animation:
+    mh-write 1500ms cubic-bezier(0.45, 0, 0.35, 1) both,
+    mh-text 1100ms var(--mh-ease-out) both;
+  animation-delay: calc(0.55s + var(--i, 0) * 0.09s);
+}
+
+/* roses open out from the edges, then move in the air */
+/* multiplied photographs: grown up from the stem with a wipe, never faded */
+.mh [data-reveal="bloom"] .mh-side-spray {
+  transition: clip-path 1.6s var(--mh-ease-out) var(--d, 0ms);
+}
+.mh [data-reveal="bloom"]:not([data-in]) .mh-side-spray {
+  clip-path: inset(100% 0 0 0);
+}
+.mh [data-reveal="bloom"][data-in] .mh-side-spray {
+  animation: mh-sway 6s ease-in-out 1.4s infinite alternate;
+}
+
+/* the programme line is drawn down the page; each moment arrives from its side */
+.mh-timeline[data-reveal]::before {
+  transform-origin: 50% 0;
+  scale: 1 0;
+  transition: scale 2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.mh-timeline[data-in]::before {
+  scale: 1 1;
+}
+/* the art's own image moves, not its box: an ancestor's opacity would isolate the multiply blend */
+.mh-timeline li[data-reveal] > *,
+.mh-timeline li[data-reveal] .mh-tl-art > * {
+  transition:
+    opacity 0.9s var(--mh-ease-out),
+    translate 1s var(--mh-ease-out),
+    scale 0.7s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.mh-timeline li[data-reveal] .mh-tl-node {
+  transition-delay: 0.1s;
+}
+.mh-timeline li[data-reveal] .mh-tl-text {
+  transition-delay: 0.25s;
+}
+.mh-timeline li[data-reveal]:not([data-in]) .mh-tl-art > * {
+  opacity: 0;
+  translate: -28px 0;
+}
+.mh-timeline li[data-side="r"][data-reveal]:not([data-in]) .mh-tl-art > * {
+  translate: 28px 0;
+}
+/* multiplied photographs cannot fade (Chrome drops the blend mid-fade): they are drawn in with a wipe instead */
+.mh-timeline li[data-reveal] .mh-tl-art > img {
+  transition: clip-path 1.3s var(--mh-ease-out) 0.05s;
+}
+.mh-timeline li[data-reveal]:not([data-in]) .mh-tl-art > img {
+  opacity: 1;
+  translate: none;
+  clip-path: inset(0 100% 0 0);
+}
+.mh-timeline li[data-side="r"][data-reveal]:not([data-in]) .mh-tl-art > img {
+  translate: none;
+  clip-path: inset(0 0 0 100%);
+}
+.mh-timeline li[data-reveal]:not([data-in]) .mh-tl-node {
+  scale: 0;
+}
+.mh-timeline li[data-reveal]:not([data-in]) .mh-tl-text {
+  opacity: 0;
+  translate: 28px 0;
+}
+.mh-timeline li[data-side="r"][data-reveal]:not([data-in]) .mh-tl-text {
+  translate: -28px 0;
+}
+
+/* the venue pin drops onto the map */
+.mh-map[data-reveal]:not([data-in]) .mh-pin {
+  opacity: 0;
+}
+.mh-map[data-in] .mh-pin {
+  animation: mh-drop 1000ms cubic-bezier(0.3, 1.45, 0.55, 1) 500ms both;
+}
+@keyframes mh-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-70px);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* the closing seal is stamped onto the page */
+.mh-stamp {
+  position: relative;
+  width: fit-content;
+  margin: 0 auto;
+}
+.mh-stamp::after {
+  content: "";
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  border: 1.5px solid rgba(184, 146, 74, 0.6);
+  opacity: 0;
+  pointer-events: none;
+}
+.mh [data-reveal="stamp"]:not([data-in]) {
+  opacity: 0;
+}
+.mh [data-reveal="stamp"][data-in] {
+  animation: mh-stamp 900ms cubic-bezier(0.3, 0, 0.2, 1) both;
+}
+.mh [data-reveal="stamp"][data-in]::after {
+  animation: mh-shock 900ms cubic-bezier(0.15, 0.7, 0.3, 1) 480ms both;
+}
+@keyframes mh-stamp {
+  0% {
+    opacity: 0;
+    scale: 1.9;
+    filter: blur(3px);
+  }
+  55% {
+    opacity: 1;
+    scale: 0.94;
+    filter: blur(0);
+  }
+  75% {
+    scale: 1.03;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mh-env .mh-env-3d,
+  .mh-bow-in,
+  .mh-print-tap,
+  .mh-photo,
+  .mh-hero-spray,
+  .mh-side-spray,
+  .mh-card::after,
+  .mh-gift-card::after,
+  .mh-touch,
+  .mh-hero-name,
+  .mh-line,
+  .mh-stamp::after {
+    animation: none !important;
+  }
+  .mh-touch {
+    display: none;
+  }
+  .mh-hero[data-play] .mh-cue {
+    animation: none !important;
+    opacity: 1;
+  }
+  .mh-card[data-in] .mh-card-text > *,
+  .mh-card[data-in] .mh-card-name {
+    animation: none !important;
+    opacity: 1;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .mh-env :is(.mh-band, .mh-bow, .bw-tail-l, .bw-tail-r) {
+    transition: none !important;
+  }
+  .mh-hero-name {
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+  }
+  .mh [data-reveal="bloom"] .mh-side-spray {
+    clip-path: none !important;
+  }
+  .mh [data-reveal],
+  .mh [data-reveal] > *,
+  .mh [data-reveal] .mh-card-text > *,
+  .mh [data-reveal] .mh-tl-art > *,
+  .mh [data-reveal] .mh-tl-node,
+  .mh [data-reveal] .mh-tl-text,
+  .mh [data-reveal] .mh-pin,
+  .mh-timeline[data-reveal]::before {
+    clip-path: none !important;
+    opacity: 1 !important;
+    translate: none !important;
+    rotate: none !important;
+    scale: none !important;
+    filter: none !important;
+    transform: none !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* To‘yana: the couple's card for gifts                                */
+/* ------------------------------------------------------------------ */
+
+.mh-gift {
+  max-width: 340px;
+  margin: 26px auto 0;
+}
+/* a foil-stamped card on cream stock: no bank colours, only the invitation's own gold */
+.mh-gift-card {
+  position: relative;
+  aspect-ratio: 1.586;
+  border-radius: 16px;
+  padding: 0 22px;
+  text-align: left;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(255, 252, 244, 0.9), rgba(255, 252, 244, 0) 60%),
+    linear-gradient(150deg, #f8eedb, #ecdab6 55%, #e2c993);
+  box-shadow:
+    inset 0 0 0 1px rgba(176, 134, 54, 0.45),
+    inset 0 0 0 6px rgba(255, 250, 238, 0.35),
+    0 18px 34px -20px rgba(96, 70, 30, 0.7);
+}
+.mh-gift-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(105deg, rgba(255, 250, 235, 0) 40%, rgba(255, 250, 235, 0.4) 50%, rgba(255, 250, 235, 0) 60%);
+  background-size: 300% 100%;
+  background-position: 130% 0;
+}
+.mh-gift[data-in] .mh-gift-card::after {
+  animation: mh-card-sheen 7s ease-in-out 1.1s infinite;
+}
+.mh-gift-chip {
+  position: absolute;
+  left: 22px;
+  top: 26%;
+  width: 38px;
+  height: 28px;
+  border-radius: 6px;
+  background:
+    linear-gradient(90deg, transparent 32%, rgba(120, 84, 30, 0.35) 32% 34%, transparent 34% 66%, rgba(120, 84, 30, 0.35) 66% 68%, transparent 68%),
+    linear-gradient(0deg, transparent 46%, rgba(120, 84, 30, 0.35) 46% 54%, transparent 54%),
+    linear-gradient(135deg, #f6dfa4, #c99a4c 55%, #e9cc86);
+  box-shadow: inset 0 0 0 1px rgba(120, 84, 30, 0.35);
+}
+.mh-gift-net {
+  position: absolute;
+  right: 22px;
+  top: 22%;
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  color: #8a6128;
+}
+.mh-gift-number {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  top: 52%;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: clamp(19px, 6.4vw, 24px);
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: 0.04em;
+  color: #4a331b;
+  text-shadow: 0 1px 0 rgba(255, 250, 236, 0.8);
+}
+.mh-gift-holder {
+  position: absolute;
+  left: 22px;
+  bottom: 14%;
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6a4f2c;
+}
+.mh-gift-copy {
+  width: 100%;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}

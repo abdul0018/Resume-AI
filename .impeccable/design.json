@@ -1,0 +1,1018 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-24T03:30:00Z",
+  "title": "Design System: Oltin muhr",
+  "extensions": {
+    "colorMeta": {
+      "gold-deep": {
+        "role": "primary",
+        "displayName": "Antique Gold Leaf",
+        "canonical": "#8f6a2a",
+        "oklch": "oklch(54.9% 0.093 78.2)",
+        "tonalRamp": [
+          "#140800",
+          "#372100",
+          "#5e3e00",
+          "#835f1d",
+          "#a88243",
+          "#cea768",
+          "#edcb97",
+          "#ffeac2"
+        ]
+      },
+      "gold": {
+        "role": "primary",
+        "displayName": "Gilt",
+        "canonical": "#b08636",
+        "oklch": "oklch(64.6% 0.109 80.6)",
+        "tonalRamp": [
+          "#140900",
+          "#362200",
+          "#5d3f00",
+          "#865e00",
+          "#ab8131",
+          "#cfa761",
+          "#eccc97",
+          "#ffebc2"
+        ]
+      },
+      "gold-pale": {
+        "role": "primary",
+        "displayName": "Champagne Gold",
+        "canonical": "#efd9a0",
+        "oklch": "oklch(89.0% 0.077 89.4)",
+        "tonalRamp": [
+          "#120a00",
+          "#332400",
+          "#554204",
+          "#78642d",
+          "#9c8751",
+          "#c1ac75",
+          "#e5cf97",
+          "#feedc1"
+        ]
+      },
+      "script-gold": {
+        "role": "primary",
+        "displayName": "Script Gold",
+        "canonical": "#9a6e2e",
+        "oklch": "oklch(57.1% 0.098 73.6)",
+        "tonalRamp": [
+          "#150800",
+          "#392000",
+          "#613c00",
+          "#875c19",
+          "#ad8041",
+          "#d3a566",
+          "#f0ca98",
+          "#ffe9c3"
+        ]
+      },
+      "line-gold": {
+        "role": "primary",
+        "displayName": "Line Gold",
+        "canonical": "#b8924a",
+        "oklch": "oklch(68.1% 0.101 81.6)",
+        "tonalRamp": [
+          "#130900",
+          "#362200",
+          "#5c3f00",
+          "#835f0c",
+          "#a8833a",
+          "#cea861",
+          "#ebcd96",
+          "#ffebc2"
+        ]
+      },
+      "bronze": {
+        "role": "primary",
+        "displayName": "Bronze",
+        "canonical": "#8a6128",
+        "oklch": "oklch(52.5% 0.090 72.3)",
+        "tonalRamp": [
+          "#150800",
+          "#392000",
+          "#613c00",
+          "#865d23",
+          "#ab8048",
+          "#d1a56d",
+          "#f1c998",
+          "#ffe9c3"
+        ]
+      },
+      "amber": {
+        "role": "tertiary",
+        "displayName": "Lantern Amber",
+        "canonical": "#f6c76a",
+        "oklch": "oklch(85.3% 0.123 82.8)",
+        "tonalRamp": [
+          "#130900",
+          "#352300",
+          "#5c3f00",
+          "#855e00",
+          "#ad8117",
+          "#cda861",
+          "#eacd96",
+          "#ffecc1"
+        ]
+      },
+      "rb1": {
+        "role": "secondary",
+        "displayName": "Champagne Satin Shadow",
+        "canonical": "#8c6a3a",
+        "oklch": "oklch(54.8% 0.078 74.4)",
+        "tonalRamp": [
+          "#130900",
+          "#352000",
+          "#5a3b03",
+          "#7b5a2a",
+          "#9e7b4b",
+          "#c29e6d",
+          "#e8c290",
+          "#feebd3"
+        ]
+      },
+      "rb2": {
+        "role": "secondary",
+        "displayName": "Champagne Satin Light",
+        "canonical": "#efdfbd",
+        "oklch": "oklch(90.8% 0.048 85.8)",
+        "tonalRamp": [
+          "#110a00",
+          "#2f2305",
+          "#4d4023",
+          "#6e6041",
+          "#8f8161",
+          "#b3a383",
+          "#d7c8a6",
+          "#fdedcb"
+        ]
+      },
+      "rb3": {
+        "role": "secondary",
+        "displayName": "Champagne Satin Mid-light",
+        "canonical": "#dcc493",
+        "oklch": "oklch(82.9% 0.070 84.8)",
+        "tonalRamp": [
+          "#110a00",
+          "#312200",
+          "#533f0d",
+          "#745e30",
+          "#967f50",
+          "#b9a272",
+          "#dec695",
+          "#ffedc8"
+        ]
+      },
+      "rb4": {
+        "role": "secondary",
+        "displayName": "Champagne Satin Mid",
+        "canonical": "#bf9f66",
+        "oklch": "oklch(71.8% 0.084 81.2)",
+        "tonalRamp": [
+          "#120900",
+          "#322201",
+          "#573d01",
+          "#795c22",
+          "#9c7d45",
+          "#c0a067",
+          "#e5c48a",
+          "#feeccd"
+        ]
+      },
+      "rb5": {
+        "role": "secondary",
+        "displayName": "Champagne Satin Highlight",
+        "canonical": "#fffaee",
+        "oklch": "oklch(98.6% 0.017 88.0)",
+        "tonalRamp": [
+          "#0e0b04",
+          "#28251c",
+          "#464238",
+          "#656157",
+          "#868277",
+          "#a9a59a",
+          "#cec9bd",
+          "#f3eee2"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Sepia Ink",
+        "canonical": "#4a331b",
+        "oklch": "oklch(34.2% 0.050 66.0)",
+        "tonalRamp": [
+          "#160700",
+          "#372108",
+          "#574027",
+          "#7a6147",
+          "#9e8469",
+          "#c4a88d",
+          "#e8cbaf",
+          "#ffe9cc"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Faded Sepia",
+        "canonical": "#77604a",
+        "oklch": "oklch(50.6% 0.045 65.3)",
+        "tonalRamp": [
+          "#160700",
+          "#35220d",
+          "#56402b",
+          "#78614b",
+          "#9c846d",
+          "#c2a991",
+          "#e6ccb3",
+          "#ffe9d0"
+        ]
+      },
+      "hero-ink": {
+        "role": "neutral",
+        "displayName": "Hero Ink",
+        "canonical": "#4f2f12",
+        "oklch": "oklch(33.9% 0.063 60.1)",
+        "tonalRamp": [
+          "#170600",
+          "#3c1e00",
+          "#5e3c20",
+          "#815e41",
+          "#a68062",
+          "#cca586",
+          "#f1c8a8",
+          "#ffe6c7"
+        ]
+      },
+      "name-ink": {
+        "role": "neutral",
+        "displayName": "Name Ink",
+        "canonical": "#6a4818",
+        "oklch": "oklch(43.0% 0.078 71.9)",
+        "tonalRamp": [
+          "#150800",
+          "#392000",
+          "#5e3d0a",
+          "#825e30",
+          "#a78253",
+          "#cda677",
+          "#f1c999",
+          "#ffe9c3"
+        ]
+      },
+      "ground": {
+        "role": "neutral",
+        "displayName": "Cream Ground",
+        "canonical": "#f5ecdf",
+        "oklch": "oklch(94.7% 0.020 77.3)",
+        "tonalRamp": [
+          "#100a03",
+          "#2c251c",
+          "#4b4439",
+          "#6d655a",
+          "#90887c",
+          "#b5ada0",
+          "#d8d0c3",
+          "#f6ede0"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Envelope Paper",
+        "canonical": "#f7efe2",
+        "oklch": "oklch(95.5% 0.019 80.1)",
+        "tonalRamp": [
+          "#0f0a03",
+          "#2b261c",
+          "#4b443a",
+          "#6c655a",
+          "#8f887c",
+          "#b4ada1",
+          "#d8d0c3",
+          "#f5ede0"
+        ]
+      },
+      "paper-shade": {
+        "role": "neutral",
+        "displayName": "Paper Shade",
+        "canonical": "#efe4d1",
+        "oklch": "oklch(92.3% 0.028 81.5)",
+        "tonalRamp": [
+          "#110a01",
+          "#2d2516",
+          "#4d4434",
+          "#6e6554",
+          "#928876",
+          "#b7ad9a",
+          "#dad0bd",
+          "#f8edda"
+        ]
+      },
+      "surround": {
+        "role": "neutral",
+        "displayName": "Table Linen",
+        "canonical": "#e9ddc9",
+        "oklch": "oklch(90.2% 0.030 80.7)",
+        "tonalRamp": [
+          "#120a00",
+          "#2e2515",
+          "#4d4433",
+          "#6f6553",
+          "#938875",
+          "#b8ac99",
+          "#dbcfbc",
+          "#f9edd9"
+        ]
+      },
+      "field": {
+        "role": "neutral",
+        "displayName": "Card Stock",
+        "canonical": "#fffcf5",
+        "oklch": "oklch(99.1% 0.010 87.5)",
+        "tonalRamp": [
+          "#0d0b07",
+          "#282621",
+          "#47453f",
+          "#686660",
+          "#8c8983",
+          "#b0aea7",
+          "#d4d1ca",
+          "#f1eee7"
+        ]
+      },
+      "gilt-line": {
+        "role": "neutral",
+        "displayName": "Gilt Hairline",
+        "canonical": "rgba(176, 134, 54, 0.38)",
+        "tonalRamp": [
+          "#140900",
+          "#362200",
+          "#5d3f00",
+          "#865e00",
+          "#ab8131",
+          "#cfa761",
+          "#eccc97",
+          "#ffebc2"
+        ]
+      },
+      "error-brick": {
+        "role": "neutral",
+        "displayName": "Brick Sepia",
+        "canonical": "#9b3b22",
+        "oklch": "oklch(48.2% 0.134 35.5)",
+        "tonalRamp": [
+          "#190502",
+          "#40190f",
+          "#6c3122",
+          "#9b4b37",
+          "#c86b53",
+          "#e69782",
+          "#ffbfae",
+          "#ffe1d3"
+        ]
+      },
+      "showcase-ground": {
+        "role": "neutral",
+        "displayName": "Gallery Linen",
+        "canonical": "#efe5d4",
+        "oklch": "oklch(92.5% 0.025 81.1)",
+        "tonalRamp": [
+          "#110a02",
+          "#2d2518",
+          "#4c4436",
+          "#6e6556",
+          "#918878",
+          "#b6ad9c",
+          "#dad0bf",
+          "#f7eddc"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The couple's names in the photograph's sky; min(min(17, 110/L)vw, min(80, 520/L)px) for a longest name of L letters (7 letters: min(15.7vw, 74px))."
+      },
+      "script-title": {
+        "displayName": "Script Title",
+        "purpose": "Every section title, in script gold."
+      },
+      "script-closing": {
+        "displayName": "Script Closing",
+        "purpose": "The names that sign the page."
+      },
+      "script-name": {
+        "displayName": "Script Name",
+        "purpose": "The names on the invitation card: max(34px, 11.5cqi) (42px fallback), 1.02, hero ink #4f2f12."
+      },
+      "script-welcome": {
+        "displayName": "Script Welcome",
+        "purpose": "'Nikoh to‘yimizga' in the hero sky."
+      },
+      "script-time": {
+        "displayName": "Script Time",
+        "purpose": "Programme times on the timeline."
+      },
+      "script-joiner": {
+        "displayName": "Script Joiner",
+        "purpose": "The invitation card's 'va' between two mirrored leaf sprigs (8.5cqi, line gold): max(20px, 6.6cqi) (24px fallback), script gold."
+      },
+      "script-cue": {
+        "displayName": "Script Cue",
+        "purpose": "'Pastga suring' scroll cue."
+      },
+      "script-print": {
+        "displayName": "Script Print",
+        "purpose": "The couple's names printed across both doors of the closed card at 35% height, bronze #8a6128; min(0.13, 2.1/L) of the card width for L characters (L at least 8)."
+      },
+      "arabic": {
+        "displayName": "Arabic",
+        "purpose": "The Bismillah at the head of the invitation card (max(13px, 4cqi), 1.4, script gold), only when the couple asks for it; Amiri, loaded as a text= subset of those glyphs only."
+      },
+      "showcase-title": {
+        "displayName": "Showcase Title",
+        "purpose": "Showcase gallery title."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "The venue name."
+      },
+      "numeral": {
+        "displayName": "Numeral",
+        "purpose": "Countdown tiles, tabular lining figures, shrinking with the tile."
+      },
+      "gift-number": {
+        "displayName": "Gift Number",
+        "purpose": "The card number on the To‘yana gift card: four groups of four spread across the card, tabular lining, sepia ink."
+      },
+      "scratch-value": {
+        "displayName": "Scratch Value",
+        "purpose": "Revealed day, month and year on the scratch cards, in bronze."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "The message; max 300px."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "Hero greeting (italic), timeline titles, gallery lead."
+      },
+      "body-small": {
+        "displayName": "Body Small",
+        "purpose": "Address and the RSVP intro."
+      },
+      "italic-line": {
+        "displayName": "Italic Line",
+        "purpose": "The scratch instruction, ink-soft."
+      },
+      "small": {
+        "displayName": "Small",
+        "purpose": "Form labels, closing long date (0.18em), showcase text link."
+      },
+      "meta": {
+        "displayName": "Meta",
+        "purpose": "Gallery couple and date."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "KUN / OY / YIL under the scratch cards, uppercase."
+      },
+      "tap-label": {
+        "displayName": "Tap Label",
+        "purpose": "'Lentani torting' at 80% height on the closed card: 3.1% of the card width, weight 500, 0.32em, uppercase, #6a5236 on the hint glow."
+      },
+      "card-caps": {
+        "displayName": "Card Caps",
+        "purpose": "Invitation card: the families and the invitation line in balanced uppercase lines, max(9px, 2.4cqi), 1.75, 0.16em, ink-soft; weekday and time the same size at 0.22em; month and year max(9.5px, 2.7cqi) at 0.2em in ink."
+      },
+      "card-verse": {
+        "displayName": "Card Verse",
+        "purpose": "Rum 30:21 in Uzbek on the invitation card, italic, four lines, ink-soft; its reference upright caps at max(8.5px, 2.2cqi), 0.18em, #9a7a48. The address uses the same italic at max(9.5px, 2.6cqi), 1.5."
+      },
+      "card-venue": {
+        "displayName": "Card Venue",
+        "purpose": "The venue name on the invitation card, sentence case, ink."
+      },
+      "card-day": {
+        "displayName": "Card Day",
+        "purpose": "The day numeral in the invitation card's date row, lining, hero ink, between gold hairlines rgba(184, 146, 74, 0.75)."
+      }
+    },
+    "shadows": [
+      {
+        "name": "column-halo",
+        "value": "0 0 80px -30px rgba(74, 51, 27, 0.35)",
+        "purpose": "The 480px column on wide screens."
+      },
+      {
+        "name": "gold-surface",
+        "value": "inset 0 1px 0 rgba(255,255,255,0.65), inset 0 0 0 1px rgba(143,106,42,0.45), 0 10px 20px -12px rgba(120,84,30,0.7)",
+        "purpose": "Gold buttons; tiles use the same recipe with a 0.35 ring and 22px drop."
+      },
+      {
+        "name": "gold-surface-hover",
+        "value": "inset 0 1px 0 rgba(255,255,255,0.75), inset 0 0 0 1px rgba(143,106,42,0.55), 0 14px 26px -12px rgba(120,84,30,0.75)",
+        "purpose": "Gold button hover."
+      },
+      {
+        "name": "gold-coin",
+        "value": "0 6px 16px -6px rgba(74,51,27,0.55), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -2px 4px rgba(120,84,30,0.35)",
+        "purpose": "Music coin."
+      },
+      {
+        "name": "scratch-card",
+        "value": "inset 0 0 0 1px rgba(184,146,74,0.45), 0 14px 26px -16px rgba(110,76,26,0.65)",
+        "purpose": "Scratch date cards."
+      },
+      {
+        "name": "scratch-focus",
+        "value": "0 0 0 2px #f5ecdf, 0 0 0 4px #8f6a2a",
+        "purpose": "Keyboard focus on a scratch card."
+      },
+      {
+        "name": "card-on-paper",
+        "value": "0 1px 2px rgba(80,56,24,0.18), 0 22px 40px -22px rgba(80,56,24,0.55)",
+        "purpose": "The invitation card lying on the page (.mh-card--section)."
+      },
+      {
+        "name": "gift-card",
+        "value": "inset 0 0 0 1px rgba(176, 134, 54, 0.45), inset 0 0 0 6px rgba(255, 250, 238, 0.35), 0 18px 34px -20px rgba(96, 70, 30, 0.7); number text-shadow 0 1px 0 rgba(255, 250, 236, 0.8)",
+        "purpose": "Gilt edge, pale inner frame and warm drop of the To‘yana card; the number reads as stamped."
+      },
+      {
+        "name": "wax-drop",
+        "value": "drop-shadow(0 6px 10px rgba(80,52,20,0.28))",
+        "purpose": "The closing seal."
+      },
+      {
+        "name": "flap-cast",
+        "value": "rgba(90, 62, 26, 0.2) clipped to the flap, filter: blur(4px), offset 3-4px toward the point",
+        "purpose": "Each inner flap on the paper beneath it; fades over 350ms at 3250ms."
+      },
+      {
+        "name": "door-shadow",
+        "value": "linear-gradient(90deg, rgba(60, 40, 15, 0.34), rgba(60, 40, 15, 0)) across 55% from the hinge; door front overlay rgba(60, 40, 16, 0.42)",
+        "purpose": "A door swinging out casts on the paper beside its hinge (0 to 1 at 35% of the swing, back to 0) and its front darkens as it turns from the light."
+      },
+      {
+        "name": "seam",
+        "value": "left: inset -1px 0 0 rgba(255,253,246,0.7) + 8% fade rgba(110,80,40,0.08); right: inset 1px 0 0 rgba(110,80,40,0.3) + 7% fade rgba(110,80,40,0.14)",
+        "purpose": "Lit and shadowed edges where the doors meet."
+      },
+      {
+        "name": "fold-lines",
+        "value": "1.4px rgba(255,253,246,0.95) offset (0.35, 0.2) over 0.9px rgba(120,92,52,0.42), non-scaling",
+        "purpose": "The inner envelope's folds seen through the doors, from the corners to 50% 56%."
+      },
+      {
+        "name": "satin",
+        "value": "band: 0 2px 5px -1px rgba(96, 70, 30, 0.32); bow: drop-shadow(0 5px 6px rgba(96, 70, 30, 0.28))",
+        "purpose": "Warm brown shadows for the ribbon only."
+      },
+      {
+        "name": "fingertip-press",
+        "value": "84px radial-gradient(closest-side, rgba(110, 80, 40, 0.16), rgba(110, 80, 40, 0.06) 55%, rgba(110, 80, 40, 0) 100%); scale 0.4 to 1.25, 760ms cubic-bezier(0.2, 0.7, 0.3, 1)",
+        "purpose": "A soft dent in the paper where the guest touches the closed card."
+      },
+      {
+        "name": "bow-focus",
+        "value": "drop-shadow(0 0 1px #8a6128) drop-shadow(0 0 12px rgba(246, 199, 106, 0.85))",
+        "purpose": "Keyboard focus on the closed card, around the bow."
+      },
+      {
+        "name": "sky-halo",
+        "value": "text-shadow: 0 0 22px rgba(255,243,226,0.9)",
+        "purpose": "Hero lettering: light behind it, never a drop."
+      },
+      {
+        "name": "hint-glow",
+        "value": "text-shadow: 0 0 3px #fbf6ec, 0 0 9px #fbf6ec, 0 0 16px rgba(251, 246, 236, 0.9)",
+        "purpose": "The closed card's hint line only, lifting it off the embossed roses beneath it."
+      },
+      {
+        "name": "field-focus",
+        "value": "0 0 0 4px rgba(239, 217, 160, 0.45)",
+        "purpose": "Input focus halo with a gilt border."
+      },
+      {
+        "name": "phone-frame",
+        "value": "0 0 0 7px #241a10, 0 0 0 8px #3a2c1c, 0 34px 60px -28px rgba(60,40,15,0.65)",
+        "purpose": "Showcase phone bezel."
+      },
+      {
+        "name": "stamp-ring",
+        "value": "1.5px solid rgba(184, 146, 74, 0.6) at 4% inset; scale 0.7 to 2.8, fading",
+        "purpose": "The ring that leaves the closing seal as it is stamped (900ms after 480ms)."
+      },
+      {
+        "name": "petal-shade",
+        "value": "canvas shadowColor rgba(90,55,25,0.18), blur 3, offsetY 1.5",
+        "purpose": "Falling petals over the photograph section only."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Default: text unblur, photo settle, scratch foil fade, after-date collapse, button press, music coin, showcase card lift."
+      },
+      {
+        "name": "tied-hold",
+        "value": "9s ease-in-out infinite",
+        "purpose": "Closed card tilts in perspective(1600px) around its centre: rotateX 0.7deg / rotateY -0.9deg to rotateX -0.6deg / rotateY 0.9deg, scale 1.03."
+      },
+      {
+        "name": "bow-idle",
+        "value": "3.6s ease-in-out 1.2s infinite",
+        "purpose": "The bow (inner layer) swells to 1.025 and rocks 0.6deg and back; the hint breathes 0.55 to 1 opacity on the same beat."
+      },
+      {
+        "name": "pull-tension",
+        "value": "rubber(d, max) = sign(d) * max * (1 - 1 / (|d| / (1.8 * max) + 1)); max 34px across, 26px down",
+        "purpose": "While dragging, the bow follows the finger (--px, --py, --pr 0.22deg/px), each band half pivots on its outer end and lengthens to meet the knot (--bl/--br, --bls/--brs), the tails turn -0.5deg/px and stretch 1 + distance/160 (--tail, --tails)."
+      },
+      {
+        "name": "pull-release",
+        "value": "tap < 10px opens; > 56px opens; otherwise 0.75s cubic-bezier(0.3, 1.45, 0.5, 1)",
+        "purpose": "Let go early, the satin springs back to the knot with a slight overshoot; a pull that opens sets data-pull to the side the finger went (left when dx < -4)."
+      },
+      {
+        "name": "fingertip-press",
+        "value": "760ms cubic-bezier(0.2, 0.7, 0.3, 1)",
+        "purpose": "Every touch on the closed card presses a soft dent into the paper where it lands."
+      },
+      {
+        "name": "open-press",
+        "value": "0ms",
+        "purpose": "Haptic navigator.vibrate([8, 920, 14]) (a touch, then the knot giving); ribbon sounds and music start; hold, bow swell and hint stop; hint fades (0.4s); the card stops taking input."
+      },
+      {
+        "name": "open-camera",
+        "value": "0ms, 5100ms, cubic-bezier(0.33, 0, 0.2, 1)",
+        "purpose": "mh-camera (drawn envelope): card gives under the thumb (1.03 to 1.018 by 3%), held nearly still while it opens (1 by 70%), then moves slowly through it to 1.12 (cubic-bezier(0.45, 0, 0.2, 1))."
+      },
+      {
+        "name": "open-untie",
+        "value": "0ms, 2400ms",
+        "purpose": "Bow presses to 0.975 by 6% and recovers by 12%; rocks toward the pulled side (4deg x dir at 1.01 by 35%, -2.5deg by 41%, 1deg by 46%); falls like light fabric to --fall (38% of the card height) rocking 6deg / -2deg with 3-4px drift, lands at 80%, folds to 1.04 x 0.7 by 86%, fades from 93% to 1 x 0.72."
+      },
+      {
+        "name": "open-tails",
+        "value": "drawn 0ms, 1100ms; free 700ms, 1400ms ease-in-out",
+        "purpose": "Pulled tail drawn out under rising tension to ±16deg and 1.32 by 74% (cubic-bezier(0.45, 0, 0.75, 0.5)), slack the instant the knot gives (∓5deg, 1.08 by 88%), settles at ±2deg, 1.1. Free tail swings 9deg, -4deg, 3deg, stretching to 1.12."
+      },
+      {
+        "name": "open-loops",
+        "value": "pulled loop 260ms, 700ms cubic-bezier(0.6, 0, 0.85, 0.3); other loop 880ms, 320ms cubic-bezier(0.5, 0, 0.9, 0.5)",
+        "purpose": "Each loop slips through the knot, narrowing toward the centre: rotate ∓38deg, scale 0.12 x 0.45, fade. The pulled side (data-pull, --dir) goes first and slowly."
+      },
+      {
+        "name": "open-knot",
+        "value": "900ms, 360ms ease-in",
+        "purpose": "Knot pinches to 0.35 x 0.6 and fades."
+      },
+      {
+        "name": "open-band",
+        "value": "0ms, 2400ms",
+        "purpose": "Band halves (inner layers) hold to 35%, go slack (±3deg, 2px, skewX ∓4deg by 41%; 6px by 46%), ripple down with alternating skew (±5deg, ∓3deg) and 2-3px drift through 60% and 70%, land at ±7deg by 80%, fold to 0.92 x 0.5 by 86%, fade from 93% at 0.9 x 0.5."
+      },
+      {
+        "name": "open-doors",
+        "value": "left 2150ms, right 2550ms; 1400ms keyframed",
+        "purpose": "Lift, flex, settle in perspective(1600px): edge lifted to ∓9deg with 0.6deg skewY by 15% (cubic-bezier(0.3, 0, 0.4, 1)), a breath to ∓11deg by 23%, swing past to ∓177deg by 86% (cubic-bezier(0.4, 0, 0.12, 1)), settle at ∓172deg. Fronts darken from 2350/2750ms (1200ms ease-in); shadows cross the paper (1400ms ease-in-out)."
+      },
+      {
+        "name": "open-inner-flaps",
+        "value": "left 3650ms, right 3730ms, top 3820ms, bottom 3880ms; 900ms keyframed",
+        "purpose": "Each flap lifts 12deg by 18% (ease-out), then folds back to 165deg (cubic-bezier(0.4, 0, 0.15, 1)) in perspective(1600px); flap shadows fade 400ms ease-out from 3650ms."
+      },
+      {
+        "name": "photo-settle",
+        "value": "--t0, 3200ms ease-out",
+        "purpose": "Hero photograph (.mh-hero[data-play]) scales 1.12 to 1.04, resting enlarged so the drift never shows an edge. --t0 is 3700ms into the drawn envelope, 0ms at a film's hand-over."
+      },
+      {
+        "name": "photo-focus",
+        "value": "--t0, 1600ms cubic-bezier(0.3, 0, 0.2, 1)",
+        "purpose": "The photograph comes into focus as the paper or the film leaves it: blur(7px) brightness(1.1) to sharp."
+      },
+      {
+        "name": "write",
+        "value": "1500ms; hero cubic-bezier(0.45, 0, 0.35, 1), headings cubic-bezier(0.5, 0, 0.3, 1)",
+        "purpose": "Handwriting wipe (mh-write): mask linear-gradient(90deg, #000 40%, transparent 60%), mask-size 250% 100%, position 100% to 0. Hero names at --t0 + 250ms + i x 120ms (i 3, 4: 4310ms and 4430ms drawn; 610ms and 730ms after a film) with the 1200ms unblur; invitation card names at 0.55s + i x 0.09s after data-in (i 4, 6) with the 1100ms rise."
+      },
+      {
+        "name": "open-dissolve",
+        "value": "4450ms, 600ms ease-in",
+        "purpose": "The drawn paper dissolves to opacity 0 over the scene."
+      },
+      {
+        "name": "open-welcome",
+        "value": "--t0 + 600ms + i x 140ms, 1500ms ease-out",
+        "purpose": "Welcome lines and divider (i 0-2: 4300, 4440, 4580ms drawn) unblur from 6px at hero position."
+      },
+      {
+        "name": "to-scene",
+        "value": "5100ms (450ms under reduced motion; film: 1000ms after its last frame)",
+        "purpose": "TO_SCENE: the scene has the screen, sections mount, scroll unlocks, music coin fades in (800ms); shared between the component and the stylesheet. DRAWN_T0 3700ms sets --t0 for the drawn envelope."
+      },
+      {
+        "name": "film-move-in",
+        "value": "1500ms cubic-bezier(0.62, 0, 0.18, 1); fade 450ms ease-in at 1050ms",
+        "purpose": "Opening film, end 'card' (still available): the video translates and scales about opening.json's card rect until it covers the screen, then fades; with no first-screen card it now fades onto the photograph scene."
+      },
+      {
+        "name": "film-tap",
+        "value": "vibrate(8); names 0.7s, hint 0.4s fade",
+        "purpose": "The tap starts music, the film's sounds (playFilmSounds) and the muted inline film; the names and hint set over the poster fade out."
+      },
+      {
+        "name": "film-sounds",
+        "value": "touch 50ms; tension knot - 0.7s/800ms/4.6kHz; knot/300ms/3.6kHz; ribbon/800ms/2.6kHz; doors/900ms/1.1kHz, 950Hz; flaps/800ms/1.5kHz; bells from end + i x 110ms",
+        "purpose": "playFilmSounds (src/lib/media.ts): the drawn opening's sounds placed on opening.json cues (seconds): knot 2.6, ribbon 2.95, doors 3.8 and 4.85, flaps 6.1, end 7.3."
+      },
+      {
+        "name": "film-dissolve",
+        "value": "on the last frame, 1000ms cubic-bezier(0.4, 0, 0.2, 1)",
+        "purpose": "Opening film, end 'scene' (the current film): onHandover sets data-play with --t0 0ms, the film fades into the photograph scene, and is removed at 1000ms."
+      },
+      {
+        "name": "film-watchdogs",
+        "value": "start grace 2500ms; stall 3000ms; no 'ended': duration + 2500ms",
+        "purpose": "No visible start (currentTime > 0.05s) 2.5s after the tap: the drawn envelope takes over from its first beat. Stopped for 3s part-way: hands over where it is."
+      },
+      {
+        "name": "coin-scrolling",
+        "value": "opacity and scale 0.35s; data-scrolling cleared 650ms after the last scroll",
+        "purpose": "While the page scrolls the music coin steps back (opacity 0.4, scale 0.86) from the content beneath it."
+      },
+      {
+        "name": "scroll-cue",
+        "value": "--t0 + 1200ms (4900ms drawn), 1200ms; bob 2s infinite",
+        "purpose": "At the foot of the hero photograph; chevron bobs 5px."
+      },
+      {
+        "name": "ribbon-sounds",
+        "value": "noise 50ms/180ms/5.2kHz; 300ms/700ms/4.6kHz; 920ms/300ms/3.6kHz; 1150ms/900ms/2.6kHz; 2450ms and 2850ms/900ms/1.1kHz, 950Hz; 3700ms/700ms/1.5kHz; bells from 4400ms + i x 110ms",
+        "purpose": "playRibbonSounds: the touch, the tail drawn under tension, the knot giving, the flutter down, the two doors, the inner flaps, then four bells 2349, 2794, 3136, 3729Hz. The bells ring from 4400ms, as the paper gives way to the scene."
+      },
+      {
+        "name": "ambient-petals",
+        "value": "starts --t0 + 1200ms after data-play",
+        "purpose": "Canvas of 11 petals falling and 16 amber motes rising (lighter); DPR capped at 2; pauses off screen and in a hidden tab; off under reduced motion."
+      },
+      {
+        "name": "photo-drift",
+        "value": "22s ease-in-out, --t0 + 3200ms, infinite alternate",
+        "purpose": "Photograph drifts to translate(-1.6%, -1%)."
+      },
+      {
+        "name": "scratch-reveal",
+        "value": "0.7s ease-out; pop 700ms cubic-bezier(0.3, 1.6, 0.5, 1); glint 1100ms ease-out after 150ms",
+        "purpose": "Foil fades once half is scratched; value pops from 0.82, a glint crosses the card, navigator.vibrate(12). All three scratched: gold-mote shower from the row centre for 1600ms."
+      },
+      {
+        "name": "after-date",
+        "value": "0.9s ease-out; opacity delayed 0.2s",
+        "purpose": "Collapsed block opens after all three dates are revealed."
+      },
+      {
+        "name": "spray-sway",
+        "value": "hero 5.5s ease-in-out infinite alternate (right -2.7s); message 6s after 1.4s",
+        "purpose": "Rose sprays rock ±1.6deg from their foot."
+      },
+      {
+        "name": "reveal",
+        "value": "IntersectionObserver threshold 0.12, rootMargin 0 0 -10% 0; once",
+        "purpose": "[data-reveal] gains data-in on first entry; --d staggers. up: 22px + blur(4px), 1s ease-out."
+      },
+      {
+        "name": "reveal-deal",
+        "value": "translate/rotate 1s cubic-bezier(0.3, 1.35, 0.5, 1), 0.12s apart",
+        "purpose": "Date cards dealt from 38px low at -7deg, 2deg, 8deg."
+      },
+      {
+        "name": "reveal-card",
+        "value": "1.4s; lines 0.55s + --i x 0.09s (i 0-12), 1100ms ease-out each; sheen 9s after 2.4s",
+        "purpose": "Invitation card (.mh-card--section) laid down as it scrolls in from perspective(1100px) rotateX(16deg) translateY(50px) scale(0.96), pivoting on its foot; its lines rise in by --i and its names are written in. The gift card is laid down the same way; its sheen crosses every 7s after 1.1s."
+      },
+      {
+        "name": "reveal-bloom",
+        "value": "scale 1.4s ease-out",
+        "purpose": "Message sprays open from 0.7 scale, then sway."
+      },
+      {
+        "name": "reveal-line-step",
+        "value": "line 2.6s cubic-bezier(0.4, 0, 0.2, 1); art 1s, node pop 0.7s at 0.1s, text at 0.25s",
+        "purpose": "Programme hairline drawn down; art slides 28px from its side, the rings photograph wipes in with clip-path over 1.3s; text from the opposite side."
+      },
+      {
+        "name": "pin-drop",
+        "value": "500ms, 1000ms cubic-bezier(0.3, 1.45, 0.55, 1)",
+        "purpose": "Venue pin drops 70px onto the map."
+      },
+      {
+        "name": "stamp",
+        "value": "900ms cubic-bezier(0.3, 0, 0.2, 1); ring at 480ms",
+        "purpose": "Closing seal pressed from 1.9 scale and blur(3px) through 0.94 and 1.03; closing line and names written in at 700ms and 1200ms."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "card fades to the scene in 400ms; no film; everything else at rest",
+        "purpose": "prefers-reduced-motion: reduce. No film, hold, bow swell, hint breathing, untying, doors, flaps or camera; the photograph, its lettering and roses at rest; no petals, drift, sway or cue bob; every scroll reveal (the invitation card's lines and names included) marked in at once and shown without clip, mask, transform or transition."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "column",
+        "value": "480px"
+      },
+      {
+        "name": "showcase-back-outside",
+        "value": "600px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Gold Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Primary action: map link, RSVP submit. Gilded pill.",
+      "html": "<div class=\"ds-mh\"><button class=\"ds-mh-btn\">Javobni yuborish</button></div>",
+      "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 22px;border:0;border-radius:999px;font:500 15px/1 \"Bodoni Moda\",Georgia,serif;letter-spacing:.02em;color:#3f2a12;background:linear-gradient(170deg,#f8e4ad,#dcb466 60%,#c59a4a);box-shadow:inset 0 1px 0 rgba(255,255,255,.65),inset 0 0 0 1px rgba(143,106,42,.45),0 10px 20px -12px rgba(120,84,30,.7);transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s;cursor:pointer}.ds-mh-btn:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.75),inset 0 0 0 1px rgba(143,106,42,.55),0 14px 26px -12px rgba(120,84,30,.75)}.ds-mh-btn:active{transform:scale(.97)}.ds-mh-btn:focus-visible{outline:2px solid #8f6a2a;outline-offset:3px}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action beside a gold button; also the showcase replay control.",
+      "html": "<div class=\"ds-mh\"><button class=\"ds-mh-ghost\">Yandex xarita</button></div>",
+      "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-ghost{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 20px;border:0;border-radius:999px;font:15px/1 \"Bodoni Moda\",Georgia,serif;color:#4a331b;background:rgba(255,252,244,.5);box-shadow:inset 0 0 0 1px rgba(176,134,54,.38);cursor:pointer;transition:box-shadow .25s}.ds-mh-ghost:hover{box-shadow:inset 0 0 0 1px #b08636}.ds-mh-ghost:focus-visible{outline:2px solid #8f6a2a;outline-offset:3px}"
+    },
+    {
+      "name": "Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "RSVP text input on card stock with a gilt hairline.",
+      "html": "<div class=\"ds-mh\" style=\"text-align:left\"><label class=\"ds-mh-label\" for=\"ds-n\">Ism va familiyangiz</label><input id=\"ds-n\" class=\"ds-mh-field\" placeholder=\"Ismingiz\"></div>",
+      "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-label{display:block;margin-bottom:8px;font-size:14px;color:#77604a}.ds-mh-field{display:block;width:100%;box-sizing:border-box;min-height:52px;padding:14px 16px;border-radius:14px;border:1px solid rgba(176,134,54,.38);background:#fffcf5;color:#4a331b;font:16px \"Bodoni Moda\",Georgia,serif;caret-color:#8f6a2a;appearance:none}.ds-mh-field::placeholder{color:#8f7a63}.ds-mh-field:focus{outline:none;border-color:#b08636;box-shadow:0 0 0 4px rgba(239,217,160,.45)}"
+    },
+    {
+      "name": "Choice Pair",
+      "kind": "chip",
+      "refersTo": "choice",
+      "description": "Attending / not attending toggles; the pressed one turns gold.",
+      "html": "<div class=\"ds-mh\"><div class=\"ds-mh-pair\"><button class=\"ds-mh-choice\" aria-pressed=\"true\">Albatta kelaman</button><button class=\"ds-mh-choice\" aria-pressed=\"false\">Kela olmayman</button></div></div>",
+      "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ds-mh-choice{min-height:52px;border-radius:14px;border:1px solid rgba(176,134,54,.38);background:#fffcf5;font:15.5px \"Bodoni Moda\",Georgia,serif;color:#4a331b;cursor:pointer;transition:background .25s,color .25s,border-color .25s}.ds-mh-choice[aria-pressed=\"true\"]{background:linear-gradient(170deg,#f8e4ad,#dcb466);border-color:#b08636;color:#3f2a12}.ds-mh-choice:focus-visible{outline:2px solid #8f6a2a;outline-offset:3px}"
+    },
+    {
+      "name": "Scratch Date Card",
+      "kind": "card",
+      "refersTo": "scratch-card",
+      "description": "Gold foil scratched away to reveal the date; here shown half scratched. Foil is a canvas in the build.",
+      "html": "<div class=\"ds-mh\"><div class=\"ds-mh-sr\"><div class=\"ds-mh-sc\"><div class=\"ds-mh-card\"><span>19</span><i class=\"ds-mh-foil\"></i></div><small>Kun</small></div><div class=\"ds-mh-sc\"><div class=\"ds-mh-card\" tabindex=\"0\"><span>Iyun</span></div><small>Oy</small></div></div></div>",
+      "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-sr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:240px;margin:0 auto}.ds-mh-sc{display:grid;gap:10px;justify-items:center}.ds-mh-card{position:relative;width:100%;aspect-ratio:1;border-radius:14px;overflow:hidden;display:grid;place-items:center;background:linear-gradient(160deg,#fffaf0,#f3e6cd);box-shadow:inset 0 0 0 1px rgba(184,146,74,.45),0 14px 26px -16px rgba(110,76,26,.65);outline:none}.ds-mh-card:focus-visible{box-shadow:0 0 0 2px #f5ecdf,0 0 0 4px #8f6a2a}.ds-mh-card span{font-size:26px;font-weight:500;color:#8a6128}.ds-mh-foil{position:absolute;inset:0;background:linear-gradient(135deg,#b8893a,#f3dc9c 28%,#c99a4c 50%,#f6e4ae 72%,#a77a2c);clip-path:polygon(0 0,100% 0,100% 30%,0 75%)}.ds-mh-sc small{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#77604a}"
+    },
+    {
+      "name": "Countdown Tiles",
+      "kind": "card",
+      "refersTo": "countdown-tile",
+      "description": "Four gold tiles counting to the wedding.",
+      "html": "<div class=\"ds-mh\"><div class=\"ds-mh-tiles\"><div class=\"ds-mh-tile\"><b>42</b><small>kun</small></div><div class=\"ds-mh-tile\"><b>07</b><small>soat</small></div><div class=\"ds-mh-tile\"><b>15</b><small>daqiqa</small></div><div class=\"ds-mh-tile\"><b>30</b><small>soniya</small></div></div></div>",
+      "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;max-width:360px;margin:0 auto}.ds-mh-tile{border-radius:14px;padding:14px 4px 11px;background:linear-gradient(165deg,#fbefcf,#ebcd8c 70%,#dcb46a);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 0 0 1px rgba(176,134,54,.35),0 10px 22px -14px rgba(120,84,30,.6)}.ds-mh-tile b{display:block;font-size:32px;line-height:1;font-weight:500;font-variant-numeric:tabular-nums lining-nums}.ds-mh-tile small{display:block;margin-top:6px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#6a4f2c}"
+    },
+    {
+      "name": "Music Coin",
+      "kind": "button",
+      "refersTo": "music-coin",
+      "description": "Fixed gold coin, bottom-right of the column, toggling background music; steps back (opacity 0.4, scale 0.86) while the page scrolls.",
+      "html": "<div class=\"ds-mh\"><button class=\"ds-mh-coin\" aria-label=\"Musiqani yoqish\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M8 5.5v13l10-6.5z\" fill=\"currentColor\"/></svg></button></div>",
+      "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-coin{width:48px;height:48px;border:0;border-radius:50%;display:inline-grid;place-items:center;color:#4a331b;background:radial-gradient(circle at 35% 30%,#fff3c8,#e7c77c 55%,#b48a3e);box-shadow:0 6px 16px -6px rgba(74,51,27,.55),inset 0 1px 0 rgba(255,255,255,.6),inset 0 -2px 4px rgba(120,84,30,.35);cursor:pointer;transition:opacity .35s ease,scale .35s cubic-bezier(.16,1,.3,1)}.ds-mh-coin[data-scrolling]{opacity:.4;scale:.86}.ds-mh-coin:focus-visible{outline:2px solid #8f6a2a;outline-offset:3px}"
+    },
+    {
+      "name": "Script Section Head",
+      "kind": "custom",
+      "refersTo": "",
+      "description": "Corinthia section title in script gold over the gold ornamental divider.",
+      "html": "<div class=\"ds-mh\"><h2 class=\"ds-mh-sh\">To‘y dasturi</h2><div class=\"ds-mh-dv\"><svg viewBox=\"0 0 220 20\" width=\"160\" height=\"15\"><path d=\"M6,10 H86 M134,10 H214\" stroke=\"currentColor\" stroke-width=\"0.9\"/><path d=\"M86,10 C94,4 100,4 104,10 C100,16 94,16 86,10Z M134,10 C126,4 120,4 116,10 C120,16 126,16 134,10Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.9\"/><path d=\"M110,3 L113,10 L110,17 L107,10Z\" fill=\"currentColor\"/><circle cx=\"4\" cy=\"10\" r=\"1.6\" fill=\"currentColor\"/><circle cx=\"216\" cy=\"10\" r=\"1.6\" fill=\"currentColor\"/></svg></div><p class=\"ds-mh-p\">Muhabbat, quvonch va duolarga to‘la oqshomda biz bilan birga bo‘ling.</p></div>",
+      "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-sh{margin:0;font-family:Corinthia,\"Pinyon Script\",cursive;font-weight:400;font-size:52px;line-height:1.05;color:#9a6e2e}.ds-mh-dv{display:flex;justify-content:center;color:#b8924a;margin:4px 0 14px}.ds-mh-p{font-size:18px;line-height:1.62;margin:0 auto;max-width:300px;text-wrap:pretty}"
+    },
+    {
+      "name": "Closing Wax Seal",
+      "kind": "custom",
+      "refersTo": "",
+      "description": "Initials in gold multiplied into the seal's empty centre, stamped onto the closing section with a line-gold ring leaving it (the build uses the owner's seal.png; this stand-in disc shows the pressing). The closed card carries no seal.",
+      "html": "<div class=\"ds-mh\"><span class=\"ds-mh-stamp\"><span class=\"ds-mh-wax\"><span class=\"ds-mh-mono\"><span>S</span><i></i><span>M</span></span></span></span></div>",
+      "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-stamp{position:relative;display:inline-block;animation:ds-mh-stamp 900ms cubic-bezier(.3,0,.2,1) both}.ds-mh-stamp::after{content:\"\";position:absolute;inset:4%;border-radius:50%;border:1.5px solid rgba(184,146,74,.6);opacity:0;pointer-events:none;animation:ds-mh-shock 900ms cubic-bezier(.15,.7,.3,1) 480ms both}.ds-mh-wax{position:relative;display:block;width:112px;height:117px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fdf7ea,#ecdcb8 60%,#c7a873);filter:drop-shadow(0 6px 10px rgba(80,52,20,.28))}.ds-mh-mono{position:absolute;left:50%;top:50%;translate:-50% -50%;display:flex;align-items:center;gap:.18em;font-family:Corinthia,\"Pinyon Script\",cursive;font-size:22px;line-height:1;color:#a77b34;mix-blend-mode:multiply}.ds-mh-mono i{width:.12em;height:.12em;border-radius:50%;background:#b88c3e}@keyframes ds-mh-stamp{0%{opacity:0;scale:1.9;filter:blur(3px)}55%{opacity:1;scale:.94;filter:blur(0)}75%{scale:1.03}100%{opacity:1;scale:1}}@keyframes ds-mh-shock{0%{opacity:.95;scale:.7}100%{opacity:0;scale:2.8}}@media (prefers-reduced-motion:reduce){.ds-mh-stamp,.ds-mh-stamp::after{animation:none}}"
+    },
+    {
+      "name": "Tied Card with Satin Bow",
+      "kind": "custom",
+      "refersTo": "",
+      "description": "The closed gatefold card (the drawn fallback; the showcase opens on the owner's film poster, whose satin is silver): embossed paper (a cream stand-in here), fold lines, the printed names and hint line split by the seam, a champagne satin band at 56% and the bow tied over it; the bow swells and rocks on a 3.6s beat and takes the amber focus halo. Live, the guest can tap or pull the ribbon.",
+      "html": "<div class=\"ds-mh\"><div class=\"ds-mh-card\" role=\"button\" tabindex=\"0\" aria-label=\"Lentani yechib, taklifnomani oching\"><svg class=\"ds-mh-folds\" viewBox=\"0 0 100 100\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M0,0 L50,56 L0,100 M100,0 L50,56 L100,100\" fill=\"none\" stroke=\"rgba(120,92,52,0.42)\" stroke-width=\"0.9\" vector-effect=\"non-scaling-stroke\"/></svg><i class=\"ds-mh-seam\"></i><p class=\"ds-mh-names\">Sardor &amp; Mohinur</p><i class=\"ds-mh-band\"></i><span class=\"ds-mh-bow\"><svg viewBox=\"0 0 400 300\" aria-hidden=\"true\"><defs><linearGradient id=\"ds-rb-loop\" x1=\"0\" y1=\"0\" x2=\"0.35\" y2=\"1\"><stop offset=\"0\" style=\"stop-color:var(--rb4)\"/><stop offset=\"0.18\" style=\"stop-color:var(--rb5)\"/><stop offset=\"0.34\" style=\"stop-color:var(--rb2)\"/><stop offset=\"0.52\" style=\"stop-color:var(--rb3)\"/><stop offset=\"0.68\" style=\"stop-color:var(--rb5)\"/><stop offset=\"0.84\" style=\"stop-color:var(--rb4)\"/><stop offset=\"1\" style=\"stop-color:var(--rb1)\"/></linearGradient><linearGradient id=\"ds-rb-in\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" style=\"stop-color:var(--rb1)\"/><stop offset=\"0.55\" style=\"stop-color:var(--rb4)\"/><stop offset=\"1\" style=\"stop-color:var(--rb3)\"/></linearGradient><linearGradient id=\"ds-rb-tail\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0.25\"><stop offset=\"0\" style=\"stop-color:var(--rb1)\"/><stop offset=\"0.25\" style=\"stop-color:var(--rb4)\"/><stop offset=\"0.45\" style=\"stop-color:var(--rb5)\"/><stop offset=\"0.62\" style=\"stop-color:var(--rb2)\"/><stop offset=\"0.8\" style=\"stop-color:var(--rb4)\"/><stop offset=\"1\" style=\"stop-color:var(--rb1)\"/></linearGradient></defs><path d=\"M190,116 C178,158 150,214 112,272 L136,264 L144,294 C172,238 198,176 208,120 Z\" fill=\"url(#ds-rb-tail)\"/><path d=\"M210,116 C224,160 254,212 294,266 L268,264 L262,294 C236,238 204,178 194,120 Z\" fill=\"url(#ds-rb-tail)\"/><g id=\"ds-rb-l\"><path d=\"M192,100 C160,66 108,24 64,26 C26,28 10,66 18,102 C26,136 66,152 112,146 C148,141 174,128 192,118 Z\" fill=\"url(#ds-rb-loop)\"/><path d=\"M180,106 C154,84 112,56 78,58 C54,60 42,82 50,104 C58,124 92,130 122,124 C148,119 166,112 180,110 Z\" fill=\"url(#ds-rb-in)\"/><path d=\"M186,98 C156,68 110,34 70,34 C44,35 28,56 26,80\" fill=\"none\" stroke=\"var(--rb5)\" stroke-opacity=\"0.9\" stroke-width=\"5\" stroke-linecap=\"round\"/></g><use href=\"#ds-rb-l\" transform=\"matrix(-1 0 0 1 400 0)\"/><path d=\"M181,92 C181,84 219,84 219,92 L222,124 C222,133 178,133 178,124 Z\" fill=\"url(#ds-rb-loop)\"/></svg></span><p class=\"ds-mh-tap\">Lentani torting</p></div></div>",
+      "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-card{--rb1:#8c6a3a;--rb2:#efdfbd;--rb3:#dcc493;--rb4:#bf9f66;--rb5:#fffaee;--bw:200px;position:relative;width:200px;height:420px;margin:0 auto;overflow:hidden;cursor:pointer;background:linear-gradient(170deg,#fbf6ec,#efe4d1);outline:none}.ds-mh-folds{position:absolute;inset:0;width:100%;height:100%}.ds-mh-seam{position:absolute;top:0;bottom:0;left:50%;width:1px;background:rgba(110,80,40,.3);box-shadow:-1px 0 0 rgba(255,253,246,.7)}.ds-mh-names{position:absolute;left:0;right:0;top:35%;margin:0;font-family:Corinthia,\"Pinyon Script\",cursive;font-size:24px;line-height:1;color:#8a6128}.ds-mh-tap{position:absolute;left:0;right:0;top:80%;margin:0;font-size:calc(var(--bw)*.03);letter-spacing:.32em;text-transform:uppercase;color:var(--mh-ink-soft);animation:ds-mh-hint 3.6s ease-in-out 1.2s infinite}.ds-mh-band{position:absolute;left:0;right:0;top:56%;height:calc(var(--bw)*.064);margin-top:calc(var(--bw)*-.032);background:linear-gradient(180deg,var(--rb1),var(--rb3) 18%,var(--rb5) 40%,var(--rb2) 58%,var(--rb4) 84%,var(--rb1));box-shadow:0 2px 5px -1px rgba(96,70,30,.32)}.ds-mh-bow{position:absolute;left:14%;width:72%;top:calc(56% - var(--bw)*.194);transform-origin:50% 36%;filter:drop-shadow(0 5px 6px rgba(96,70,30,.28));animation:ds-mh-bow 3.6s ease-in-out 1.2s infinite}.ds-mh-bow svg{display:block;width:100%;height:auto;overflow:visible}.ds-mh-card:focus-visible .ds-mh-bow{filter:drop-shadow(0 0 1px #8a6128) drop-shadow(0 0 12px rgba(246,199,106,.85))}@keyframes ds-mh-bow{50%{scale:1.025;rotate:.6deg}}@keyframes ds-mh-hint{0%,100%{opacity:.55}50%{opacity:1}}@media (prefers-reduced-motion:reduce){.ds-mh-bow,.ds-mh-tap{animation:none}}"
+    },
+    {
+      "name": "Invitation Card",
+      "kind": "card",
+      "refersTo": "invitation-card",
+      "description": "The card that was inside the envelope, laid on the page after the date (in the build .mh-card--section: the column less 20px, at most 420px, 3:5, 4px corners, the card-on-paper shadow): the envelope's embossed paper (paper.jpg via --mh-art) under a radial cream veil, a gold double rule, and the scene's rose spray (spray.jpg) multiplied into the top-left and bottom-right corners; here soft radials stand in for the rasters. Sepia script names, Bodoni italic verse and address, the template's divider, a date block; every size max(px floor, cqi), and the card grows taller on narrow phones.",
+      "html": "<div class=\"ds-mh\"><div class=\"ds-ic\"><div class=\"ds-ic-text\"><p class=\"ds-ic-ar\" lang=\"ar\" dir=\"rtl\">بسم الله الرحمن الرحيم</p><p class=\"ds-ic-verse\"><span>Va Uning alomatlaridan biri —</span><span>sizlar uchun o‘zingizdan</span><span>juftlar yaratgani, toki ular</span><span>bilan orom topgaysiz.</span><span class=\"ds-ic-ref\">Rum surasi, 21-oyat</span></p><svg class=\"ds-ic-rule\" viewBox=\"0 0 220 20\" aria-hidden=\"true\"><path d=\"M6,10 H86 M134,10 H214\" stroke=\"currentColor\" stroke-width=\"0.9\"/><path d=\"M86,10 C94,4 100,4 104,10 C100,16 94,16 86,10Z M134,10 C126,4 120,4 116,10 C120,16 126,16 134,10Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.9\"/><path d=\"M110,3 L113,10 L110,17 L107,10Z\" fill=\"currentColor\"/><circle cx=\"4\" cy=\"10\" r=\"1.6\" fill=\"currentColor\"/><circle cx=\"216\" cy=\"10\" r=\"1.6\" fill=\"currentColor\"/></svg><p class=\"ds-ic-caps\"><span>Karimovlar va</span><span>Yusupovlar oilasi</span></p><p class=\"ds-ic-name\">Sardor</p><p class=\"ds-ic-with\"><svg class=\"ds-ic-sprig\" viewBox=\"0 0 40 20\" aria-hidden=\"true\"><g fill=\"currentColor\"><path d=\"M2,10 C12,10 24,10 38,10\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.9\"/><path d=\"M0,0 C2,-3 6,-4 9,-3 C6,0 3,1 0,0Z\" transform=\"translate(10 10) rotate(-24)\"/><path d=\"M0,0 C2,3 6,4 9,3 C6,0 3,-1 0,0Z\" transform=\"translate(13 10) rotate(24)\"/><path d=\"M0,0 C2,-3 6,-4 9,-3 C6,0 3,1 0,0Z\" transform=\"translate(18 10) rotate(-20)\"/><path d=\"M0,0 C2,3 6,4 9,3 C6,0 3,-1 0,0Z\" transform=\"translate(21 10) rotate(20)\"/><path d=\"M0,0 C2,-3 6,-4 9,-3 C6,0 3,1 0,0Z\" transform=\"translate(26 10) rotate(-16)\"/><path d=\"M0,0 C2,3 6,4 9,3 C6,0 3,-1 0,0Z\" transform=\"translate(29 10) rotate(16)\"/><circle cx=\"38\" cy=\"10\" r=\"1.3\"/></g></svg>va<svg class=\"ds-ic-sprig\" viewBox=\"0 0 40 20\" style=\"transform:scaleX(-1)\" aria-hidden=\"true\"><g fill=\"currentColor\"><path d=\"M2,10 C12,10 24,10 38,10\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.9\"/><path d=\"M0,0 C2,-3 6,-4 9,-3 C6,0 3,1 0,0Z\" transform=\"translate(10 10) rotate(-24)\"/><path d=\"M0,0 C2,3 6,4 9,3 C6,0 3,-1 0,0Z\" transform=\"translate(13 10) rotate(24)\"/><path d=\"M0,0 C2,-3 6,-4 9,-3 C6,0 3,1 0,0Z\" transform=\"translate(18 10) rotate(-20)\"/><path d=\"M0,0 C2,3 6,4 9,3 C6,0 3,-1 0,0Z\" transform=\"translate(21 10) rotate(20)\"/><path d=\"M0,0 C2,-3 6,-4 9,-3 C6,0 3,1 0,0Z\" transform=\"translate(26 10) rotate(-16)\"/><path d=\"M0,0 C2,3 6,4 9,3 C6,0 3,-1 0,0Z\" transform=\"translate(29 10) rotate(16)\"/><circle cx=\"38\" cy=\"10\" r=\"1.3\"/></g></svg></p><p class=\"ds-ic-name\">Mohinur</p><p class=\"ds-ic-caps\"><span>Sizni farzandlarimizning</span><span>nikoh to‘yiga taklif etamiz</span></p><svg class=\"ds-ic-rule\" viewBox=\"0 0 220 20\" aria-hidden=\"true\"><path d=\"M6,10 H86 M134,10 H214\" stroke=\"currentColor\" stroke-width=\"0.9\"/><path d=\"M86,10 C94,4 100,4 104,10 C100,16 94,16 86,10Z M134,10 C126,4 120,4 116,10 C120,16 126,16 134,10Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.9\"/><path d=\"M110,3 L113,10 L110,17 L107,10Z\" fill=\"currentColor\"/><circle cx=\"4\" cy=\"10\" r=\"1.6\" fill=\"currentColor\"/><circle cx=\"216\" cy=\"10\" r=\"1.6\" fill=\"currentColor\"/></svg><div class=\"ds-ic-date\"><span class=\"ds-ic-small\">Shanba</span><span class=\"ds-ic-row\"><span>Iyun</span><b>19</b><span>2027</span></span><span class=\"ds-ic-small\">soat 18:00</span></div><svg class=\"ds-ic-rule\" viewBox=\"0 0 220 20\" aria-hidden=\"true\"><path d=\"M6,10 H86 M134,10 H214\" stroke=\"currentColor\" stroke-width=\"0.9\"/><path d=\"M86,10 C94,4 100,4 104,10 C100,16 94,16 86,10Z M134,10 C126,4 120,4 116,10 C120,16 126,16 134,10Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.9\"/><path d=\"M110,3 L113,10 L110,17 L107,10Z\" fill=\"currentColor\"/><circle cx=\"4\" cy=\"10\" r=\"1.6\" fill=\"currentColor\"/><circle cx=\"216\" cy=\"10\" r=\"1.6\" fill=\"currentColor\"/></svg><p class=\"ds-ic-venue\">Oltin saroy to‘yxonasi</p><p class=\"ds-ic-addr\"><span>Samarqand sh.,</span><span>Registon ko‘chasi, 15</span></p></div></div></div>",
+      "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-ic{position:relative;width:300px;margin:0 auto;aspect-ratio:3/5;border-radius:4px;overflow:clip;container-type:inline-size;display:flex;flex-direction:column;background:radial-gradient(60% 56% at 50% 50%,rgba(252,248,240,.93),rgba(252,248,240,.72) 70%,rgba(252,248,240,.3) 100%),radial-gradient(45% 30% at 0% 0%,rgba(222,190,140,.45),transparent),radial-gradient(45% 30% at 100% 100%,rgba(222,190,140,.45),transparent),#f7efe2;box-shadow:0 1px 2px rgba(80,56,24,.18),0 22px 40px -22px rgba(80,56,24,.55)}.ds-ic::before{content:\"\";position:absolute;inset:3.4cqi;border:1px solid rgba(176,134,54,.75);outline:.5px solid rgba(176,134,54,.55);outline-offset:-1.3cqi;pointer-events:none}.ds-ic-text{position:relative;margin-block:auto;padding:11% 16% 10%;display:flex;flex-direction:column;align-items:center;text-align:center;color:#77604a}.ds-ic-text>*{margin:0}.ds-ic-ar{margin-bottom:1.6cqi;font-family:Amiri,\"Noto Naskh Arabic\",serif;font-size:max(13px,4cqi);line-height:1.4;color:#9a6e2e}.ds-ic-verse{font-style:italic;font-size:max(10px,2.8cqi);line-height:1.55}.ds-ic-verse span,.ds-ic-caps span,.ds-ic-addr span{display:block}.ds-ic-ref{margin-top:.7em;font-style:normal;font-size:max(8.5px,2.2cqi);letter-spacing:.18em;text-transform:uppercase;color:#9a7a48}.ds-ic-rule{width:34cqi;height:auto;margin:3.4cqi 0;color:#b8924a}.ds-ic-caps{font-size:max(9px,2.4cqi);line-height:1.75;letter-spacing:.16em;text-transform:uppercase}.ds-ic-name{margin-top:1.2cqi!important;font-family:Corinthia,\"Pinyon Script\",cursive;font-size:max(34px,11.5cqi);line-height:1.02;color:#4f2f12}.ds-ic-name+.ds-ic-caps{margin-top:2.4cqi!important}.ds-ic-with{display:flex;align-items:center;gap:2.6cqi;margin:.2cqi 0!important;font-family:Corinthia,\"Pinyon Script\",cursive;font-size:max(20px,6.6cqi);line-height:1;color:#9a6e2e}.ds-ic-sprig{width:8.5cqi;color:#b8924a}.ds-ic-date{display:grid;justify-items:center;gap:1.1cqi}.ds-ic-small{font-size:max(9px,2.4cqi);letter-spacing:.22em;text-transform:uppercase}.ds-ic-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;width:max(170px,50cqi);font-size:max(9.5px,2.7cqi);letter-spacing:.2em;text-transform:uppercase;color:#4a331b}.ds-ic-row>span:first-child{text-align:right}.ds-ic-row>span:last-child{text-align:left}.ds-ic-row b{margin:0 3.2cqi;padding:0 3.2cqi;font-weight:400;font-size:max(26px,8.4cqi);line-height:1.1;font-variant-numeric:lining-nums;color:#4f2f12;border-inline:1px solid rgba(184,146,74,.75)}.ds-ic-venue{font-size:max(12.5px,3.7cqi);line-height:1.3;color:#4a331b}.ds-ic-addr{margin-top:1cqi!important;font-style:italic;font-size:max(9.5px,2.6cqi);line-height:1.5}"
+    },
+    {
+      "name": "Gift Card",
+      "kind": "card",
+      "refersTo": "gift-card",
+      "description": "To‘yana: the couple's card for wedding gifts, foil-stamped on cream stock in the invitation's gold, number grouped in fours, network detected (UZCARD/HUMO), with a copy button that confirms 'Nusxa olindi'.",
+      "html": "<div class=\"ds-mh\"><div class=\"ds-mh-gift\"><div class=\"ds-mh-gift-card\"><span class=\"ds-mh-gift-chip\" aria-hidden=\"true\"></span><span class=\"ds-mh-gift-net\">UZCARD</span><p class=\"ds-mh-gift-number\" aria-label=\"Karta raqami 8600 1234 5678 9012\"><span>8600</span><span>1234</span><span>5678</span><span>9012</span></p><p class=\"ds-mh-gift-holder\">Sardor Karimov</p></div><button type=\"button\" class=\"ds-mh-gift-copy\" aria-live=\"polite\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"8\" y=\"8\" width=\"12\" height=\"12\" rx=\"2.5\"/><path d=\"M16 8V6.5A2.5 2.5 0 0 0 13.5 4h-7A2.5 2.5 0 0 0 4 6.5v7A2.5 2.5 0 0 0 6.5 16H8\"/></svg>Karta raqamini nusxalash</button></div></div>",
+      "css": ".ds-mh{--mh-ground:#f5ecdf;--mh-ink:#4a331b;--mh-ink-soft:#77604a;--mh-gold-deep:#8f6a2a;--mh-gold:#b08636;--mh-gold-pale:#efd9a0;--mh-line:rgba(176,134,54,0.38);font-family:\"Bodoni Moda\",\"Didot\",\"Bodoni 72\",Georgia,serif;font-optical-sizing:auto;color:var(--mh-ink);background:var(--mh-ground);padding:24px;text-align:center;}.ds-mh-gift{max-width:340px;margin:0 auto}.ds-mh-gift-card{position:relative;aspect-ratio:1.586;border-radius:16px;padding:0 22px;text-align:left;overflow:hidden;background:radial-gradient(120% 90% at 0% 0%,rgba(255,252,244,.9),rgba(255,252,244,0) 60%),linear-gradient(150deg,#f8eedb,#ecdab6 55%,#e2c993);box-shadow:inset 0 0 0 1px rgba(176,134,54,.45),inset 0 0 0 6px rgba(255,250,238,.35),0 18px 34px -20px rgba(96,70,30,.7)}.ds-mh-gift-chip{position:absolute;left:22px;top:26%;width:38px;height:28px;border-radius:6px;background:linear-gradient(90deg,transparent 32%,rgba(120,84,30,.35) 32% 34%,transparent 34% 66%,rgba(120,84,30,.35) 66% 68%,transparent 68%),linear-gradient(0deg,transparent 46%,rgba(120,84,30,.35) 46% 54%,transparent 54%),linear-gradient(135deg,#f6dfa4,#c99a4c 55%,#e9cc86);box-shadow:inset 0 0 0 1px rgba(120,84,30,.35)}.ds-mh-gift-net{position:absolute;right:22px;top:22%;font-size:12px;letter-spacing:.24em;color:#8a6128}.ds-mh-gift-number{position:absolute;left:22px;right:22px;top:52%;margin:0;display:flex;justify-content:space-between;font-size:22px;font-variant-numeric:tabular-nums lining-nums;letter-spacing:.04em;color:#4a331b;text-shadow:0 1px 0 rgba(255,250,236,.8)}.ds-mh-gift-holder{position:absolute;left:22px;bottom:14%;margin:0;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#6a4f2c}.ds-mh-gift-copy{width:100%;margin-top:16px;display:flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 22px;border:0;border-radius:999px;font:500 15px/1 inherit;font-family:inherit;letter-spacing:.02em;color:#3f2a12;cursor:pointer;background:linear-gradient(170deg,#f8e4ad,#dcb466 60%,#c59a4a);box-shadow:inset 0 1px 0 rgba(255,255,255,.65),inset 0 0 0 1px rgba(143,106,42,.45),0 10px 20px -12px rgba(120,84,30,.7);transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s}.ds-mh-gift-copy:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.75),inset 0 0 0 1px rgba(143,106,42,.55),0 14px 26px -12px rgba(120,84,30,.75)}.ds-mh-gift-copy:active{transform:scale(.97)}.ds-mh-gift-copy:focus-visible{outline:2px solid var(--mh-gold-deep);outline-offset:3px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Ribboned Letter at Sunset",
+    "overview": "The phone screen is the closed card, edge to edge: a gatefold of the owner's ivory paper blind-embossed with roses and climbing vines, its two doors meeting at a centre seam, the inner envelope's fold lines showing faintly through toward a point at 56% height. The couple's names are printed across both doors in bronze script at 35% height, a champagne satin ribbon crosses the card at 56% and is tied at the centre in a bow, and \"Lentani torting\" is set in small spaced capitals near the foot. Closed, the card is alive in the guest's hands: it tilts slowly and the bow swells and rocks as if inviting a touch. A fingertip presses softly into the paper where it lands; the guest can tap, or take the ribbon and pull, and the bow and band follow the finger under rubber-band tension and spring back if let go early. Untying it is the one orchestrated moment of the page, told in order: the pulled tail is drawn out and its loop slips through, the knot gives and the other loop follows, the bow rocks free and the satin flutters down, lands and crumples away; the left door is lifted at its edge, swung open with a slight flex and settles, then the right; the inner envelope's four flaps lift and fold back off the photograph, which comes into focus as the camera moves through; the names and the welcome are written in where they will sit in the hero, and the paper dissolves into a sunset photograph of the couple walking toward a mosque, where petals keep falling and light keeps rising. In the showcase the same story is told by the owner's own film: its first frame is the closed card (its satin is silver, the film's own), the couple's names and the hint are set over it in type, and on the tap it plays the bow untying and the doors and flaps opening, then dissolves into the same photograph.\n\nAfter the opening the page is ceremonial, and each section arrives once as it scrolls in: one centred phone-width column on cream (#f5ecdf), sepia ink, gold script titles, rose sprays multiplied onto the ground so their white backgrounds vanish, and, after the date, an invitation card cut from the envelope's own embossed paper (quietened under a cream veil where the type sits, framed by a gold double rule, the scene's roses multiplied into two corners) that sets the Bismillah, the Rum 30:21 verse, the families, the names in sepia script, the date and the venue. The world is built from the owner's own rasters (photograph, paper, seal, roses, rings), each carrying its generation prompt and post-processing in embedded metadata; the owner's opening film is the one moving raster; code draws what the rasters do not cover (the satin ribbon and bow, the card's fold lines, the invitation card's rules and type, gold timeline line art, dividers, the venue map, icons).",
+    "keyCharacteristics": [
+      "Full-bleed embossed gatefold card tied with a satin bow as the first viewport (in the showcase, the owner's film poster with its silver satin; the drawn fallback in champagne satin); the whole card is the control, and it carries only the names and one hint line.",
+      "An owner-supplied raster world, each image carrying embedded provenance; nothing generic or stock. The invitation card reuses the same rasters (paper and rose spray) rather than bringing its own.",
+      "Gold is a material (foil, gilt edge, coin, pressed leaf, satin), rendered as gradients from deep antique to pale champagne, never as a flat accent fill and never on text.",
+      "Sepia ink throughout; no black anywhere a guest can see.",
+      "Three faces with fixed jobs: Corinthia script for names, greetings and section titles; Bodoni Moda for everything set; Amiri for the Arabic Bismillah alone.",
+      "The opening ends in the evening light: the paper, or the film, dissolves into the couple's photograph, which is the first screen; the invitation card is laid on the page after the date.",
+      "Slow exponential ease-out; a tied card that breathes in the hand, one choreographed untying and opening, sections that arrive once as the guest scrolls them in, two tactile interactions (pulling the ribbon, scratching the gold-foil date), otherwise only ambient motion (petals, rising light, drifting photograph, swaying roses). Reduced motion shows everything at rest."
+    ],
+    "rules": [
+      {
+        "name": "The Sepia Rule",
+        "body": "Ink is brown, never black. Even the showcase phone bezel is dark brown (#241a10). Nothing code draws is cool: the drawn satin ribbon is champagne, and its shadows are brown; the cool notes are in the owner's rasters (the photograph, and the opening film's silver satin).",
+        "section": "colors"
+      },
+      {
+        "name": "The Light Is Not Paint Rule",
+        "body": "Amber and the white-gold radials describe light (the focus halo on the bow, the rising motes and the date shower, the glints that cross the foil, the invitation card and the gift card, the sky veil behind the hero names, the cream glow behind the closed card's hint). They never fill a card, a button or text.",
+        "section": "colors"
+      },
+      {
+        "name": "The Multiply Rule",
+        "body": "Rasters drawn on white (rose spray, rings) are laid on cream with `mix-blend-mode: multiply` so their ground disappears, on the page and on the invitation card's paper alike; the seal's initials are gold (#a77b34, dot #b88c3e) multiplied into the wax so they read as pressed, not printed.",
+        "section": "colors"
+      },
+      {
+        "name": "The Spoken Script Rule",
+        "body": "Corinthia sets names, greetings, section titles and the programme times. Instructions, body copy, labels, form text and data are Bodoni Moda.",
+        "section": "typography"
+      },
+      {
+        "name": "The Bismillah Only Rule",
+        "body": "Amiri sets the Arabic Bismillah and nothing else, and it is fetched only for those glyphs.",
+        "section": "typography"
+      },
+      {
+        "name": "The Shares of the Card Rule",
+        "body": "Everything on the invitation card (type, rules, sprigs, gaps, the double rule's inset) is a share of the card's width in `cqi`, so the card scales whole like a printed one; each type size has a legible px floor (`max(px, cqi)`, nothing under 8.5px), and on the narrowest phones the card grows taller (its 3:5 ratio yields to content under `overflow: clip`) rather than letting the type shrink. Nothing inside it is sized in vw.",
+        "section": "typography"
+      },
+      {
+        "name": "The Printed Face Rule",
+        "body": "The closed card carries exactly two lines of text, both printed across the doors so they split at the seam: the couple's names in script and the hint line in spaced capitals. Over the opening film's poster the same two lines are set in type (names in bronze script at the film's `names` height, 0.2 for the current film; \"Ochish uchun bosing\" at its `hint` height, 0.86, default 0.8, in 12px Bodoni 500 spaced capitals at 0.32em, #6a5236 on a cream glow), so one film serves every couple. Everything else on the paper is the owner's embossing and the fold lines.",
+        "section": "typography"
+      },
+      {
+        "name": "The Real Paper Rule",
+        "body": "The closed card's relief is the owner's embossed-paper photograph, printed across both doors as one sheet (each door shows its half of a 200%-wide print, so the image runs unbroken across the seam). The inner envelope's flap faces are cut from the same print, multiplied over their paper gradients at 0.45 so their relief is fainter. Code adds only the fold lines, the seam, the printed names and the hint line; no coded relief, flourish or colour ornament. The ribbon lies on the paper; it is not printed on it.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Wipe, Not Fade Rule",
+        "body": "A multiplied photograph (rose spray, rings) never fades and never sits inside an ancestor that fades or transforms: Chrome drops the blend mid-fade and an ancestor's opacity isolates it, so the white ground flashes. Move the image itself, not its box, and draw it in with a clip-path wipe (`inset(0 100% 0 0)` to none, 1.3s ease-out, mirrored for right-hand art). Its own rotate or scale (the sway) is fine. The invitation card is the one allowed case: its sprays multiply onto the card's own paper, inside the card's group, so the card may be laid down with opacity and transform and the sprays ride with it. The sprays are part of the card's stock, present from the first frame the card is seen; they take no wipe of their own.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep every raster owner-supplied and carrying its prompt and post-processing in embedded metadata.",
+      "Do lay white-ground rasters on cream with `mix-blend-mode: multiply`, and press the seal's initials into the wax the same way.",
+      "Do render gold as a gradient material with a highlight and a darker edge (deep antique to pale champagne), not as a flat fill.",
+      "Do time motion with the slow ease-out (`cubic-bezier(0.16, 1, 0.3, 1)`), and tell the opening in order: the bow undone, the ribbon gone, the doors, the inner flaps, then the scene.",
+      "Do let the satin answer the finger: tension that gives and then resists, a spring back with a slight overshoot when let go early, and an untying that starts from the pulled side.",
+      "Do draw icons, sparks, dividers and nodes as inline SVG in line gold or currentColor.",
+      "Do keep fixed controls aligned to the 480px column and clear of safe-area insets.",
+      "Do size everything inside the invitation card in `cqi` of the card with a legible px floor (`max(px, cqi)`), and let the card grow taller rather than shrink its type.",
+      "Do honour reduced motion: the closed card is still (no hold, bow swell or breathing hint), a tap fades it to the scene in 400ms, there is no film, the photograph's lettering, photograph and roses stand at rest, and there are no petals, drift, sway or cue bob; every scroll reveal is shown at rest.",
+      "Do bring each section in once, as the guest scrolls to it, and leave it in place.",
+      "Do draw a multiplied photograph in with a clip-path wipe on the image itself."
+    ],
+    "donts": [
+      "Don't print colour ornament or extra text on the closed card; it carries the embossed paper, its fold lines, the printed names, one hint line and the satin bow.",
+      "Don't use black ink, or grey or cool tones in anything code draws; text is sepia, and even the drawn satin ribbon is champagne (the silver satin in the owner's film is the film's own material, not a licence for coded silver).",
+      "Don't fill text with a gradient or clip a gradient to text; gold text is a flat script gold or bronze.",
+      "Don't use emoji or font glyphs as icons.",
+      "Don't let the hand-over jump: the opening (the paper, or the film) dissolves into the live scene already composed beneath it, which is coming into focus as the dissolve begins.",
+      "Don't add a second automatic sequence after the opening; later motion answers the guest (a section scrolled into view, a date scratched) or is ambient.",
+      "Don't fade a multiplied photograph or fade or transform any ancestor of one whose backdrop lies outside it; Chrome drops the blend and its white ground shows.",
+      "Don't set instructions, body copy, labels or form text in the script face, or use Amiri for anything but the Bismillah.",
+      "Don't let a later template borrow these tokens, rasters, the opening film, the satin bow, the seal, the invitation card or the gift card; it shares only the showcase shell."
+    ]
+  }
+}
