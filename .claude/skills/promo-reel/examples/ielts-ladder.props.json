@@ -82,8 +82,6 @@
   "iconAt": 11.12
  },
  "voiceVolume": 0.76,
- "music": "v_bed.wav",
- "musicVolume": 1.0,
  "cues": [
   {
    "file": "v_click.wav",
