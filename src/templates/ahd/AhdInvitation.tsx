@@ -12,9 +12,9 @@ import "./ahd.css";
 
 /*
  * Ahd — "the vow". Two hands bring two rings together at a tall window; as they meet, the grey day turns
- * golden. The invitation is a light editorial page: warm ivory paper, brown-grey ink, one golden accent,
- * and the window's thin bars as its rules. The date waits behind linen curtains until the guest slides a
- * ring across to open them.
+ * golden. The invitation is written like a letter on ivory paper: the names in a signature hand, headings
+ * in pen-written capitals, the text in a book serif, thin espresso rules with a small wine-red heart. The
+ * date waits behind linen curtains until the guest slides a ring across to open them.
  */
 
 type Stage = "closed" | "opening" | "scene";
@@ -237,10 +237,13 @@ function RingsHero({ data }: { data: InviteData }) {
             {data.bride}
           </span>
         </h1>
-        <p className="ah-l ah-hero-line" style={at(4)}>
+        <span className="ah-l ah-hero-rule" style={at(4)}>
+          <Rule />
+        </span>
+        <p className="ah-l ah-hero-line" style={at(5)}>
           Ikki uzuk — bir ahd
         </p>
-        <div className="ah-l ah-cue" style={at(5)} aria-hidden="true">
+        <div className="ah-l ah-cue" style={at(6)} aria-hidden="true">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
             <path d="M6 9l6 6 6-6" />
           </svg>
@@ -284,12 +287,46 @@ function dialable(phone: string) {
   return digits.length === 9 ? `998${digits}` : digits;
 }
 
-/** A section's heading: the word in the serif, over a window's transom (a hairline with its latch). */
-function Head({ children }: { children: ReactNode }) {
+/** The pen font has no Uzbek ‘ of its own; the modifier letter ʻ is the correct sign and reads clearly. */
+const pen = (s: string) => s.replace(/[‘’]/g, "ʻ");
+
+function Heart({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="10" height="9" viewBox="0 0 10 9" aria-hidden="true">
+      <path d="M5 8.6C2.2 6.5.3 4.9.3 2.8.3 1.4 1.3.4 2.6.4c1 0 1.8.6 2.4 1.5C5.6 1 6.4.4 7.4.4c1.3 0 2.3 1 2.3 2.4 0 2.1-1.9 3.7-4.7 5.8z" fill="currentColor" />
+    </svg>
+  );
+}
+
+/** A hairline with a small heart in its middle, as under a letter's heading. */
+function Rule() {
+  return (
+    <span className="ah-rule" aria-hidden="true">
+      <i />
+      <Heart />
+      <i />
+    </span>
+  );
+}
+
+/** A thread across the page that loops into a heart on its way. */
+function Thread() {
+  return (
+    <svg className="ah-thread" viewBox="0 0 400 56" aria-hidden="true">
+      <path
+        pathLength={1}
+        d="M0 40C60 31 118 48 168 40c14-2 24-6 32-14-7-6-14-11-14-17 0-5 4-8 8-8 3 0 5 2 6 4 1-2 3-4 6-4 4 0 8 3 8 8 0 6-7 11-14 17 8 8 18 12 32 14 50 8 108-9 168 0"
+      />
+    </svg>
+  );
+}
+
+/** A section's heading: pen-written capitals over a hairline with a heart. */
+function Head({ children }: { children: string }) {
   return (
     <div className="ah-head">
-      <h2>{children}</h2>
-      <i aria-hidden="true" />
+      <h2>{pen(children)}</h2>
+      <Rule />
     </div>
   );
 }
@@ -342,17 +379,12 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
         <DateCurtain date={data.date} time={data.time} />
       </section>
 
+      <Thread />
+
       {data.program.length > 0 && (
         <section className="ah-sec ah-program">
           <Head>To‘y dasturi</Head>
-          <ol className="ah-timeline" data-reveal="line">
-            {data.program.map((p, i) => (
-              <li key={`${p.time}${p.title}`} style={v("--i", i)}>
-                <time>{p.time}</time>
-                <span>{p.title}</span>
-              </li>
-            ))}
-          </ol>
+          <Programme items={data.program} />
         </section>
       )}
 
@@ -360,7 +392,7 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
         <Head>To‘yxona</Head>
         <div className="ah-window" data-reveal="window">
           <div className="ah-window-in">
-            <p className="ah-venue">{data.venue}</p>
+            <p className="ah-venue">{pen(data.venue)}</p>
             {data.address && <p className="ah-addr">{data.address}</p>}
             <div className="ah-maps">
               <a className="ah-btn" href={links.yandex} target="_blank" rel="noopener noreferrer">
@@ -410,16 +442,14 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
       )}
 
       <section className="ah-sec ah-close">
-        <span className="ah-close-rings" aria-hidden="true">
-          <Icon kind="rings" size={30} className="ah-ico" />
-        </span>
-        <p className="ah-duo">
-          Alloh yoshlarimizga baxt, totuvlik va barakali umr ato etsin
-        </p>
+        <Thread />
         <p className="ah-close-title">
           Sizni intiqlik
           <br />
-          bilan kutamiz
+          bilan kutamiz!
+        </p>
+        <p className="ah-duo">
+          Alloh yoshlarimizga baxt, totuvlik va barakali umr ato etsin
         </p>
         <p className="ah-sign">
           <span>Hurmat bilan,</span>
@@ -429,6 +459,60 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
       </section>
     </div>
   );
+}
+
+const ROW = 92;
+
+/**
+ * The day's programme along a thread that winds down the page: a wine-red bead at each hour, the hour in
+ * pen and the event in small serif capitals on alternate sides, a small heart where the thread ends.
+ */
+function Programme({ items }: { items: InviteData["program"] }) {
+  const W = 300;
+  const pts = items.map((_, i) => ({ x: i % 2 ? 108 : 192, y: 34 + i * ROW }));
+  const last = pts[pts.length - 1];
+  const H = last.y + 74;
+  let d = `M${pts[0].x} 0V${pts[0].y}`;
+  for (let i = 1; i < pts.length; i++) {
+    const a = pts[i - 1];
+    const b = pts[i];
+    d += `C${a.x} ${a.y + ROW / 2} ${b.x} ${b.y - ROW / 2} ${b.x} ${b.y}`;
+  }
+  const n = H - 22; // the heart's notch
+  d += `C${last.x} ${last.y + 30} 150 ${n - 22} 150 ${n}`;
+  d += `c-3-5-10-5-10 1 0 5 6 8 10 12 4-4 10-7 10-12 0-6-7-6-10-1`;
+
+  return (
+    <div className="ah-programme" data-reveal="line" style={{ aspectRatio: `${W} / ${H}` }}>
+      <svg viewBox={`0 0 ${W} ${H}`} aria-hidden="true">
+        <path className="ah-wind" pathLength={1} d={d} />
+        {pts.map((p, i) => (
+          <circle key={i} cx={p.x} cy={p.y} r="3.6" style={at(i)} />
+        ))}
+      </svg>
+      <ol>
+        {items.map((p, i) => (
+          <li
+            key={`${p.time}${p.title}`}
+            data-side={i % 2 ? "r" : "l"}
+            style={{ ...at(i), top: `${(pts[i].y / H) * 100}%` }}
+          >
+            <time>{p.time}</time>
+            <span>{p.title}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+const DAYS = ["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"];
+
+/** The Monday-to-Sunday week around the day, each as its day of the month. */
+function weekOf(y: number, m: number, d: number) {
+  const day = new Date(Date.UTC(y, m - 1, d));
+  const mon = d - ((day.getUTCDay() + 6) % 7);
+  return DAYS.map((label, k) => ({ label, n: new Date(Date.UTC(y, m - 1, mon + k)).getUTCDate(), on: mon + k === d }));
 }
 
 /**
@@ -487,11 +571,26 @@ function DateCurtain({ date, time }: { date: string; time: string }) {
     <div className="ah-curtain" data-open={open || undefined} data-held={held || undefined} style={{ ...v("--p", p), ...v("--span", `${travel}px`) }}>
       <div className="ah-stage">
         <div className="ah-datebox" aria-hidden={!open}>
-          <span className="ah-weekday">{formatWeekday(date)}</span>
-          <span className="ah-day">{d}</span>
-          <span className="ah-month">{month}</span>
-          <span className="ah-year">{y}</span>
-          <span className="ah-time">soat {time}</span>
+          <span className="ah-month">
+            {month} {y}
+          </span>
+          <span className="ah-week">
+            {weekOf(y, m, d).map((w) => (
+              <span key={w.label} data-on={w.on || undefined}>
+                <small>{w.label}</small>
+                <b>
+                  {w.on && <Heart className="ah-day-heart" />}
+                  <em>{w.n}</em>
+                </b>
+              </span>
+            ))}
+          </span>
+          <span className="ah-time">
+            {formatWeekday(date)}, soat {time}
+          </span>
+          <span className="sr-only">
+            {d}-{month}, {y}-yil, {formatWeekday(date, false)}, soat {time}
+          </span>
         </div>
         <div className="ah-drape l" aria-hidden="true" />
         <div className="ah-drape r" aria-hidden="true" />

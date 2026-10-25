@@ -1,35 +1,35 @@
 /*
- * Ahd — a light editorial page: warm ivory paper, brown-grey ink (never black), one golden accent from the
- * film's autumn bush, a touch of sage, and the window's thin pale bars as its rules.
- * One phone-width column (max 480px).
+ * Ahd — written like a letter on ivory paper: the names in a signature hand (Ms Madi), headings in
+ * pen-written capitals (Nothing You Could Do), the text in a book serif (Crimson Pro). Espresso-brown ink,
+ * never black; thin hairlines; one small wine-red heart as the only colour. One phone-width column (max 480px).
  */
 
 .ah {
-  --ah-paper: #f7f2ea;
-  --ah-linen: #efe7da;
-  --ah-ink: #4a433b;
-  --ah-soft: #8b8277;
-  --ah-gold: #c19a3e;
-  --ah-gold-soft: #ead9ae;
-  --ah-sage: #9caa8a;
-  --ah-line: rgba(160, 140, 110, 0.38);
-  --ah-surround: #ece6dc;
+  --ah-paper: #f4eee5;
+  --ah-card: #f9f5ee;
+  --ah-ink: #3f3029;
+  --ah-soft: #84756a;
+  --ah-wine: #7b2d2a;
+  --ah-line: rgba(63, 48, 41, 0.34);
+  --ah-hair: rgba(63, 48, 41, 0.18);
+  --ah-surround: #e9e2d7;
 
-  --ah-serif: "Playfair Display", "Bodoni Moda", Georgia, serif;
-  --ah-sans: "Manrope", "Helvetica Neue", Arial, sans-serif;
+  --ah-script: "Ms Madi", "Corinthia", cursive;
+  --ah-pen: "Nothing You Could Do", "Crimson Pro", cursive;
+  --ah-serif: "Crimson Pro", "Cormorant Garamond", Georgia, serif;
   --ah-ease: cubic-bezier(0.16, 1, 0.3, 1);
 
   --film-ground: #d9d4cc;
-  --film-focus: var(--ah-gold);
+  --film-focus: var(--ah-wine);
 
   --sc-ink: var(--ah-ink);
   --sc-line: var(--ah-line);
-  --sc-font: var(--ah-sans);
-  --sc-focus: var(--ah-gold);
+  --sc-font: var(--ah-serif);
+  --sc-focus: var(--ah-wine);
 
   background: var(--ah-surround);
   color: var(--ah-ink);
-  font-family: var(--ah-sans);
+  font-family: var(--ah-serif);
   min-height: 100vh;
   min-height: 100svh;
 }
@@ -38,11 +38,11 @@
   background: none;
 }
 .ah ::selection {
-  background: rgba(234, 217, 174, 0.7);
+  background: rgba(123, 45, 42, 0.16);
   color: var(--ah-ink);
 }
 .ah input {
-  caret-color: var(--ah-gold);
+  caret-color: var(--ah-wine);
 }
 .ah-ico {
   display: block;
@@ -65,13 +65,13 @@
   width: var(--ring, 64px);
   height: var(--ring, 64px);
   border-radius: 50%;
-  color: var(--ah-gold);
-  background: rgba(247, 242, 234, 0.92);
+  color: var(--ah-wine);
+  background: rgba(249, 245, 238, 0.93);
   box-shadow:
-    inset 0 0 0 1px rgba(193, 154, 62, 0.5),
-    inset 0 0 0 5px rgba(247, 242, 234, 0.92),
-    inset 0 0 0 6px rgba(193, 154, 62, 0.3),
-    0 10px 24px -10px rgba(40, 32, 20, 0.5);
+    inset 0 0 0 1px rgba(63, 48, 41, 0.4),
+    inset 0 0 0 5px rgba(249, 245, 238, 0.93),
+    inset 0 0 0 6px rgba(63, 48, 41, 0.18),
+    0 10px 24px -10px rgba(40, 30, 20, 0.5);
 }
 .ah-tap .ah-ico {
   width: 46%;
@@ -83,7 +83,7 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 1.5px solid rgba(247, 242, 234, 0.9);
+  border: 1.5px solid rgba(249, 245, 238, 0.9);
   animation: ah-pulse 2.4s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
 }
 .ah-tap::after {
@@ -111,13 +111,56 @@
   }
 }
 
+/* the column is a sheet of paper with a faint grain */
 .ah-col {
   position: relative;
   max-width: 480px;
   margin: 0 auto;
-  background: var(--ah-paper);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .2 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E"),
+    var(--ah-paper);
   overflow: hidden;
   box-shadow: 0 0 80px -30px rgba(80, 64, 40, 0.3);
+}
+
+/* ------------------------------------------------------------------ */
+/* Ornaments: a heart on a hairline, a thread that loops into a heart  */
+/* ------------------------------------------------------------------ */
+
+.ah-rule {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 170px;
+  color: var(--ah-wine);
+}
+.ah-rule i {
+  flex: 1;
+  height: 1px;
+  background: var(--ah-line);
+}
+.ah-rule i:first-child {
+  background: linear-gradient(90deg, transparent, var(--ah-line) 30%);
+}
+.ah-rule i:last-child {
+  background: linear-gradient(270deg, transparent, var(--ah-line) 30%);
+}
+.ah-rule svg {
+  display: block;
+  flex: none;
+}
+.ah-thread {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.ah-thread path {
+  fill: none;
+  stroke: var(--ah-ink);
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  opacity: 0.7;
 }
 
 /* ------------------------------------------------------------------ */
@@ -146,7 +189,7 @@
     scale: 1.04;
   }
 }
-/* a pale veil at the top for the ceremony line and at the foot for the names; the rings stay clear */
+/* a paper veil at the foot for the names; the hands and rings stay clear above */
 .ah-veil {
   position: absolute;
   z-index: 3;
@@ -154,10 +197,10 @@
   pointer-events: none;
   background: linear-gradient(
     180deg,
-    rgba(247, 242, 234, 0) 54%,
-    rgba(247, 242, 234, 0.7) 66%,
-    rgba(247, 242, 234, 0.95) 78%,
-    var(--ah-paper) 92%
+    rgba(244, 238, 229, 0) 52%,
+    rgba(244, 238, 229, 0.72) 64%,
+    rgba(244, 238, 229, 0.95) 76%,
+    var(--ah-paper) 90%
   );
   opacity: 0;
 }
@@ -182,33 +225,38 @@
 }
 .ah-hero-names {
   margin: 0;
-  display: grid;
-  justify-items: center;
-  font-family: var(--ah-serif);
-  font-style: italic;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  column-gap: 0.18em;
+  padding: 0 18px;
+  font-family: var(--ah-script);
   font-weight: 400;
-  font-size: min(14.5vw, 62px);
-  line-height: 0.98;
-  letter-spacing: -0.01em;
+  font-size: min(12.4vw, 60px);
+  line-height: 1.1;
   color: var(--ah-ink);
 }
 .ah-amp {
-  font-size: 0.55em;
-  line-height: 1.2;
-  color: var(--ah-gold);
+  font-size: 0.62em;
+}
+.ah-hero-rule {
+  margin-top: 10px;
+}
+.ah-hero-rule .ah-rule {
+  width: 210px;
 }
 .ah-hero-line {
   margin: 12px 0 0;
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.32em;
-  padding-left: 0.32em;
+  font-size: 12.5px;
+  letter-spacing: 0.3em;
+  padding-left: 0.3em;
   text-transform: uppercase;
-  color: var(--ah-soft);
+  color: var(--ah-ink);
 }
 .ah-cue {
   margin-top: 10px;
-  color: var(--ah-gold);
+  color: var(--ah-soft);
 }
 .ah-cue svg {
   display: block;
@@ -223,7 +271,7 @@
   opacity: 0;
 }
 .ah-hero[data-play] .ah-l {
-  animation: ah-text 1100ms var(--ah-ease) calc(450ms + var(--i, 0) * 160ms) both;
+  animation: ah-text 1100ms var(--ah-ease) calc(450ms + var(--i, 0) * 150ms) both;
 }
 @keyframes ah-text {
   from {
@@ -248,10 +296,10 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  color: var(--ah-gold);
-  background: rgba(247, 242, 234, 0.94);
+  color: var(--ah-ink);
+  background: rgba(249, 245, 238, 0.94);
   box-shadow:
-    inset 0 0 0 1px rgba(193, 154, 62, 0.45),
+    inset 0 0 0 1px var(--ah-line),
     0 8px 18px -10px rgba(60, 48, 30, 0.45);
   animation: ah-text 800ms var(--ah-ease) both;
   transition:
@@ -263,7 +311,7 @@
   scale: 0.86;
 }
 .ah-music:focus-visible {
-  outline: 2px solid var(--ah-gold);
+  outline: 2px solid var(--ah-wine);
   outline-offset: 3px;
 }
 
@@ -273,58 +321,32 @@
 
 .ah-sec {
   position: relative;
-  padding: 56px 26px 52px;
+  padding: 52px 26px 48px;
   text-align: center;
 }
-.ah-date,
-.ah-place,
-.ah-gift-sec {
-  background: var(--ah-linen);
-}
 
-/* a section's heading: the word in the serif, over a window's transom with its small square latch */
+/* a section's heading: pen-written capitals over a hairline with a heart */
 .ah-head {
   display: grid;
   justify-items: center;
-  margin-bottom: 26px;
+  margin-bottom: 24px;
 }
 .ah-head h2 {
+  max-width: 15em;
   margin: 0;
-  font-family: var(--ah-serif);
-  font-style: italic;
+  font-family: var(--ah-pen);
   font-weight: 400;
-  font-size: 31px;
-  line-height: 1.15;
-  letter-spacing: -0.005em;
+  font-size: 27px;
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--ah-ink);
 }
-.ah-head i {
-  position: relative;
-  width: 84px;
-  height: 1px;
-  margin-top: 14px;
-  background: linear-gradient(90deg, transparent, var(--ah-gold) 22%, var(--ah-gold) 78%, transparent);
-  opacity: 0.75;
-}
-.ah-head i::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 5px;
-  height: 5px;
-  translate: -50% -50%;
-  rotate: 45deg;
-  background: var(--ah-paper);
-  box-shadow: 0 0 0 1px var(--ah-gold);
-}
-.ah-date .ah-head i::after,
-.ah-place .ah-head i::after,
-.ah-gift-sec .ah-head i::after {
-  background: var(--ah-linen);
+.ah-head .ah-rule {
+  margin-top: 10px;
 }
 .ah-bismillah {
-  margin: 0 0 22px;
+  margin: 0 0 24px;
   font-family: "Amiri", serif;
   font-size: 23px;
   line-height: 1.7;
@@ -332,56 +354,50 @@
 }
 .ah-lead {
   margin: 0;
-  font-family: var(--ah-serif);
-  font-style: italic;
+  font-family: var(--ah-pen);
   font-size: 30px;
+  text-transform: uppercase;
   color: var(--ah-ink);
 }
 .ah-p {
-  max-width: 32ch;
+  max-width: 30ch;
   margin: 14px auto 0;
-  font-size: 15px;
-  line-height: 1.75;
+  font-size: 18px;
+  line-height: 1.6;
   color: var(--ah-ink);
 }
+/* the letter's close: "Hurmat bilan," then the senders in the signature hand */
 .ah-sign {
   display: grid;
-  gap: 2px;
-  margin: 20px 0 0;
-  font-family: var(--ah-serif);
-  font-size: 18px;
+  gap: 0;
+  margin: 22px 0 0;
+  font-family: var(--ah-script);
+  font-size: 34px;
+  line-height: 1.15;
   color: var(--ah-ink);
 }
 .ah-sign span {
-  font-style: italic;
-  font-size: 14px;
-  color: var(--ah-soft);
-}
-.ah-caps {
-  margin: 0;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.3em;
-  padding-left: 0.3em;
-  text-transform: uppercase;
-  color: var(--ah-gold);
+  font-family: var(--ah-serif);
+  font-size: 18px;
+  line-height: 1.6;
 }
 
-/* --- the couple: two panes of a window, the rings on the bar ---------- */
-/* a sash window: the groom in the upper pane, the bride in the lower, the rings as the latch on the rail */
+/* --- the couple: a sash window, the groom above, the bride below --------- */
 .ah-panes {
   display: grid;
   grid-template-rows: auto 1px auto;
-  max-width: 330px;
+  max-width: 320px;
   margin: 0 auto;
   border: 1px solid var(--ah-line);
-  background: rgba(255, 255, 255, 0.4);
+  outline: 1px solid var(--ah-hair);
+  outline-offset: 5px;
+  background: rgba(255, 255, 255, 0.28);
 }
 .ah-pane {
   display: grid;
   align-content: center;
   justify-items: center;
-  padding: 28px 16px;
+  padding: 26px 16px 24px;
 }
 .ah-bar {
   position: relative;
@@ -395,25 +411,24 @@
   padding: 7px;
   box-sizing: content-box;
   border-radius: 50%;
-  color: var(--ah-gold);
+  color: var(--ah-wine);
   background: var(--ah-paper);
   box-shadow: inset 0 0 0 1px var(--ah-line);
 }
 .ah-name {
   margin: 0;
-  font-family: var(--ah-serif);
-  font-style: italic;
-  font-size: min(11vw, 42px);
+  font-family: var(--ah-script);
+  font-size: min(13vw, 54px);
   line-height: 1.1;
   color: var(--ah-ink);
   overflow-wrap: anywhere;
 }
 .ah-of {
-  margin: 4px 0 0;
-  font-family: var(--ah-serif);
-  font-style: italic;
-  font-size: 14px;
-  line-height: 1.4;
+  margin: 2px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
   color: var(--ah-soft);
 }
 
@@ -421,23 +436,12 @@
 .ah-stage {
   position: relative;
   max-width: 320px;
-  height: 300px;
+  height: 236px;
   margin: 0 auto;
   overflow: hidden;
   border: 1px solid var(--ah-line);
-  background:
-    radial-gradient(70% 60% at 50% 45%, rgba(255, 252, 244, 1), rgba(247, 238, 222, 1));
-  box-shadow: 0 18px 40px -30px rgba(80, 60, 30, 0.6);
-}
-/* the window's cross-bar shows faintly behind the date */
-.ah-stage::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(90deg, transparent calc(50% - 0.5px), var(--ah-line) calc(50% - 0.5px), var(--ah-line) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
-    linear-gradient(0deg, transparent calc(64% - 0.5px), var(--ah-line) calc(64% - 0.5px), var(--ah-line) calc(64% + 0.5px), transparent calc(64% + 0.5px));
-  opacity: 0.3;
+  background: var(--ah-card);
+  box-shadow: 0 18px 40px -32px rgba(80, 60, 30, 0.6);
 }
 .ah-datebox {
   position: absolute;
@@ -445,7 +449,7 @@
   display: grid;
   align-content: center;
   justify-items: center;
-  gap: 2px;
+  gap: 14px;
   color: var(--ah-ink);
   opacity: calc(0.15 + var(--p) * 0.85);
   scale: calc(0.94 + var(--p) * 0.06);
@@ -456,51 +460,80 @@
 .ah-curtain[data-held] .ah-datebox {
   transition: none;
 }
-.ah-weekday,
-.ah-time {
+.ah-month {
+  font-size: 24px;
+  letter-spacing: 0.12em;
+  padding-left: 0.12em;
+  text-transform: uppercase;
+}
+/* the week of the wedding, as a calendar line; the day itself sits on a wine-red heart */
+.ah-week {
+  display: grid;
+  grid-template-columns: repeat(7, 38px);
+}
+.ah-week > span {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+}
+.ah-week small {
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.32em;
-  padding-left: 0.32em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ah-soft);
 }
-.ah-day {
-  font-family: var(--ah-serif);
-  font-size: 104px;
-  line-height: 1;
-  color: var(--ah-gold);
+.ah-week b {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 34px;
+  font-size: 20px;
+  font-weight: 400;
+  font-variant-numeric: lining-nums;
 }
-.ah-month {
-  margin-top: -4px;
-  font-family: var(--ah-serif);
-  font-style: italic;
-  font-size: 30px;
-  text-transform: capitalize;
+.ah-week em {
+  position: relative;
+  font-style: normal;
 }
-.ah-year {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.5em;
-  padding-left: 0.5em;
-  color: var(--ah-ink);
+.ah-week [data-on] em {
+  margin-top: -3px;
+  color: var(--ah-paper);
 }
-.ah-time {
-  margin-top: 8px;
+.ah-week [data-on] small {
+  color: var(--ah-wine);
 }
-.ah-curtain[data-open] .ah-day {
-  animation: ah-glint 1.6s ease 0.4s both;
+.ah-day-heart {
+  position: absolute;
+  inset: -1px 0 0;
+  width: 100%;
+  height: 100%;
+  color: var(--ah-wine);
 }
-@keyframes ah-glint {
-  0% {
-    text-shadow: 0 0 0 rgba(193, 154, 62, 0);
+.ah-curtain[data-open] .ah-day-heart {
+  animation: ah-beat 1.4s ease 0.5s both;
+}
+@keyframes ah-beat {
+  0%,
+  100% {
+    scale: 1;
+  }
+  20% {
+    scale: 1.18;
   }
   40% {
-    text-shadow: 0 0 22px rgba(193, 154, 62, 0.55);
+    scale: 0.96;
   }
-  100% {
-    text-shadow: 0 0 0 rgba(193, 154, 62, 0);
+  60% {
+    scale: 1.08;
   }
+}
+.ah-time {
+  font-size: 13px;
+  letter-spacing: 0.24em;
+  padding-left: 0.24em;
+  text-transform: uppercase;
+  color: var(--ah-soft);
 }
 /* linen curtains: soft vertical folds; each follows the ring along its rail */
 .ah-drape {
@@ -512,12 +545,11 @@
     repeating-linear-gradient(
       90deg,
       rgba(255, 255, 255, 0.35) 0 6px,
-      rgba(214, 200, 176, 0.35) 12px,
+      rgba(210, 196, 176, 0.35) 12px,
       rgba(255, 255, 255, 0.25) 20px,
-      rgba(226, 214, 192, 0.3) 28px
+      rgba(222, 210, 190, 0.3) 28px
     ),
-    linear-gradient(180deg, #f3ebdd, #e9dfcc);
-  box-shadow: inset 0 -30px 40px -30px rgba(120, 96, 60, 0.25);
+    linear-gradient(180deg, #f2ebdf, #e7ddcd);
   transition: transform 0.9s cubic-bezier(0.3, 0.7, 0.2, 1);
 }
 .ah-curtain[data-held] .ah-drape {
@@ -528,26 +560,26 @@
   transform-origin: 0 0;
   transform: translateX(calc(var(--p) * -92%)) skewY(calc(var(--p) * 3deg));
   box-shadow:
-    inset -10px 0 14px -10px rgba(120, 96, 60, 0.35),
-    inset 0 -30px 40px -30px rgba(120, 96, 60, 0.25);
+    inset -10px 0 14px -10px rgba(110, 86, 60, 0.35),
+    inset 0 -30px 40px -30px rgba(110, 86, 60, 0.22);
 }
 .ah-drape.r {
   right: 0;
   transform-origin: 100% 0;
   transform: translateX(calc(var(--p) * 92%)) skewY(calc(var(--p) * -3deg));
   box-shadow:
-    inset 10px 0 14px -10px rgba(120, 96, 60, 0.35),
-    inset 0 -30px 40px -30px rgba(120, 96, 60, 0.25);
+    inset 10px 0 14px -10px rgba(110, 86, 60, 0.35),
+    inset 0 -30px 40px -30px rgba(110, 86, 60, 0.22);
 }
 
-/* the rail: a thin golden line with the ring to slide along it */
+/* the rail: a hairline track with the ring to slide along it */
 .ah-rail {
   position: relative;
   max-width: 300px;
   height: 56px;
   margin: 22px auto 0;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.4);
   box-shadow: inset 0 0 0 1px var(--ah-line);
   transition: opacity 0.6s ease;
 }
@@ -563,16 +595,16 @@
   translate: 0 -50%;
   display: flex;
   justify-content: space-around;
-  color: var(--ah-gold);
+  color: var(--ah-ink);
 }
 /* chevrons that shimmer toward the open side */
 .ah-rail-track i {
-  width: 9px;
-  height: 9px;
-  border-top: 1.5px solid currentColor;
-  border-right: 1.5px solid currentColor;
+  width: 8px;
+  height: 8px;
+  border-top: 1.2px solid currentColor;
+  border-right: 1.2px solid currentColor;
   rotate: 45deg;
-  opacity: 0.25;
+  opacity: 0.2;
   animation: ah-chev 1.8s ease-in-out infinite;
 }
 .ah-rail-track i:nth-child(2) {
@@ -583,7 +615,7 @@
 }
 @keyframes ah-chev {
   40% {
-    opacity: 1;
+    opacity: 0.85;
   }
 }
 .ah-knob {
@@ -595,9 +627,9 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  color: #fff;
-  background: linear-gradient(150deg, #d6b25f, var(--ah-gold));
-  box-shadow: 0 6px 14px -6px rgba(120, 90, 30, 0.6);
+  color: var(--ah-card);
+  background: var(--ah-wine);
+  box-shadow: 0 6px 14px -6px rgba(90, 30, 25, 0.6);
   touch-action: none;
   cursor: grab;
   transform: translateX(calc(var(--p) * var(--span)));
@@ -608,124 +640,171 @@
   transition: none;
 }
 .ah-knob:focus-visible {
-  outline: 2px solid var(--ah-gold);
+  outline: 2px solid var(--ah-wine);
   outline-offset: 3px;
 }
+/* the countdown between thin upright rules, like the date block of a printed card */
 .ah-count {
   display: flex;
   justify-content: center;
-  gap: 8px;
-  margin-top: 22px;
+  margin-top: 26px;
   animation: ah-text 900ms var(--ah-ease) 300ms both;
 }
 .ah-count > div {
   display: grid;
-  gap: 4px;
-  width: 68px;
-  padding: 12px 0 10px;
-  border: 1px solid var(--ah-line);
-  background: rgba(255, 255, 255, 0.55);
+  gap: 2px;
+  width: 72px;
+  padding: 4px 0;
+}
+.ah-count > div + div {
+  border-left: 1px solid var(--ah-line);
 }
 .ah-count b {
-  font-family: var(--ah-serif);
-  font-size: 24px;
+  font-size: 30px;
   font-weight: 400;
-  line-height: 1;
+  line-height: 1.1;
   color: var(--ah-ink);
   font-variant-numeric: tabular-nums lining-nums;
 }
 .ah-count small {
-  font-size: 9.5px;
-  font-weight: 600;
+  font-size: 11.5px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--ah-soft);
 }
 
-/* --- the day's programme --------------------------------------------- */
-.ah-timeline {
-  list-style: none;
-  max-width: 320px;
+/* --- the day's programme along a winding thread -------------------------- */
+.ah-programme {
+  position: relative;
+  width: min(100%, 320px);
   margin: 0 auto;
+}
+.ah-programme svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.ah-wind {
+  fill: none;
+  stroke: var(--ah-ink);
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  opacity: 0.7;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 2.4s cubic-bezier(0.45, 0, 0.2, 1) 0.15s;
+}
+.ah-programme:not([data-in]) .ah-wind {
+  stroke-dashoffset: 1;
+}
+.ah-programme circle {
+  fill: var(--ah-wine);
+  transition: opacity 0.5s ease calc(0.4s + var(--i) * 0.38s);
+}
+.ah-programme:not([data-in]) circle {
+  opacity: 0;
+}
+.ah-programme ol {
+  list-style: none;
+  margin: 0;
   padding: 0;
+}
+.ah-programme li {
+  position: absolute;
+  display: grid;
+  gap: 2px;
+  translate: 0 -50%;
+  transition:
+    opacity 0.7s var(--ah-ease) calc(0.45s + var(--i) * 0.38s),
+    translate 0.7s var(--ah-ease) calc(0.45s + var(--i) * 0.38s);
+}
+.ah-programme li[data-side="l"] {
+  left: 0;
+  right: 42%;
+  text-align: right;
+}
+.ah-programme li[data-side="r"] {
+  left: 42%;
+  right: 0;
   text-align: left;
 }
-.ah-timeline li {
-  display: grid;
-  grid-template-columns: 68px 1fr;
-  gap: 14px;
-  align-items: baseline;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--ah-line);
+.ah-programme:not([data-in]) li {
+  opacity: 0;
+  translate: 0 calc(-50% + 8px);
 }
-.ah-timeline li:first-child {
-  border-top: 1px solid var(--ah-line);
+.ah-programme time {
+  font-family: var(--ah-pen);
+  font-size: 25px;
+  line-height: 1.1;
+  color: var(--ah-ink);
 }
-.ah-timeline time {
-  font-family: var(--ah-serif);
-  font-size: 21px;
-  color: var(--ah-gold);
-  font-variant-numeric: lining-nums;
-}
-.ah-timeline span {
-  font-size: 15px;
+.ah-programme span {
+  font-size: 12.5px;
   line-height: 1.4;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: var(--ah-ink);
 }
 
-/* --- the venue in a window ----------------------------------------------- */
+/* --- the venue in an arched window --------------------------------------- */
 .ah-window {
-  max-width: 330px;
+  max-width: 320px;
   margin: 0 auto;
-  padding: 8px;
+  padding: 7px;
   border: 1px solid var(--ah-line);
   border-radius: 160px 160px 0 0;
-  background: rgba(255, 255, 255, 0.35);
 }
 .ah-window-in {
   display: grid;
   justify-items: center;
   padding: 64px 20px 30px;
-  border: 1px solid var(--ah-line);
-  border-radius: 152px 152px 0 0;
+  border: 1px solid var(--ah-hair);
+  border-radius: 153px 153px 0 0;
   /* the centre bar runs only through the arch, above the lettering */
   background:
-    linear-gradient(rgba(160, 140, 110, 0.22), rgba(160, 140, 110, 0.22)) 50% 0 / 1px 46px no-repeat,
-    radial-gradient(80% 60% at 50% 30%, #fffdf8, #f6eee0);
+    linear-gradient(var(--ah-hair), var(--ah-hair)) 50% 0 / 1px 46px no-repeat,
+    var(--ah-card);
 }
 .ah-venue {
   margin: 0;
-  font-family: var(--ah-serif);
-  font-style: italic;
-  font-size: 27px;
-  line-height: 1.2;
+  font-family: var(--ah-pen);
+  font-size: 25px;
+  line-height: 1.25;
+  text-transform: uppercase;
   color: var(--ah-ink);
 }
 .ah-addr {
   margin: 10px 0 0;
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--ah-soft);
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--ah-ink);
 }
 .ah-maps,
 .ah-reach {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 22px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+  max-width: 320px;
+  margin: 22px auto 0;
+}
+.ah-maps .ah-btn,
+.ah-reach .ah-btn {
+  padding: 0 8px;
+  letter-spacing: 0.14em;
 }
 .ah-dress {
   max-width: 28ch;
   margin: 22px 0 0;
-  font-family: var(--ah-serif);
   font-style: italic;
-  font-size: 15px;
-  line-height: 1.55;
+  font-size: 17px;
+  line-height: 1.5;
   color: var(--ah-soft);
 }
 
-/* buttons: golden outline, or solid gold */
+/* buttons: a thin ink frame with serif capitals, as on a printed card; the main one in wine */
 .ah-btn {
   display: inline-flex;
   align-items: center;
@@ -733,36 +812,38 @@
   gap: 8px;
   min-height: 46px;
   padding: 0 20px;
-  border-radius: 999px;
-  border: 1px solid rgba(193, 154, 62, 0.65);
-  background: rgba(255, 255, 255, 0.5);
-  font-family: var(--ah-sans);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
+  border: 1px solid var(--ah-ink);
+  background: transparent;
+  font-family: var(--ah-serif);
+  font-size: 14px;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--ah-ink);
   transition:
     background-color 0.25s ease,
     scale 0.25s var(--ah-ease);
 }
-.ah-btn .ah-ico {
-  color: var(--ah-gold);
+.ah-btn:hover {
+  background: rgba(63, 48, 41, 0.05);
 }
 .ah-btn:active {
   scale: 0.97;
 }
+.ah-btn-ghost {
+  border-color: var(--ah-line);
+}
 .ah-btn-solid {
   border-color: transparent;
-  background: var(--ah-gold);
-  color: #fff;
+  background: var(--ah-wine);
+  color: var(--ah-card);
 }
 .ah-btn-solid:hover {
-  background: #ad8833;
+  background: #6a2522;
 }
 .ah-btn:focus-visible,
-.ah-choice:focus-visible {
-  outline: 2px solid var(--ah-gold);
+.ah-choice:focus-visible,
+.ah-guests button:focus-visible {
+  outline: 2px solid var(--ah-wine);
   outline-offset: 3px;
 }
 
@@ -775,77 +856,91 @@
   text-align: left;
 }
 .ah-form label {
-  font-size: 13px;
-  color: var(--ah-soft);
+  font-size: 16px;
+  color: var(--ah-ink);
 }
 .ah-field {
   display: block;
   width: 100%;
-  min-height: 50px;
-  padding: 12px 16px;
+  min-height: 48px;
+  padding: 10px 14px;
   border: 1px solid var(--ah-line);
-  background: #fffdf9;
-  font-family: var(--ah-sans);
-  font-size: 16px;
+  background: rgba(255, 255, 255, 0.45);
+  font-family: var(--ah-serif);
+  font-size: 18px;
   color: var(--ah-ink);
 }
 .ah-field:focus {
   outline: none;
-  border-color: var(--ah-gold);
-  box-shadow: 0 0 0 3px rgba(193, 154, 62, 0.18);
+  border-color: var(--ah-ink);
+  box-shadow: 0 0 0 3px rgba(63, 48, 41, 0.1);
 }
+/* the two answers as round check marks */
 .ah-choices {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 4px;
+  margin-top: 6px;
 }
 .ah-choice {
-  min-height: 48px;
-  border: 1px solid var(--ah-line);
-  background: #fffdf9;
-  font-family: var(--ah-sans);
-  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  font-family: var(--ah-serif);
+  font-size: 17px;
   color: var(--ah-ink);
-  transition:
-    background-color 0.25s ease,
-    color 0.25s ease;
+  text-align: left;
 }
-.ah-choice[aria-pressed="true"] {
-  background: var(--ah-gold);
-  border-color: transparent;
-  color: #fff;
+.ah-choice::before {
+  content: "";
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid var(--ah-ink);
+  transition: box-shadow 0.25s ease;
 }
+.ah-choice[aria-pressed="true"]::before {
+  background: var(--ah-wine);
+  box-shadow: inset 0 0 0 3px var(--ah-card);
+  border-color: var(--ah-wine);
+}
+/* the guest count: a number between a minus and a plus, three joined boxes */
 .ah-guests {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 15px;
+  gap: 12px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 16px;
 }
 .ah-guests > span:last-child {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: 44px 52px 44px;
+  height: 44px;
+  border: 1px solid var(--ah-line);
 }
 .ah-guests button {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid var(--ah-line);
-  font-size: 18px;
+  font-size: 20px;
   color: var(--ah-ink);
 }
 .ah-guests b {
-  min-width: 18px;
-  text-align: center;
-  font-weight: 500;
+  display: grid;
+  place-items: center;
+  border-left: 1px solid var(--ah-line);
+  border-right: 1px solid var(--ah-line);
+  font-size: 19px;
+  font-weight: 400;
 }
 .ah-error {
   margin: 0;
-  font-size: 14px;
-  color: #a2564a;
+  font-size: 16px;
+  color: var(--ah-wine);
 }
 .ah-form .ah-btn-solid {
-  margin-top: 4px;
+  margin-top: 8px;
 }
 
 /* --- To‘yana ------------------------------------------------------------- */
@@ -858,41 +953,38 @@
   aspect-ratio: 1.586;
   padding: 0 20px;
   text-align: left;
-  border: 1px solid rgba(193, 154, 62, 0.45);
-  background:
-    linear-gradient(90deg, transparent calc(62% - 0.5px), rgba(193, 154, 62, 0.25) calc(62% - 0.5px), rgba(193, 154, 62, 0.25) calc(62% + 0.5px), transparent calc(62% + 0.5px)),
-    linear-gradient(150deg, #fffdf8, #f3e9d6);
-  box-shadow: 0 18px 34px -24px rgba(90, 70, 30, 0.6);
+  border: 1px solid var(--ah-line);
+  outline: 1px solid var(--ah-hair);
+  outline-offset: -7px;
+  background: var(--ah-card);
+  box-shadow: 0 18px 34px -26px rgba(90, 70, 30, 0.6);
 }
 .ah-gift-net {
   position: absolute;
-  right: 20px;
-  top: 16%;
-  font-size: 11px;
-  font-weight: 700;
+  right: 22px;
+  top: 17%;
+  font-size: 12px;
   letter-spacing: 0.24em;
-  color: var(--ah-gold);
+  color: var(--ah-wine);
 }
 .ah-gift-number {
   position: absolute;
-  left: 20px;
-  right: 20px;
+  left: 22px;
+  right: 22px;
   top: 44%;
   margin: 0;
   display: flex;
   justify-content: space-between;
-  font-family: var(--ah-serif);
-  font-size: clamp(19px, 6.2vw, 24px);
+  font-size: clamp(20px, 6.6vw, 26px);
   font-variant-numeric: tabular-nums lining-nums;
   color: var(--ah-ink);
 }
 .ah-gift-holder {
   position: absolute;
-  left: 20px;
-  bottom: 14%;
+  left: 22px;
+  bottom: 15%;
   margin: 0;
-  font-size: 11.5px;
-  font-weight: 600;
+  font-size: 12.5px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--ah-soft);
@@ -904,31 +996,28 @@
 
 /* --- the last word -------------------------------------------------------- */
 .ah-close {
+  padding-top: 20px;
   padding-bottom: 20px;
 }
-.ah-close-rings {
-  display: inline-grid;
-  place-items: center;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  color: var(--ah-gold);
-  box-shadow: inset 0 0 0 1px var(--ah-line);
+.ah-close .ah-thread {
+  width: calc(100% + 52px);
+  margin: 0 -26px 26px;
+}
+.ah-close-title {
+  margin: 0;
+  font-family: var(--ah-pen);
+  font-size: min(8.6vw, 36px);
+  line-height: 1.25;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ah-ink);
 }
 .ah-duo {
   max-width: 28ch;
-  margin: 20px auto 0;
-  font-family: var(--ah-serif);
+  margin: 18px auto 0;
   font-style: italic;
-  font-size: 18px;
-  line-height: 1.55;
-  color: var(--ah-ink);
-}
-.ah-close-title {
-  margin: 22px 0 0;
-  font-family: var(--ah-serif);
-  font-size: min(9.6vw, 40px);
-  line-height: 1.15;
+  font-size: 19px;
+  line-height: 1.5;
   color: var(--ah-ink);
 }
 .ah-end {
@@ -948,13 +1037,12 @@
   opacity: 0;
   translate: 0 18px;
 }
-/* the two panes slide in from either side and meet at the bar */
+/* the two sashes slide toward the rail and meet there */
 .ah-panes .ah-pane {
   transition:
     opacity 800ms var(--ah-ease) 150ms,
     translate 900ms var(--ah-ease) 150ms;
 }
-/* the two sashes slide toward the rail and meet there */
 .ah-panes:not([data-in]) .ah-pane:first-child {
   opacity: 0;
   translate: 0 -14px;
@@ -962,15 +1050,6 @@
 .ah-panes:not([data-in]) .ah-pane:last-child {
   opacity: 0;
   translate: 0 14px;
-}
-.ah-timeline li {
-  transition:
-    opacity 700ms var(--ah-ease) calc(150ms + var(--i) * 110ms),
-    translate 700ms var(--ah-ease) calc(150ms + var(--i) * 110ms);
-}
-.ah-timeline:not([data-in]) li {
-  opacity: 0;
-  translate: 0 10px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -989,7 +1068,12 @@
   .ah-tap::after,
   .ah-rail-track i,
   .ah-count,
-  .ah-curtain[data-open] .ah-day {
+  .ah-curtain[data-open] .ah-day-heart {
     animation: none;
+  }
+  .ah-wind,
+  .ah-programme circle,
+  .ah-programme li {
+    transition: none;
   }
 }
