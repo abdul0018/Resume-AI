@@ -35,7 +35,9 @@ under the flower arch, with the sea beyond, and that last frame is the website's
   the invitation line and date appear at the foot.
 - **Seam:** the film then melts into the same frame beneath, so nothing jumps; the middle of the picture
   stays clear.
-- **Closed card:** the names and date sit on a pale band over the sky; the hint is a pill over the road.
+- **Closed card:** nothing is written on it, neither names, date nor instructions. The film's first frame
+  carries only a round cream button with a rings icon on the car's back, pulsing softly, as the place to
+  tap.
 - **Without the film:** the closed picture fades out under the settling sky (reduced motion, or a phone that
   will not play it).
 

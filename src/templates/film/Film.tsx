@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import "./film.css";
 
 /**
@@ -104,6 +104,7 @@ export function Film({
   names,
   nameSize,
   sub,
+  hint,
   box,
   state,
   onOpen,
@@ -112,10 +113,13 @@ export function Film({
   onDone,
 }: {
   spec: FilmSpec;
+  /** The couple's names set on the closed card; empty to set none. */
   names: string;
   nameSize: number;
   /** A line set lower on the closed card, at `spec.sub` (the date). */
   sub?: string;
+  /** What invites the tap, in place of the words "Ochish uchun bosing". */
+  hint?: ReactNode;
   box: { w: number; h: number };
   state: "closed" | "opening";
   /** Called inside the tap, so music and sound may start with it. */
@@ -261,17 +265,19 @@ export function Film({
         style={zoom ?? undefined}
         data-zoom={zoom ? "" : undefined}
       />
-      <p className="film-names" style={{ top: `${(spec.names ?? 0.35) * 100}%`, fontSize: nameSize }} aria-hidden="true">
-        {names}
-      </p>
+      {names && (
+        <p className="film-names" style={{ top: `${(spec.names ?? 0.35) * 100}%`, fontSize: nameSize }} aria-hidden="true">
+          {names}
+        </p>
+      )}
       {sub && spec.sub !== undefined && (
         <p className="film-sub" style={{ top: `${spec.sub * 100}%` }} aria-hidden="true">
           {sub}
         </p>
       )}
-      <p className="film-hint" style={{ top: `${(spec.hint ?? 0.8) * 100}%` }} aria-hidden="true">
-        Ochish uchun bosing
-      </p>
+      <div className="film-hint" style={{ top: `${(spec.hint ?? 0.8) * 100}%` }} aria-hidden="true">
+        {hint ?? "Ochish uchun bosing"}
+      </div>
     </div>
   );
 }

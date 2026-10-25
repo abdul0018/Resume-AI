@@ -48,46 +48,57 @@
 .nf ::selection {
   background: rgba(157, 180, 198, 0.4);
 }
-/* the names and date on the film's first frame sit in its pale sky */
-.nf .film-names,
-.nf .film-sub {
-  text-shadow:
-    0 0 6px rgba(252, 248, 245, 0.9),
-    0 0 18px rgba(252, 248, 245, 0.85);
-}
-.nf .film-sub {
-  font-size: 15px;
-}
-/* a pale sky over the closed picture's top, for the names, and a pill for the hint over the road */
-.nf .film::before {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  inset: 0 0 auto;
-  height: 22%;
-  background: linear-gradient(180deg, rgba(252, 248, 245, 0.78), rgba(252, 248, 245, 0.45) 60%, rgba(252, 248, 245, 0));
-  pointer-events: none;
-  transition: opacity 0.7s ease;
-}
-.nf .film[data-state="opening"]::before {
-  opacity: 0;
-}
-.nf .film-names,
-.nf .film-sub,
-.nf .film-hint {
-  z-index: 2;
-}
+/* the closed picture carries nothing written: only a round button to tap, softly pulsing */
 .nf .film-hint {
   left: 50%;
   right: auto;
-  translate: -50% 0;
-  padding: 9px 16px 9px 19px;
-  border-radius: 999px;
-  white-space: nowrap;
-  color: var(--nf-blue-deep);
-  background: rgba(252, 248, 245, 0.88);
+  translate: -50% -50%;
+  padding: 0;
+  animation: none;
   text-shadow: none;
-  box-shadow: 0 6px 16px -8px rgba(30, 40, 50, 0.45);
+}
+.nf-tap {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--ring, 64px);
+  height: var(--ring, 64px);
+  border-radius: 50%;
+  color: var(--nf-blue-deep);
+  background: rgba(252, 248, 245, 0.9);
+  box-shadow:
+    inset 0 0 0 1px rgba(111, 143, 166, 0.45),
+    inset 0 0 0 5px rgba(252, 248, 245, 0.9),
+    inset 0 0 0 6px rgba(111, 143, 166, 0.3),
+    0 10px 24px -10px rgba(30, 40, 50, 0.55);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+.nf-tap .nf-ico {
+  width: 46%;
+  height: 46%;
+}
+.nf-tap::before,
+.nf-tap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(252, 248, 245, 0.85);
+  animation: nf-tap 2.4s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+}
+.nf-tap::after {
+  animation-delay: 1.2s;
+}
+@keyframes nf-tap {
+  from {
+    opacity: 0.9;
+    scale: 1;
+  }
+  to {
+    opacity: 0;
+    scale: 1.9;
+  }
 }
 
 .nf-col {
@@ -1139,7 +1150,9 @@
     animation: nf-out 400ms ease both;
   }
   .nf-cue svg,
-  .nf-music {
+  .nf-music,
+  .nf-tap::before,
+  .nf-tap::after {
     animation: none;
   }
 }

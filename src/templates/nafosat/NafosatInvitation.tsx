@@ -125,8 +125,6 @@ export function NafosatInvitation({ data, replayToken = 0, endSlot }: Props) {
     runPosterOpening();
   };
 
-  const names = `${data.groom} & ${data.bride}`;
-  const nameSize = Math.min(box.w * 0.115, (box.w * 1.85) / Math.max(names.length, 8));
   const poster = filmSpec("nafosat")?.poster ?? art("hero");
 
   return (
@@ -145,9 +143,9 @@ export function NafosatInvitation({ data, replayToken = 0, endSlot }: Props) {
             (film ? (
               <Film
                 spec={film}
-                names={names}
-                nameSize={nameSize}
-                sub={formatDateDots(data.date)}
+                names=""
+                nameSize={0}
+                hint={<TapRing />}
                 box={box}
                 state={stage}
                 onOpen={open}
@@ -156,7 +154,7 @@ export function NafosatInvitation({ data, replayToken = 0, endSlot }: Props) {
                 onDone={() => setStage("scene")}
               />
             ) : (
-              <PosterCard poster={poster} names={names} nameSize={nameSize} date={formatDateDots(data.date)} state={stage} onOpen={open} />
+              <PosterCard poster={poster} state={stage} onOpen={open} />
             ))}
         </section>
 
@@ -181,40 +179,30 @@ export function NafosatInvitation({ data, replayToken = 0, endSlot }: Props) {
   );
 }
 
-/** The closed invitation for the gallery: the film's first frame with the names and date set on it. */
-export function NafosatClosed({ data, box }: { data: InviteData; box: { w: number; h: number } }) {
+/** The closed invitation for the gallery: the film's first frame and the round button, nothing written. */
+export function NafosatClosed({ box }: { data: InviteData; box: { w: number; h: number } }) {
   const film = filmSpec("nafosat");
-  const names = `${data.groom} & ${data.bride}`;
-  const nameSize = Math.min(box.w * 0.115, (box.w * 1.85) / Math.max(names.length, 8));
   return (
-    <div className="film" aria-hidden="true">
+    <div className="film" aria-hidden="true" style={v("--ring", `${Math.round(Math.min(64, box.w * 0.16))}px`)}>
       <img className="film-video" src={film?.poster ?? art("hero")} alt="" />
-      <p className="film-names" style={{ top: `${(film?.names ?? 0.05) * 100}%`, fontSize: nameSize }}>
-        {names}
-      </p>
-      <p className="film-sub" style={{ top: `${(film?.sub ?? 0.11) * 100}%`, fontSize: Math.max(7, box.w * 0.036) }}>
-        {formatDateDots(data.date)}
-      </p>
+      <div className="film-hint" style={{ top: `${(film?.hint ?? 0.86) * 100}%` }}>
+        <TapRing />
+      </div>
     </div>
   );
 }
 
+/** The round button on the closed picture: rings in a cream circle, softly pulsing. Nothing is written. */
+function TapRing() {
+  return (
+    <span className="nf-tap">
+      <Icon kind="rings" size={26} className="nf-ico" />
+    </span>
+  );
+}
+
 /** Without a film (reduced motion, or a phone that will not play it): the closed picture, tapped away. */
-function PosterCard({
-  poster,
-  names,
-  nameSize,
-  date,
-  state,
-  onOpen,
-}: {
-  poster?: string;
-  names: string;
-  nameSize: number;
-  date: string;
-  state: Exclude<Stage, "scene">;
-  onOpen: () => void;
-}) {
+function PosterCard({ poster, state, onOpen }: { poster?: string; state: Exclude<Stage, "scene">; onOpen: () => void }) {
   const closed = state === "closed";
   return (
     <div
@@ -234,15 +222,9 @@ function PosterCard({
       style={v("--out", `${POSTER_OUT}ms`)}
     >
       {poster && <img className="film-video" src={poster} alt="" />}
-      <p className="film-names" style={{ top: "5%", fontSize: nameSize }} aria-hidden="true">
-        {names}
-      </p>
-      <p className="film-sub" style={{ top: "11%" }} aria-hidden="true">
-        {date}
-      </p>
-      <p className="film-hint" style={{ top: "94%" }} aria-hidden="true">
-        Ochish uchun bosing
-      </p>
+      <div className="film-hint" style={{ top: "86%" }} aria-hidden="true">
+        <TapRing />
+      </div>
     </div>
   );
 }
