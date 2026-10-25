@@ -24,7 +24,8 @@ export type IconKind =
   | "whatsapp"
   | "arrow"
   | "clock"
-  | "crescent";
+  | "crescent"
+  | "gift";
 
 /** Every stroke is measured as 1, so CSS can draw it in with a dash offset. */
 const P = ({ d }: { d: string }) => <path d={d} pathLength={1} />;
@@ -109,6 +110,14 @@ const ICONS: Record<IconKind, ReactNode> = {
     </>
   ),
   arrow: <P d="M4 12h15M14.2 7.2L19 12l-4.8 4.8" />,
+  gift: (
+    <>
+      <P d="M4 10.5h16v3H4z" />
+      <P d="M5.5 13.5v7h13v-7" />
+      <P d="M12 10.5v10" />
+      <P d="M12 10.5c-2.6 0-5-1-5-3a2 2 0 0 1 3.4-1.4C11.6 7.3 12 10.5 12 10.5zM12 10.5c2.6 0 5-1 5-3a2 2 0 0 0-3.4-1.4C12.4 7.3 12 10.5 12 10.5z" />
+    </>
+  ),
   crescent: (
     <>
       <P d="M14.6 4.2a8 8 0 1 0 5.2 13.6A6.6 6.6 0 0 1 14.6 4.2z" />

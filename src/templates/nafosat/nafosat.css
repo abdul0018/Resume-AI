@@ -1,0 +1,903 @@
+/*
+ * Nafosat — soft white paper, dusty blue and blush; white roses, blush peonies and silver eucalyptus.
+ * One phone-width column (max 480px). The flower pictures and the brush stroke are already laid on the paper
+ * colour (--nf-paper), so they sit on flat paper and never on the watercolour washes.
+ */
+
+.nf {
+  --nf-paper: #fcf8f5;
+  --nf-blue: #7f9cb4;
+  --nf-blue-deep: #56728a;
+  --nf-arch: #9db4c6;
+  --nf-ink: #5b6168;
+  --nf-soft: #8a9097;
+  --nf-blush: #f1dcd6;
+  --nf-line: rgba(111, 143, 166, 0.4);
+  --nf-surround: #e7ecf0;
+
+  --nf-script: "Pinyon Script", "Great Vibes", cursive;
+  --nf-display: "Bodoni Moda", "Didot", Georgia, serif;
+  --nf-sans: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --nf-italic: "Cormorant Garamond", Georgia, serif;
+  --nf-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --film-ground: #e9e4dc;
+  --film-focus: var(--nf-blue-deep);
+  --film-script: var(--nf-script);
+  --film-serif: var(--nf-display);
+  --film-names: var(--nf-blue-deep);
+  --film-hint: #fffdf9;
+  --film-hint-glow: rgba(40, 46, 52, 0.55);
+
+  --sc-ink: var(--nf-blue-deep);
+  --sc-line: var(--nf-line);
+  --sc-font: var(--nf-sans);
+  --sc-focus: var(--nf-blue-deep);
+
+  background: var(--nf-surround);
+  color: var(--nf-ink);
+  font-family: var(--nf-sans);
+  font-weight: 400;
+  min-height: 100vh;
+  min-height: 100svh;
+}
+.nf.nf-thumb {
+  min-height: 0;
+  background: none;
+}
+.nf ::selection {
+  background: rgba(157, 180, 198, 0.4);
+}
+/* the names and date on the film's first frame sit in its pale sky */
+.nf .film-names,
+.nf .film-sub {
+  text-shadow:
+    0 0 6px rgba(252, 248, 245, 0.9),
+    0 0 18px rgba(252, 248, 245, 0.85);
+}
+.nf .film-sub {
+  font-size: 15px;
+}
+/* a pale sky over the closed picture's top, for the names, and a pill for the hint over the road */
+.nf .film::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0 0 auto;
+  height: 22%;
+  background: linear-gradient(180deg, rgba(252, 248, 245, 0.78), rgba(252, 248, 245, 0.45) 60%, rgba(252, 248, 245, 0));
+  pointer-events: none;
+  transition: opacity 0.7s ease;
+}
+.nf .film[data-state="opening"]::before {
+  opacity: 0;
+}
+.nf .film-names,
+.nf .film-sub,
+.nf .film-hint {
+  z-index: 2;
+}
+.nf .film-hint {
+  left: 50%;
+  right: auto;
+  translate: -50% 0;
+  padding: 9px 16px 9px 19px;
+  border-radius: 999px;
+  white-space: nowrap;
+  color: var(--nf-blue-deep);
+  background: rgba(252, 248, 245, 0.88);
+  text-shadow: none;
+  box-shadow: 0 6px 16px -8px rgba(30, 40, 50, 0.45);
+}
+
+.nf-col {
+  position: relative;
+  max-width: 480px;
+  margin: 0 auto;
+  background: var(--nf-paper);
+  overflow: hidden;
+  box-shadow: 0 0 80px -30px rgba(60, 80, 100, 0.35);
+}
+
+/* ------------------------------------------------------------------ */
+/* Hero: the road under a rising mist                                  */
+/* ------------------------------------------------------------------ */
+
+.nf-hero {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: #e9e4dc;
+}
+.nf-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.nf-hero[data-play] .nf-photo {
+  animation: nf-drift 26s ease-in-out 2s infinite alternate;
+}
+@keyframes nf-drift {
+  to {
+    scale: 1.04;
+    translate: 0 -1%;
+  }
+}
+/* the mist: paper at the top, thinning over the road so its foot still shows. It lies above the film too, so
+   it rises over the film's last second and the car drives into it. */
+.nf-mist {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(252, 248, 245, 0) 82%, rgba(252, 248, 245, 0.85) 94%, var(--nf-paper) 100%),
+    radial-gradient(70% 22% at 30% 70%, rgba(252, 248, 245, 0.7), rgba(252, 248, 245, 0) 70%),
+    radial-gradient(60% 18% at 78% 74%, rgba(252, 248, 245, 0.6), rgba(252, 248, 245, 0) 70%),
+    linear-gradient(
+      180deg,
+      var(--nf-paper) 0%,
+      var(--nf-paper) 54%,
+      rgba(252, 248, 245, 0.9) 64%,
+      rgba(252, 248, 245, 0.55) 76%,
+      rgba(252, 248, 245, 0.15) 90%,
+      rgba(252, 248, 245, 0) 100%
+    );
+  opacity: 0;
+}
+.nf-hero[data-play] .nf-mist {
+  animation: nf-mist 1600ms cubic-bezier(0.3, 0, 0.2, 1) both;
+}
+@keyframes nf-mist {
+  from {
+    opacity: 0;
+    translate: 0 14%;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+.nf-hero-flowers {
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+  clip-path: inset(0 0 100% 0);
+}
+.nf-hero[data-play] .nf-hero-flowers {
+  animation: nf-hang 1500ms cubic-bezier(0.5, 0, 0.2, 1) 700ms both;
+}
+@keyframes nf-hang {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.nf-hero-text {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  top: calc(18% + env(safe-area-inset-top, 0px));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 24px;
+}
+.nf-mono {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-family: var(--nf-display);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--nf-blue-deep);
+}
+.nf-mono i {
+  position: relative;
+  width: 1px;
+  height: 34px;
+  background: currentColor;
+  opacity: 0.6;
+}
+.nf-mono i b {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: var(--nf-paper);
+  border: 1px solid currentColor;
+  rotate: 45deg;
+}
+.nf-hero-quote {
+  margin: 18px 0 0;
+  font-family: var(--nf-italic);
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--nf-soft);
+}
+.nf-hero-names {
+  margin: 26px 0 0;
+  display: grid;
+  font-family: var(--nf-script);
+  font-weight: 400;
+  font-size: min(17vw, 76px);
+  line-height: 1.02;
+  color: var(--nf-blue);
+}
+.nf-hn {
+  padding: 0.08em 0.3em;
+}
+.nf-hn:first-child {
+  justify-self: start;
+  margin-left: -4%;
+}
+.nf-hn-2 {
+  justify-self: end;
+  margin-right: -4%;
+}
+.nf-hn em,
+.nf-close-names em {
+  font-style: normal;
+  font-size: 0.7em;
+  color: var(--nf-blue-deep);
+  opacity: 0.8;
+}
+.nf-hero-date {
+  margin: 22px 0 0;
+  font-family: var(--nf-display);
+  font-size: 17px;
+  letter-spacing: 0.32em;
+  padding-left: 0.32em;
+  color: var(--nf-blue-deep);
+}
+.nf-cue {
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  translate: -50% 0;
+  color: var(--nf-blue-deep);
+}
+.nf-cue svg {
+  display: block;
+  animation: nf-bob 2s ease-in-out infinite;
+}
+@keyframes nf-bob {
+  50% {
+    translate: 0 5px;
+  }
+}
+
+/* the lettering is written into the mist, line after line */
+.nf-hero:not([data-play]) .nf-l {
+  opacity: 0;
+}
+.nf-hero[data-play] .nf-l {
+  animation: nf-text 1100ms var(--nf-ease) calc(900ms + var(--i, 0) * 170ms) both;
+}
+.nf-hero[data-play] .nf-hn {
+  -webkit-mask-image: linear-gradient(90deg, #000 40%, transparent 60%);
+  mask-image: linear-gradient(90deg, #000 40%, transparent 60%);
+  -webkit-mask-size: 250% 100%;
+  mask-size: 250% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: nf-write 1300ms cubic-bezier(0.4, 0, 0.3, 1) calc(900ms + var(--i, 0) * 170ms) both;
+}
+@keyframes nf-text {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    filter: blur(0);
+  }
+}
+@keyframes nf-write {
+  from {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+  to {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+}
+
+/* without a film, the closed picture gives way as the mist comes up */
+.nf-poster[data-state="closed"] {
+  cursor: pointer;
+}
+.nf-poster[data-state="opening"] {
+  animation: nf-out 1000ms ease 400ms both;
+}
+@keyframes nf-out {
+  to {
+    opacity: 0;
+  }
+}
+
+.nf-music {
+  position: fixed;
+  z-index: 20;
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  right: calc(max(0px, (100vw - 480px) / 2) + 16px);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: var(--nf-blue);
+  box-shadow: 0 8px 18px -10px rgba(40, 60, 80, 0.6);
+  animation: nf-text 800ms var(--nf-ease) both;
+  transition:
+    opacity 0.35s ease,
+    scale 0.35s var(--nf-ease);
+}
+.nf-music[data-scrolling] {
+  opacity: 0.4;
+  scale: 0.86;
+}
+.nf-music:focus-visible {
+  outline: 2px solid var(--nf-blue-deep);
+  outline-offset: 3px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Sections                                                            */
+/* ------------------------------------------------------------------ */
+
+.nf-sec {
+  position: relative;
+  padding: 44px 26px;
+  text-align: center;
+}
+.nf-script {
+  margin: 0;
+  font-family: var(--nf-script);
+  font-weight: 400;
+  color: var(--nf-blue);
+  line-height: 1.1;
+}
+.nf-caps {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--nf-blue-deep);
+}
+.nf-p {
+  max-width: 30ch;
+  margin: 16px auto 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--nf-ink);
+}
+.nf-ico {
+  display: block;
+}
+
+/* a blush watercolour wash behind lettering, faded out before it meets the flowers */
+.nf-wash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: url("./assets/paper.webp") center / cover no-repeat;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent);
+}
+.nf-wash ~ * {
+  position: relative;
+}
+
+/* --- the invitation on its band of roses ------------------------------ */
+.nf-invite {
+  padding: 8px 0 30px;
+}
+.nf-band {
+  position: relative;
+  overflow: hidden;
+}
+/* the base styles cap images at their container's width; these are laid wider on purpose */
+.nf-sec img {
+  max-width: none;
+}
+.nf-band img {
+  display: block;
+  width: 168%;
+  margin-left: -34%;
+}
+.nf-band-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(74%, 300px);
+  translate: -50% -50%;
+  margin: 0;
+  padding: 14px 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--nf-ink);
+  background: rgba(252, 248, 245, 0.92);
+  box-shadow: 0 6px 22px -14px rgba(60, 70, 80, 0.4);
+}
+.nf-forever {
+  margin-top: 14px;
+  font-size: 38px;
+}
+
+/* --- the date ---------------------------------------------------------- */
+.nf-date {
+  padding-top: 30px;
+}
+.nf-bigdate {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  width: fit-content;
+  margin: 0 auto;
+  color: var(--nf-blue-deep);
+}
+.nf-day {
+  font-family: var(--nf-display);
+  font-size: 128px;
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: #6f8ca4;
+}
+.nf-month {
+  position: absolute;
+  left: 16%;
+  top: 50%;
+  padding: 0 0.3em;
+  font-family: var(--nf-script);
+  font-size: 58px;
+  line-height: 1;
+  color: var(--nf-blue-deep);
+  white-space: nowrap;
+}
+.nf-year {
+  margin-top: 50px;
+  font-family: var(--nf-display);
+  font-size: 22px;
+  letter-spacing: 0.42em;
+  padding-left: 0.42em;
+  color: var(--nf-blue);
+}
+.nf-when {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+.nf-when i {
+  width: 18px;
+  height: 1px;
+  background: var(--nf-line);
+}
+.nf-when b {
+  font-weight: 400;
+  color: var(--nf-line);
+}
+.nf-left {
+  margin: 12px 0 0;
+  font-family: var(--nf-italic);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--nf-soft);
+}
+.nf-left b {
+  font-style: normal;
+  font-family: var(--nf-display);
+  font-weight: 500;
+  color: var(--nf-blue-deep);
+}
+
+/* a round icon with its caption, as in the reference: confirm, map */
+.nf-round {
+  display: inline-grid;
+  justify-items: center;
+  gap: 8px;
+  margin-top: 26px;
+  min-width: 44px;
+  -webkit-tap-highlight-color: transparent;
+}
+.nf-round-dot {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--nf-blue);
+  box-shadow: 0 10px 20px -12px rgba(40, 60, 80, 0.6);
+  transition: scale 0.25s var(--nf-ease);
+}
+.nf-round:active .nf-round-dot {
+  scale: 0.94;
+}
+.nf-round-label {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--nf-blue-deep);
+}
+.nf-round:focus-visible,
+.nf-pill:focus-visible,
+.nf-arch-link:focus-visible {
+  outline: 2px solid var(--nf-blue-deep);
+  outline-offset: 4px;
+}
+
+/* --- the place: an arch of dusty blue --------------------------------- */
+.nf-place {
+  padding: 0 0 0;
+}
+.nf-place-flowers {
+  display: block;
+  width: 100%;
+  margin-bottom: -20px;
+}
+.nf-arch {
+  width: 88%;
+  margin: 0 auto;
+  border-radius: 999px 999px 0 0;
+  background: var(--nf-arch);
+  padding: 10px;
+}
+.nf-arch-in {
+  display: grid;
+  justify-items: center;
+  padding: 58px 22px 34px;
+  border-radius: 999px 999px 0 0;
+  border: 1px dashed rgba(255, 255, 255, 0.75);
+  border-bottom: 0;
+  color: #fff;
+}
+.nf-mono-light {
+  color: #fff;
+}
+.nf-mono-light i b {
+  background: var(--nf-arch);
+}
+.nf-arch-title {
+  display: grid;
+  margin-top: 16px;
+  font-size: 46px;
+  line-height: 1.05;
+  color: #fff;
+}
+.nf-arch-venue {
+  margin-top: 22px;
+  color: #fff;
+  letter-spacing: 0.2em;
+  line-height: 1.6;
+}
+.nf-arch-addr {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.92);
+}
+.nf-round-light .nf-round-dot {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.9);
+}
+.nf-round-light .nf-round-label {
+  color: #fff;
+}
+.nf-arch-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  text-decoration-color: rgba(255, 255, 255, 0.55);
+}
+.nf-arch-quote {
+  max-width: 26ch;
+  margin: 18px 0 0;
+  font-family: var(--nf-italic);
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.95);
+}
+.nf-arch-quote span {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--nf-sans);
+  font-style: normal;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+/* --- To‘yana ----------------------------------------------------------- */
+.nf-gift-sec {
+  padding-top: 0;
+}
+.nf-gift-flowers {
+  margin: 0 -26px 10px;
+}
+.nf-gift-flowers img {
+  display: block;
+  width: 116%;
+  margin-left: -8%;
+}
+.nf-kick {
+  font-size: 11.5px;
+}
+.nf-title {
+  margin-top: 2px;
+  font-size: 56px;
+}
+.nf-gift-dot {
+  margin: 14px auto 0;
+}
+.nf-gift {
+  max-width: 320px;
+  margin: 22px auto 0;
+}
+.nf-gift-card {
+  position: relative;
+  aspect-ratio: 1.586;
+  border-radius: 14px;
+  padding: 0 20px;
+  text-align: left;
+  background:
+    radial-gradient(110% 90% at 0% 0%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0) 60%),
+    linear-gradient(150deg, #f6f3f0, #e3eaf0 60%, #cfdbe5);
+  box-shadow:
+    inset 0 0 0 1px rgba(111, 143, 166, 0.3),
+    0 18px 34px -22px rgba(40, 60, 80, 0.7);
+}
+.nf-gift-net {
+  position: absolute;
+  right: 20px;
+  top: 18%;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  color: var(--nf-blue-deep);
+}
+.nf-gift-number {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 46%;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--nf-display);
+  font-size: clamp(19px, 6.2vw, 24px);
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--nf-blue-deep);
+}
+.nf-gift-holder {
+  position: absolute;
+  left: 20px;
+  bottom: 14%;
+  margin: 0;
+  font-size: 11.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--nf-ink);
+}
+.nf-pill {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 16px;
+  border-radius: 999px;
+  background: var(--nf-blue);
+  color: #fff;
+  font-family: var(--nf-sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.25s ease,
+    scale 0.25s var(--nf-ease);
+}
+.nf-pill:hover {
+  background: var(--nf-blue-deep);
+}
+.nf-pill:active {
+  scale: 0.98;
+}
+
+/* --- the brush stroke ---------------------------------------------------- */
+.nf-brush {
+  padding: 18px 0;
+}
+.nf-brush img {
+  display: block;
+  width: 112%;
+  height: 132px;
+  margin-left: -6%;
+  object-fit: fill;
+}
+.nf-brush p {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  translate: 0 -50%;
+  margin: 0;
+  padding: 0 34px;
+  font-family: var(--nf-italic);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.45;
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(40, 60, 80, 0.35);
+}
+
+/* --- the last word ------------------------------------------------------- */
+.nf-close {
+  padding-bottom: 0;
+}
+.nf-wash-low {
+  bottom: 30%;
+}
+.nf-serif-line {
+  margin: 0;
+  font-family: var(--nf-italic);
+  font-size: 21px;
+  line-height: 1.5;
+  color: var(--nf-blue-deep);
+}
+.nf-close-names {
+  display: grid;
+  margin-top: 18px;
+  font-size: min(15vw, 66px);
+  line-height: 1.05;
+}
+.nf-close-names span:last-child {
+  margin-left: 18%;
+}
+.nf-contact {
+  margin: 18px 0 0;
+  font-size: 13px;
+  color: var(--nf-soft);
+}
+.nf-contact a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--nf-blue-deep);
+  font-weight: 500;
+}
+.nf-end {
+  margin: 10px -26px 0;
+}
+.nf-end .sc-end {
+  padding-bottom: 0;
+}
+.nf-close-flowers {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Reveals                                                             */
+/* ------------------------------------------------------------------ */
+
+.nf-sections [data-reveal="up"] {
+  transition:
+    opacity 700ms var(--nf-ease) var(--d, 0ms),
+    translate 700ms var(--nf-ease) var(--d, 0ms),
+    filter 700ms var(--nf-ease) var(--d, 0ms);
+}
+.nf-sections [data-reveal="up"]:not([data-in]) {
+  opacity: 0;
+  translate: 0 14px;
+  filter: blur(3px);
+}
+.nf-sections [data-reveal="write"] {
+  padding-inline: 0.3em;
+  -webkit-mask-image: linear-gradient(90deg, #000 40%, transparent 60%);
+  mask-image: linear-gradient(90deg, #000 40%, transparent 60%);
+  -webkit-mask-size: 250% 100%;
+  mask-size: 250% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: 100% 0;
+  mask-position: 100% 0;
+}
+.nf-sections [data-reveal="write"][data-in] {
+  animation: nf-write 1300ms cubic-bezier(0.4, 0, 0.3, 1) var(--d, 0ms) forwards;
+}
+/* the flowers and the brush are laid on the paper colour: they are wiped in, never faded */
+.nf-sections [data-reveal="wipe"] img,
+.nf-sections [data-reveal="rise"] img {
+  transition: clip-path 1300ms cubic-bezier(0.5, 0, 0.2, 1);
+}
+.nf-sections [data-reveal="wipe"]:not([data-in]) img {
+  clip-path: inset(0 50% 0 50%);
+}
+.nf-sections [data-reveal="rise"]:not([data-in]) img {
+  clip-path: inset(100% 0 0 0);
+}
+.nf-brush p {
+  transition: opacity 900ms ease 700ms;
+}
+.nf-brush:not([data-in]) p {
+  opacity: 0;
+}
+/* the arch rises from its foot */
+.nf-arch {
+  transition:
+    clip-path 1300ms cubic-bezier(0.6, 0, 0.2, 1),
+    translate 1300ms var(--nf-ease);
+}
+.nf-arch-wrap:not([data-in]) .nf-arch {
+  clip-path: inset(100% 0 0 0 round 999px 999px 0 0);
+  translate: 0 20px;
+}
+.nf-arch-wrap[data-in] .nf-arch {
+  clip-path: inset(0 0 0 0 round 999px 999px 0 0);
+}
+.nf-arch-in > * {
+  transition: opacity 800ms ease 500ms;
+}
+.nf-arch-wrap:not([data-in]) .nf-arch-in > * {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nf-hero[data-play] .nf-mist,
+  .nf-hero[data-play] .nf-hero-flowers,
+  .nf-hero[data-play] .nf-l,
+  .nf-hero[data-play] .nf-hn,
+  .nf-hero[data-play] .nf-photo {
+    animation: none;
+    opacity: 1;
+    clip-path: none;
+  }
+  .nf-hero[data-play] .nf-hn,
+  .nf-sections [data-reveal="write"] {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .nf-poster[data-state="opening"] {
+    animation: nf-out 400ms ease both;
+  }
+  .nf-cue svg,
+  .nf-music {
+    animation: none;
+  }
+}

@@ -24,6 +24,9 @@ export interface FilmSpec {
   cues?: FilmCues;
   /** Playback speed: the films are generated slow and played a little faster (default 1). */
   rate?: number;
+  /** For end "scene": seconds of film time before its end at which the live page starts to come in over it
+      (a template may lay its mist and lettering above the film), default 0. */
+  lead?: number;
   /** For end "scene": where the photograph and its roses lie in the film's last frame (frame pixels), so the
       live scene can be laid exactly over it and the film melt away without a seam. */
   scene?: FilmScene;
@@ -139,13 +142,19 @@ export function Film({
   );
 
   const ended = useRef(false);
+  const handed = useRef(false);
+  const handOver = () => {
+    if (handed.current) return;
+    handed.current = true;
+    onHandover();
+  };
   const finish = () => {
     if (ended.current) return;
     ended.current = true;
     if (spec.end === "card" && spec.card) moveIn(spec.card);
     else {
       // the film dissolves into the live scene beneath it
-      onHandover();
+      handOver();
       setHandover(true);
       timers.current.push(window.setTimeout(onDone, DISSOLVE_MS));
     }
@@ -243,8 +252,10 @@ export function Film({
         disablePictureInPicture
         onEnded={finish}
         onTimeUpdate={(e) => {
-          if (e.currentTarget.currentTime > 0.05) started.current = true;
+          const v = e.currentTarget;
+          if (v.currentTime > 0.05) started.current = true;
           lastMove.current = performance.now();
+          if (spec.lead && spec.end !== "card" && Number.isFinite(v.duration) && v.currentTime >= v.duration - spec.lead) handOver();
         }}
         onError={() => state === "opening" && fail()}
         style={zoom ?? undefined}
