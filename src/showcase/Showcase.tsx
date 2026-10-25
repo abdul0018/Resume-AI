@@ -4,6 +4,7 @@ import { formatDateDots } from "@shared/format";
 import { ClosedCard, MuhrInvitation } from "@/templates/muhr/MuhrInvitation";
 import { GulzorClosed, GulzorInvitation } from "@/templates/gulzor/GulzorInvitation";
 import { NafosatClosed, NafosatInvitation } from "@/templates/nafosat/NafosatInvitation";
+import { AhdClosed, AhdInvitation } from "@/templates/ahd/AhdInvitation";
 
 /**
  * Examples-only site: a gallery of sample invitations, each opening full-screen.
@@ -19,7 +20,7 @@ interface ShowcaseTemplate {
   Invitation: ComponentType<{ data: InviteData; replayToken?: number; endSlot?: ReactNode }>;
   Preview: ComponentType<{ data: InviteData; w: number; h: number }>;
   /** Colours the back arrow to sit on the template's closed card. */
-  tone: "gold" | "sage" | "blue";
+  tone: "gold" | "sage" | "blue" | "ivory";
 }
 
 const TEMPLATES: ShowcaseTemplate[] = [
@@ -140,6 +141,46 @@ const TEMPLATES: ShowcaseTemplate[] = [
       </div>
     ),
     tone: "blue",
+  },
+  {
+    id: "ahd",
+    name: "Ahd",
+    line: "Ikki qo‘l, ikki uzuk: deraza oldida qo‘shilgan uzuklar bilan ochiladigan, parda ortidagi sanali taklifnoma",
+    data: {
+      eventType: "nikoh",
+      groom: "Azizbek",
+      bride: "Nilufar",
+      date: "2027-09-18",
+      time: "17:00",
+      venue: "«Oqsaroy» to‘yxonasi",
+      address: "Samarqand sh., Universitet xiyoboni, 9-uy",
+      mapUrl: "",
+      hosts: "Karimovlar va Ergashevlar oilasi",
+      groomParents: "Karimovlar oilasining o‘g‘li",
+      brideParents: "Ergashevlar oilasining qizi",
+      giftCardNumber: "9860555512341234",
+      giftCardHolder: "Azizbek Karimov",
+      contactPhone: "+998 97 111 22 33",
+      message: "",
+      bismillah: true,
+      program: [
+        { time: "17:00", title: "Mehmonlarni kutib olish" },
+        { time: "17:30", title: "Nikoh o‘qilishi" },
+        { time: "18:30", title: "Kelin-kuyovni kutib olish" },
+        { time: "19:00", title: "To‘y dasturxoni" },
+        { time: "21:30", title: "Kelin salom va duo" },
+      ],
+      photos: [],
+      music: "nafis",
+      dressCode: "Och, iliq ranglardagi nafis liboslar",
+    },
+    Invitation: AhdInvitation,
+    Preview: ({ data, w, h }) => (
+      <div className="ah ah-thumb" style={{ position: "relative", width: w, height: h }}>
+        <AhdClosed data={data} box={{ w, h }} />
+      </div>
+    ),
+    tone: "ivory",
   },
 ];
 
