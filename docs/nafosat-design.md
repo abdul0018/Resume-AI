@@ -25,18 +25,18 @@ the showcase shell, the film player and the line icons.
 
 ## Opening
 
-The film (`public/film/nafosat/`) shows the cream wedding car on a coastal road of roses, seen from a low
-chase camera. On the tap it drives away under the flower arch.
+The owner's film (`public/film/nafosat/`, 8 s, one continuous take) starts on the cream wedding car on a
+coastal road of roses. On the tap the car drives away and the camera follows it. The film ends on the car
+under the flower arch, with the sea beyond, and that last frame is the website's first screen.
 
 - **Speed:** played at 1.35×.
-- **Cut:** frame 230 (9.6 s), just before the generated film jumps and the car pops out.
-- **Hand-over:** `lead: 1.7` hands over 1.7 s of film time before the end. From then on, a cream mist laid
-  above the film rises (1.6 s) and the car drives into it.
-- **First screen:** the hero photograph is the film's last frame, under the same mist. The roses wipe down
-  from the top, and the monogram, quote, names and date are written in.
-- **The road:** it shows faintly below the mist and dissolves into the paper at the foot of the screen.
+- **Hand-over:** `lead: 1.6` brings the page in over the film's last 1.2 s. A cream sky settles over the
+  top and the road turns into paper at the foot (1.4 s). The monogram and names are written into the sky;
+  the invitation line and date appear at the foot.
+- **Seam:** the film then melts into the same frame beneath, so nothing jumps; the middle of the picture
+  stays clear.
 - **Closed card:** the names and date sit on a pale band over the sky; the hint is a pill over the road.
-- **Without the film:** the closed picture fades out under the rising mist (reduced motion, or a phone that
+- **Without the film:** the closed picture fades out under the settling sky (reduced motion, or a phone that
   will not play it).
 
 ## Page

@@ -19,7 +19,7 @@ import "./nafosat.css";
 
 type Stage = "closed" | "opening" | "scene";
 
-/** The template's pictures, by name in ./assets: hero (the film's last frame), blossoms-top, blossoms-bottom,
+/** The template's pictures, by name in ./assets: hero (the film's last frame), blossoms-bottom,
     band, brush, paper. The flowers and the brush are already laid on the paper colour. */
 const FILES = import.meta.glob<string>("./assets/*.{jpg,jpeg,png,webp}", { eager: true, query: "?url", import: "default" });
 const art = (name: string) => Object.entries(FILES).find(([p]) => p.slice(p.lastIndexOf("/") + 1).replace(/\.\w+$/, "") === name)?.[1];
@@ -261,37 +261,38 @@ function Monogram({ data, className = "nf-mono", style }: { data: InviteData; cl
 }
 
 /**
- * The road the car has left, under a cream mist that rises over it (and over the film's last second), with
- * the roses hanging into the top and the invitation written into the mist.
+ * The film's last frame — the car under the flower arch, the sea beyond — as the first screen: a soft cream sky
+ * at the top for the monogram and names, the picture clear in the middle, and the road turning into paper
+ * at the foot, where the date and the invitation are written.
  */
 function RoadHero({ data }: { data: InviteData }) {
   return (
     <>
       <img className="nf-photo" src={art("hero")} alt="" />
       <div className="nf-mist" aria-hidden="true" />
-      <img className="nf-hero-flowers" src={art("blossoms-top")} alt="" aria-hidden="true" />
-      <div className="nf-hero-text">
+      <div className="nf-hero-top">
         <Monogram data={data} className="nf-mono nf-l" style={at(0)} />
-        <p className="nf-l nf-hero-quote" style={at(1)}>
-          «Taqdir bizni bir yo‘lga boshladi —<br />
-          endi har bir qadamni birga bosamiz»
-        </p>
         <h1 className="nf-hero-names">
-          <span className="nf-l nf-hn" style={at(2)}>
+          <span className="nf-l nf-hn" style={at(1)}>
             {data.groom}
           </span>
-          <span className="nf-l nf-hn nf-hn-2" style={at(3)}>
+          <span className="nf-l nf-hn nf-hn-2" style={at(2)}>
             <em>&amp;</em> {data.bride}
           </span>
         </h1>
+      </div>
+      <div className="nf-hero-foot">
+        <p className="nf-l nf-hero-invite" style={at(3)}>
+          Sizni to‘yimizga taklif etamiz
+        </p>
         <p className="nf-l nf-hero-date" style={at(4)}>
           {formatDateDots(data.date)}
         </p>
-      </div>
-      <div className="nf-l nf-cue" style={at(6)} aria-hidden="true">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
-          <path d="M6 9l6 6 6-6" />
-        </svg>
+        <div className="nf-l nf-cue" style={at(5)} aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </div>
       </div>
     </>
   );

@@ -126,71 +126,43 @@
     translate: 0 -1%;
   }
 }
-/* the mist: paper at the top, thinning over the road so its foot still shows. It lies above the film too, so
-   it rises over the film's last second and the car drives into it. */
+/* a cream sky over the top for the names, and the road turning into paper at the foot; the middle, the car
+   under the arch, stays clear. It lies above the film too, so it settles over the film's last second. */
 .nf-mist {
   position: absolute;
   z-index: 3;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 100%;
+  inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(252, 248, 245, 0) 82%, rgba(252, 248, 245, 0.85) 94%, var(--nf-paper) 100%),
-    radial-gradient(70% 22% at 30% 70%, rgba(252, 248, 245, 0.7), rgba(252, 248, 245, 0) 70%),
-    radial-gradient(60% 18% at 78% 74%, rgba(252, 248, 245, 0.6), rgba(252, 248, 245, 0) 70%),
     linear-gradient(
       180deg,
       var(--nf-paper) 0%,
-      var(--nf-paper) 54%,
-      rgba(252, 248, 245, 0.9) 64%,
+      rgba(252, 248, 245, 0.94) 13%,
+      rgba(252, 248, 245, 0.7) 24%,
+      rgba(252, 248, 245, 0.25) 34%,
+      rgba(252, 248, 245, 0) 42%,
+      rgba(252, 248, 245, 0) 66%,
       rgba(252, 248, 245, 0.55) 76%,
-      rgba(252, 248, 245, 0.15) 90%,
-      rgba(252, 248, 245, 0) 100%
+      rgba(252, 248, 245, 0.92) 86%,
+      var(--nf-paper) 95%
     );
   opacity: 0;
 }
 .nf-hero[data-play] .nf-mist {
-  animation: nf-mist 1600ms cubic-bezier(0.3, 0, 0.2, 1) both;
+  animation: nf-in 1400ms cubic-bezier(0.3, 0, 0.2, 1) both;
 }
-@keyframes nf-mist {
-  from {
-    opacity: 0;
-    translate: 0 14%;
-  }
+@keyframes nf-in {
   to {
     opacity: 1;
-    translate: 0 0;
-  }
-}
-.nf-hero-flowers {
-  position: absolute;
-  z-index: 4;
-  top: 0;
-  left: 0;
-  width: 100%;
-  pointer-events: none;
-  clip-path: inset(0 0 100% 0);
-}
-.nf-hero[data-play] .nf-hero-flowers {
-  animation: nf-hang 1500ms cubic-bezier(0.5, 0, 0.2, 1) 700ms both;
-}
-@keyframes nf-hang {
-  from {
-    clip-path: inset(0 0 100% 0);
-  }
-  to {
-    clip-path: inset(0 0 0 0);
   }
 }
 
-.nf-hero-text {
+.nf-hero-top {
   position: absolute;
   z-index: 5;
   left: 0;
   right: 0;
-  top: calc(18% + env(safe-area-inset-top, 0px));
+  top: calc(4.5% + env(safe-area-inset-top, 0px));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -203,7 +175,7 @@
   gap: 10px;
   margin: 0;
   font-family: var(--nf-display);
-  font-size: 30px;
+  font-size: 26px;
   font-weight: 500;
   line-height: 1;
   color: var(--nf-blue-deep);
@@ -211,7 +183,7 @@
 .nf-mono i {
   position: relative;
   width: 1px;
-  height: 34px;
+  height: 30px;
   background: currentColor;
   opacity: 0.6;
 }
@@ -226,33 +198,27 @@
   border: 1px solid currentColor;
   rotate: 45deg;
 }
-.nf-hero-quote {
-  margin: 18px 0 0;
-  font-family: var(--nf-italic);
-  font-style: italic;
-  font-size: 15px;
-  line-height: 1.5;
-  color: var(--nf-soft);
-}
 .nf-hero-names {
-  margin: 26px 0 0;
+  margin: 6px 0 0;
+  width: 100%;
   display: grid;
   font-family: var(--nf-script);
   font-weight: 400;
-  font-size: min(17vw, 76px);
-  line-height: 1.02;
-  color: var(--nf-blue);
+  font-size: min(15vw, 66px);
+  line-height: 1;
+  color: var(--nf-blue-deep);
+  text-shadow: 0 0 18px rgba(252, 248, 245, 0.9);
 }
 .nf-hn {
   padding: 0.08em 0.3em;
 }
 .nf-hn:first-child {
   justify-self: start;
-  margin-left: -4%;
+  margin-left: 6%;
 }
 .nf-hn-2 {
   justify-self: end;
-  margin-right: -4%;
+  margin-right: 6%;
 }
 .nf-hn em,
 .nf-close-names em {
@@ -261,20 +227,34 @@
   color: var(--nf-blue-deep);
   opacity: 0.8;
 }
+.nf-hero-foot {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  bottom: max(14px, env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.nf-hero-invite {
+  margin: 0;
+  font-family: var(--nf-italic);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--nf-blue-deep);
+}
 .nf-hero-date {
-  margin: 22px 0 0;
+  margin: 8px 0 0;
   font-family: var(--nf-display);
-  font-size: 17px;
-  letter-spacing: 0.32em;
-  padding-left: 0.32em;
+  font-size: 20px;
+  letter-spacing: 0.34em;
+  padding-left: 0.34em;
   color: var(--nf-blue-deep);
 }
 .nf-cue {
-  position: absolute;
-  z-index: 5;
-  left: 50%;
-  bottom: max(16px, env(safe-area-inset-bottom, 0px));
-  translate: -50% 0;
+  margin-top: 10px;
   color: var(--nf-blue-deep);
 }
 .nf-cue svg {
@@ -292,7 +272,7 @@
   opacity: 0;
 }
 .nf-hero[data-play] .nf-l {
-  animation: nf-text 1100ms var(--nf-ease) calc(900ms + var(--i, 0) * 170ms) both;
+  animation: nf-text 1100ms var(--nf-ease) calc(500ms + var(--i, 0) * 170ms) both;
 }
 .nf-hero[data-play] .nf-hn {
   -webkit-mask-image: linear-gradient(90deg, #000 40%, transparent 60%);
@@ -301,7 +281,7 @@
   mask-size: 250% 100%;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  animation: nf-write 1300ms cubic-bezier(0.4, 0, 0.3, 1) calc(900ms + var(--i, 0) * 170ms) both;
+  animation: nf-write 1300ms cubic-bezier(0.4, 0, 0.3, 1) calc(500ms + var(--i, 0) * 170ms) both;
 }
 @keyframes nf-text {
   from {
@@ -1142,7 +1122,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .nf-hero[data-play] .nf-mist,
-  .nf-hero[data-play] .nf-hero-flowers,
   .nf-hero[data-play] .nf-l,
   .nf-hero[data-play] .nf-hn,
   .nf-hero[data-play] .nf-photo {
