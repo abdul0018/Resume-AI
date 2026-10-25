@@ -41,16 +41,20 @@ chase camera. On the tap it drives away under the flower arch.
 
 ## Page
 
-1. The invitation line on a white card over a band of roses, then "Bir umrga baxtli!".
-2. The date: a large Bodoni day crossed by the script month, then the year, the weekday and time, the days
-   left, and a round WhatsApp button that confirms attendance with a ready message.
-3. Roses above a dusty-blue arch with a dashed inner line. Inside: the monogram, "Nikoh va ziyofat", the
-   venue, the address, a round map button, a Yandex link, and Saint-Exupéry's line about looking in the same
-   direction.
-4. To‘yana: roses, a gift icon, the card and a copy pill.
-5. A dusty-blue brush stroke with a line about two hearts.
-6. Closing: "Sizni intiqlik bilan kutamiz", the names, the contact, the showcase buttons, and roses at the
-   foot of the page.
+The reference gives the look only. The page follows an Uzbek invitation's own order:
+
+1. Roses, the Bismillah, "Qadrli mehmonlar!", and the parents' invitation naming the couple, signed
+   "Hurmat bilan" by the families.
+2. Kuyov and Kelin: each name in script with whose son or daughter they are, the monogram between them.
+3. To‘y sanasi: a large Bodoni day crossed by the script month, then the year, the weekday and time, and a
+   countdown in arch-topped tiles.
+4. To‘y dasturi: the title on a dusty-blue brush stroke, and a timeline with diamond marks.
+5. To‘yxona: roses above a dusty-blue arch holding the venue, the address, round Yandex and Google buttons,
+   and the dress code.
+6. Javobingizni kutamiz: a band of roses, a short reply form, and round Telegram and call buttons.
+7. To‘yana: a gift icon, the card and a copy pill.
+8. Duo: a prayer for the couple, "Sizni intiqlik bilan kutamiz!", the families' signature, the showcase
+   buttons, and roses at the foot of the page.
 
 ## Motion
 

@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type FormEvent, type ReactNode } from "react";
 import { EVENT_TYPES } from "@shared/constants";
 import type { InviteData } from "@shared/schema";
 import { eventTimestamp, formatDateDots, formatWeekday, MONTHS, parseDate } from "@shared/format";
@@ -24,19 +24,15 @@ type Stage = "closed" | "opening" | "scene";
 const FILES = import.meta.glob<string>("./assets/*.{jpg,jpeg,png,webp}", { eager: true, query: "?url", import: "default" });
 const art = (name: string) => Object.entries(FILES).find(([p]) => p.slice(p.lastIndexOf("/") + 1).replace(/\.\w+$/, "") === name)?.[1];
 
-/** The invitation line under the flower band, per ceremony. */
-const INVITE: Record<keyof typeof EVENT_TYPES, string> = {
-  nikoh: "Katta mehr va minnatdorlik bilan sizni nikoh to‘yimizga taklif etamiz",
-  fotiha: "Katta mehr va minnatdorlik bilan sizni fotiha to‘yimizga taklif etamiz",
-  unashtiruv: "Katta mehr va minnatdorlik bilan sizni unashtiruv marosimimizga taklif etamiz",
-  qizbazmi: "Katta mehr va minnatdorlik bilan sizni qiz bazmimizga taklif etamiz",
+/** The parents' invitation, per ceremony, when the couple has not written their own. */
+const OCCASION: Record<keyof typeof EVENT_TYPES, string> = {
+  nikoh: "nikoh to‘yi",
+  fotiha: "fotiha to‘yi",
+  unashtiruv: "unashtiruv marosimi",
+  qizbazmi: "qiz bazmi",
 };
-const PLACE_TITLE: Record<keyof typeof EVENT_TYPES, [string, string]> = {
-  nikoh: ["Nikoh", "va ziyofat"],
-  fotiha: ["Fotiha", "va ziyofat"],
-  unashtiruv: ["Unashtiruv", "marosimi"],
-  qizbazmi: ["Qiz", "bazmi"],
-};
+const inviteText = (data: InviteData) =>
+  `Sizni farzandlarimiz ${data.groom} va ${data.bride}ning ${OCCASION[data.eventType]} munosabati bilan beriladigan dasturxonimizga lutfan taklif etamiz. Ushbu quvonchli kunda yonimizda bo‘lishingiz biz uchun katta sharaf.`;
 
 /** Without a film: the closed picture gives way to the mist this long after the tap. */
 const POSTER_OUT = 1500;
@@ -344,30 +340,56 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
   const links = mapLinks(data);
   const phone = data.contactPhone?.trim();
   const dial = phone ? dialable(phone) : "";
-  const reply = `Assalomu alaykum! ${data.groom} va ${data.bride}ning to‘yiga albatta boraman.`;
-  const [t1, t2] = PLACE_TITLE[data.eventType];
+  const hosts = data.hosts || "Ota-onalari";
 
   return (
     <div ref={root} className="nf-sections">
-      {/* the invitation, laid on a band of roses */}
+      {/* the parents' invitation, under a band of roses */}
       <section className="nf-sec nf-invite">
         <div className="nf-band" data-reveal="wipe">
           <img src={art("band")} alt="" aria-hidden="true" />
-          <p className="nf-band-text" data-reveal="up" style={delay(500)}>
-            {INVITE[data.eventType]}
-          </p>
         </div>
-        <p className="nf-script nf-forever" data-reveal="write" style={delay(300)}>
-          Bir umrga baxtli!
+        {data.bismillah && (
+          <p className="nf-bismillah" lang="ar" dir="rtl" data-reveal="up">
+            بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+          </p>
+        )}
+        <h2 className="nf-script nf-title" data-reveal="write" style={delay(150)}>
+          Qadrli mehmonlar!
+        </h2>
+        <p className="nf-p nf-invite-text" data-reveal="up" style={delay(300)}>
+          {data.message || inviteText(data)}
+        </p>
+        <p className="nf-sign" data-reveal="up" style={delay(450)}>
+          <span>Hurmat bilan,</span>
+          {hosts}
         </p>
       </section>
 
-      {/* the date, large */}
-      <section className="nf-sec nf-date">
+      {/* the groom and the bride, and whose children they are */}
+      <section className="nf-sec nf-couple">
         <div className="nf-wash" aria-hidden="true" />
-        <div className="nf-bigdate" data-reveal="up">
+        <div className="nf-person" data-reveal="up">
+          <p className="nf-caps">Kuyov</p>
+          <p className="nf-script nf-person-name">{data.groom}</p>
+          {data.groomParents && <p className="nf-person-of">{data.groomParents}</p>}
+        </div>
+        <Monogram data={data} className="nf-mono nf-couple-mono" />
+        <div className="nf-person" data-reveal="up" style={delay(200)}>
+          <p className="nf-caps">Kelin</p>
+          <p className="nf-script nf-person-name">{data.bride}</p>
+          {data.brideParents && <p className="nf-person-of">{data.brideParents}</p>}
+        </div>
+      </section>
+
+      {/* the day */}
+      <section className="nf-sec nf-date">
+        <p className="nf-caps nf-kick" data-reveal="up">
+          To‘y sanasi
+        </p>
+        <div className="nf-bigdate" data-reveal="up" style={delay(150)}>
           <span className="nf-day">{d}</span>
-          <span className="nf-month" data-reveal="write" style={delay(450)}>
+          <span className="nf-month" data-reveal="write" style={delay(550)}>
             {month.charAt(0).toUpperCase() + month.slice(1)}
           </span>
           <span className="nf-year">{y}</span>
@@ -378,22 +400,25 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
           <i />
         </p>
         <Countdown date={data.date} time={data.time} />
-        {phone && (
-          <a
-            className="nf-round"
-            href={`https://wa.me/${dial}?text=${encodeURIComponent(reply)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-reveal="up"
-            style={delay(450)}
-          >
-            <span className="nf-round-dot">
-              <Icon kind="whatsapp" size={22} className="nf-ico" />
-            </span>
-            <span className="nf-round-label">Ishtirokni tasdiqlash</span>
-          </a>
-        )}
       </section>
+
+      {data.program.length > 0 && (
+        <section className="nf-sec nf-program">
+          <img className="nf-brush-head" src={art("brush")} alt="" aria-hidden="true" />
+          <h2 className="nf-brush-title" data-reveal="up">
+            To‘y dasturi
+          </h2>
+          <ol className="nf-timeline" data-reveal="line">
+            {data.program.map((p, i) => (
+              <li key={`${p.time}${p.title}`} style={v("--i", i)}>
+                <time>{p.time}</time>
+                <span className="nf-tl-dot" aria-hidden="true" />
+                <span>{p.title}</span>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
 
       {/* where: a dusty-blue arch under the roses */}
       <section className="nf-sec nf-place">
@@ -402,83 +427,101 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
           <img className="nf-place-flowers" src={art("blossoms-bottom")} alt="" aria-hidden="true" />
         </div>
         <div className="nf-arch-wrap" data-reveal="arch">
-        <div className="nf-arch">
-          <div className="nf-arch-in">
-            <Monogram data={data} className="nf-mono nf-mono-light" />
-            <p className="nf-script nf-arch-title">
-              <span>{t1}</span>
-              <span>{t2}</span>
-            </p>
-            <p className="nf-caps nf-arch-venue">{data.venue}</p>
-            {data.address && <p className="nf-arch-addr">{data.address}</p>}
-            <a className="nf-round nf-round-light" href={links.google} target="_blank" rel="noopener noreferrer">
-              <span className="nf-round-dot">
-                <Icon kind="pin" size={22} className="nf-ico" />
-              </span>
-              <span className="nf-round-label">Xaritada ochish</span>
-            </a>
-            <a className="nf-arch-link" href={links.yandex} target="_blank" rel="noopener noreferrer">
-              Yandex xaritada
-            </a>
-            <p className="nf-arch-quote">
-              «Sevish — bir-biringizga qarash emas, balki birga bir tomonga qarashdir»
-              <span>Antuan de Sent-Ekzyuperi</span>
-            </p>
+          <div className="nf-arch">
+            <div className="nf-arch-in">
+              <Monogram data={data} className="nf-mono nf-mono-light" />
+              <p className="nf-script nf-arch-title">To‘yxona</p>
+              <p className="nf-caps nf-arch-venue">{data.venue}</p>
+              {data.address && <p className="nf-arch-addr">{data.address}</p>}
+              <div className="nf-arch-maps">
+                <a className="nf-round nf-round-light" href={links.yandex} target="_blank" rel="noopener noreferrer">
+                  <span className="nf-round-dot">
+                    <Icon kind="pin" size={22} className="nf-ico" />
+                  </span>
+                  <span className="nf-round-label">Yandex</span>
+                </a>
+                <a className="nf-round nf-round-light" href={links.google} target="_blank" rel="noopener noreferrer">
+                  <span className="nf-round-dot">
+                    <Icon kind="pin" size={22} className="nf-ico" />
+                  </span>
+                  <span className="nf-round-label">Google</span>
+                </a>
+              </div>
+              {data.dressCode && (
+                <p className="nf-arch-dress">
+                  <span>Kiyinish uslubi</span>
+                  {data.dressCode}
+                </p>
+              )}
+            </div>
           </div>
         </div>
+      </section>
+
+      {/* replies */}
+      <section className="nf-sec nf-reply">
+        <div className="nf-band" data-reveal="wipe">
+          <img src={art("band")} alt="" aria-hidden="true" />
         </div>
+        <h2 className="nf-script nf-title" data-reveal="write">
+          Javobingizni kutamiz
+        </h2>
+        <p className="nf-p" data-reveal="up" style={delay(200)}>
+          Iltimos, to‘y kunidan oldin kelishingizni tasdiqlang.
+        </p>
+        <Rsvp />
+        {phone && (
+          <div className="nf-reach" data-reveal="up" style={delay(300)}>
+            <a className="nf-round" href={`https://t.me/+${dial}`} target="_blank" rel="noopener noreferrer">
+              <span className="nf-round-dot">
+                <Icon kind="telegram" size={21} className="nf-ico" />
+              </span>
+              <span className="nf-round-label">Telegram</span>
+            </a>
+            <a className="nf-round" href={`tel:+${dial}`}>
+              <span className="nf-round-dot">
+                <Icon kind="phone" size={21} className="nf-ico" />
+              </span>
+              <span className="nf-round-label">Qo‘ng‘iroq</span>
+            </a>
+          </div>
+        )}
       </section>
 
       {/* To‘yana */}
       {data.giftCardNumber && (
         <section className="nf-sec nf-gift-sec">
-          <div className="nf-gift-flowers" data-reveal="wipe">
-            <img src={art("band")} alt="" aria-hidden="true" />
-          </div>
-          <p className="nf-caps nf-kick" data-reveal="up">
-            Sovg‘a haqida
-          </p>
+          <span className="nf-round-dot nf-gift-dot" data-reveal="up">
+            <Icon kind="gift" size={22} className="nf-ico" />
+          </span>
           <h2 className="nf-script nf-title" data-reveal="write" style={delay(150)}>
             To‘yana
           </h2>
-          <span className="nf-round-dot nf-gift-dot" data-reveal="up" style={delay(300)}>
-            <Icon kind="gift" size={22} className="nf-ico" />
-          </span>
-          <p className="nf-p" data-reveal="up" style={delay(350)}>
-            Siz uchun eng yaxshi sovg‘a — shu kuni yonimizda bo‘lishingiz. To‘yana yubormoqchi bo‘lsangiz, mana kartamiz:
+          <p className="nf-p" data-reveal="up" style={delay(300)}>
+            Duolaringiz biz uchun eng qimmatli sovg‘a. To‘yana yubormoqchi bo‘lsangiz:
           </p>
           <GiftCard number={data.giftCardNumber} holder={data.giftCardHolder} />
         </section>
       )}
 
-      {/* a line under a dusty-blue brush stroke */}
-      <section className="nf-sec nf-brush" data-reveal="wipe">
-        <img src={art("brush")} alt="" aria-hidden="true" />
-        <p>
-          «Bir-biriga mehr ko‘rsatgan ikki qalb —<br />
-          dunyodagi eng go‘zal uy»
-        </p>
-      </section>
-
-      {/* the last word */}
+      {/* a prayer for the couple, and the last word */}
       <section className="nf-sec nf-close">
         <div className="nf-wash nf-wash-low" aria-hidden="true" />
-        <p className="nf-serif-line" data-reveal="up">
-          Sizni intiqlik bilan kutamiz.
+        <p className="nf-caps nf-kick" data-reveal="up">
+          Duo
+        </p>
+        <p className="nf-serif-line" data-reveal="up" style={delay(150)}>
+          Alloh yoshlarimizga baxt, totuvlik va
           <br />
-          To‘yda ko‘rishguncha!
+          barakali umr ato etsin
         </p>
-        <p className="nf-script nf-close-names" data-reveal="write" style={delay(250)}>
-          <span>{data.groom}</span>
-          <span>
-            <em>&amp;</em> {data.bride}
-          </span>
+        <p className="nf-script nf-close-title" data-reveal="write" style={delay(300)}>
+          Sizni intiqlik bilan kutamiz!
         </p>
-        {phone && (
-          <p className="nf-contact" data-reveal="up" style={delay(400)}>
-            Savollar uchun: <a href={`tel:+${dial}`}>{phone}</a>
-          </p>
-        )}
+        <p className="nf-sign" data-reveal="up" style={delay(450)}>
+          <span>Hurmat bilan,</span>
+          {hosts}
+        </p>
         {endSlot && <div className="nf-end">{endSlot}</div>}
         <img className="nf-close-flowers" src={art("blossoms-bottom")} alt="" aria-hidden="true" />
       </section>
@@ -489,10 +532,86 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
 function Countdown({ date, time }: { date: string; time: string }) {
   const c = useCountdown(eventTimestamp(date, time));
   if (c.done) return <p className="nf-left">Baxtli kun keldi!</p>;
+  const parts = [
+    [c.days, "kun"],
+    [c.hours, "soat"],
+    [c.minutes, "daqiqa"],
+    [c.seconds, "soniya"],
+  ] as const;
   return (
-    <p className="nf-left" data-reveal="up" style={delay(400)}>
-      To‘ygacha <b>{c.days}</b> kun qoldi
-    </p>
+    <div className="nf-count" role="timer" aria-label="To‘ygacha qolgan vaqt" data-reveal="up" style={delay(400)}>
+      {parts.map(([n, label]) => (
+        <div key={label}>
+          <b>{String(n).padStart(2, "0")}</b>
+          <small>{label}</small>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** The reply: a short form in place. */
+function Rsvp() {
+  const [name, setName] = useState("");
+  const [attending, setAttending] = useState<boolean | null>(null);
+  const [guests, setGuests] = useState(1);
+  const [error, setError] = useState("");
+  const [state, setState] = useState<"idle" | "sending" | "done">("idle");
+
+  const submit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (name.trim().length < 2) return setError("Ismingizni yozing.");
+    if (attending === null) return setError("Kelishingizni belgilang.");
+    setError("");
+    setState("sending");
+    await new Promise((r) => setTimeout(r, 650));
+    setState("done");
+  };
+
+  if (state === "done") {
+    return (
+      <div className="nf-done">
+        <p className="nf-script nf-title">Rahmat!</p>
+        <p className="nf-p">{attending ? `${name.trim().split(" ")[0]}, sizni to‘yda ko‘rishdan xursand bo‘lamiz.` : "Javobingiz uchun rahmat. Duolaringiz biz bilan."}</p>
+      </div>
+    );
+  }
+
+  return (
+    <form className="nf-form" onSubmit={submit} noValidate data-reveal="up" style={delay(250)}>
+      <label htmlFor="nf-name">Ism va familiyangiz</label>
+      <input id="nf-name" className="nf-field" value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" maxLength={80} />
+      <div className="nf-choices">
+        <button type="button" className="nf-choice" aria-pressed={attending === true} onClick={() => setAttending(true)}>
+          Albatta kelaman
+        </button>
+        <button type="button" className="nf-choice" aria-pressed={attending === false} onClick={() => setAttending(false)}>
+          Kela olmayman
+        </button>
+      </div>
+      {attending && (
+        <div className="nf-field nf-guests">
+          <span>Necha kishi bo‘lasiz?</span>
+          <span>
+            <button type="button" onClick={() => setGuests((g) => Math.max(1, g - 1))} aria-label="Kamaytirish">
+              −
+            </button>
+            <b>{guests}</b>
+            <button type="button" onClick={() => setGuests((g) => Math.min(20, g + 1))} aria-label="Ko‘paytirish">
+              +
+            </button>
+          </span>
+        </div>
+      )}
+      {error && (
+        <p role="alert" className="nf-error">
+          {error}
+        </p>
+      )}
+      <button type="submit" className="nf-pill" disabled={state === "sending"}>
+        {state === "sending" ? "Yuborilmoqda…" : "Javobni yuborish"}
+      </button>
+    </form>
   );
 }
 

@@ -414,13 +414,14 @@
   position: relative;
 }
 
-/* --- the invitation on its band of roses ------------------------------ */
+/* --- the parents' invitation under a band of roses --------------------- */
 .nf-invite {
-  padding: 8px 0 30px;
+  padding: 6px 26px 40px;
 }
 .nf-band {
   position: relative;
   overflow: hidden;
+  margin: 0 -26px;
 }
 /* the base styles cap images at their container's width; these are laid wider on purpose */
 .nf-sec img {
@@ -428,26 +429,68 @@
 }
 .nf-band img {
   display: block;
-  width: 168%;
-  margin-left: -34%;
+  width: 150%;
+  margin-left: -25%;
 }
-.nf-band-text {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: min(74%, 300px);
-  translate: -50% -50%;
+.nf-bismillah {
+  margin: 18px 0 0;
+  font-family: "Amiri", serif;
+  font-size: 24px;
+  line-height: 1.7;
+  color: var(--nf-blue-deep);
+}
+.nf-invite .nf-title {
+  margin-top: 10px;
+  font-size: 50px;
+}
+.nf-invite-text {
+  max-width: 32ch;
+}
+.nf-sign {
+  display: grid;
+  gap: 2px;
+  margin: 18px 0 0;
+  font-family: var(--nf-italic);
+  font-size: 19px;
+  line-height: 1.4;
+  color: var(--nf-blue-deep);
+}
+.nf-sign span {
+  font-size: 15px;
+  font-style: italic;
+  color: var(--nf-soft);
+}
+
+/* --- the groom and the bride -------------------------------------------- */
+.nf-couple {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  padding: 34px 26px 40px;
+}
+.nf-person {
+  display: grid;
+  justify-items: center;
+}
+.nf-person-name {
+  margin-top: 2px;
+  font-size: min(16vw, 66px);
+  line-height: 1.15;
+  padding: 0 0.3em;
+}
+.nf-person-of {
   margin: 0;
-  padding: 14px 16px;
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--nf-ink);
-  background: rgba(252, 248, 245, 0.92);
-  box-shadow: 0 6px 22px -14px rgba(60, 70, 80, 0.4);
+  font-family: var(--nf-italic);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--nf-soft);
 }
-.nf-forever {
-  margin-top: 14px;
-  font-size: 38px;
+.nf-couple-mono {
+  font-size: 22px;
+  opacity: 0.85;
+}
+.nf-couple-mono i {
+  height: 26px;
 }
 
 /* --- the date ---------------------------------------------------------- */
@@ -517,6 +560,39 @@
   font-family: var(--nf-display);
   font-weight: 500;
   color: var(--nf-blue-deep);
+}
+
+.nf-date .nf-kick {
+  margin-bottom: 8px;
+}
+.nf-count {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+.nf-count > div {
+  display: grid;
+  gap: 4px;
+  width: 66px;
+  padding: 12px 0 10px;
+  border: 1px solid var(--nf-line);
+  border-radius: 999px 999px 12px 12px;
+  background: rgba(255, 255, 255, 0.55);
+}
+.nf-count b {
+  font-family: var(--nf-display);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--nf-blue-deep);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.nf-count small {
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--nf-soft);
 }
 
 /* a round icon with its caption, as in the reference: confirm, map */
@@ -613,6 +689,25 @@
 .nf-round-light .nf-round-label {
   color: #fff;
 }
+.nf-arch-maps {
+  display: flex;
+  gap: 36px;
+}
+.nf-arch-dress {
+  max-width: 26ch;
+  margin: 22px 0 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.95);
+}
+.nf-arch-dress span {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
 .nf-arch-link {
   display: inline-flex;
   align-items: center;
@@ -646,7 +741,7 @@
 
 /* --- To‘yana ----------------------------------------------------------- */
 .nf-gift-sec {
-  padding-top: 0;
+  padding-top: 30px;
 }
 .nf-gift-flowers {
   margin: 0 -26px 10px;
@@ -664,7 +759,7 @@
   font-size: 56px;
 }
 .nf-gift-dot {
-  margin: 14px auto 0;
+  margin: 0 auto 6px;
 }
 .nf-gift {
   max-width: 320px;
@@ -738,31 +833,182 @@
   scale: 0.98;
 }
 
-/* --- the brush stroke ---------------------------------------------------- */
-.nf-brush {
-  padding: 18px 0;
+/* --- the day's programme under a brush stroke --------------------------- */
+.nf-program {
+  padding-top: 30px;
 }
-.nf-brush img {
+.nf-brush-head {
   display: block;
-  width: 112%;
-  height: 132px;
-  margin-left: -6%;
+  width: 86%;
+  height: 76px;
+  margin: 0 auto;
   object-fit: fill;
 }
-.nf-brush p {
+.nf-brush-title {
   position: absolute;
   left: 0;
   right: 0;
-  top: 50%;
-  translate: 0 -50%;
+  top: 30px;
+  height: 76px;
   margin: 0;
-  padding: 0 34px;
-  font-family: var(--nf-italic);
-  font-style: italic;
-  font-size: 17px;
-  line-height: 1.45;
+  display: grid;
+  place-items: center;
+  font-family: var(--nf-script);
+  font-weight: 400;
+  font-size: 40px;
   color: #fff;
-  text-shadow: 0 1px 6px rgba(40, 60, 80, 0.35);
+  text-shadow: 0 1px 6px rgba(40, 60, 80, 0.3);
+}
+.nf-timeline {
+  position: relative;
+  list-style: none;
+  max-width: 300px;
+  margin: 26px auto 0;
+  padding: 0;
+  text-align: left;
+}
+.nf-timeline::before {
+  content: "";
+  position: absolute;
+  left: 76px;
+  top: 12px;
+  bottom: 12px;
+  width: 1px;
+  background: var(--nf-line);
+  transform-origin: 50% 0;
+}
+.nf-timeline li {
+  display: grid;
+  grid-template-columns: 64px 24px 1fr;
+  align-items: center;
+  min-height: 58px;
+}
+.nf-timeline time {
+  font-family: var(--nf-display);
+  font-size: 19px;
+  color: var(--nf-blue-deep);
+  text-align: right;
+  font-variant-numeric: lining-nums;
+}
+.nf-tl-dot {
+  justify-self: center;
+  width: 8px;
+  height: 8px;
+  rotate: 45deg;
+  background: var(--nf-paper);
+  border: 1px solid var(--nf-blue);
+  margin-left: 0;
+}
+.nf-timeline li > span:last-child {
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--nf-ink);
+}
+
+/* --- replies ------------------------------------------------------------- */
+.nf-reply {
+  padding-top: 10px;
+}
+.nf-reply .nf-title,
+.nf-gift-sec .nf-title {
+  font-size: 46px;
+}
+.nf-reply .nf-band {
+  margin-bottom: 8px;
+}
+.nf-form {
+  display: grid;
+  gap: 10px;
+  max-width: 320px;
+  margin: 22px auto 0;
+  text-align: left;
+}
+.nf-form label {
+  font-size: 13px;
+  color: var(--nf-soft);
+}
+.nf-field {
+  display: block;
+  width: 100%;
+  min-height: 50px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(111, 143, 166, 0.45);
+  background: #fff;
+  font-family: var(--nf-sans);
+  font-size: 16px;
+  color: var(--nf-ink);
+}
+.nf-field:focus {
+  outline: none;
+  border-color: var(--nf-blue-deep);
+  box-shadow: 0 0 0 3px rgba(111, 143, 166, 0.2);
+}
+.nf-choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.nf-choice {
+  min-height: 48px;
+  border-radius: 12px;
+  border: 1px solid rgba(111, 143, 166, 0.45);
+  background: #fff;
+  font-family: var(--nf-sans);
+  font-size: 14px;
+  color: var(--nf-blue-deep);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+.nf-choice[aria-pressed="true"] {
+  background: var(--nf-blue);
+  border-color: transparent;
+  color: #fff;
+}
+.nf-choice:focus-visible {
+  outline: 2px solid var(--nf-blue-deep);
+  outline-offset: 3px;
+}
+.nf-guests {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 15px;
+}
+.nf-guests > span:last-child {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.nf-guests button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(111, 143, 166, 0.5);
+  font-size: 18px;
+  color: var(--nf-blue-deep);
+}
+.nf-guests b {
+  min-width: 18px;
+  text-align: center;
+  font-weight: 500;
+}
+.nf-error {
+  margin: 0;
+  font-size: 14px;
+  color: #a2564a;
+}
+.nf-form .nf-pill {
+  margin-top: 4px;
+}
+.nf-done .nf-title {
+  margin-top: 10px;
+}
+.nf-reach {
+  display: flex;
+  justify-content: center;
+  gap: 34px;
 }
 
 /* --- the last word ------------------------------------------------------- */
@@ -778,6 +1024,13 @@
   font-size: 21px;
   line-height: 1.5;
   color: var(--nf-blue-deep);
+}
+.nf-close .nf-kick {
+  margin-bottom: 10px;
+}
+.nf-close-title {
+  margin-top: 18px;
+  font-size: min(10vw, 42px);
 }
 .nf-close-names {
   display: grid;
@@ -852,11 +1105,20 @@
 .nf-sections [data-reveal="rise"]:not([data-in]) img {
   clip-path: inset(100% 0 0 0);
 }
-.nf-brush p {
-  transition: opacity 900ms ease 700ms;
+.nf-timeline::before {
+  transition: scale 1500ms cubic-bezier(0.45, 0, 0.2, 1);
 }
-.nf-brush:not([data-in]) p {
+.nf-timeline:not([data-in])::before {
+  scale: 1 0;
+}
+.nf-timeline li {
+  transition:
+    opacity 700ms var(--nf-ease) calc(200ms + var(--i) * 130ms),
+    translate 700ms var(--nf-ease) calc(200ms + var(--i) * 130ms);
+}
+.nf-timeline:not([data-in]) li {
   opacity: 0;
+  translate: 0 10px;
 }
 /* the arch rises from its foot */
 .nf-arch {
