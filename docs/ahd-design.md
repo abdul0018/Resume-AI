@@ -49,7 +49,7 @@ The owner's film is in `public/film/ahd/` (6.5 s, 0.5 MB, played at 1.15×).
 Each section has its heading in pen capitals over the heart rule. There are no section numbers or eyebrow
 labels; the page is one sheet of paper.
 
-1. **Qadrli mehmonlar!:** the Bismillah, the parents' invitation naming the couple, and the families'
+1. **Qadrli mehmonlar!:** the parents' invitation naming the couple, and the families'
    signature.
 2. **Kelin va kuyov:** a sash window. The groom is in the upper pane and the bride in the lower, each name
    in the signature hand over whose son or daughter they are. The rings are the latch on the rail; the two
