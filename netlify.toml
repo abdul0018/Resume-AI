@@ -1,0 +1,17 @@
+# Netlify: build the one-file showcase (the three templates) and publish it.
+# The repository's root index.html is the development entry of the earlier ordering app, which needs its
+# Express server; publishing the root or `npm run build` gives a blank page on Netlify.
+[build]
+  command = "npm run build:showcase"
+  publish = "dist/showcase"
+
+[build.environment]
+  NODE_VERSION = "22"
+  # the showcase's tests use Playwright; the build does not need its browsers
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1"
+
+# the gallery and each template are addressed by a hash (#gulzor), so every path serves the one page
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

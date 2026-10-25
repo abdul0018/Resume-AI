@@ -70,6 +70,12 @@ The live site is served by GitHub Pages from the `gh-pages` branch, which holds 
 2. Copy `dist/showcase/index.html` to the root of `gh-pages`.
 3. Push `gh-pages`. Pages updates within a minute or two.
 
+### Netlify
+
+`netlify.toml` builds the showcase (`npm run build:showcase`, Node 22) and publishes `dist/showcase`, so
+connecting the repository to Netlify needs no settings. The root `index.html` is the earlier app's
+development entry, so publishing the root, or running `npm run build`, gives a blank page.
+
 ### Adding a template
 
 1. Create `src/templates/<name>/` with its invitation component.
