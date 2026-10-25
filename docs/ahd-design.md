@@ -63,4 +63,6 @@ The hero carries no label at its top. Only its foot is veiled, for the names and
 
 ## Music
 
-The built-in `nafis` track.
+The owner's song, an instrumental "Hijo de la luna" (`public/music/ahd.mp3`). It is the first phrase, 1.8 s
+to 69 s, ending at the song's own pause with a 2.4 s fade so it loops cleanly. It is loudness-matched to the
+others and encoded at 96 kb/s.

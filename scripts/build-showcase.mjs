@@ -20,7 +20,7 @@ const css = [...html.matchAll(/<link rel="stylesheet"[^>]*href="([^"]+)"[^>]*>/g
 const js = [...html.matchAll(/<script type="module"[^>]*src="([^"]+)"[^>]*><\/script>/g)].map((m) => read(m[1])).join("\n");
 
 const music = Object.fromEntries(
-  ["toylar", "nashid", "nafosat", "nafis"].map((id) => [id, `data:audio/mpeg;base64,${fs.readFileSync(`public/music/${id}.mp3`).toString("base64")}`]),
+  ["toylar", "nashid", "nafosat", "ahd"].map((id) => [id, `data:audio/mpeg;base64,${fs.readFileSync(`public/music/${id}.mp3`).toString("base64")}`]),
 );
 
 // Each template's opening film, when one has been prepared in public/film/<template>/: opening.mp4 (H.264),

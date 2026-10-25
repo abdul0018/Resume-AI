@@ -109,6 +109,7 @@ export const BUILTIN_MUSIC = {
   toylar: "Bojalar — To‘ylar muborak",
   nashid: "Muhammad al-Muqit — To‘y nashidasi",
   nafosat: "Nafosat — to‘y kuyi",
+  ahd: "Hijo de la luna — cholg‘u",
 } as const;
 
 export const ORDER_STATUSES = {
