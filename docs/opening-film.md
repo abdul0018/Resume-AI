@@ -64,7 +64,7 @@ Negative prompt: hands, fingers, text, letters, logo, watermark, camera shake, z
 
 ## Publishing on GitHub Pages
 
-The live site, https://abdul0018.github.io/Resume-AI/ (`#oltin-muhr`, `#gulzor` for each template), is served
+The live site, https://abdul0018.github.io/Taklifnomation/ (`#oltin-muhr`, `#gulzor`, `#nafosat` for each template), is served
 from the `gh-pages` branch, which holds only `index.html` and `.nojekyll`. To update it, run
 `npm run build:pages` (it builds the showcase into `docs/index.html`), commit that, then copy the same file to
 the root of `gh-pages` and push that branch.

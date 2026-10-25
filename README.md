@@ -1,84 +1,98 @@
-# Visol — premium raqamli to‘y taklifnomalari
+# Taklifnomation
 
-Personalized digital wedding invitations for the Uzbek market, sold via Instagram.
-Every invitation opens like a real luxury card: the satin bow unties, the corner flaps fold
-along the creases, and the gatefold doors swing open in 3D to reveal the inner card.
+Digital wedding invitations for the Uzbek market, shown and sold through Instagram. Each invitation opens
+with a short cinematic film, then turns into a phone-sized invitation page in Uzbek.
 
-## What's inside
+**Live showcase:** https://abdul0018.github.io/Taklifnomation/
 
-| Area | What it does |
-| --- | --- |
-| **Homepage** `/` | Uzbek copy, a live tappable invitation in the hero (switch templates via swatches), how it works, template gallery, features, pricing, FAQ, sticky mobile CTA |
-| **Live demos** `/namuna/:template` | Full-screen sample invitation for each template, with a "Shu shablonda yaratish" CTA |
-| **Builder** `/yaratish` | 4-step wizard (design → details → photos & music → package & contact) with a live phone preview, draft autosave, validation, map-link parsing, client-side photo compression |
-| **Order page** `/buyurtma/:id?k=…` | Payment instructions (card / Click / Payme), receipt upload, status tracker (auto-refreshes), share links, RSVP list, edit link |
-| **Invitation** `/i/:slug` | The guest experience: 3D opening, music, greeting, calendar, live countdown, program, photo gallery, Google/Yandex maps, RSVP, add-to-calendar (.ics), share buttons; per-invite Telegram/WhatsApp preview image + title |
-| **Admin** `/admin` | Orders (filter, search, receipt, activate/cancel, notes, RSVPs, client link, delete), templates (rename, tagline, badge, order, enable/disable), settings (brand, contacts, payment details, package prices/texts) |
+## Templates
 
-### Templates
+| Template | Link | Opening | Look |
+| --- | --- | --- | --- |
+| **Atlas lenta** | [`#oltin-muhr`](https://abdul0018.github.io/Taklifnomation/#oltin-muhr) | A satin bow unties, a gatefold opens, and the scene melts into the couple's photograph. | Champagne and gold, Bodoni and Corinthia, scratch-card date, invitation card |
+| **Gulzor** | [`#gulzor`](https://abdul0018.github.io/Taklifnomation/#gulzor) | A line of white flowers parts, the doors open, and the camera goes into the garden arch. | Cream, sage and blush, Bismillah, Ar-Rum 30:21, a dua for the couple, watercolour map, nasheed |
+| **Nafosat** | [`#nafosat`](https://abdul0018.github.io/Taklifnomation/#nafosat) | The wedding car drives away down a coastal road of roses; the page opens on the car under the flower arch. | Dusty blue and blush, roses and peonies, copperplate names, Bodoni date, blue arch |
 
-Six designs inspired by Uzbek craft, drawn procedurally in SVG (crisp, tiny, no image downloads):
-**Rishton** (cobalt ceramics florals, silver ribbon), **Zumrad** (emerald + gold girih arch),
-**Atlas** (Margilan ikat), **Suzani** (embroidered rosettes, burgundy ribbon),
-**Oq oltin** (white, black ribbon, gold arch), **Samarqand tuni** (midnight + gold stars).
+Every invitation page has:
 
-## Stack
+- music that starts with the tap;
+- the date with a live countdown;
+- the day's programme;
+- the venue with Yandex and Google map links;
+- a reply form;
+- To'yana, a gift card number with a copy button.
 
-- **Client:** React 19, TypeScript, Tailwind CSS 4, Vite. Pages are code-split; the guest invitation bundle stays small.
-- **Animation:** pure CSS 3D transforms/keyframes (compositor-only) — smooth on low-end Android and in Instagram/Telegram in-app browsers. Opening sounds are synthesised with Web Audio; music starts inside the tap gesture (required by iOS).
-- **Server:** Express + Node's built-in SQLite (`node:sqlite`), zod validation shared with the client.
-- **Assets:** two original royalty-free background tracks in `public/music`, social preview images in `public/og`.
+All of it works one-handed on a phone, including inside Instagram's and Telegram's in-app browsers.
 
-## Run locally
+## How it is built
+
+- **React 19 + TypeScript + Vite + Tailwind 4.** Each template lives in `src/templates/<name>/`, with its
+  own component, CSS and assets.
+- **Opening films** are the owner's AI-generated videos (H.264, 720×1280) in `public/film/<template>/`,
+  played by the shared player `src/templates/film/Film.tsx`.
+  - The player plays each film at 1.35×, times the opening sounds to it, and then melts it into the live
+    page laid exactly beneath its last frame.
+  - If a phone cannot play the film, a drawn or still opening takes over.
+- **Photos and flowers** are prepared ahead of time. The flower pictures are laid on each template's paper
+  colour, so no phone shows white boxes around them.
+- **Music** is in `public/music/`, one track per template.
+- **The showcase** (`src/showcase/`) is a gallery of the templates. `npm run build:showcase` bundles it
+  into one self-contained HTML file (about 15 MB) with the code, fonts links, pictures, music and films
+  inside, so it can be hosted anywhere.
+
+Design notes for each template:
+
+- [`DESIGN.md`](DESIGN.md): Atlas lenta, and the shared showcase shell.
+- [`docs/gulzor-design.md`](docs/gulzor-design.md): Gulzor.
+- [`docs/nafosat-design.md`](docs/nafosat-design.md): Nafosat.
+
+Notes on the films:
+
+- [`docs/opening-film.md`](docs/opening-film.md): how to prepare and encode a film.
+- [`docs/gulzor-images.md`](docs/gulzor-images.md): the image and film prompts for Gulzor.
+
+## Run and build
 
 Requires **Node.js 22.13+**.
 
 ```bash
 npm install
-npm run dev            # http://localhost:3000 (admin password: "admin" in development)
+npm run build:showcase   # → dist/showcase/index.html (one file, open it in a browser)
+npm run build:pages      # the same, also copied to docs/index.html
 ```
 
-## Production
+### Publishing
+
+The live site is served by GitHub Pages from the `gh-pages` branch, which holds only `index.html` and
+`.nojekyll`. To publish a change:
+
+1. Run `npm run build:pages`.
+2. Copy `dist/showcase/index.html` to the root of `gh-pages`.
+3. Push `gh-pages`. Pages updates within a minute or two.
+
+### Adding a template
+
+1. Create `src/templates/<name>/` with its invitation component.
+2. Put its film in `public/film/<name>/` (`opening.mp4`, `opening.jpg`, `opening.json`) and its song in
+   `public/music/`.
+3. List the template in `src/showcase/Showcase.tsx`, and the song in `scripts/build-showcase.mjs`.
+
+## The ordering app (earlier version)
+
+The repository also holds the first version of the product. It is a full Express app with its own six
+SVG-drawn templates:
+
+- `/yaratish`: an invitation builder;
+- `/buyurtma/:id`: order and payment pages;
+- `/i/:slug`: guest invitation pages with RSVPs;
+- `/admin`: an admin panel, on SQLite.
+
+It lives in `server/`, `src/pages/` and `src/components/`. It is not used by the showcase above.
 
 ```bash
-npm run build
-ADMIN_PASSWORD='long-secret' SESSION_SECRET="$(openssl rand -hex 32)" APP_URL=https://your-domain.uz npm start
+npm run dev          # http://localhost:3000 (admin password "admin" in development)
+npm run build && npm start
 ```
 
-| Variable | Purpose |
-| --- | --- |
-| `ADMIN_PASSWORD` | **Required in production.** Password for `/admin` |
-| `SESSION_SECRET` | Signs admin sessions (set it so logins survive restarts) |
-| `APP_URL` | Public URL used for social previews and share links |
-| `DATA_DIR` | Where the SQLite DB and uploads live (default `./data`) — put it on a persistent volume |
-| `PORT` | Default `3000` |
-| `TRUST_PROXY` | Express trust-proxy setting when behind a load balancer (default `loopback`) |
-| `TELEGRAM_BOT_TOKEN`, `TELEGRAM_ADMIN_CHAT_ID` | Optional: Telegram notifications for new orders, receipts and RSVPs |
-
-Serve behind HTTPS (e.g. Nginx/Caddy). Back up `DATA_DIR` regularly.
-
-## Business workflow
-
-1. A visitor from Instagram opens the site, taps the hero card, browses templates.
-2. They build their invitation in `/yaratish` and confirm the order → they land on their private order page.
-3. They pay (card / Click / Payme — set in **Admin → Sozlamalar**) and upload the receipt.
-4. You get a Telegram notification (if configured), check the receipt in **Admin → Buyurtmalar**, press **Faollashtirish**.
-5. The couple's link `/i/:slug` becomes live (before that it shows a "Namuna" badge); they share it via Telegram, WhatsApp, Instagram and see guest RSVPs on their order page.
-
-## Security notes
-
-- Order pages are protected by a random 192-bit key in the link; admin uses an HMAC-signed, `HttpOnly`, `SameSite=Strict` cookie.
-- All input is validated with zod on the server; uploads are type-sniffed from magic bytes (images ≤ 6 MB, audio ≤ 10 MB) and served with a locked-down CSP.
-- Rate limiting on orders, uploads, RSVPs and admin login; strict CSP, HSTS and other security headers in production.
-
-## Tests
-
-```bash
-npm run lint           # TypeScript
-npm run build
-npm run test:e2e       # full customer journey in a mobile browser (Instagram user agent)
-```
-
-The end-to-end test starts its own server on a temporary database and covers: hero opening, demos,
-builder validation, photo upload, ordering, receipt upload, social meta tags, admin login/activation,
-template toggling, price settings, guest RSVP, calendar export, editing and basic security checks.
+Production needs `ADMIN_PASSWORD` and `SESSION_SECRET`, and optionally `APP_URL`, `DATA_DIR`, `PORT`,
+`TELEGRAM_BOT_TOKEN` and `TELEGRAM_ADMIN_CHAT_ID` (see `.env.example`).
