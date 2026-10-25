@@ -517,7 +517,9 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
           barakali umr ato etsin
         </p>
         <p className="nf-script nf-close-title" data-reveal="write" style={delay(300)}>
-          Sizni intiqlik bilan kutamiz!
+          Sizni intiqlik
+          <br />
+          bilan kutamiz!
         </p>
         <p className="nf-sign" data-reveal="up" style={delay(450)}>
           <span>Hurmat bilan,</span>

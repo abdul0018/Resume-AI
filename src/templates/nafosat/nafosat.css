@@ -1039,10 +1039,11 @@
 .nf-end .sc-end {
   padding-bottom: 0;
 }
+/* the roses run edge to edge at the foot of the page */
 .nf-close-flowers {
   display: block;
-  width: 100%;
-  margin-top: 8px;
+  width: calc(100% + 52px);
+  margin: 8px -26px 0;
 }
 
 /* ------------------------------------------------------------------ */

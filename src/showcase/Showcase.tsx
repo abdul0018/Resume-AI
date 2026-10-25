@@ -130,7 +130,7 @@ const TEMPLATES: ShowcaseTemplate[] = [
         { time: "20:00", title: "Kelin salom va duo" },
       ],
       photos: [],
-      music: "toylar",
+      music: "nafosat",
       dressCode: "Yopiq, nafis liboslar; och havorang va pastel ranglar ma’qul",
     },
     Invitation: NafosatInvitation,
