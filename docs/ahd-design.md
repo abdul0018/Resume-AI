@@ -37,22 +37,29 @@ The owner's film is in `public/film/ahd/` (6.5 s, 0.5 MB, played at 1.15×).
 
 ## Page
 
-Each section is numbered in gold (01, 02 …) over a short golden bar.
+Each section has its own heading word in Playfair italic, over a window transom: a golden hairline with a
+small square latch. There are no section numbers or eyebrow labels; plain paper and linen alternate to
+separate the sections.
 
-1. **Taklif:** the Bismillah, "Qadrli mehmonlar!", the parents' invitation naming the couple, and the
-   families' signature.
-2. **Kelin va kuyov:** two panes of a window with whose son and daughter each is, and the rings as the latch
-   on the bar between.
+1. **Qadrli mehmonlar!:** the Bismillah, the parents' invitation naming the couple, and the families'
+   signature.
+2. **Kelin va kuyov:** a sash window. The groom is in the upper pane and the bride in the lower, each name
+   in Playfair italic over whose son or daughter they are. The rings are the latch on the rail; the two
+   sashes slide toward it.
 3. **To‘y sanasi:** the date waits behind two linen curtains.
    - The guest slides the golden ring along its rail; the curtains follow the finger and part.
    - Past 72% of the way they open fully, the day glints, the phone ticks, and the countdown comes out.
    - Let go early and they fall closed. The ring is also a button for keyboards.
    - Nothing is written on the rail, only chevrons shimmering toward the open side.
+   - This is the page's one authored moment; the rest of the page is simply there, with no entrance.
 4. **To‘y dasturi:** times in gold between thin rules.
-5. **To‘yxona:** the venue in an arched window frame, with Yandex and Google buttons and the dress code.
-6. **Javobingiz:** a reply form, with Telegram and call buttons.
+5. **To‘yxona:** the venue in an arched window frame, its centre bar running only through the arch. It
+   holds the Yandex and Google buttons and the dress code in italic.
+6. **Javobingizni kutamiz:** a reply form, with Telegram and call buttons.
 7. **To‘yana:** the card and a copy button.
 8. **Closing:** the rings, the dua, "Sizni intiqlik bilan kutamiz", and the signature.
+
+The hero carries no label at its top. Only its foot is veiled, for the names and "Ikki uzuk — bir ahd".
 
 ## Music
 
