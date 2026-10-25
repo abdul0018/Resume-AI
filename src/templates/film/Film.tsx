@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import "./film.css";
 
 /**
@@ -24,6 +24,9 @@ export interface FilmSpec {
   cues?: FilmCues;
   /** Playback speed: the films are generated slow and played a little faster (default 1). */
   rate?: number;
+  /** For end "scene": seconds of film time before its end at which the live page starts to come in over it
+      (a template may lay its mist and lettering above the film), default 0. */
+  lead?: number;
   /** For end "scene": where the photograph and its roses lie in the film's last frame (frame pixels), so the
       live scene can be laid exactly over it and the film melt away without a seam. */
   scene?: FilmScene;
@@ -101,6 +104,7 @@ export function Film({
   names,
   nameSize,
   sub,
+  hint,
   box,
   state,
   onOpen,
@@ -109,10 +113,13 @@ export function Film({
   onDone,
 }: {
   spec: FilmSpec;
+  /** The couple's names set on the closed card; empty to set none. */
   names: string;
   nameSize: number;
   /** A line set lower on the closed card, at `spec.sub` (the date). */
   sub?: string;
+  /** What invites the tap, in place of the words "Ochish uchun bosing". */
+  hint?: ReactNode;
   box: { w: number; h: number };
   state: "closed" | "opening";
   /** Called inside the tap, so music and sound may start with it. */
@@ -139,13 +146,19 @@ export function Film({
   );
 
   const ended = useRef(false);
+  const handed = useRef(false);
+  const handOver = () => {
+    if (handed.current) return;
+    handed.current = true;
+    onHandover();
+  };
   const finish = () => {
     if (ended.current) return;
     ended.current = true;
     if (spec.end === "card" && spec.card) moveIn(spec.card);
     else {
       // the film dissolves into the live scene beneath it
-      onHandover();
+      handOver();
       setHandover(true);
       timers.current.push(window.setTimeout(onDone, DISSOLVE_MS));
     }
@@ -243,24 +256,28 @@ export function Film({
         disablePictureInPicture
         onEnded={finish}
         onTimeUpdate={(e) => {
-          if (e.currentTarget.currentTime > 0.05) started.current = true;
+          const v = e.currentTarget;
+          if (v.currentTime > 0.05) started.current = true;
           lastMove.current = performance.now();
+          if (spec.lead && spec.end !== "card" && Number.isFinite(v.duration) && v.currentTime >= v.duration - spec.lead) handOver();
         }}
         onError={() => state === "opening" && fail()}
         style={zoom ?? undefined}
         data-zoom={zoom ? "" : undefined}
       />
-      <p className="film-names" style={{ top: `${(spec.names ?? 0.35) * 100}%`, fontSize: nameSize }} aria-hidden="true">
-        {names}
-      </p>
+      {names && (
+        <p className="film-names" style={{ top: `${(spec.names ?? 0.35) * 100}%`, fontSize: nameSize }} aria-hidden="true">
+          {names}
+        </p>
+      )}
       {sub && spec.sub !== undefined && (
         <p className="film-sub" style={{ top: `${spec.sub * 100}%` }} aria-hidden="true">
           {sub}
         </p>
       )}
-      <p className="film-hint" style={{ top: `${(spec.hint ?? 0.8) * 100}%` }} aria-hidden="true">
-        Ochish uchun bosing
-      </p>
+      <div className="film-hint" style={{ top: `${(spec.hint ?? 0.8) * 100}%` }} aria-hidden="true">
+        {hint ?? "Ochish uchun bosing"}
+      </div>
     </div>
   );
 }

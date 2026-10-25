@@ -3,6 +3,7 @@ import type { InviteData } from "@shared/schema";
 import { formatDateDots } from "@shared/format";
 import { ClosedCard, MuhrInvitation } from "@/templates/muhr/MuhrInvitation";
 import { GulzorClosed, GulzorInvitation } from "@/templates/gulzor/GulzorInvitation";
+import { NafosatClosed, NafosatInvitation } from "@/templates/nafosat/NafosatInvitation";
 
 /**
  * Examples-only site: a gallery of sample invitations, each opening full-screen.
@@ -18,7 +19,7 @@ interface ShowcaseTemplate {
   Invitation: ComponentType<{ data: InviteData; replayToken?: number; endSlot?: ReactNode }>;
   Preview: ComponentType<{ data: InviteData; w: number; h: number }>;
   /** Colours the back arrow to sit on the template's closed card. */
-  tone: "gold" | "sage";
+  tone: "gold" | "sage" | "blue";
 }
 
 const TEMPLATES: ShowcaseTemplate[] = [
@@ -99,6 +100,46 @@ const TEMPLATES: ShowcaseTemplate[] = [
       </div>
     ),
     tone: "sage",
+  },
+  {
+    id: "nafosat",
+    name: "Nafosat",
+    line: "Gullar bilan bezatilgan to‘y mashinasi uzoqlashadi, oq tuman ichidan nafis taklifnoma ochiladi",
+    data: {
+      eventType: "nikoh",
+      groom: "Kamron",
+      bride: "Robiya",
+      date: "2027-07-24",
+      time: "15:00",
+      venue: "«Navro‘z» to‘yxonasi",
+      address: "Toshkent sh., Amir Temur ko‘chasi, 27-uy",
+      mapUrl: "",
+      hosts: "Sobirovlar va Qodirovlar oilasi",
+      groomParents: "Sobirovlar oilasining o‘g‘li",
+      brideParents: "Qodirovlar oilasining qizi",
+      giftCardNumber: "8600987654321098",
+      giftCardHolder: "Kamron Sobirov",
+      contactPhone: "+998 93 765 43 21",
+      message: "",
+      bismillah: true,
+      program: [
+        { time: "15:00", title: "Mehmonlarni kutib olish" },
+        { time: "15:30", title: "Nikoh o‘qilishi" },
+        { time: "16:30", title: "Kelin-kuyovni kutib olish" },
+        { time: "17:00", title: "To‘y dasturxoni" },
+        { time: "20:00", title: "Kelin salom va duo" },
+      ],
+      photos: [],
+      music: "nafosat",
+      dressCode: "Yopiq, nafis liboslar; och havorang va pastel ranglar ma’qul",
+    },
+    Invitation: NafosatInvitation,
+    Preview: ({ data, w, h }) => (
+      <div className="nf nf-thumb" style={{ position: "relative", width: w, height: h }}>
+        <NafosatClosed data={data} box={{ w, h }} />
+      </div>
+    ),
+    tone: "blue",
   },
 ];
 
