@@ -225,9 +225,6 @@ function RingsHero({ data }: { data: InviteData }) {
     <>
       <img className="ah-photo" src={art("hero")} alt="" />
       <div className="ah-veil" aria-hidden="true" />
-      <p className="ah-l ah-hero-kick" style={at(0)}>
-        {OCCASION[data.eventType]}
-      </p>
       <div className="ah-hero-foot">
         <h1 className="ah-hero-names">
           <span className="ah-l" style={at(1)}>
@@ -282,18 +279,15 @@ function useReveal() {
   return root;
 }
 
-const delay = (ms: number) => v("--d", `${ms}ms`);
-
 function dialable(phone: string) {
   const digits = phone.replace(/\D/g, "");
   return digits.length === 9 ? `998${digits}` : digits;
 }
 
-/** A section's heading: a small golden number and a word, between the window's thin bars. */
-function Head({ n, children }: { n: string; children: ReactNode }) {
+/** A section's heading: the word in the serif, over a window's transom (a hairline with its latch). */
+function Head({ children }: { children: ReactNode }) {
   return (
-    <div className="ah-head" data-reveal="up">
-      <span className="ah-head-n">{n}</span>
+    <div className="ah-head">
       <h2>{children}</h2>
       <i aria-hidden="true" />
     </div>
@@ -306,25 +300,20 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
   const phone = data.contactPhone?.trim();
   const dial = phone ? dialable(phone) : "";
   const hosts = data.hosts || "Ota-onalari";
-  let n = 0;
-  const num = () => String(++n).padStart(2, "0");
 
   return (
     <div ref={root} className="ah-sections">
       <section className="ah-sec ah-invite">
         {data.bismillah && (
-          <p className="ah-bismillah" lang="ar" dir="rtl" data-reveal="up">
+          <p className="ah-bismillah" lang="ar" dir="rtl">
             بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
           </p>
         )}
-        <Head n={num()}>Taklif</Head>
-        <p className="ah-lead" data-reveal="up" style={delay(150)}>
-          Qadrli mehmonlar!
-        </p>
-        <p className="ah-p" data-reveal="up" style={delay(250)}>
+        <Head>Qadrli mehmonlar!</Head>
+        <p className="ah-p">
           {data.message || inviteText(data)}
         </p>
-        <p className="ah-sign" data-reveal="up" style={delay(350)}>
+        <p className="ah-sign">
           <span>Hurmat bilan,</span>
           {hosts}
         </p>
@@ -332,32 +321,30 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
 
       {/* the groom and the bride as two panes of the window, the rings on the bar between them */}
       <section className="ah-sec ah-couple">
-        <Head n={num()}>Kelin va kuyov</Head>
+        <Head>Kelin va kuyov</Head>
         <div className="ah-panes" data-reveal="panes">
           <div className="ah-pane">
-            <p className="ah-caps">Kuyov</p>
             <p className="ah-name">{data.groom}</p>
-            {data.groomParents && <p className="ah-of">{data.groomParents}</p>}
+            <p className="ah-of">{data.groomParents || "Kuyov"}</p>
           </div>
           <span className="ah-bar" aria-hidden="true">
             <Icon kind="rings" size={22} className="ah-ico" />
           </span>
           <div className="ah-pane">
-            <p className="ah-caps">Kelin</p>
             <p className="ah-name">{data.bride}</p>
-            {data.brideParents && <p className="ah-of">{data.brideParents}</p>}
+            <p className="ah-of">{data.brideParents || "Kelin"}</p>
           </div>
         </div>
       </section>
 
       <section className="ah-sec ah-date">
-        <Head n={num()}>To‘y sanasi</Head>
+        <Head>To‘y sanasi</Head>
         <DateCurtain date={data.date} time={data.time} />
       </section>
 
       {data.program.length > 0 && (
         <section className="ah-sec ah-program">
-          <Head n={num()}>To‘y dasturi</Head>
+          <Head>To‘y dasturi</Head>
           <ol className="ah-timeline" data-reveal="line">
             {data.program.map((p, i) => (
               <li key={`${p.time}${p.title}`} style={v("--i", i)}>
@@ -370,7 +357,7 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
       )}
 
       <section className="ah-sec ah-place">
-        <Head n={num()}>To‘yxona</Head>
+        <Head>To‘yxona</Head>
         <div className="ah-window" data-reveal="window">
           <div className="ah-window-in">
             <p className="ah-venue">{data.venue}</p>
@@ -386,23 +373,20 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
               </a>
             </div>
             {data.dressCode && (
-              <p className="ah-dress">
-                <span>Kiyinish uslubi</span>
-                {data.dressCode}
-              </p>
+              <p className="ah-dress">Kiyinish uslubi: {data.dressCode}</p>
             )}
           </div>
         </div>
       </section>
 
       <section className="ah-sec ah-reply">
-        <Head n={num()}>Javobingiz</Head>
-        <p className="ah-p" data-reveal="up" style={delay(150)}>
+        <Head>Javobingizni kutamiz</Head>
+        <p className="ah-p">
           Iltimos, to‘y kunidan oldin kelishingizni tasdiqlang.
         </p>
         <Rsvp />
         {phone && (
-          <div className="ah-reach" data-reveal="up" style={delay(250)}>
+          <div className="ah-reach">
             <a className="ah-btn ah-btn-ghost" href={`https://t.me/+${dial}`} target="_blank" rel="noopener noreferrer">
               <Icon kind="telegram" size={18} className="ah-ico" />
               Telegram
@@ -417,8 +401,8 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
 
       {data.giftCardNumber && (
         <section className="ah-sec ah-gift-sec">
-          <Head n={num()}>To‘yana</Head>
-          <p className="ah-p" data-reveal="up" style={delay(150)}>
+          <Head>To‘yana</Head>
+          <p className="ah-p">
             Duolaringiz biz uchun eng qimmatli sovg‘a. To‘yana yubormoqchi bo‘lsangiz:
           </p>
           <GiftCard number={data.giftCardNumber} holder={data.giftCardHolder} />
@@ -426,18 +410,18 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
       )}
 
       <section className="ah-sec ah-close">
-        <span className="ah-close-rings" data-reveal="up" aria-hidden="true">
+        <span className="ah-close-rings" aria-hidden="true">
           <Icon kind="rings" size={30} className="ah-ico" />
         </span>
-        <p className="ah-duo" data-reveal="up" style={delay(150)}>
+        <p className="ah-duo">
           Alloh yoshlarimizga baxt, totuvlik va barakali umr ato etsin
         </p>
-        <p className="ah-close-title" data-reveal="up" style={delay(300)}>
+        <p className="ah-close-title">
           Sizni intiqlik
           <br />
           bilan kutamiz
         </p>
-        <p className="ah-sign" data-reveal="up" style={delay(400)}>
+        <p className="ah-sign">
           <span>Hurmat bilan,</span>
           {hosts}
         </p>
@@ -501,7 +485,7 @@ function DateCurtain({ date, time }: { date: string; time: string }) {
 
   return (
     <div className="ah-curtain" data-open={open || undefined} data-held={held || undefined} style={{ ...v("--p", p), ...v("--span", `${travel}px`) }}>
-      <div className="ah-stage" data-reveal="up">
+      <div className="ah-stage">
         <div className="ah-datebox" aria-hidden={!open}>
           <span className="ah-weekday">{formatWeekday(date)}</span>
           <span className="ah-day">{d}</span>
@@ -512,7 +496,7 @@ function DateCurtain({ date, time }: { date: string; time: string }) {
         <div className="ah-drape l" aria-hidden="true" />
         <div className="ah-drape r" aria-hidden="true" />
       </div>
-      <div ref={rail} className="ah-rail" data-reveal="up" style={delay(200)}>
+      <div ref={rail} className="ah-rail">
         <span className="ah-rail-track" aria-hidden="true">
           <i />
           <i />
@@ -590,7 +574,7 @@ function Rsvp() {
   }
 
   return (
-    <form className="ah-form" onSubmit={submit} noValidate data-reveal="up" style={delay(200)}>
+    <form className="ah-form" onSubmit={submit} noValidate>
       <label htmlFor="ah-name">Ism va familiyangiz</label>
       <input id="ah-name" className="ah-field" value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" maxLength={80} />
       <div className="ah-choices">
@@ -638,7 +622,7 @@ function GiftCard({ number, holder }: { number: string; holder?: string }) {
     window.setTimeout(() => setCopied(false), 2200);
   };
   return (
-    <div className="ah-gift" data-reveal="up" style={delay(250)}>
+    <div className="ah-gift">
       <div className="ah-gift-card">
         <span className="ah-gift-net">{network || "KARTA"}</span>
         <p className="ah-gift-number" aria-label={`Karta raqami ${groups.join(" ")}`}>

@@ -39,6 +39,10 @@
 }
 .ah ::selection {
   background: rgba(234, 217, 174, 0.7);
+  color: var(--ah-ink);
+}
+.ah input {
+  caret-color: var(--ah-gold);
 }
 .ah-ico {
   display: block;
@@ -150,9 +154,6 @@
   pointer-events: none;
   background: linear-gradient(
     180deg,
-    rgba(247, 242, 234, 0.92) 0%,
-    rgba(247, 242, 234, 0.55) 10%,
-    rgba(247, 242, 234, 0) 22%,
     rgba(247, 242, 234, 0) 54%,
     rgba(247, 242, 234, 0.7) 66%,
     rgba(247, 242, 234, 0.95) 78%,
@@ -167,21 +168,6 @@
   to {
     opacity: 1;
   }
-}
-.ah-hero-kick {
-  position: absolute;
-  z-index: 5;
-  left: 0;
-  right: 0;
-  top: calc(4.5% + env(safe-area-inset-top, 0px));
-  margin: 0;
-  text-align: center;
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.4em;
-  padding-left: 0.4em;
-  text-transform: uppercase;
-  color: var(--ah-ink);
 }
 .ah-hero-foot {
   position: absolute;
@@ -201,8 +187,9 @@
   font-family: var(--ah-serif);
   font-style: italic;
   font-weight: 400;
-  font-size: min(13vw, 56px);
-  line-height: 1.05;
+  font-size: min(14.5vw, 62px);
+  line-height: 0.98;
+  letter-spacing: -0.01em;
   color: var(--ah-ink);
 }
 .ah-amp {
@@ -286,11 +273,8 @@
 
 .ah-sec {
   position: relative;
-  padding: 48px 26px;
+  padding: 56px 26px 52px;
   text-align: center;
-}
-.ah-sec + .ah-sec {
-  border-top: 1px solid var(--ah-line);
 }
 .ah-date,
 .ah-place,
@@ -298,34 +282,46 @@
   background: var(--ah-linen);
 }
 
-/* a section's heading: golden number, the word, and a thin bar beneath like a window's transom */
+/* a section's heading: the word in the serif, over a window's transom with its small square latch */
 .ah-head {
   display: grid;
   justify-items: center;
-  gap: 6px;
-  margin-bottom: 22px;
-}
-.ah-head-n {
-  font-family: var(--ah-serif);
-  font-style: italic;
-  font-size: 17px;
-  color: var(--ah-gold);
+  margin-bottom: 26px;
 }
 .ah-head h2 {
   margin: 0;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.34em;
-  padding-left: 0.34em;
-  text-transform: uppercase;
+  font-family: var(--ah-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 31px;
+  line-height: 1.15;
+  letter-spacing: -0.005em;
   color: var(--ah-ink);
 }
 .ah-head i {
-  width: 44px;
+  position: relative;
+  width: 84px;
   height: 1px;
-  margin-top: 6px;
-  background: var(--ah-gold);
-  opacity: 0.6;
+  margin-top: 14px;
+  background: linear-gradient(90deg, transparent, var(--ah-gold) 22%, var(--ah-gold) 78%, transparent);
+  opacity: 0.75;
+}
+.ah-head i::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  translate: -50% -50%;
+  rotate: 45deg;
+  background: var(--ah-paper);
+  box-shadow: 0 0 0 1px var(--ah-gold);
+}
+.ah-date .ah-head i::after,
+.ah-place .ah-head i::after,
+.ah-gift-sec .ah-head i::after {
+  background: var(--ah-linen);
 }
 .ah-bismillah {
   margin: 0 0 22px;
@@ -372,11 +368,11 @@
 }
 
 /* --- the couple: two panes of a window, the rings on the bar ---------- */
+/* a sash window: the groom in the upper pane, the bride in the lower, the rings as the latch on the rail */
 .ah-panes {
   display: grid;
-  grid-template-columns: 1fr 1px 1fr;
-  align-items: stretch;
-  max-width: 360px;
+  grid-template-rows: auto 1px auto;
+  max-width: 330px;
   margin: 0 auto;
   border: 1px solid var(--ah-line);
   background: rgba(255, 255, 255, 0.4);
@@ -385,18 +381,16 @@
   display: grid;
   align-content: center;
   justify-items: center;
-  gap: 6px;
-  padding: 34px 10px 26px;
+  padding: 28px 16px;
 }
 .ah-bar {
   position: relative;
   background: var(--ah-line);
 }
-/* the rings sit on the top of the bar, like a window's latch, clear of the names */
 .ah-bar .ah-ico {
   position: absolute;
   left: 50%;
-  top: 0;
+  top: 50%;
   translate: -50% -50%;
   padding: 7px;
   box-sizing: content-box;
@@ -409,15 +403,17 @@
   margin: 0;
   font-family: var(--ah-serif);
   font-style: italic;
-  font-size: min(9vw, 36px);
+  font-size: min(11vw, 42px);
   line-height: 1.1;
   color: var(--ah-ink);
   overflow-wrap: anywhere;
 }
 .ah-of {
-  margin: 0;
-  font-size: 12.5px;
-  line-height: 1.45;
+  margin: 4px 0 0;
+  font-family: var(--ah-serif);
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.4;
   color: var(--ah-soft);
 }
 
@@ -441,7 +437,7 @@
   background:
     linear-gradient(90deg, transparent calc(50% - 0.5px), var(--ah-line) calc(50% - 0.5px), var(--ah-line) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
     linear-gradient(0deg, transparent calc(64% - 0.5px), var(--ah-line) calc(64% - 0.5px), var(--ah-line) calc(64% + 0.5px), transparent calc(64% + 0.5px));
-  opacity: 0.5;
+  opacity: 0.3;
 }
 .ah-datebox {
   position: absolute;
@@ -692,8 +688,9 @@
   padding: 64px 20px 30px;
   border: 1px solid var(--ah-line);
   border-radius: 152px 152px 0 0;
+  /* the centre bar runs only through the arch, above the lettering */
   background:
-    linear-gradient(90deg, transparent calc(50% - 0.5px), rgba(160, 140, 110, 0.18) calc(50% - 0.5px), rgba(160, 140, 110, 0.18) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+    linear-gradient(rgba(160, 140, 110, 0.22), rgba(160, 140, 110, 0.22)) 50% 0 / 1px 46px no-repeat,
     radial-gradient(80% 60% at 50% 30%, #fffdf8, #f6eee0);
 }
 .ah-venue {
@@ -721,18 +718,11 @@
 .ah-dress {
   max-width: 28ch;
   margin: 22px 0 0;
-  font-size: 13px;
-  line-height: 1.6;
-  color: var(--ah-ink);
-}
-.ah-dress span {
-  display: block;
-  margin-bottom: 4px;
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--ah-gold);
+  font-family: var(--ah-serif);
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ah-soft);
 }
 
 /* buttons: golden outline, or solid gold */
@@ -949,19 +939,14 @@
 /* Reveals                                                             */
 /* ------------------------------------------------------------------ */
 
-.ah-sections [data-reveal="up"],
-.ah-sections [data-reveal="panes"],
 .ah-sections [data-reveal="window"] {
   transition:
-    opacity 700ms var(--ah-ease) var(--d, 0ms),
-    translate 700ms var(--ah-ease) var(--d, 0ms),
-    filter 700ms var(--ah-ease) var(--d, 0ms);
+    opacity 900ms var(--ah-ease),
+    translate 1100ms var(--ah-ease);
 }
-.ah-sections [data-reveal="up"]:not([data-in]),
 .ah-sections [data-reveal="window"]:not([data-in]) {
   opacity: 0;
-  translate: 0 14px;
-  filter: blur(3px);
+  translate: 0 18px;
 }
 /* the two panes slide in from either side and meet at the bar */
 .ah-panes .ah-pane {
@@ -969,13 +954,14 @@
     opacity 800ms var(--ah-ease) 150ms,
     translate 900ms var(--ah-ease) 150ms;
 }
+/* the two sashes slide toward the rail and meet there */
 .ah-panes:not([data-in]) .ah-pane:first-child {
   opacity: 0;
-  translate: -18px 0;
+  translate: 0 -14px;
 }
 .ah-panes:not([data-in]) .ah-pane:last-child {
   opacity: 0;
-  translate: 18px 0;
+  translate: 0 14px;
 }
 .ah-timeline li {
   transition:
