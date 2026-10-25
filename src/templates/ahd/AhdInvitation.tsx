@@ -341,11 +341,6 @@ function Sections({ data, endSlot }: { data: InviteData; endSlot?: ReactNode }) 
   return (
     <div ref={root} className="ah-sections">
       <section className="ah-sec ah-invite">
-        {data.bismillah && (
-          <p className="ah-bismillah" lang="ar" dir="rtl">
-            بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
-          </p>
-        )}
         <Head>Qadrli mehmonlar!</Head>
         <p className="ah-p">
           {data.message || inviteText(data)}
