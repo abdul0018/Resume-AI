@@ -314,6 +314,15 @@ Example: `examples/ielts-resources.props.json`.
 
 Example: `examples/ielts-resources-v2.props.json`.
 
+**Sticker text skin** (`skin: 'sticker'`), from the "Studying for IELTS — Band 7.5–9 / Band 5–6" reel:
+- Rounded heavy Fredoka text with a thick dark-brown outline and a hard drop.
+- Yellow title.
+- Band labels pinned above each side, coloured by `levelColors` (red for the lower band, green for the higher).
+- The skill name in white under each icon. Section words are shown capitalized.
+- CTA: an orange outlined headline at the top, plus a white comment line at chest height that types in word by word, ending with an optional emoji image (`ctaLine2Emoji`, Twemoji SVG).
+
+Example: `examples/ielts-resources-sticker.props.json`.
+
 ## 12. Style H: "8+ resource table" (`ScoreTableReel`)
 
 Reference: the Speaking / Listening / Reading / Writing "8+" table reel.

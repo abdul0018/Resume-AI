@@ -1,8 +1,10 @@
 import React from 'react';
-import {AbsoluteFill, Audio, Easing, OffthreadVideo, Sequence, continueRender, delayRender, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, Audio, Easing, Img, OffthreadVideo, Sequence, continueRender, delayRender, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import '@fontsource/montserrat/700.css';
 import '@fontsource/montserrat/800.css';
 import '@fontsource/montserrat/900.css';
+import '@fontsource/fredoka/600.css';
+import '@fontsource/fredoka/700.css';
 import {clamp, src} from './kit';
 
 /**
@@ -17,7 +19,7 @@ const FONT = "'Montserrat', 'Arial Black', sans-serif";
 
 if (typeof document !== 'undefined') {
   const h = delayRender('fonts');
-  Promise.all(['900 80px Montserrat', '800 80px Montserrat', '700 80px Montserrat'].map((f) => document.fonts.load(f, 'AaO‘5.')))
+  Promise.all(['900 80px Montserrat', '800 80px Montserrat', '700 80px Montserrat', '700 80px Fredoka', '600 80px Fredoka'].map((f) => document.fonts.load(f, 'AaO‘5.')))
     .then(() => continueRender(h)).catch(() => continueRender(h));
 }
 
@@ -122,6 +124,40 @@ export type ResourcesProps = {
   /** Render graphics only on transparent (composite onto untouched source with ffmpeg). */
   overlayOnly?: boolean;
   cues?: {file: string; at: number; vol?: number}[];
+  /**
+   * 'sticker' text skin: rounded heavy font (Fredoka) with dark outline — yellow title, green/red band labels
+   * pinned above each side, white skill label under each icon, orange CTA headline + white word-by-word
+   * comment line (optional emoji image). levelColors[i] colours levels[i].
+   */
+  skin?: 'default' | 'sticker';
+  levelColors?: [string, string];
+  ctaLine2Emoji?: string;
+};
+
+const ROUND = "'Fredoka', 'Nunito', 'Arial Rounded MT Bold', sans-serif";
+/** Outlined sticker text: dark stroke painted under the fill + soft drop. */
+const sticker = (color: string, size: number): React.CSSProperties => ({fontFamily: ROUND, fontWeight: 700, fontSize: size, color, lineHeight: 1.08, letterSpacing: '0.005em',
+  WebkitTextStroke: `${Math.round(size * 0.13)}px #241605`, paintOrder: 'stroke fill', textShadow: `0 ${Math.round(size * 0.06)}px 0 #241605, 0 ${Math.round(size * 0.1)}px ${Math.round(size * 0.18)}px rgba(0,0,0,.35)`});
+
+const StickerCTA: React.FC<{at: number; line1: string; line2: string; emoji?: string}> = ({at, line1, line2, emoji}) => {
+  const {f, fps, s} = useT();
+  if (f < s(at)) return null;
+  const p = spring({frame: f - s(at), fps, config: {damping: 12, stiffness: 200}});
+  const words = line2.split(' ');
+  return (
+    <>
+      <div style={{position: 'absolute', top: 120, left: 60, right: 60, textAlign: 'center', ...sticker('#FF8A1F', 76), transform: `translateY(${(1 - p) * -30}px) scale(${0.85 + 0.15 * p})`, opacity: Math.min(1, p * 1.5)}}>{line1}</div>
+      <div style={{position: 'absolute', top: 1330, left: 90, right: 90, textAlign: 'center', fontFamily: ROUND, fontWeight: 600, fontSize: 60, lineHeight: 1.2, color: '#fff',
+        textShadow: '0 2px 4px rgba(0,0,0,.6), 0 4px 16px rgba(0,0,0,.45)'}}>
+        {words.map((w, i) => {
+          const k = interpolate(f - s(at) - 8 - i * 4, [0, 5], [0, 1], clamp);
+          return <span key={i} style={{display: 'inline-block', marginRight: '0.24em', opacity: k, transform: `translateY(${(1 - k) * 10}px)`}}>{w}</span>;
+        })}
+        {emoji && <Img src={staticFile(emoji)} style={{width: 62, height: 62, verticalAlign: '-0.18em', opacity: interpolate(f - s(at) - 8 - words.length * 4, [0, 5], [0, 1], clamp),
+          transform: `scale(${spring({frame: f - s(at) - 8 - words.length * 4, fps, config: {damping: 9, stiffness: 240}})})`}} />}
+      </div>
+    </>
+  );
 };
 
 const ImgTile: React.FC<{spec: Exclude<IconSpec, string>}> = ({spec}) => {
@@ -147,7 +183,7 @@ const ease = Easing.bezier(0.16, 1, 0.3, 1);
 const redWord: React.CSSProperties = {fontFamily: FONT, fontWeight: 900, color: RED, letterSpacing: '0.02em', WebkitTextStroke: '3px #fff', paintOrder: 'stroke fill', textShadow: '0 4px 14px rgba(0,0,0,.35)'};
 
 /** Icon(s) + label for one side: spring pop with overshoot, slight tilt, soft contact shadow, label pill. */
-const IconGroup: React.FC<{pick: Pick; side: 'left' | 'right'; out: number; under?: string}> = ({pick, side, out, under}) => {
+const IconGroup: React.FC<{pick: Pick; side: 'left' | 'right'; out: number; under?: string; skin?: string}> = ({pick, side, out, under, skin}) => {
   const {f, fps, s} = useT();
   const a = s(pick.at);
   if (f < a || f >= out) return null;
@@ -155,7 +191,7 @@ const IconGroup: React.FC<{pick: Pick; side: 'left' | 'right'; out: number; unde
   const n = pick.icons.length;
   const size = pick.join ? 138 : n > 1 ? 190 : under ? 266 : 240;
   return (
-    <div style={{position: 'absolute', top: under ? 262 : 330, ...(side === 'left' ? {left: under ? 90 : 70} : {right: under ? 90 : 70}), width: under ? 280 : undefined, display: 'flex', flexDirection: 'column', alignItems: under ? 'center' : side === 'left' ? 'flex-start' : 'flex-end', gap: 16,
+    <div style={{position: 'absolute', top: skin === 'sticker' ? 300 : under ? 262 : 330, ...(side === 'left' ? {left: under ? 90 : 70} : {right: under ? 90 : 70}), width: under ? 280 : undefined, display: 'flex', flexDirection: 'column', alignItems: under ? 'center' : side === 'left' ? 'flex-start' : 'flex-end', gap: 16,
       opacity: 1 - outK, transform: `scale(${1 - 0.3 * outK})`, transformOrigin: side === 'left' ? '0 0' : '100% 0'}}>
       <div style={{display: 'flex', gap: 0, alignItems: pick.join ? 'center' : 'flex-end', height: under ? 266 : undefined}}>
         {pick.icons.map((ic, i) => {
@@ -179,7 +215,7 @@ const IconGroup: React.FC<{pick: Pick; side: 'left' | 'right'; out: number; unde
         })}
       </div>
       {under && (
-        <div style={{fontFamily: FONT, fontWeight: 800, fontSize: 40, color: '#fff', letterSpacing: '-0.01em', whiteSpace: 'nowrap', marginTop: 4,
+        <div style={{fontFamily: skin === 'sticker' ? ROUND : FONT, fontWeight: skin === 'sticker' ? 600 : 800, fontSize: skin === 'sticker' ? 46 : 40, color: '#fff', letterSpacing: '-0.01em', whiteSpace: 'nowrap', marginTop: 4,
           textShadow: '0 2px 4px rgba(0,0,0,.6), 0 4px 14px rgba(0,0,0,.45)', opacity: interpolate(f - a - 6, [0, 8], [0, 1], clamp),
           transform: `translateY(${(1 - interpolate(f - a - 6, [0, 10], [0, 1], {...clamp, easing: ease})) * 14}px)`}}>{under}</div>
       )}
@@ -276,12 +312,20 @@ export const ResourcesReel: React.FC<ResourcesProps> = (p) => {
       ))}
       {/* "just a bit shadow": soft top gradient behind the type, nothing else. */}
       <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(0,0,0,.42) 0%, rgba(0,0,0,.22) 22%, rgba(0,0,0,0) 38%)'}} />
-      <div style={{position: 'absolute', top: 80, left: 0, right: 0, textAlign: 'center', fontFamily: FONT, fontWeight: 800, fontSize: 70, color: '#fff', letterSpacing: '-0.01em',
-        textShadow: '0 3px 12px rgba(0,0,0,.45)', opacity: titleK * (1 - ctaOutK), transform: `translateY(${(1 - titleK) * -30}px)`}}>{p.title}</div>
-      <SectionWord sections={p.sections} ctaAt={p.cta.at} />
+      {p.skin === 'sticker' ? (
+        <div style={{position: 'absolute', top: 105, left: 0, right: 0, textAlign: 'center', ...sticker('#FFD43B', 80), opacity: titleK * (1 - ctaOutK), transform: `translateY(${(1 - titleK) * -30}px)`}}>{p.title}</div>
+      ) : (
+        <div style={{position: 'absolute', top: 80, left: 0, right: 0, textAlign: 'center', fontFamily: FONT, fontWeight: 800, fontSize: 70, color: '#fff', letterSpacing: '-0.01em',
+          textShadow: '0 3px 12px rgba(0,0,0,.45)', opacity: titleK * (1 - ctaOutK), transform: `translateY(${(1 - titleK) * -30}px)`}}>{p.title}</div>
+      )}
+      {p.skin !== 'sticker' && <SectionWord sections={p.sections} ctaAt={p.cta.at} />}
+      {p.skin === 'sticker' && f < s(p.cta.at) && p.levels.map((lv, i) => (
+        <div key={`lv${i}`} style={{position: 'absolute', top: 212, ...(i === 0 ? {left: 80} : {right: 80}), width: 300, textAlign: 'center', whiteSpace: 'nowrap', ...sticker((p.levelColors ?? ['#FF5A4E', '#5FD068'])[i], 50),
+          opacity: interpolate(f, [4 + i * 4, 12 + i * 4], [0, 1], clamp) * (1 - ctaOutK)}}>{lv}</div>
+      ))}
       {f < s(p.cta.at) && (
         <>
-          {!p.levelsUnder && p.levels.map((lv, i) => (
+          {!p.levelsUnder && p.skin !== 'sticker' && p.levels.map((lv, i) => (
             <div key={i} style={{position: 'absolute', top: 268, ...(i === 0 ? {left: 70} : {right: 70}), fontFamily: FONT, fontWeight: 800, fontSize: 32, color: '#fff', padding: '6px 16px', borderRadius: 999,
               background: 'rgba(0,0,0,.38)', border: '1.5px solid rgba(255,255,255,.35)', opacity: interpolate(f, [6 + i * 4, 16 + i * 4], [0, 1], clamp) * (1 - ctaOutK)}}>{lv}</div>
           ))}
@@ -289,14 +333,14 @@ export const ResourcesReel: React.FC<ResourcesProps> = (p) => {
             const out = i < p.sections.length - 1 ? s(p.sections[i + 1].start) : s(p.cta.at);
             return (
               <React.Fragment key={i}>
-                <IconGroup pick={sc.left} side="left" out={out} under={p.levelsUnder ? p.levels[0] : undefined} />
-                <IconGroup pick={sc.right} side="right" out={out} under={p.levelsUnder ? p.levels[1] : undefined} />
+                <IconGroup pick={sc.left} side="left" out={out} skin={p.skin} under={p.skin === 'sticker' ? sc.word : p.levelsUnder ? p.levels[0] : undefined} />
+                <IconGroup pick={sc.right} side="right" out={out} skin={p.skin} under={p.skin === 'sticker' ? sc.word : p.levelsUnder ? p.levels[1] : undefined} />
               </React.Fragment>
             );
           })}
         </>
       )}
-      <CTA {...p.cta} />
+      {p.skin === 'sticker' ? <StickerCTA {...p.cta} emoji={p.ctaLine2Emoji} /> : <CTA {...p.cta} />}
       {p.music && <Audio src={staticFile(p.music)} volume={p.musicVolume ?? 1} />}
       {(p.cues ?? []).map((c, i) => <Sequence key={`c${i}`} from={Math.max(0, s(c.at))} durationInFrames={45} layout="none"><Audio src={staticFile(c.file)} volume={c.vol ?? 1} /></Sequence>)}
       {sfx.map((e, i) => <Sequence key={i} from={Math.max(0, e.f)} durationInFrames={40} layout="none"><Audio src={staticFile(`sfx/${e.file}.wav`)} volume={e.vol} /></Sequence>)}

@@ -1,0 +1,135 @@
+{
+ "video": "video.mp4",
+ "segs": [
+  {
+   "srcFrom": 0,
+   "srcTo": 18.34
+  }
+ ],
+ "title": "IELTSga tayyorgarlik",
+ "levels": [
+  "Band 5.5–6.5",
+  "Band 7.0–9.0"
+ ],
+ "levelsUnder": false,
+ "sections": [
+  {
+   "start": 0.0,
+   "word": "Reading",
+   "left": {
+    "icons": [
+     {
+      "img": "logos/cambridge19.png",
+      "contain": false
+     }
+    ],
+    "at": 1.85
+   },
+   "right": {
+    "icons": [
+     {
+      "img": "logos/engnovate.png",
+      "bg": "#FFFFFF",
+      "pad": 22,
+      "text": "Engnovate",
+      "textColor": "#E8312A"
+     }
+    ],
+    "at": 0.3
+   }
+  },
+  {
+   "start": 3.0,
+   "word": "Listening",
+   "left": {
+    "icons": [
+     {
+      "img": "logos/iot.svg",
+      "bg": "#FFFFFF",
+      "pad": 26
+     }
+    ],
+    "at": 5.65
+   },
+   "right": {
+    "icons": [
+     {
+      "img": "logos/engnovate.png",
+      "bg": "#FFFFFF",
+      "pad": 14
+     },
+     {
+      "img": "logos/dtile.png",
+      "bg": "#FFFFFF",
+      "contain": false
+     }
+    ],
+    "at": 3.65,
+    "join": "+"
+   }
+  },
+  {
+   "start": 6.9,
+   "word": "Writing",
+   "left": {
+    "icons": [
+     {
+      "img": "logos/openai.svg",
+      "bg": "#FFFFFF",
+      "pad": 34,
+      "mask": true,
+      "color": "#0F0F0F",
+      "text": "ChatGPT"
+     }
+    ],
+    "at": 9.45
+   },
+   "right": {
+    "icons": [
+     {
+      "img": "logos/goprep.svg",
+      "bg": "#FFFFFF",
+      "contain": false
+     }
+    ],
+    "at": 7.75
+   }
+  },
+  {
+   "start": 10.6,
+   "word": "Speaking",
+   "left": {
+    "icons": [
+     {
+      "img": "logos/speak2026.png",
+      "contain": false
+     }
+    ],
+    "at": 13.45
+   },
+   "right": {
+    "icons": [
+     {
+      "img": "logos/goprep.svg",
+      "bg": "#FFFFFF",
+      "contain": false
+     }
+    ],
+    "at": 11.35
+   }
+  }
+ ],
+ "cta": {
+  "at": 14.5,
+  "line1": "Hammasini olish uchun",
+  "line2": "Izohda \"+\" qoldiring"
+ },
+ "end": 18.34,
+ "cues": [],
+ "skin": "sticker",
+ "levelColors": [
+  "#FF5A4E",
+  "#5FD068"
+ ],
+ "ctaLine2Emoji": "emoji/1f447.svg"
+}
