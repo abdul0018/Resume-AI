@@ -406,5 +406,7 @@ Example: `examples/ai-tools-tiers.props.json`.
 
 - **No grading and no darkening layers** over the footage. That includes "a bit of shadow" gradients: the top gradient in ResourcesReel darkened the top of the frame by about 40%. Use `clean: true`: there are no gradients and no blurred text or icon shadows; legibility comes from crisp outlines (WebkitTextStroke) and hard offset drops only.
 - **Composite in the source's native 4:2:0:** `[1:v]scale=out_color_matrix=bt709:out_range=tv,format=yuva420p[ov];[0:v][ov]overlay=format=yuv420`. A yuv444 overlay followed by format=yuv420 resamples the source chroma and softens it.
-- **Encode:** x264 `-crf 8 -preset slow -tune film -profile:v high` (~50 Mbps for 1080×1920 at 30 fps), with BT.709 limited-range tags, `-an` if silent.
-- **Verify** against the source in an overlay-free area. Expect luma PSNR ≥ 52 dB and chroma ≥ 58 dB (the previous pipeline gave 49/55). Also check that the brightness in the top area matches the source.
+- **Default export = the user's CapCut settings:** 1080p, 30 fps, 12 Mbps, AI ultra HD off, optical flow off.
+  - Use two-pass x264 `-preset slow -tune film -profile:v high -b:v 12M -maxrate 18M -bufsize 24M`, `fps=30`, BT.709 limited-range tags, `-an` if silent. Expect about 27 MB for 18 s.
+  - Offer a CRF 8 "master" (~50 Mbps) only if the user asks for maximum quality.
+- **Verify** against the source in an overlay-free area. Expect luma PSNR ≈ 46 dB at 12 Mbps (≈ 52 dB for a CRF 8 master) and chroma ≥ 54 dB. Also check that the brightness in the top area matches the source.
