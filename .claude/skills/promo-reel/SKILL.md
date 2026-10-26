@@ -364,6 +364,7 @@ Reference: the "Fikrlash / Qidirish / Kod yozish…" app-tier reel.
 - A white topic pill with an emoji sits at chest height.
 
 **Props:** `topics[{title, emoji, start, reveal[3], logos[3]}]`.
+- **Reveal timing:** time `reveal` to the gesture, not the word. Speakers say the tier word first and finish pointing 0.3–0.6 s later. Make a 10 fps strip of the hands with decisecond labels and pick the first frame where the finger is fully extended toward that card. Users notice early reveals.
 - Each logo is `{name, kind: 'mask', file: svg, color | gradient}` for monochrome brand marks, or `{kind: 'img', file, radius, scale}` for full-colour icons.
 
 **Real brand icons:**
