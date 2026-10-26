@@ -9,6 +9,7 @@ import {FurnitureReel, FurnitureProps, furnitureDuration} from './Furniture';
 import {ResourcesReel, ResourcesProps, resourcesDuration} from './Resources';
 import {ScoreTableReel, ScoreTableProps, scoreTableDuration} from './ScoreTable';
 import {LadderReel, LadderProps, ladderDuration} from './Ladder';
+import {TiersReel, TiersProps, tiersDuration} from './Tiers';
 
 const FPS = 30;
 
@@ -114,6 +115,17 @@ export const RemotionRoot: React.FC = () => (
       durationInFrames={400}
       defaultProps={{video: '', steps: [], captions: [], finale: {score: '8.0', scoreAt: 0, icon: 'goprep', iconAt: 1}, end: 10} as LadderProps}
       calculateMetadata={({props}: {props: LadderProps}) => ({durationInFrames: ladderDuration(props, FPS)})}
+    />
+    {/* Style J: YOMON / YAXSHI / AJOYIB tiers: blurred app cards snap sharp as each tier is named. */}
+    <Composition
+      id="TiersReel"
+      component={TiersReel}
+      width={1080}
+      height={1920}
+      fps={FPS}
+      durationInFrames={530}
+      defaultProps={{video: '', topics: [], end: 10} as TiersProps}
+      calculateMetadata={({props}: {props: TiersProps}) => ({durationInFrames: tiersDuration(props, FPS)})}
     />
   </>
 );

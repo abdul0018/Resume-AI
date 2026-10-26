@@ -1,0 +1,212 @@
+{
+ "video": "video.mp4",
+ "voice": "voice.wav",
+ "voiceVolume": 1.0,
+ "end": 17.5,
+ "topics": [
+  {
+   "title": "So‘z yodlash",
+   "emoji": "emoji/1f4da.svg",
+   "start": 0.0,
+   "reveal": [
+    1.5,
+    2.05,
+    2.95
+   ],
+   "logos": [
+    {
+     "name": "Google Translate",
+     "kind": "mask",
+     "file": "logos/googletranslate.svg",
+     "color": "#4285F4"
+    },
+    {
+     "name": "Anki",
+     "kind": "mask",
+     "file": "logos/anki.svg",
+     "gradient": "linear-gradient(135deg,#4FA3F7,#1F6FD1)"
+    },
+    {
+     "name": "IELTS Runner",
+     "kind": "img",
+     "file": "logos/runner.png",
+     "radius": 0,
+     "scale": 1.45
+    }
+   ]
+  },
+  {
+   "title": "Listening",
+   "emoji": "emoji/1f3a7.svg",
+   "start": 4.0,
+   "reveal": [
+    5.35,
+    6.0,
+    6.85
+   ],
+   "logos": [
+    {
+     "name": "Instagram",
+     "kind": "mask",
+     "file": "logos/instagram.svg",
+     "gradient": "linear-gradient(45deg,#FEDA75,#FA7E1E 30%,#D62976 60%,#962FBF 80%,#4F5BD5)"
+    },
+    {
+     "name": "YouTube",
+     "kind": "mask",
+     "file": "logos/youtube.svg",
+     "color": "#FF0000"
+    },
+    {
+     "name": "GoPrep.gg",
+     "kind": "img",
+     "file": "logos/goprep.svg",
+     "radius": 28
+    }
+   ]
+  },
+  {
+   "title": "Speaking",
+   "emoji": "emoji/1f5e3.svg",
+   "start": 8.1,
+   "reveal": [
+    9.3,
+    10.1,
+    10.9
+   ],
+   "logos": [
+    {
+     "name": "ChatGPT",
+     "kind": "mask",
+     "file": "logos/openai.svg",
+     "color": "#0F0F0F"
+    },
+    {
+     "name": "HelloTalk",
+     "kind": "img",
+     "file": "logos/hellotalk.png",
+     "radius": 28
+    },
+    {
+     "name": "Preppy AI",
+     "kind": "img",
+     "file": "logos/preppy.png",
+     "radius": 0,
+     "scale": 1.45
+    }
+   ]
+  },
+  {
+   "title": "Fikrlash",
+   "emoji": "emoji/1f9e0.svg",
+   "start": 12.5,
+   "reveal": [
+    13.8,
+    14.5,
+    15.55
+   ],
+   "logos": [
+    {
+     "name": "Gemini",
+     "kind": "mask",
+     "file": "logos/googlegemini.svg",
+     "gradient": "linear-gradient(135deg,#4796E3,#9177C7 55%,#CA6673)"
+    },
+    {
+     "name": "Perplexity",
+     "kind": "mask",
+     "file": "logos/perplexity.svg",
+     "color": "#1FB8CD"
+    },
+    {
+     "name": "Claude",
+     "kind": "mask",
+     "file": "logos/claude.svg",
+     "color": "#D97757"
+    }
+   ]
+  }
+ ],
+ "cues": [
+  {
+   "file": "click.wav",
+   "at": 0.02,
+   "vol": 0.4
+  },
+  {
+   "file": "ding.wav",
+   "at": 1.48,
+   "vol": 0.55
+  },
+  {
+   "file": "ding.wav",
+   "at": 2.03,
+   "vol": 0.55
+  },
+  {
+   "file": "ding_big.wav",
+   "at": 2.93,
+   "vol": 0.62
+  },
+  {
+   "file": "click.wav",
+   "at": 4.02,
+   "vol": 0.4
+  },
+  {
+   "file": "ding.wav",
+   "at": 5.33,
+   "vol": 0.55
+  },
+  {
+   "file": "ding.wav",
+   "at": 5.98,
+   "vol": 0.55
+  },
+  {
+   "file": "ding_big.wav",
+   "at": 6.83,
+   "vol": 0.62
+  },
+  {
+   "file": "click.wav",
+   "at": 8.12,
+   "vol": 0.4
+  },
+  {
+   "file": "ding.wav",
+   "at": 9.280000000000001,
+   "vol": 0.55
+  },
+  {
+   "file": "ding.wav",
+   "at": 10.08,
+   "vol": 0.55
+  },
+  {
+   "file": "ding_big.wav",
+   "at": 10.88,
+   "vol": 0.62
+  },
+  {
+   "file": "click.wav",
+   "at": 12.52,
+   "vol": 0.4
+  },
+  {
+   "file": "ding.wav",
+   "at": 13.780000000000001,
+   "vol": 0.55
+  },
+  {
+   "file": "ding.wav",
+   "at": 14.48,
+   "vol": 0.55
+  },
+  {
+   "file": "ding_big.wav",
+   "at": 15.530000000000001,
+   "vol": 0.62
+  }
+ ]
+}

@@ -53,7 +53,7 @@ def bell(dur, f0=2344.0, tail=0.17, hold=0.12, big=False):
     # detuned cluster around 8.2 kHz (beats = sparkle)
     for f, g in ((8178, 0.12), (8200, 0.30), (8228, 0.26), (8250, 0.14), (8279, 0.06)):
         x += g * np.sin(2 * np.pi * f * t + rng.uniform(0, 6.28)) * env
-        x += 0.08 * np.sin(2 * np.pi * 173 * t) * env  # steady low partial
+    x += 0.08 * np.sin(2 * np.pi * 173 * t) * env  # steady low partial
     fth = 90 + 50 * np.exp(-t / 0.02)
     x += 0.12 * np.sin(2 * np.pi * np.cumsum(fth) / SR) * np.exp(-t / 0.06)  # short thump
     # onset transient
