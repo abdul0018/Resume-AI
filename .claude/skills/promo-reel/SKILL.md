@@ -301,6 +301,19 @@ Reference: the "IELTSga tayyorgarlik — Band 5.5–6.5 / Band 7.0–9.0" reel.
 
 Example: `examples/ielts-resources.props.json`.
 
+**v2 options:**
+- `levelsUnder: true` puts the band label under each icon group (as in the reference), instead of pills at the top.
+- `icons` accept image tiles, `{img, bg?, pad?, text?, textColor?, mask?, color?, contain?}`, so real logos can be used. Sources:
+  - Simple Icons masks (OpenAI);
+  - site SVG logos (ieltsonlinetests.com `/themes/iot/images/logo.svg`);
+  - Google's favicon service (`google.com/s2/favicons?domain=…&sz=256`), for sites that block bots (Engnovate);
+  - the user's own reference frames, for book covers and app tiles that have no public file (Cambridge 19, IELTS Speaking Practice 2026, the "D" tile).
+- `join: '+'` shows two icons with a small + badge between them.
+- `overlayOnly` and `cues` work as in `TiersReel`: composite with ffmpeg for colour-exact HEVC output (PSNR ≈50 dB).
+- Silent takes: when both videos have no audio, keep it silent apart from the click and ding UI sounds, normalized to −16 LUFS.
+
+Example: `examples/ielts-resources-v2.props.json`.
+
 ## 12. Style H: "8+ resource table" (`ScoreTableReel`)
 
 Reference: the Speaking / Listening / Reading / Writing "8+" table reel.

@@ -109,12 +109,34 @@ export const ICONS: Record<string, React.FC> = {
 /* ------------------------------------------------------------------ types */
 
 export type Seg = {srcFrom: number; srcTo: number; scale?: number; origin?: string};
-export type Pick = {icons: string[]; label?: string; at: number};
+/** An icon is a key of ICONS, or an image tile: {img (public/ path), bg?, pad?, text?, textColor?, mask?, color?}. */
+export type IconSpec = string | {img: string; bg?: string; pad?: number; text?: string; textColor?: string; mask?: boolean; color?: string; contain?: boolean};
+export type Pick = {icons: IconSpec[]; label?: string; at: number; join?: '+'};
 export type Section = {start: number; word: string; left: Pick; right: Pick};
 export type ResourcesProps = {
   video: string; segs: Seg[]; title: string; levels: [string, string]; sections: Section[];
   cta: {at: number; line1: string; line2: string};
   music?: string; musicVolume?: number; sfx?: boolean; end: number;
+  /** Band labels under each icon group (reference style) instead of pills at the top. */
+  levelsUnder?: boolean;
+  /** Render graphics only on transparent (composite onto untouched source with ffmpeg). */
+  overlayOnly?: boolean;
+  cues?: {file: string; at: number; vol?: number}[];
+};
+
+const ImgTile: React.FC<{spec: Exclude<IconSpec, string>}> = ({spec}) => {
+  const pad = spec.pad ?? 0;
+  const art = spec.mask
+    ? <div style={{flex: 1, width: '100%', background: spec.color ?? '#111', WebkitMaskImage: `url(${staticFile(spec.img)})`, maskImage: `url(${staticFile(spec.img)})`,
+        WebkitMaskSize: 'contain', maskSize: 'contain', WebkitMaskRepeat: 'no-repeat', maskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskPosition: 'center'}} />
+    : <div style={{flex: 1, width: '100%', backgroundImage: `url(${staticFile(spec.img)})`, backgroundSize: spec.contain === false ? 'cover' : 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat'}} />;
+  return (
+    <div style={{width: '100%', height: '100%', borderRadius: '13%', overflow: 'hidden', background: spec.bg ?? 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center',
+      padding: pad, boxSizing: 'border-box', gap: spec.text ? '4%' : 0}}>
+      {art}
+      {spec.text && <div style={{fontFamily: FONT, fontWeight: 800, fontSize: 34, color: spec.textColor ?? '#111', lineHeight: 1, letterSpacing: '-0.01em', whiteSpace: 'nowrap'}}>{spec.text}</div>}
+    </div>
+  );
 };
 
 const useT = () => { const f = useCurrentFrame(); const {fps} = useVideoConfig(); return {f, fps, s: (x: number) => Math.round(x * fps)}; };
@@ -125,31 +147,43 @@ const ease = Easing.bezier(0.16, 1, 0.3, 1);
 const redWord: React.CSSProperties = {fontFamily: FONT, fontWeight: 900, color: RED, letterSpacing: '0.02em', WebkitTextStroke: '3px #fff', paintOrder: 'stroke fill', textShadow: '0 4px 14px rgba(0,0,0,.35)'};
 
 /** Icon(s) + label for one side: spring pop with overshoot, slight tilt, soft contact shadow, label pill. */
-const IconGroup: React.FC<{pick: Pick; side: 'left' | 'right'; out: number}> = ({pick, side, out}) => {
+const IconGroup: React.FC<{pick: Pick; side: 'left' | 'right'; out: number; under?: string}> = ({pick, side, out, under}) => {
   const {f, fps, s} = useT();
   const a = s(pick.at);
   if (f < a || f >= out) return null;
   const outK = interpolate(f, [out - 6, out], [0, 1], {...clamp, easing: Easing.in(Easing.cubic)});
   const n = pick.icons.length;
-  const size = n > 1 ? 190 : 240;
+  const size = pick.join ? 138 : n > 1 ? 190 : under ? 266 : 240;
   return (
-    <div style={{position: 'absolute', top: 330, ...(side === 'left' ? {left: 70} : {right: 70}), display: 'flex', flexDirection: 'column', alignItems: side === 'left' ? 'flex-start' : 'flex-end', gap: 16,
+    <div style={{position: 'absolute', top: under ? 262 : 330, ...(side === 'left' ? {left: under ? 90 : 70} : {right: under ? 90 : 70}), width: under ? 280 : undefined, display: 'flex', flexDirection: 'column', alignItems: under ? 'center' : side === 'left' ? 'flex-start' : 'flex-end', gap: 16,
       opacity: 1 - outK, transform: `scale(${1 - 0.3 * outK})`, transformOrigin: side === 'left' ? '0 0' : '100% 0'}}>
-      <div style={{display: 'flex', gap: n > 1 ? 0 : 0, alignItems: 'flex-end'}}>
+      <div style={{display: 'flex', gap: 0, alignItems: pick.join ? 'center' : 'flex-end', height: under ? 266 : undefined}}>
         {pick.icons.map((ic, i) => {
           const p = spring({frame: f - a - i * 5, fps, config: {damping: 11, stiffness: 210, mass: 0.7}});
-          const Icon = ICONS[ic];
+          const Icon = typeof ic === 'string' ? ICONS[ic] : null;
+          const key = typeof ic === 'string' ? ic : ic.img;
           const float = Math.sin((f - a) / 16 + i) * 4;
           return (
-            <div key={ic} style={{width: size, height: size, marginLeft: i > 0 ? -size * 0.22 : 0, marginTop: i > 0 ? size * 0.28 : 0, zIndex: i,
+            <React.Fragment key={key}>
+            {pick.join && i > 0 && (
+              <div style={{width: 36, height: 36, margin: '0 -4px', zIndex: 5, borderRadius: 18, background: '#fff', color: RED, fontFamily: FONT, fontWeight: 900, fontSize: 30, lineHeight: '36px', textAlign: 'center',
+                boxShadow: '0 4px 10px rgba(0,0,0,.3)', transform: `scale(${spring({frame: f - a - 4, fps, config: {damping: 10, stiffness: 240}})})`}}>+</div>
+            )}
+            <div style={{width: size, height: size, marginLeft: !pick.join && i > 0 ? -size * 0.22 : 0, marginTop: !pick.join && i > 0 ? size * 0.28 : 0, zIndex: i,
               transform: `translateY(${(1 - p) * 60 + float}px) scale(${p}) rotate(${(1 - p) * (side === 'left' ? -18 : 18) + (side === 'left' ? -4 : 4) * (i === 0 ? 1 : -1)}deg)`,
               filter: 'drop-shadow(0 14px 22px rgba(0,0,0,.35))'}}>
-              {Icon ? <Icon /> : null}
+              {Icon ? <Icon /> : typeof ic !== 'string' ? <ImgTile spec={ic} /> : null}
             </div>
+            </React.Fragment>
           );
         })}
       </div>
-      {pick.label && (
+      {under && (
+        <div style={{fontFamily: FONT, fontWeight: 800, fontSize: 40, color: '#fff', letterSpacing: '-0.01em', whiteSpace: 'nowrap', marginTop: 4,
+          textShadow: '0 2px 4px rgba(0,0,0,.6), 0 4px 14px rgba(0,0,0,.45)', opacity: interpolate(f - a - 6, [0, 8], [0, 1], clamp),
+          transform: `translateY(${(1 - interpolate(f - a - 6, [0, 10], [0, 1], {...clamp, easing: ease})) * 14}px)`}}>{under}</div>
+      )}
+      {!under && pick.label && (
         <div style={{fontFamily: FONT, fontWeight: 800, fontSize: 30, color: '#fff', background: 'rgba(0,0,0,.42)', padding: '8px 18px', borderRadius: 999, backdropFilter: 'blur(8px)',
           opacity: interpolate(f - a - 8, [0, 8], [0, 1], clamp), transform: `translateY(${(1 - interpolate(f - a - 8, [0, 10], [0, 1], {...clamp, easing: ease})) * 16}px)`}}>{pick.label}</div>
       )}
@@ -231,9 +265,9 @@ export const ResourcesReel: React.FC<ResourcesProps> = (p) => {
     sfx.push({f: s(p.cta.at) + 12, file: 'ding', vol: 0.18});
   }
   return (
-    <AbsoluteFill style={{background: '#000'}}>
+    <AbsoluteFill style={{background: p.overlayOnly ? 'transparent' : '#000'}}>
       {/* Footage: untouched pixels (no grade); optional punch-in only to vary a repeated take. */}
-      {segs.map((g, i) => (
+      {!p.overlayOnly && segs.map((g, i) => (
         <Sequence key={i} from={s(g.from)} durationInFrames={s(g.to) - s(g.from)}>
           <AbsoluteFill style={{transform: `scale(${g.scale ?? 1})`, transformOrigin: g.origin ?? '50% 40%'}}>
             <OffthreadVideo src={src(p.video)} muted startFrom={s(g.srcFrom)} style={{width: '100%', height: '100%', objectFit: 'cover'}} transparent={false} toneMapped={false} />
@@ -247,7 +281,7 @@ export const ResourcesReel: React.FC<ResourcesProps> = (p) => {
       <SectionWord sections={p.sections} ctaAt={p.cta.at} />
       {f < s(p.cta.at) && (
         <>
-          {p.levels.map((lv, i) => (
+          {!p.levelsUnder && p.levels.map((lv, i) => (
             <div key={i} style={{position: 'absolute', top: 268, ...(i === 0 ? {left: 70} : {right: 70}), fontFamily: FONT, fontWeight: 800, fontSize: 32, color: '#fff', padding: '6px 16px', borderRadius: 999,
               background: 'rgba(0,0,0,.38)', border: '1.5px solid rgba(255,255,255,.35)', opacity: interpolate(f, [6 + i * 4, 16 + i * 4], [0, 1], clamp) * (1 - ctaOutK)}}>{lv}</div>
           ))}
@@ -255,8 +289,8 @@ export const ResourcesReel: React.FC<ResourcesProps> = (p) => {
             const out = i < p.sections.length - 1 ? s(p.sections[i + 1].start) : s(p.cta.at);
             return (
               <React.Fragment key={i}>
-                <IconGroup pick={sc.left} side="left" out={out} />
-                <IconGroup pick={sc.right} side="right" out={out} />
+                <IconGroup pick={sc.left} side="left" out={out} under={p.levelsUnder ? p.levels[0] : undefined} />
+                <IconGroup pick={sc.right} side="right" out={out} under={p.levelsUnder ? p.levels[1] : undefined} />
               </React.Fragment>
             );
           })}
@@ -264,6 +298,7 @@ export const ResourcesReel: React.FC<ResourcesProps> = (p) => {
       )}
       <CTA {...p.cta} />
       {p.music && <Audio src={staticFile(p.music)} volume={p.musicVolume ?? 1} />}
+      {(p.cues ?? []).map((c, i) => <Sequence key={`c${i}`} from={Math.max(0, s(c.at))} durationInFrames={45} layout="none"><Audio src={staticFile(c.file)} volume={c.vol ?? 1} /></Sequence>)}
       {sfx.map((e, i) => <Sequence key={i} from={Math.max(0, e.f)} durationInFrames={40} layout="none"><Audio src={staticFile(`sfx/${e.file}.wav`)} volume={e.vol} /></Sequence>)}
     </AbsoluteFill>
   );

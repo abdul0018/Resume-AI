@@ -1,0 +1,190 @@
+{
+ "video": "video.mp4",
+ "segs": [
+  {
+   "srcFrom": 0,
+   "srcTo": 18.34
+  }
+ ],
+ "title": "IELTSga tayyorgarlik",
+ "levels": [
+  "Band 5.5–6.5",
+  "Band 7.0–9.0"
+ ],
+ "levelsUnder": true,
+ "sections": [
+  {
+   "start": 0.0,
+   "word": "READING",
+   "left": {
+    "icons": [
+     {
+      "img": "logos/cambridge19.png",
+      "contain": false
+     }
+    ],
+    "at": 1.85
+   },
+   "right": {
+    "icons": [
+     {
+      "img": "logos/engnovate.png",
+      "bg": "#FFFFFF",
+      "pad": 22,
+      "text": "Engnovate",
+      "textColor": "#E8312A"
+     }
+    ],
+    "at": 0.3
+   }
+  },
+  {
+   "start": 3.0,
+   "word": "LISTENING",
+   "left": {
+    "icons": [
+     {
+      "img": "logos/iot.svg",
+      "bg": "#FFFFFF",
+      "pad": 26
+     }
+    ],
+    "at": 5.65
+   },
+   "right": {
+    "icons": [
+     {
+      "img": "logos/engnovate.png",
+      "bg": "#FFFFFF",
+      "pad": 14
+     },
+     {
+      "img": "logos/dtile.png",
+      "bg": "#FFFFFF",
+      "contain": false
+     }
+    ],
+    "at": 3.65,
+    "join": "+"
+   }
+  },
+  {
+   "start": 6.9,
+   "word": "WRITING",
+   "left": {
+    "icons": [
+     {
+      "img": "logos/openai.svg",
+      "bg": "#FFFFFF",
+      "pad": 34,
+      "mask": true,
+      "color": "#0F0F0F",
+      "text": "ChatGPT"
+     }
+    ],
+    "at": 9.45
+   },
+   "right": {
+    "icons": [
+     {
+      "img": "logos/goprep.svg",
+      "bg": "#FFFFFF",
+      "contain": false
+     }
+    ],
+    "at": 7.75
+   }
+  },
+  {
+   "start": 10.6,
+   "word": "SPEAKING",
+   "left": {
+    "icons": [
+     {
+      "img": "logos/speak2026.png",
+      "contain": false
+     }
+    ],
+    "at": 13.45
+   },
+   "right": {
+    "icons": [
+     {
+      "img": "logos/goprep.svg",
+      "bg": "#FFFFFF",
+      "contain": false
+     }
+    ],
+    "at": 11.35
+   }
+  }
+ ],
+ "cta": {
+  "at": 14.5,
+  "line1": "Hammasini olish uchun",
+  "line2": "izohda \"+\" qoldiring"
+ },
+ "end": 18.34,
+ "cues": [
+  {
+   "file": "ding.wav",
+   "at": 0.27999999999999997,
+   "vol": 0.5
+  },
+  {
+   "file": "ding.wav",
+   "at": 1.83,
+   "vol": 0.5
+  },
+  {
+   "file": "click.wav",
+   "at": 3.02,
+   "vol": 0.35
+  },
+  {
+   "file": "ding.wav",
+   "at": 3.63,
+   "vol": 0.5
+  },
+  {
+   "file": "ding.wav",
+   "at": 5.630000000000001,
+   "vol": 0.5
+  },
+  {
+   "file": "click.wav",
+   "at": 6.92,
+   "vol": 0.35
+  },
+  {
+   "file": "ding.wav",
+   "at": 7.73,
+   "vol": 0.5
+  },
+  {
+   "file": "ding.wav",
+   "at": 9.43,
+   "vol": 0.5
+  },
+  {
+   "file": "click.wav",
+   "at": 10.62,
+   "vol": 0.35
+  },
+  {
+   "file": "ding.wav",
+   "at": 11.33,
+   "vol": 0.5
+  },
+  {
+   "file": "ding.wav",
+   "at": 13.43,
+   "vol": 0.5
+  },
+  {
+   "file": "ding_big.wav",
+   "at": 14.5,
+   "vol": 0.55
+  }
+ ]
+}
