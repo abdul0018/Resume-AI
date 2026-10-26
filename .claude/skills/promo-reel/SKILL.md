@@ -310,7 +310,7 @@ Example: `examples/ielts-resources.props.json`.
   - the user's own reference frames, for book covers and app tiles that have no public file (Cambridge 19, IELTS Speaking Practice 2026, the "D" tile).
 - `join: '+'` shows two icons with a small + badge between them.
 - `overlayOnly` and `cues` work as in `TiersReel`: composite with ffmpeg for colour-exact HEVC output (PSNR ≈50 dB).
-- Silent takes: when both videos have no audio, keep it silent apart from the click and ding UI sounds, normalized to −16 LUFS.
+- Silent takes: when both videos have no audio, deliver silent. This user prefers no music and no sound effects on silent takes, so composite with `-an`. Ask before adding SFX.
 
 Example: `examples/ielts-resources-v2.props.json`.
 
