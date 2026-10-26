@@ -131,5 +131,6 @@
   "#FF5A4E",
   "#5FD068"
  ],
- "ctaLine2Emoji": "emoji/1f447.svg"
+ "ctaLine2Emoji": "emoji/1f447.svg",
+ "clean": true
 }

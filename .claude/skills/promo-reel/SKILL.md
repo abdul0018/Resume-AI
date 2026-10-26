@@ -401,3 +401,10 @@ Reference: the "Fikrlash / Qidirish / Kod yozish…" app-tier reel.
 3. Composite in ffmpeg: `[1:v]format=yuva444p,scale=out_color_matrix=bt709:out_range=tv[ov];[0:v][ov]overlay=format=yuv444,format=yuv420p`, with x264 CRF 12 and BT.709 tags. The source pixels pass through untouched; verify the mean RGB is within about 0.5.
 
 Example: `examples/ai-tools-tiers.props.json`.
+
+## 15. Footage quality rules (this user notices any loss; apply to every edit over their video)
+
+- **No grading and no darkening layers** over the footage. That includes "a bit of shadow" gradients: the top gradient in ResourcesReel darkened the top of the frame by about 40%. Use `clean: true`: there are no gradients and no blurred text or icon shadows; legibility comes from crisp outlines (WebkitTextStroke) and hard offset drops only.
+- **Composite in the source's native 4:2:0:** `[1:v]scale=out_color_matrix=bt709:out_range=tv,format=yuva420p[ov];[0:v][ov]overlay=format=yuv420`. A yuv444 overlay followed by format=yuv420 resamples the source chroma and softens it.
+- **Encode:** x264 `-crf 8 -preset slow -tune film -profile:v high` (~50 Mbps for 1080×1920 at 30 fps), with BT.709 limited-range tags, `-an` if silent.
+- **Verify** against the source in an overlay-free area. Expect luma PSNR ≥ 52 dB and chroma ≥ 58 dB (the previous pipeline gave 49/55). Also check that the brightness in the top area matches the source.

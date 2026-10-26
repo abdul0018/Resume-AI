@@ -130,14 +130,20 @@ export type ResourcesProps = {
    * comment line (optional emoji image). levelColors[i] colours levels[i].
    */
   skin?: 'default' | 'sticker';
+  /** clean: no darkening gradient, no soft/blurred shadows on the footage (outlines only). */
+  clean?: boolean;
   levelColors?: [string, string];
   ctaLine2Emoji?: string;
 };
 
+/** Set per render from props.clean (one composition per render). */
+let CLEAN = false;
+const soft = (s: string) => (CLEAN ? 'none' : s);
+
 const ROUND = "'Fredoka', 'Nunito', 'Arial Rounded MT Bold', sans-serif";
 /** Outlined sticker text: dark stroke painted under the fill + soft drop. */
 const sticker = (color: string, size: number): React.CSSProperties => ({fontFamily: ROUND, fontWeight: 700, fontSize: size, color, lineHeight: 1.08, letterSpacing: '0.005em',
-  WebkitTextStroke: `${Math.round(size * 0.13)}px #241605`, paintOrder: 'stroke fill', textShadow: `0 ${Math.round(size * 0.06)}px 0 #241605, 0 ${Math.round(size * 0.1)}px ${Math.round(size * 0.18)}px rgba(0,0,0,.35)`});
+  WebkitTextStroke: `${Math.round(size * 0.13)}px #241605`, paintOrder: 'stroke fill', textShadow: CLEAN ? `0 ${Math.round(size * 0.06)}px 0 #241605` : `0 ${Math.round(size * 0.06)}px 0 #241605, 0 ${Math.round(size * 0.1)}px ${Math.round(size * 0.18)}px rgba(0,0,0,.35)`});
 
 const StickerCTA: React.FC<{at: number; line1: string; line2: string; emoji?: string}> = ({at, line1, line2, emoji}) => {
   const {f, fps, s} = useT();
@@ -148,7 +154,7 @@ const StickerCTA: React.FC<{at: number; line1: string; line2: string; emoji?: st
     <>
       <div style={{position: 'absolute', top: 120, left: 60, right: 60, textAlign: 'center', ...sticker('#FF8A1F', 76), transform: `translateY(${(1 - p) * -30}px) scale(${0.85 + 0.15 * p})`, opacity: Math.min(1, p * 1.5)}}>{line1}</div>
       <div style={{position: 'absolute', top: 1330, left: 90, right: 90, textAlign: 'center', fontFamily: ROUND, fontWeight: 600, fontSize: 60, lineHeight: 1.2, color: '#fff',
-        textShadow: '0 2px 4px rgba(0,0,0,.6), 0 4px 16px rgba(0,0,0,.45)'}}>
+        ...(CLEAN ? {WebkitTextStroke: '5px #241605', paintOrder: 'stroke fill'} : {textShadow: '0 2px 4px rgba(0,0,0,.6), 0 4px 16px rgba(0,0,0,.45)'})}}>
         {words.map((w, i) => {
           const k = interpolate(f - s(at) - 8 - i * 4, [0, 5], [0, 1], clamp);
           return <span key={i} style={{display: 'inline-block', marginRight: '0.24em', opacity: k, transform: `translateY(${(1 - k) * 10}px)`}}>{w}</span>;
@@ -203,11 +209,11 @@ const IconGroup: React.FC<{pick: Pick; side: 'left' | 'right'; out: number; unde
             <React.Fragment key={key}>
             {pick.join && i > 0 && (
               <div style={{width: 36, height: 36, margin: '0 -4px', zIndex: 5, borderRadius: 18, background: '#fff', color: RED, fontFamily: FONT, fontWeight: 900, fontSize: 30, lineHeight: '36px', textAlign: 'center',
-                boxShadow: '0 4px 10px rgba(0,0,0,.3)', transform: `scale(${spring({frame: f - a - 4, fps, config: {damping: 10, stiffness: 240}})})`}}>+</div>
+                boxShadow: soft('0 4px 10px rgba(0,0,0,.3)'), transform: `scale(${spring({frame: f - a - 4, fps, config: {damping: 10, stiffness: 240}})})`}}>+</div>
             )}
             <div style={{width: size, height: size, marginLeft: !pick.join && i > 0 ? -size * 0.22 : 0, marginTop: !pick.join && i > 0 ? size * 0.28 : 0, zIndex: i,
               transform: `translateY(${(1 - p) * 60 + float}px) scale(${p}) rotate(${(1 - p) * (side === 'left' ? -18 : 18) + (side === 'left' ? -4 : 4) * (i === 0 ? 1 : -1)}deg)`,
-              filter: 'drop-shadow(0 14px 22px rgba(0,0,0,.35))'}}>
+              filter: soft('drop-shadow(0 14px 22px rgba(0,0,0,.35))')}}>
               {Icon ? <Icon /> : typeof ic !== 'string' ? <ImgTile spec={ic} /> : null}
             </div>
             </React.Fragment>
@@ -216,7 +222,7 @@ const IconGroup: React.FC<{pick: Pick; side: 'left' | 'right'; out: number; unde
       </div>
       {under && (
         <div style={{fontFamily: skin === 'sticker' ? ROUND : FONT, fontWeight: skin === 'sticker' ? 600 : 800, fontSize: skin === 'sticker' ? 46 : 40, color: '#fff', letterSpacing: '-0.01em', whiteSpace: 'nowrap', marginTop: 4,
-          textShadow: '0 2px 4px rgba(0,0,0,.6), 0 4px 14px rgba(0,0,0,.45)', opacity: interpolate(f - a - 6, [0, 8], [0, 1], clamp),
+          ...(CLEAN ? {WebkitTextStroke: '4px #241605', paintOrder: 'stroke fill'} : {textShadow: '0 2px 4px rgba(0,0,0,.6), 0 4px 14px rgba(0,0,0,.45)'}), opacity: interpolate(f - a - 6, [0, 8], [0, 1], clamp),
           transform: `translateY(${(1 - interpolate(f - a - 6, [0, 10], [0, 1], {...clamp, easing: ease})) * 14}px)`}}>{under}</div>
       )}
       {!under && pick.label && (
@@ -285,6 +291,7 @@ const CTA: React.FC<{at: number; line1: string; line2: string}> = ({at, line1, l
 /* ------------------------------------------------------------------ composition */
 
 export const ResourcesReel: React.FC<ResourcesProps> = (p) => {
+  CLEAN = !!p.clean;
   const {f, fps, s} = useT();
   let acc = 0;
   const segs = p.segs.map((g) => { const from = acc; acc += g.srcTo - g.srcFrom; return {...g, from, to: acc}; });
@@ -311,7 +318,7 @@ export const ResourcesReel: React.FC<ResourcesProps> = (p) => {
         </Sequence>
       ))}
       {/* "just a bit shadow": soft top gradient behind the type, nothing else. */}
-      <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(0,0,0,.42) 0%, rgba(0,0,0,.22) 22%, rgba(0,0,0,0) 38%)'}} />
+      {!p.clean && <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(0,0,0,.42) 0%, rgba(0,0,0,.22) 22%, rgba(0,0,0,0) 38%)'}} />}
       {p.skin === 'sticker' ? (
         <div style={{position: 'absolute', top: 105, left: 0, right: 0, textAlign: 'center', ...sticker('#FFD43B', 80), opacity: titleK * (1 - ctaOutK), transform: `translateY(${(1 - titleK) * -30}px)`}}>{p.title}</div>
       ) : (
