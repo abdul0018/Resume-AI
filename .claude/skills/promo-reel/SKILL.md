@@ -361,15 +361,18 @@ Reference: the "Agar bu kerak bo'lsa → bundan foydalaning" reel.
 - `steps[{score, scoreAt, icon, iconAt, out}]`
 - `captions[{text, start, end, y?, below?}]`
 - `finale{score, scoreAt, icon, iconAt, hit?}`
-- Icons are original, in `LADDER_ICONS` (owl, liz, engnovate, goprep).
+- `icon` is a `LADDER_ICONS` key (original drawings: owl, liz, engnovate, goprep) **or a real logo tile** `{img, bg?, pad?, topText?, topColor?, radius?}`. Prefer real logos, because real icons build trust. Use the official Duolingo Play Store icon (`=w512`), the ieltsliz.com icon on white with `topText: "IELTS"`, Engnovate's favicon rebuilt to 512 px and GoPrep's `favicon.svg`.
+- `clean: true`: no card shadow, no icon drop shadow, and captions get a crisp 6 px dark `WebkitTextStroke` instead of `textShadow`. `overlayOnly: true` renders the graphics on transparent for the ffmpeg 4:2:0 composite (see §15). Use both whenever the user cares about quality.
+- With a continuous single take, keep the reference's level order if the gestures already match it (5 → 7 → 6 → 8 here), so the left and right finger points line up. Time `scoreAt` to the left-finger frame and `iconAt` to the right-finger frame, from a 10 fps strip.
+- Keep the voice by stream-copying the source audio (`-map 0:a -c:a copy`), so there is no re-encode and no processing.
 
 **Editing rules learned here:**
 - Before trimming pauses in a locked single take, measure the pose jump: compare the best-matching frame pair against the take's own adjacent-frame difference. If it's larger than the natural motion maximum, keep the take continuous. Jump cuts that save 0.2 s aren't worth it.
-- Order ladder levels ascending (5 → 6 → 7 → target) even if the reference shuffled them, and keep each level's resource pairing.
+- Order ladder levels ascending (5 → 6 → 7 → target) when you can cut freely, and keep each level's resource pairing. In a continuous take, follow the gesture order instead (see above).
 - "Same background music": separate the reference's stems first. If the music stem is near-silent (median ≈ −50 dB), the reference has no music. Reuse only its sound effects (here a bass hit at the hero reveal, cut from the stem) and tell the user.
 - Voice cleanup for phone takes: `highpass=f=90,afftdn=nf=-30,acompressor,loudnorm`.
 
-Example: `examples/ielts-ladder.props.json`.
+Examples: `examples/ielts-ladder.props.json` (original icons, music + SFX) and `examples/ielts-ladder-real-icons.props.json` (real logos, `clean`, silent, the same continuous take).
 
 **Copying a viral reference's sound design** (proven on the ladder reel):
 1. Run `tools/separate_music.py` on the reference. The `_music` stem is SFX + bed without the voice.

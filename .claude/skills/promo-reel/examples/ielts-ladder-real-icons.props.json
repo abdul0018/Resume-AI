@@ -1,0 +1,96 @@
+{
+ "video": "video.mp4",
+ "clean": true,
+ "end": 12.2,
+ "steps": [
+  {
+   "score": "5.0",
+   "scoreAt": 0.4,
+   "icon": {
+    "img": "logos/duolingo.png"
+   },
+   "iconAt": 2.1,
+   "out": 2.95
+  },
+  {
+   "score": "7.0",
+   "scoreAt": 3.3,
+   "icon": {
+    "img": "logos/liz_full.png",
+    "bg": "#FFFFFF",
+    "pad": 22,
+    "topText": "IELTS"
+   },
+   "iconAt": 4.8,
+   "out": 5.65
+  },
+  {
+   "score": "6.0",
+   "scoreAt": 6.0,
+   "icon": {
+    "img": "logos/engnovate_hd.png",
+    "bg": "#FFFFFF",
+    "pad": 30
+   },
+   "iconAt": 7.6,
+   "out": 8.45
+  }
+ ],
+ "captions": [
+  {
+   "text": "Agar bu kerak bo‘lsa,",
+   "start": 0.25,
+   "end": 1.4
+  },
+  {
+   "text": "bundan foydalaning.",
+   "start": 1.85,
+   "end": 2.55
+  },
+  {
+   "text": "Agar bu kerak bo‘lsa,",
+   "start": 3.1,
+   "end": 4.05
+  },
+  {
+   "text": "bundan foydalaning.",
+   "start": 4.6,
+   "end": 5.3
+  },
+  {
+   "text": "Agar bu kerak bo‘lsa,",
+   "start": 5.8,
+   "end": 6.85
+  },
+  {
+   "text": "bundan foydalaning.",
+   "start": 7.4,
+   "end": 8.05
+  },
+  {
+   "text": "Agar IELTSdan 8 olmoqchi bo‘lsangiz",
+   "start": 8.55,
+   "end": 10.1,
+   "y": 1250
+  },
+  {
+   "text": "Goprep.gg dan",
+   "start": 10.65,
+   "end": 12.2,
+   "y": 1020,
+   "below": {
+    "text": "foydalaning.",
+    "start": 11.15,
+    "y": 1545
+   }
+  }
+ ],
+ "finale": {
+  "score": "8.0",
+  "scoreAt": 9.3,
+  "icon": {
+   "img": "logos/goprep.svg"
+  },
+  "iconAt": 10.65
+ }
+}

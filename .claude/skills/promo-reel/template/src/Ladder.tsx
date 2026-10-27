@@ -62,7 +62,7 @@ export const LADDER_ICONS: Record<string, React.FC> = {
 const ScoreCard: React.FC<{score: string; w: number}> = ({score, w}) => {
   const v = parseFloat(score);
   return (
-    <div style={{width: w, borderRadius: w * 0.14, overflow: 'hidden', background: '#fff', boxShadow: '0 14px 30px rgba(0,0,0,.30), 0 3px 8px rgba(0,0,0,.18)'}}>
+    <div style={{width: w, borderRadius: w * 0.14, overflow: 'hidden', background: '#fff', boxShadow: CLEAN ? undefined : '0 14px 30px rgba(0,0,0,.30), 0 3px 8px rgba(0,0,0,.18)'}}>
       <div style={{background: RED, color: '#fff', fontFamily: FONT, fontWeight: 900, fontSize: w * 0.2, textAlign: 'center', padding: `${w * 0.035}px 0`, letterSpacing: '0.04em'}}>IELTS</div>
       <div style={{color: RED, fontFamily: FONT, fontWeight: 900, fontSize: w * 0.4, textAlign: 'center', lineHeight: 1.05, padding: `${w * 0.03}px 0 ${w * 0.02}px`}}>{score}</div>
       <div style={{display: 'flex', gap: w * 0.025, padding: `0 ${w * 0.1}px ${w * 0.08}px`}}>
@@ -75,14 +75,31 @@ const ScoreCard: React.FC<{score: string; w: number}> = ({score, w}) => {
 /* ------------------------------------------------------------------ types */
 
 export type Cap = {text: string; start: number; end: number; y?: number; below?: {text: string; start: number; y: number}};
-export type Step = {score: string; scoreAt: number; icon: string; iconAt: number; out: number};
+/** Icon: key of LADDER_ICONS, or a real logo image tile {img, bg?, pad?, topText?, topColor?, radius?}. */
+export type LIcon = string | {img: string; bg?: string; pad?: number; topText?: string; topColor?: string; radius?: number};
+export type Step = {score: string; scoreAt: number; icon: LIcon; iconAt: number; out: number};
 export type LadderProps = {
   video: string; voice?: string; voiceVolume?: number; music?: string; musicVolume?: number; sfx?: boolean;
   steps: Step[]; captions: Cap[];
-  finale: {score: string; scoreAt: number; icon: string; iconAt: number; hit?: string};
+  finale: {score: string; scoreAt: number; icon: LIcon; iconAt: number; hit?: string};
+  /** clean: no shadows anywhere (crisp outlines only). overlayOnly: graphics on transparent for ffmpeg compositing. */
+  clean?: boolean; overlayOnly?: boolean;
   /** Explicit sound cues (e.g. one-shots lifted from a reference): file in public/, time in s, volume. */
   cues?: {file: string; at: number; vol?: number}[];
   end: number;
+};
+
+let CLEAN = false;
+
+const IconEl: React.FC<{icon: LIcon}> = ({icon}) => {
+  if (typeof icon === 'string') return React.createElement(LADDER_ICONS[icon]);
+  return (
+    <div style={{width: '100%', height: '100%', borderRadius: icon.radius ?? '22%', overflow: 'hidden', background: icon.bg ?? 'transparent', boxSizing: 'border-box', padding: icon.pad ?? 0,
+      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: icon.bg === '#FFFFFF' || icon.bg === '#fff' ? '2px solid rgba(0,0,0,.08)' : undefined}}>
+      {icon.topText && <div style={{fontFamily: FONT, fontWeight: 900, fontSize: 58, lineHeight: 1, color: icon.topColor ?? RED, letterSpacing: '0.02em', marginBottom: 2}}>{icon.topText}</div>}
+      <div style={{flex: 1, width: '100%', backgroundImage: `url(${staticFile(icon.img)})`, backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat'}} />
+    </div>
+  );
 };
 
 const useT = () => { const f = useCurrentFrame(); const {fps} = useVideoConfig(); return {f, fps, s: (x: number) => Math.round(x * fps)}; };
@@ -122,7 +139,7 @@ const CaptionLine: React.FC<{text: string; start: number; end: number; y: number
   const o = interpolate(f, [out - 5, out], [0, 1], clamp);
   return (
     <div style={{position: 'absolute', top: c.y ?? 1290, left: 70, right: 70, textAlign: 'center', fontFamily: FONT, fontWeight: 800, fontSize: 60, lineHeight: 1.2, color: '#fff',
-      textShadow: '0 2px 4px rgba(0,0,0,.55), 0 4px 18px rgba(0,0,0,.45)', opacity: 1 - o}}>
+      ...(CLEAN ? {WebkitTextStroke: '6px #111', paintOrder: 'stroke fill'} : {textShadow: '0 2px 4px rgba(0,0,0,.55), 0 4px 18px rgba(0,0,0,.45)'}), opacity: 1 - o}}>
       {words.map((w, i) => {
         const t = a + (dur * 0.8 * i) / words.length;
         const k = interpolate(f - t, [0, 7], [0, 1], {...clamp, easing: ease});
@@ -136,6 +153,7 @@ const CaptionLine: React.FC<{text: string; start: number; end: number; y: number
 
 export const LadderReel: React.FC<LadderProps> = (p) => {
   const {f, s} = useT();
+  CLEAN = !!p.clean;
   const fin = p.finale;
   const sfx: {f: number; file: string; vol: number}[] = [];
   if (p.sfx) {
@@ -146,19 +164,19 @@ export const LadderReel: React.FC<LadderProps> = (p) => {
   const cap = capIdx >= 0 ? p.captions[capIdx] : null;
   const capOut = cap ? Math.min(s(cap.end) + 8, p.captions[capIdx + 1] ? s(p.captions[capIdx + 1].start) - 3 : 1e6) : 0;
   return (
-    <AbsoluteFill style={{background: '#000'}}>
-      <OffthreadVideo src={src(p.video)} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} toneMapped={false} />
+    <AbsoluteFill style={{background: p.overlayOnly ? 'transparent' : '#000'}}>
+      {!p.overlayOnly && <OffthreadVideo src={src(p.video)} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} toneMapped={false} />}
       {p.steps.map((st, i) => (
         <React.Fragment key={i}>
           <Pop at={st.scoreAt} out={st.out} from="left" style={{left: 56, top: 250}}><ScoreCard score={st.score} w={250} /></Pop>
-          <Pop at={st.iconAt} out={st.out} from="right" style={{right: 56, top: 250, width: 270, height: 270, filter: 'drop-shadow(0 14px 22px rgba(0,0,0,.32))'}}>
-            {React.createElement(LADDER_ICONS[st.icon])}
+          <Pop at={st.iconAt} out={st.out} from="right" style={{right: 56, top: 250, width: 270, height: 270, filter: CLEAN ? undefined : 'drop-shadow(0 14px 22px rgba(0,0,0,.32))'}}>
+            <IconEl icon={st.icon} />
           </Pop>
         </React.Fragment>
       ))}
       <Pop at={fin.scoreAt} out={fin.iconAt} from="center" style={{left: 400, top: 1440}}><ScoreCard score={fin.score} w={280} /></Pop>
-      <Pop at={fin.iconAt} out={p.end + 1} from="center" style={{left: 340, top: 1120, width: 400, height: 400, filter: 'drop-shadow(0 18px 30px rgba(0,0,0,.35))'}}>
-        {React.createElement(LADDER_ICONS[fin.icon])}
+      <Pop at={fin.iconAt} out={p.end + 1} from="center" style={{left: 340, top: 1120, width: 400, height: 400, filter: CLEAN ? undefined : 'drop-shadow(0 18px 30px rgba(0,0,0,.35))'}}>
+        <IconEl icon={fin.icon} />
       </Pop>
       {cap && f < capOut && <Caption key={capIdx} c={cap} out={capOut} />}
       {p.voice && <Audio src={src(p.voice)} volume={p.voiceVolume ?? 1} />}
