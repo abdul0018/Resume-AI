@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2160 2160" width="2160" height="2160" role="img" aria-label="GoPrep">
+  <!-- IELTS-1620 — Preppy's face, traced from the master app icon.
+       The ground is WHITE and the coral is the crescent to the RIGHT of the face's
+       arc — not a disc floating on coral. The arc is a true semicircle of r=1080
+       (canvas height / 2) centred at x=844, so it is tangent to the top and bottom
+       edges and the coral pinches to nothing at both corners. -->
+  <rect width="2160" height="2160" fill="#FFFFFF"/>
+  <path d="M844 0a1080 1080 0 0 1 0 2160h1316V0z" fill="#FF4B3C"/>
+  <g fill="#000000">
+    <ellipse cx="708" cy="1062" rx="156" ry="204"/>
+    <ellipse cx="1560" cy="1062" rx="156" ry="204"/>
+    <path d="M975 1161h318a159 141 0 0 1-318 0z"/>
+  </g>
+</svg>

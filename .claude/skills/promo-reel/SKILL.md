@@ -347,7 +347,16 @@ Reference: the Speaking / Listening / Reading / Writing "8+" table reel.
 
 **Quality check:** compare frame-aligned frames decoded from the start of both files, not `-ss` seeks (seeking lands on different frames). Expect ≥38 dB.
 
-Example: `examples/ielts-8plus-table.props.json`.
+**Real logos and the clean look (the "cafe table" reference):**
+- Resource `img` (with `imgH`) draws a real logo, optionally with `text` (`textSize`) or `caption` under it. Assets that worked:
+  - The official YouTube icon: the Simple Icons path in #FF0000 with a white play triangle drawn behind it.
+  - The real Preppy face from goprep.gg, cropped to its alpha bbox.
+  - GoPrep's `favicon.svg` above "Goprep.gg" (`imgH: 50`, `textSize: 31`).
+- `clean: true`: no drop shadows, no blurred glow, no pill shadow; each cell gets a crisp 2 px hairline outline. Pair it with `overlayOnly: true` and the §15 ffmpeg composite.
+- That reference doesn't highlight the active row. Rows slide in from the left with a small tilt in the first ~10 frames, then only the resources pop on their words. Use `highlight: false, enter: 'left', scale: 0.91, top: 1050` (an 800 px wide table).
+- Keep the rows in the order the speaker says them, not the reference's skill order.
+
+Examples: `examples/ielts-8plus-table.props.json` (original tiles, music + SFX) and `examples/ielts-table-real-logos.props.json` (real logos, clean, silent, voice stream-copied).
 
 ## 13. Style I: "level ladder" (`LadderReel`)
 

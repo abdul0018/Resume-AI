@@ -1,5 +1,5 @@
 import React from 'react';
-import {AbsoluteFill, Audio, Easing, OffthreadVideo, Sequence, continueRender, delayRender, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, Audio, Easing, Img, OffthreadVideo, Sequence, continueRender, delayRender, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import '@fontsource/montserrat/700.css';
 import '@fontsource/montserrat/800.css';
 import '@fontsource/montserrat/900.css';
@@ -98,8 +98,15 @@ export const RESOURCE_TILES: Record<string, React.FC> = {
 
 /* ------------------------------------------------------------------ types */
 
-export type Row = {skill: string; label: string; badge?: string; at: number; resource: {at: number; tile?: string; text?: string; sub?: string; caption?: string}};
-export type ScoreTableProps = {video: string; rows: Row[]; top?: number; voice?: string; voiceVolume?: number; music?: string; musicVolume?: number; sfx?: boolean; end: number};
+/** resource: `tile` (original SVG) or `img` (real logo file in public/, drawn `imgH` px tall), plus optional text/caption. */
+export type Row = {skill: string; label: string; badge?: string; at: number; resource: {at: number; tile?: string; img?: string; imgH?: number; text?: string; textSize?: number; sub?: string; caption?: string}};
+/**
+ * clean: no shadows or blurred glows (crisp hairline outline instead). overlayOnly: graphics on transparent for ffmpeg compositing.
+ * highlight (default true): active row lifts and glows; false = rows stay still, only resources pop (cafe-table reference).
+ * enter: 'up' (default) or 'left' (rows slide in from the left with a small tilt). scale: size of the whole table (1 = 880 px wide).
+ */
+export type ScoreTableProps = {video: string; rows: Row[]; top?: number; voice?: string; voiceVolume?: number; music?: string; musicVolume?: number; sfx?: boolean; end: number;
+  clean?: boolean; overlayOnly?: boolean; highlight?: boolean; enter?: 'up' | 'left'; scale?: number};
 
 const useT = () => { const f = useCurrentFrame(); const {fps} = useVideoConfig(); return {f, fps, s: (x: number) => Math.round(x * fps)}; };
 const ease = Easing.bezier(0.16, 1, 0.3, 1);
@@ -109,9 +116,13 @@ const ease = Easing.bezier(0.16, 1, 0.3, 1);
 const W = 880; const H = 116; const GAP = 14;
 const C1 = 470; const C2 = 150; const C3 = W - C1 - C2 - 2 * 10;
 
+let CLEAN = false; let HIGHLIGHT = true; let ENTER: 'up' | 'left' = 'up';
+
 const Cell: React.FC<{w: number; children?: React.ReactNode; glow?: number; style?: React.CSSProperties}> = ({w, children, glow = 0, style}) => (
   <div style={{width: w, height: H, borderRadius: 22, background: MINT, display: 'flex', alignItems: 'center', boxSizing: 'border-box',
-    boxShadow: `0 10px 26px rgba(0,0,0,.22), 0 2px 6px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.9)${glow > 0 ? `, 0 0 0 ${3 * glow}px rgba(64,200,96,${0.75 * glow}), 0 0 ${26 * glow}px rgba(64,200,96,${0.5 * glow})` : ''}`, ...style}}>
+    boxShadow: CLEAN
+      ? `inset 0 0 0 2px rgba(22,32,26,.10), inset 0 2px 0 rgba(255,255,255,.9)${glow > 0 ? `, 0 0 0 ${3 * glow}px rgba(64,200,96,${glow})` : ''}`
+      : `0 10px 26px rgba(0,0,0,.22), 0 2px 6px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.9)${glow > 0 ? `, 0 0 0 ${3 * glow}px rgba(64,200,96,${0.75 * glow}), 0 0 ${26 * glow}px rgba(64,200,96,${0.5 * glow})` : ''}`, ...style}}>
     {children}
   </div>
 );
@@ -119,10 +130,10 @@ const Cell: React.FC<{w: number; children?: React.ReactNode; glow?: number; styl
 const RowView: React.FC<{row: Row; i: number; next?: Row}> = ({row, i, next}) => {
   const {f, fps, s} = useT();
   // build-in: rows slide up and fade one after another at the very start
-  const inP = spring({frame: f - i * 4, fps, config: {damping: 16, stiffness: 170}});
+  const inP = ENTER === 'left' ? spring({frame: f - i * 3, fps, config: {damping: 14, stiffness: 150}}) : spring({frame: f - i * 4, fps, config: {damping: 16, stiffness: 170}});
   // active while this skill is being talked about
   const a = s(row.at); const until = next ? s(next.at) : 100000;
-  const act = f >= a && f < until ? interpolate(f - a, [0, 7], [0, 1], {...clamp, easing: ease}) * interpolate(f, [until - 5, until], [1, 0], clamp) : 0;
+  const act = HIGHLIGHT && f >= a && f < until ? interpolate(f - a, [0, 7], [0, 1], {...clamp, easing: ease}) * interpolate(f, [until - 5, until], [1, 0], clamp) : 0;
   const lift = act;
   const Skill = SKILL_ICONS[row.skill];
   const wob = act > 0 ? Math.sin((f - a) / 3) * 8 * Math.exp(-(f - a) / 12) : 0;
@@ -130,22 +141,24 @@ const RowView: React.FC<{row: Row; i: number; next?: Row}> = ({row, i, next}) =>
   const rp = f >= s(r.at) ? spring({frame: f - s(r.at), fps, config: {damping: 10, stiffness: 230, mass: 0.7}}) : 0;
   const Tile = r.tile ? RESOURCE_TILES[r.tile] : null;
   return (
-    <div style={{display: 'flex', gap: 10, opacity: Math.min(1, inP * 1.4), transform: `translateY(${(1 - inP) * 60 - lift * 6}px) scale(${1 + 0.03 * lift})`, transformOrigin: '50% 50%'}}>
+    <div style={{display: 'flex', gap: 10, opacity: Math.min(1, inP * 1.4), transformOrigin: '50% 50%',
+      transform: ENTER === 'left' ? `translateX(${(1 - inP) * -520}px) rotate(${(1 - inP) * -5}deg)` : `translateY(${(1 - inP) * 60 - lift * 6}px) scale(${1 + 0.03 * lift})`}}>
       <Cell w={C1} glow={act}>
         <div style={{width: 92, height: 92, marginLeft: 16, transform: `rotate(${wob}deg) scale(${1 + 0.12 * act})`}}>{Skill ? <Skill /> : null}</div>
         <div style={{marginLeft: 18, fontFamily: FONT, fontWeight: 800, fontSize: 50, color: INK, letterSpacing: '-0.01em'}}>{row.label}</div>
       </Cell>
       <Cell w={C2} style={{justifyContent: 'center'}}>
         <div style={{padding: '8px 22px', borderRadius: 999, background: act > 0.05 ? `linear-gradient(180deg, #43C566, ${GREEN})` : '#BFE6C6',
-          color: act > 0.05 ? '#fff' : '#155F2A', fontFamily: FONT, fontWeight: 900, fontSize: 48, transform: `scale(${1 + 0.1 * act})`, boxShadow: act > 0.05 ? '0 4px 12px rgba(31,138,59,.4)' : 'none'}}>{row.badge ?? '8+'}</div>
+          color: act > 0.05 ? '#fff' : '#155F2A', fontFamily: FONT, fontWeight: 900, fontSize: 48, transform: `scale(${1 + 0.1 * act})`, boxShadow: act > 0.05 && !CLEAN ? '0 4px 12px rgba(31,138,59,.4)' : 'none'}}>{row.badge ?? '8+'}</div>
       </Cell>
       <Cell w={C3} style={{justifyContent: 'center', overflow: 'visible', position: 'relative'}}>
         {rp > 0 && (
           <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', transform: `scale(${rp}) rotate(${(1 - rp) * -14}deg)`, opacity: Math.min(1, rp * 1.6)}}>
             {Tile ? <Tile /> : null}
-            {r.text && <div style={{fontFamily: FONT, fontWeight: 900, fontSize: r.sub ? 32 : 40, color: INK, letterSpacing: '-0.01em', lineHeight: 1.05, textAlign: 'center'}}>{r.text}</div>}
+            {r.img && <Img src={staticFile(r.img)} style={{height: r.imgH ?? 72, width: 'auto', display: 'block'}} />}
+            {r.text && <div style={{fontFamily: FONT, fontWeight: 900, fontSize: r.textSize ?? (r.sub ? 32 : 40), color: INK, letterSpacing: '-0.01em', lineHeight: 1.05, textAlign: 'center'}}>{r.text}</div>}
             {r.sub && <div style={{fontFamily: FONT, fontWeight: 700, fontSize: 24, color: '#4C5A50', lineHeight: 1.1}}>{r.sub}</div>}
-            {r.caption && Tile && <div style={{fontFamily: FONT, fontWeight: 800, fontSize: 18, color: INK, marginTop: -4}}>{r.caption}</div>}
+            {r.caption && (Tile || r.img) && <div style={{fontFamily: FONT, fontWeight: 800, fontSize: 18, color: INK, marginTop: -4}}>{r.caption}</div>}
           </div>
         )}
         {/* sparkle burst on arrival */}
@@ -163,15 +176,17 @@ const RowView: React.FC<{row: Row; i: number; next?: Row}> = ({row, i, next}) =>
 
 export const ScoreTableReel: React.FC<ScoreTableProps> = (p) => {
   const {s} = useT();
+  CLEAN = !!p.clean; HIGHLIGHT = p.highlight ?? true; ENTER = p.enter ?? 'up';
   const sfx: {f: number; file: string; vol: number}[] = [];
   if (p.sfx) {
     p.rows.forEach((r, i) => { sfx.push({f: i * 4, file: 'pop', vol: 0.12}); sfx.push({f: s(r.resource.at), file: 'pop', vol: 0.35}); });
   }
   return (
-    <AbsoluteFill style={{background: '#000'}}>
+    <AbsoluteFill style={{background: p.overlayOnly ? 'transparent' : '#000'}}>
       {/* untouched footage */}
-      <OffthreadVideo src={src(p.video)} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} toneMapped={false} />
-      <div style={{position: 'absolute', top: p.top ?? 1010, left: (1080 - W) / 2, width: W, display: 'flex', flexDirection: 'column', gap: GAP}}>
+      {!p.overlayOnly && <OffthreadVideo src={src(p.video)} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} toneMapped={false} />}
+      <div style={{position: 'absolute', top: p.top ?? 1010, left: (1080 - W) / 2, width: W, display: 'flex', flexDirection: 'column', gap: GAP,
+        transform: p.scale && p.scale !== 1 ? `scale(${p.scale})` : undefined, transformOrigin: '50% 0'}}>
         {p.rows.map((r, i) => <RowView key={i} row={r} i={i} next={p.rows[i + 1]} />)}
       </div>
       {p.voice && <Audio src={src(p.voice)} volume={p.voiceVolume ?? 1} />}
